@@ -1,1 +1,1 @@
-# SecondProjINITIUMFront
+중앙정보처리학원 이대 602호 TEAM INITIUM 비교과프로그램 프로젝트입니다.
