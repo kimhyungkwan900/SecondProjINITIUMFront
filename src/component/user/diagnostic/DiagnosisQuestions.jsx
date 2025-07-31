@@ -1,19 +1,33 @@
-// src/components/DiagnosisQuestions.jsx
 import React, { useEffect, useState } from 'react';
-import { fetchQuestions } from '../../../api/user/diagnostic/diagnosisApi.jsx';
+import { fetchQuestions, submitDiagnosis } from '../../../api/user/diagnostic/diagnosisApi.jsx';
 
-const DiagnosisQuestions = ({ testId, onSubmit }) => {
+const DiagnosisQuestions = ({ testId, studentNo, onResult }) => {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({});
 
   useEffect(() => {
     fetchQuestions(testId)
-      .then((res) => setQuestions(res.data))
+      .then((res) => setQuestions(res))
       .catch(console.error);
   }, [testId]);
 
   const handleAnswerChange = (questionId, value) => {
     setAnswers((prev) => ({ ...prev, [questionId]: value }));
+  };
+
+  const handleSubmit = () => {
+    const formattedAnswers = Object.entries(answers).map(([questionId, selectedValue]) => ({
+      questionId: Number(questionId),
+      selectedValue: Number(selectedValue),
+    }));
+
+    submitDiagnosis({
+      studentNo,
+      testId,
+      answers: formattedAnswers,
+    })
+      .then((res) => onResult(res.resultId))
+      .catch(console.error);
   };
 
   return (
@@ -35,7 +49,7 @@ const DiagnosisQuestions = ({ testId, onSubmit }) => {
           ))}
         </div>
       ))}
-      <button onClick={() => onSubmit(answers)}>제출</button>
+      <button onClick={handleSubmit}>제출</button>
     </div>
   );
 };

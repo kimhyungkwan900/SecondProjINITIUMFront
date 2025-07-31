@@ -10,7 +10,7 @@ export const useDiagnosisResult = (resultId) => {
     if (!resultId) return;
     setLoading(true);
     fetchResultSummary(resultId)
-      .then((res) => setResult(res.data))
+      .then((res) => setResult(res)) // 🔹 res.data가 이미 API에서 리턴됨
       .catch(console.error)
       .finally(() => setLoading(false));
   }, [resultId]);

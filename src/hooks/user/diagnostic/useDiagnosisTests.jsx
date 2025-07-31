@@ -1,3 +1,4 @@
+// src/hooks/useDiagnosisTests.jsx
 import { useEffect, useState, useCallback } from 'react';
 import { searchTests, fetchPagedTests } from '../../../api/user/diagnostic/diagnosisApi.jsx';
 
@@ -7,10 +8,15 @@ export const useDiagnosisTests = (keyword = '', page = 0, size = 10) => {
 
   const loadTests = useCallback(() => {
     setLoading(true);
-    const apiCall = keyword ? searchTests(keyword) : fetchPagedTests(keyword, page, size);
+    const apiCall = keyword
+      ? searchTests(keyword)
+      : fetchPagedTests(keyword, page, size);
 
     apiCall
-      .then((res) => setTests(res.data.content || res.data))
+      .then((res) => {
+        const data = res.content || res; // 🔹 content 유무 체크
+        setTests(data);
+      })
       .catch(console.error)
       .finally(() => setLoading(false));
   }, [keyword, page, size]);

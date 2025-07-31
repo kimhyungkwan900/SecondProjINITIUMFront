@@ -9,7 +9,7 @@ export const useExternalDiagnosisSubmit = () => {
   const submitTest = (data) => {
     setSubmitting(true);
     submitExternalDiagnosis(data)
-      .then((res) => setResult(res.data))
+      .then((res) => setResult(res.resultUrl ? res : res.data || res)) // 🔹 안전 처리
       .catch(console.error)
       .finally(() => setSubmitting(false));
   };

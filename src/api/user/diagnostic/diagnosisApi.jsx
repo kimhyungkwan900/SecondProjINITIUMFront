@@ -47,3 +47,9 @@ export const downloadResultPdf = async (resultId) => {
   const res = await axios.get(`${BASE_URL}/result/${resultId}/pdf`, { responseType: 'blob' });
   return res;
 };
+
+// ✅ 학생별 전체 검사 결과 조회 (📌 추가)
+export const fetchAllResultsByStudent = async (studentNo) => {
+  const res = await axios.get(`${BASE_URL}/results/${studentNo}`);
+  return res.data;
+};
