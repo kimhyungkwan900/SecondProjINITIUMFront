@@ -1,4 +1,3 @@
-// src/components/ExternalTestQuestions.jsx
 import React, { useEffect, useState } from 'react';
 import { fetchExternalQuestionsParsed } from '../../../api/user/diagnostic/externalDiagnosisApi.jsx';
 
@@ -8,12 +7,20 @@ const ExternalTestQuestions = ({ qestrnSeq, trgetSe, onSubmit }) => {
 
   useEffect(() => {
     fetchExternalQuestionsParsed(qestrnSeq, trgetSe)
-      .then((res) => setQuestions(res.data.questions))
+      .then((res) => setQuestions(res.questions))
       .catch(console.error);
   }, [qestrnSeq, trgetSe]);
 
-  const handleAnswerChange = (questionIndex, value) => {
-    setAnswers((prev) => ({ ...prev, [questionIndex]: value }));
+  const handleAnswerChange = (qIndex, value) => {
+    setAnswers((prev) => ({ ...prev, [qIndex + 1]: value }));
+  };
+
+  const handleSubmit = () => {
+    const formattedAnswers = Object.entries(answers)
+      .map(([qNum, value]) => `${qNum}=${value}`)
+      .join(' ');
+
+    onSubmit(formattedAnswers);
   };
 
   return (
@@ -35,7 +42,7 @@ const ExternalTestQuestions = ({ qestrnSeq, trgetSe, onSubmit }) => {
           ))}
         </div>
       ))}
-      <button onClick={() => onSubmit(answers)}>제출</button>
+      <button onClick={handleSubmit}>제출</button>
     </div>
   );
 };

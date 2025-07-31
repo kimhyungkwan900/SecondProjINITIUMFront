@@ -1,4 +1,3 @@
-// src/components/DiagnosisResultChart.jsx
 import React, { useEffect, useState } from 'react';
 import { fetchResultSummary, fetchQuestions } from '../../../api/user/diagnostic/diagnosisApi.jsx';
 import { Bar, Line } from 'react-chartjs-2';
@@ -30,24 +29,21 @@ const DiagnosisResultChart = ({ resultId }) => {
   const [questionScores, setQuestionScores] = useState([]);
 
   useEffect(() => {
-    // ✅ 총점 가져오기
     fetchResultSummary(resultId)
-      .then((res) => setResult(res.data))
-      .catch(console.error);
-
-    // ✅ 문항별 점수 (현재는 mock 데이터, 백엔드 연동 시 실제 값으로 교체)
-    fetchQuestions(resultId) // 실제 API는 testId 기반 조회
       .then((res) => {
-        const mockScores = res.data.map((q, index) => ({
+        setResult(res);
+        return fetchQuestions(res.testId); // 🔹 resultId → testId 수정
+      })
+      .then((questions) => {
+        const mockScores = questions.map((q, index) => ({
           question: `문항 ${index + 1}`,
-          score: Math.floor(Math.random() * 10) + 1, // 예시 값
+          score: Math.floor(Math.random() * 10) + 1,
         }));
         setQuestionScores(mockScores);
       })
       .catch(console.error);
   }, [resultId]);
 
-  // 📊 총점 그래프 데이터
   const totalScoreData = {
     labels: ['총점'],
     datasets: [
@@ -59,7 +55,6 @@ const DiagnosisResultChart = ({ resultId }) => {
     ],
   };
 
-  // 📊 문항별 점수 그래프 데이터
   const questionScoreData = {
     labels: questionScores.map((q) => q.question),
     datasets: [
@@ -76,14 +71,10 @@ const DiagnosisResultChart = ({ resultId }) => {
   return (
     <div>
       <h2>검사 점수 그래프</h2>
-
-      {/* 📊 총점 요약 */}
       <div style={{ width: '400px', margin: '20px 0' }}>
         <h3>총점 요약</h3>
         <Bar data={totalScoreData} />
       </div>
-
-      {/* 📊 문항별 점수 */}
       <div style={{ width: '600px', margin: '20px 0' }}>
         <h3>문항별 점수</h3>
         <Line data={questionScoreData} />

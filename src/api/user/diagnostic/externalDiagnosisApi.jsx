@@ -45,3 +45,9 @@ export const submitExternalDiagnosis = async (data) => {
   const res = await axios.post(`${BASE_URL}/submit`, data);
   return res.data;
 };
+
+// ✅ 학생별 전체 외부 검사 결과 조회 (📌 추가)
+export const fetchAllExternalResultsByStudent = async (studentNo) => {
+  const res = await axios.get(`${BASE_URL}/results/${studentNo}`);
+  return res.data;
+};

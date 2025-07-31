@@ -14,14 +14,12 @@ const DiagnosisListFeature = ({ studentNo }) => {
       testId: selectedTest.id,
       answers: Object.entries(answers).map(([questionId, selectedValue]) => ({
         questionId: Number(questionId),
-        selectedValue,
+        selectedValue: Number(selectedValue), // 🔹 숫자 변환
       })),
     };
 
     submitDiagnosis(requestData)
-      .then((res) => {
-        setResultId(res.data.resultId);
-      })
+      .then((res) => setResultId(res.resultId))
       .catch(console.error);
   };
 
