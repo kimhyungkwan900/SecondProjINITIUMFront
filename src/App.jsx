@@ -1,8 +1,10 @@
 import { RouterProvider } from 'react-router-dom'
 import './App.css'
-import { useEffect, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import createAppRouter from './router/createAppRouter';
 import axios from 'axios';
+
+export const UserContext = createContext(null);
 
 function App() {
   const [user, setUser] = useState(null);
@@ -27,7 +29,7 @@ function App() {
 
   return (
     <UserContext.Provider value={{user, setUser}}>
-      <RouterProvider router={router} />
+      {router && <RouterProvider router={router} />}
     </UserContext.Provider>
   )
 }
