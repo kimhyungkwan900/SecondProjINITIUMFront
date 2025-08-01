@@ -5,4 +5,6 @@ export const downloadPdfFile = (blobData, fileName) => {
   link.setAttribute('download', fileName);
   document.body.appendChild(link);
   link.click();
+  document.body.removeChild(link);
+  window.URL.revokeObjectURL(url); // 🔹 메모리 정리
 };

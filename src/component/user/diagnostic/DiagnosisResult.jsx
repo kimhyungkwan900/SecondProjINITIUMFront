@@ -7,7 +7,7 @@ const DiagnosisResult = ({ resultId }) => {
 
   useEffect(() => {
     fetchResultSummary(resultId)
-      .then((res) => setResult(res.data))
+      .then((res) => setResult(res))
       .catch(console.error);
   }, [resultId]);
 

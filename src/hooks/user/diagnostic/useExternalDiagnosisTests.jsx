@@ -1,4 +1,3 @@
-// src/hooks/useExternalDiagnosisTests.jsx
 import { useEffect, useState, useCallback } from 'react';
 import { fetchExternalTests, searchExternalTests } from '../../../api/user/diagnostic/externalDiagnosisApi.jsx';
 
@@ -13,8 +12,17 @@ export const useExternalDiagnosisTests = (keyword = '') => {
       : fetchExternalTests();
 
     apiCall
-      .then((res) => setTests(Array.isArray(res) ? res : res.data || res)) // 🔹 배열 안전 처리
-      .catch(console.error)
+      .then((res) => {
+        const data = Array.isArray(res) ? res : res.data || res;
+        setTests(data);
+        if (data.length === 0) {
+          alert("검색 결과가 없습니다.");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("외부 검사 목록을 불러오는 중 오류가 발생했습니다.");
+      })
       .finally(() => setLoading(false));
   }, [keyword]);
 

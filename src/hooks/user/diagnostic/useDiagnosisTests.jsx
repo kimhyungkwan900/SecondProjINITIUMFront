@@ -1,9 +1,9 @@
-// src/hooks/useDiagnosisTests.jsx
 import { useEffect, useState, useCallback } from 'react';
 import { searchTests, fetchPagedTests } from '../../../api/user/diagnostic/diagnosisApi.jsx';
 
 export const useDiagnosisTests = (keyword = '', page = 0, size = 10) => {
   const [tests, setTests] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const loadTests = useCallback(() => {
@@ -14,10 +14,13 @@ export const useDiagnosisTests = (keyword = '', page = 0, size = 10) => {
 
     apiCall
       .then((res) => {
-        const data = res.content || res; // 🔹 content 유무 체크
-        setTests(data);
+        setTests(res.content || res); // Page 타입 또는 List 타입
+        setTotalPages(res.totalPages || 1);
       })
-      .catch(console.error)
+      .catch((err) => {
+        console.error(err);
+        alert("검사 목록을 불러오는 중 오류가 발생했습니다.");
+      })
       .finally(() => setLoading(false));
   }, [keyword, page, size]);
 
@@ -25,5 +28,5 @@ export const useDiagnosisTests = (keyword = '', page = 0, size = 10) => {
     loadTests();
   }, [loadTests]);
 
-  return { tests, loading, reload: loadTests };
+  return { tests, totalPages, loading, reload: loadTests };
 };
