@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchAllResultsByStudent } from '../../../api/user/diagnostic/diagnosisApi.jsx';
+import { Link } from 'react-router-dom';
 
 const InternalResultsFeature = ({ studentNo }) => {
   const [internalResults, setInternalResults] = useState([]);

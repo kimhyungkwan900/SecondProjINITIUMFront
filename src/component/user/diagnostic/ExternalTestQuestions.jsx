@@ -11,16 +11,15 @@ const ExternalTestQuestions = ({ qestrnSeq, trgetSe, onSubmit }) => {
       .catch(console.error);
   }, [qestrnSeq, trgetSe]);
 
-  const handleAnswerChange = (qIndex, value) => {
-    setAnswers((prev) => ({ ...prev, [qIndex + 1]: value }));
+  const handleAnswerChange = (questionNumber, value) => {
+    setAnswers((prev) => ({
+      ...prev,
+      [questionNumber]: value, // 🔹 Map 형식 유지
+    }));
   };
 
   const handleSubmit = () => {
-    const formattedAnswers = Object.entries(answers)
-      .map(([qNum, value]) => `${qNum}=${value}`)
-      .join(' ');
-
-    onSubmit(formattedAnswers);
+    onSubmit(answers); // 🔹 Map을 그대로 부모로 전달
   };
 
   return (
@@ -35,7 +34,7 @@ const ExternalTestQuestions = ({ qestrnSeq, trgetSe, onSubmit }) => {
                 type="radio"
                 name={`q-${idx}`}
                 value={opt}
-                onChange={() => handleAnswerChange(idx, opt)}
+                onChange={() => handleAnswerChange(idx + 1, opt)}
               />
               {opt}
             </label>

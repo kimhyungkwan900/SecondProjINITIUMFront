@@ -20,9 +20,9 @@ const DiagnosisAdminPage = () => {
         let filtered = res.content;
         if (useYn) {
           filtered = filtered.filter(test => 
-            useYn === 'Y' ? test.useYn === true : test.useYn === false
+            test.useYn === (useYn === 'Y')
           );
-        }
+        }        
         setTests(filtered);
         setTotalPages(res.totalPages);
       })
