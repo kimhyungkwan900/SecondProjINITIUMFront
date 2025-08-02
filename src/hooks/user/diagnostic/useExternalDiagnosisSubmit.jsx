@@ -7,7 +7,19 @@ export const useExternalDiagnosisSubmit = () => {
 
   const submitTest = (data) => {
     setSubmitting(true);
-    submitExternalDiagnosis(data)
+
+    // 🔹 CareerNet answers 형식 변환 ("1=2 2=4 3=1")
+    const formattedAnswers = Object.entries(data.answers)
+      .map(([qNum, ansValue]) => `${qNum}=${ansValue}`)
+      .join(' ');
+
+    // 🔹 변환된 데이터로 새 payload 생성
+    const payload = {
+      ...data,
+      answers: formattedAnswers
+    };
+
+    submitExternalDiagnosis(payload)
       .then((res) => setResult(res.resultUrl ? res : res.data || res))
       .catch((error) => {
         console.error(error);
