@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../../api/user/auth/loginApi';
 import { UserContext } from '../../../App';
-import TextInput from '../../../component/common/auth/TextInput';
+import TextInput from '../../../component/common/TextInput';
 import LoginButton from '../../../component/common/auth/LoginButton';
 import FindAccountLink from '../../../component/common/auth/FindAccountLink';
 import LogoHeader from '../../../component/common/auth/logoHeader';
