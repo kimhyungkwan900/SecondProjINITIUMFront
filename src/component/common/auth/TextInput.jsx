@@ -1,4 +1,3 @@
-import React from "react";
 
 export default function TextInput({ type, placeholder, value, onChange }) {
   return (
