@@ -12,6 +12,11 @@ const ExternalResultsFeature = ({ studentNo }) => {
       .finally(() => setLoading(false));
   }, [studentNo]);
 
+  const handleDownloadPdf = (resultUrl) => {
+    // 🔹 CareerNet URL을 새 창에서 열기
+    window.open(resultUrl, '_blank');
+  };
+
   if (loading) return <p>외부 진단검사 결과 로딩 중...</p>;
 
   return (
@@ -20,8 +25,17 @@ const ExternalResultsFeature = ({ studentNo }) => {
       {externalResults.length > 0 ? (
         <ul>
           {externalResults.map((result) => (
-            <li key={result.inspectSeq}>
-              {result.testName} | 결과 URL: <a href={result.resultUrl} target="_blank" rel="noreferrer">{result.resultUrl}</a>
+            <li key={result.inspectSeq} style={{ marginBottom: '10px' }}>
+              {result.testName} | 
+              <a href={result.resultUrl} target="_blank" rel="noreferrer">
+                결과 URL
+              </a>
+              <button
+                style={{ marginLeft: '10px', background: 'green', color: 'white' }}
+                onClick={() => handleDownloadPdf(result.resultUrl)}
+              >
+                PDF 보기
+              </button>
             </li>
           ))}
         </ul>

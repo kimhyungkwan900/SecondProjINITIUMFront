@@ -1,4 +1,3 @@
-// src/components/admin/DiagnosisForm.jsx
 import React, { useState } from 'react';
 
 const DiagnosisForm = ({ onSubmit }) => {
@@ -6,7 +5,9 @@ const DiagnosisForm = ({ onSubmit }) => {
   const [description, setDescription] = useState('');
   const [useYn, setUseYn] = useState(true);
   const [questions, setQuestions] = useState([]);
+  const [scoreLevels, setScoreLevels] = useState([]); // 🔹 점수레벨 상태 추가
 
+  // ✅ 문항 추가
   const addQuestion = () => {
     setQuestions([...questions, { content: '', order: questions.length + 1, answerType: 'YES_NO', answers: [] }]);
   };
@@ -29,13 +30,25 @@ const DiagnosisForm = ({ onSubmit }) => {
     setQuestions(updated);
   };
 
+  // ✅ 점수레벨 추가
+  const addScoreLevel = () => {
+    setScoreLevels([...scoreLevels, { minScore: 0, maxScore: 0, levelName: '', description: '' }]);
+  };
+
+  const updateScoreLevel = (index, field, value) => {
+    const updated = [...scoreLevels];
+    updated[index][field] = value;
+    setScoreLevels(updated);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const dto = {
       name: testName,
       description,
       useYn,
-      questions
+      questions,
+      scoreLevels // 🔹 점수레벨 포함
     };
     onSubmit(dto);
   };
@@ -43,6 +56,8 @@ const DiagnosisForm = ({ onSubmit }) => {
   return (
     <form onSubmit={handleSubmit} className="p-4 border rounded bg-gray-50">
       <h2 className="text-lg font-bold mb-2">검사 등록</h2>
+      
+      {/* 검사 기본 정보 */}
       <div className="mb-2">
         <label>검사명:</label>
         <input value={testName} onChange={(e) => setTestName(e.target.value)} className="border p-1 w-full" />
@@ -58,8 +73,10 @@ const DiagnosisForm = ({ onSubmit }) => {
           <option value="false">미사용</option>
         </select>
       </div>
+
       <hr className="my-3" />
 
+      {/* 문항 등록 */}
       <h3 className="font-semibold mb-2">문항</h3>
       {questions.map((q, qIndex) => (
         <div key={qIndex} className="border p-2 mb-3 bg-white">
@@ -109,10 +126,50 @@ const DiagnosisForm = ({ onSubmit }) => {
           ))}
         </div>
       ))}
-
       <button type="button" onClick={addQuestion} className="bg-blue-500 text-white px-3 py-1 mr-2">
         문항 추가
       </button>
+
+      <hr className="my-3" />
+
+      {/* 점수 레벨 등록 */}
+      <h3 className="font-semibold mb-2">점수별 상태(Score Levels)</h3>
+      {scoreLevels.map((level, index) => (
+        <div key={index} className="border p-2 mb-3 bg-white">
+          <input
+            type="number"
+            placeholder="최소 점수"
+            value={level.minScore}
+            onChange={(e) => updateScoreLevel(index, 'minScore', Number(e.target.value))}
+            className="border p-1 mb-1 w-full"
+          />
+          <input
+            type="number"
+            placeholder="최대 점수"
+            value={level.maxScore}
+            onChange={(e) => updateScoreLevel(index, 'maxScore', Number(e.target.value))}
+            className="border p-1 mb-1 w-full"
+          />
+          <input
+            placeholder="레벨 이름"
+            value={level.levelName}
+            onChange={(e) => updateScoreLevel(index, 'levelName', e.target.value)}
+            className="border p-1 mb-1 w-full"
+          />
+          <textarea
+            placeholder="설명"
+            value={level.description}
+            onChange={(e) => updateScoreLevel(index, 'description', e.target.value)}
+            className="border p-1 mb-1 w-full"
+          />
+        </div>
+      ))}
+      <button type="button" onClick={addScoreLevel} className="bg-purple-500 text-white px-3 py-1 mr-2">
+        점수 레벨 추가
+      </button>
+
+      <hr className="my-3" />
+
       <button type="submit" className="bg-indigo-500 text-white px-3 py-1">
         등록
       </button>
