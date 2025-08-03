@@ -1,14 +1,22 @@
-import React from "react";
+import { useState } from "react";
+import FindAccountModal from "../../../features/user/auth/FindAccountModal";
 
 export default function FindAccountLink() {
+  const [showModal, setShowModal] = useState(false);
+
   return (
-    <div className="w-full flex justify-end">
-      <a
-        href="/find-account"
-        className="text-gray-400 text-sm mt-1 hover:underline"
+    <>
+      <button
+        className="underline text-blue-600 hover:text-blue-800"
+        onClick={() => setShowModal(true)}
+        type="button"
       >
         아이디/비밀번호 찾기
-      </a>
-    </div>
+      </button>
+      <FindAccountModal
+        isOpen={showModal}
+        onRequestClose={() => setShowModal(false)}
+      />
+    </>
   );
 }
