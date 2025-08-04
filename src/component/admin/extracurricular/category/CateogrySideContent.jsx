@@ -1,7 +1,7 @@
 import { useState } from "react";
-import CategoryData from "../../../../mock/admin/Extracurricular/CategoryData";
+import {CategoryData} from "../../../../mock/admin/Extracurricular/CategoryData";
 
-const CategorySideContent = () => {
+const CategorySideContent = ({ onSelectCategory }) => {
   const [openId, setOpenId] = useState(null);
 
   const toggle = (id) => {
@@ -11,7 +11,6 @@ const CategorySideContent = () => {
   return (
     <div className="w-[30%] border p-2 rounded shadow text-sm">
       <h1 className="text-center text-xl font-bold">프로그램분류</h1>
-
       <div className="mt-3 bg-gray-100 p-3 rounded space-y-1 h-[425px] overflow-y-auto">
         {CategoryData.map((item) => {
           const isOpen = openId === item.id;
@@ -34,12 +33,13 @@ const CategorySideContent = () => {
                 }`}
               >
                 {item.children.map((child) => (
-                  <div
+                 <div
                     key={child.id}
                     className="p-1 hover:bg-gray-200 rounded cursor-pointer flex items-center"
+                    onClick={() => onSelectCategory(child.id)} // 하위 카테고리 클릭에만 호출
                   >
                     📋{child.label}
-                  </div>
+                </div>
                 ))}
               </div>
             </div>
