@@ -1,6 +1,6 @@
 // src/components/DiagnosisResult.jsx
 import React, { useEffect, useState } from 'react';
-import { fetchResultSummary, downloadResultPdf } from '../api/diagnosisApi.jsx';
+import { fetchResultSummary, downloadResultPdf } from '../../../api/user/diagnostic/diagnosisApi.jsx';
 
 const DiagnosisResult = ({ resultId }) => {
   const [result, setResult] = useState(null);

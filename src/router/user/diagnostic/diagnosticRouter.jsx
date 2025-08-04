@@ -1,5 +1,5 @@
+// src/router/user/diagnostic/diagnosticRouter.jsx
 import React from 'react';
-import { createBrowserRouter } from 'react-router-dom';
 import HomePage from '../../../pages/user/diagnostic/HomePage';
 import DiagnosisPage from '../../../pages/user/diagnostic/DiagnosisPage';
 import DiagnosisResultPage from '../../../pages/user/diagnostic/DiagnosisResultPage';
@@ -9,7 +9,7 @@ import ExternalResultListPage from '../../../pages/user/diagnostic/ExternalResul
 import DiagnosisAdminPage from '../../../pages/user/diagnostic/DiagnosisAdminPage';
 import NotFoundPage from '../../../pages/user/diagnostic/NotFoundPage';
 
-export const diagnosticRouter = createBrowserRouter([
+export const diagnosticRoutes = [
   { path: '/', element: <HomePage /> },
   { path: '/diagnosis', element: <DiagnosisPage /> },
   { path: '/diagnosis/result/:resultId', element: <DiagnosisResultPage /> },
@@ -18,4 +18,4 @@ export const diagnosticRouter = createBrowserRouter([
   { path: '/external-results', element: <ExternalResultListPage /> },
   { path: '/admin/diagnosis', element: <DiagnosisAdminPage /> },
   { path: '*', element: <NotFoundPage /> }
-]);
+];
