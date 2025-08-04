@@ -17,9 +17,8 @@ export default function MainHeader() {
         {
             label: "핵심역량",
             submenu: [
-                { label: "창의", to: "/competency/creative" },
-                { label: "소통", to: "/competency/communication" },
-                { label: "문제해결", to: "/competency/problem" },
+                { label: "핵심역량안내", to: "/competency/notice"},
+                { label: "핵심역량진단", to: "/competency/coreCompentency" },
             ],
         },
         {
