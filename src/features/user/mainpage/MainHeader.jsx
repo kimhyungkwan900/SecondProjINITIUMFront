@@ -26,7 +26,7 @@ export default function MainHeader() {
             label: "핵심역량",
             submenu: [
                 { label: "핵심역량안내", to: "/competency/notice"},
-                { label: "핵심역량진단", to: "/competency/coreCompentency" },
+                { label: "핵심역량진단", to: "/competency/coreCompetency" },
             ],
         },
         {
