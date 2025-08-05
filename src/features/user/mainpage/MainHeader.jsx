@@ -14,7 +14,11 @@ export default function MainHeader() {
             ],
         },
         {
-            label: "상담신청", to: "/consult"
+            label: "상담",
+            submenu: [
+                { label: "상담신청", to: "/consult/apply"},
+                { label: "상담내역", to: "/consult/list"}
+            ],
         },
         {
             label: "비교과 프로그램",
