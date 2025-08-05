@@ -48,7 +48,7 @@ const HomePage = () => {
         {/* 중앙~오른쪽 메인 콘텐츠 */}
         <main className="flex-1 bg-white shadow-lg rounded-2xl p-8 leading-relaxed">
           <h1 className="text-3xl font-bold text-[#222E8D] mb-6">
-            학생 역량 관리 시스템 진단검사 안내
+            학생 심리 및 진로 진단검사 안내
           </h1>
           <p className="text-gray-700 mb-6">
             본 시스템은 학생 여러분의 학업, 생활, 진로와 관련된 다양한 심리·역량 검사를 통해 
