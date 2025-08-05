@@ -64,3 +64,20 @@ export const getEmployees = async () => {
     throw error;
   }
 };
+
+// 로그인한 교직원이 속한 부서가 관리하는 분류 가져오기
+export const getCategoryInEmpNo = async (empNo) => {
+  try {
+    const response = await axios.get(
+      "/api/extracurricular/category/list",
+      {
+        params: { empId: empNo }, 
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("조회 오류", error);
+    throw error;
+  }
+};
