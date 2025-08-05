@@ -41,7 +41,7 @@ export default function MainHeader() {
     return (
         <header className="w-full shadow bg-white">
             <div className="flex items-center justify-between px-8 py-3 max-w-7xl mx-auto">
-                <MainLogo />
+                <MainLogo logoSrc="/Logo/Logo.png" />
                 <nav className="flex gap-8 relative">
                     {NAV_ITEMS.map((item, idx) => (
                         <div

@@ -103,3 +103,22 @@ export const fetchAllResultsByStudent = async (studentNo) => {
     handleError(err);
   }
 };
+
+export const fetchResultDetails = async (resultId) => {
+  try {
+    if (!resultId) throw new Error('결과 ID가 유효하지 않습니다.');
+    
+    const res = await axiosInstance.get(`/api/diagnosis/result/${resultId}/details`);
+    
+    if (!Array.isArray(res.data)) {
+      console.warn('[fetchResultDetails] 예상치 못한 데이터 형식:', res.data);
+      return [];
+    }
+    
+    return res.data;
+  } catch (err) {
+    handleError(err);
+    return [];
+  }
+};
+
