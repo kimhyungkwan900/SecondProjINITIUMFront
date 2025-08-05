@@ -13,7 +13,7 @@ import ExternalDiagnosisConductPage from '../../../pages/user/diagnostic/Externa
 
 export const diagnosticRoutes = [
   // 홈
-  { path: '/', element: <HomePage /> },
+  { path: '/diagnosis-home', element: <HomePage /> },
 
   // ✅ 내부 진단검사
   { path: '/diagnosis', element: <DiagnosisListPage /> },            // 내부 검사 목록

@@ -6,6 +6,14 @@ export default function MainHeader() {
     const [hoveredIdx, setHoveredIdx] = useState(null);
     const NAV_ITEMS = [
         {
+            label: "진단검사",
+            submenu: [
+                {label: "진단검사", to: "/diagnosis-home"},
+                {label: "내부진단검사", to: "/diagnosis"},
+                {label: "외부진단검사", to: "/external-diagnosis"},
+            ],
+        },
+        {
             label: "비교과 프로그램",
             submenu: [
                 { label: "전체", to: "/programs/all" },
