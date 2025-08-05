@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { fetchResultSummary, fetchQuestions } from '../../../api/user/diagnostic/diagnosisApi.jsx';
+import { fetchResultSummary } from '../../../api/user/diagnostic/diagnosisApi.jsx';
+import { fetchResultDetails } from '../../../api/user/diagnostic/diagnosisApi.jsx';
 import { Bar, Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -26,22 +27,11 @@ ChartJS.register(
 
 const DiagnosisResultChart = ({ resultId }) => {
   const [result, setResult] = useState(null);
-  const [questionScores, setQuestionScores] = useState([]);
+  const [details, setDetails] = useState([]);
 
   useEffect(() => {
-    fetchResultSummary(resultId)
-      .then((res) => {
-        setResult(res);
-        return fetchQuestions(res.testId); // 🔹 resultId → testId 수정
-      })
-      .then((questions) => {
-        const mockScores = questions.map((q, index) => ({
-          question: `문항 ${index + 1}`,
-          score: Math.floor(Math.random() * 10) + 1,
-        }));
-        setQuestionScores(mockScores);
-      })
-      .catch(console.error);
+    fetchResultSummary(resultId).then(setResult).catch(console.error);
+    fetchResultDetails(resultId).then(setDetails).catch(console.error);
   }, [resultId]);
 
   const totalScoreData = {
@@ -56,11 +46,11 @@ const DiagnosisResultChart = ({ resultId }) => {
   };
 
   const questionScoreData = {
-    labels: questionScores.map((q) => q.question),
+    labels: details.map((d, idx) => `문항 ${idx + 1}`),
     datasets: [
       {
         label: '문항별 점수',
-        data: questionScores.map((q) => q.score),
+        data: details.map((d) => d.score),
         backgroundColor: 'rgba(153,102,255,0.6)',
         borderColor: 'rgba(153,102,255,1)',
         borderWidth: 1,

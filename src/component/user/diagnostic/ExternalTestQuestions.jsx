@@ -1,3 +1,4 @@
+// src/component/user/diagnostic/ExternalTestQuestions.jsx
 import React, { useEffect, useState } from 'react';
 import { fetchExternalQuestionsParsed } from '../../../api/user/diagnostic/externalDiagnosisApi.jsx';
 
@@ -14,12 +15,12 @@ const ExternalTestQuestions = ({ qestrnSeq, trgetSe, onSubmit }) => {
   const handleAnswerChange = (questionNumber, value) => {
     setAnswers((prev) => ({
       ...prev,
-      [questionNumber]: value, // 🔹 Map 형식 유지
+      [questionNumber]: value, // 🔹 key = 문항번호, value = 선택값
     }));
   };
 
   const handleSubmit = () => {
-    onSubmit(answers); // 🔹 Map을 그대로 부모로 전달
+    onSubmit(answers); // 🔹 직렬화는 부모 컴포넌트에서 처리
   };
 
   return (
@@ -33,8 +34,8 @@ const ExternalTestQuestions = ({ qestrnSeq, trgetSe, onSubmit }) => {
               <input
                 type="radio"
                 name={`q-${idx}`}
-                value={opt}
-                onChange={() => handleAnswerChange(idx + 1, opt)}
+                value={i + 1} // CareerNet는 선택지 번호를 숫자로 전송 (예: 1, 2, 3...)
+                onChange={() => handleAnswerChange(idx + 1, i + 1)}
               />
               {opt}
             </label>
