@@ -26,20 +26,40 @@ const InternalResultsFeature = ({ studentNo }) => {
       .catch(console.error);
   };
 
-  if (loading) return <p>내부 진단검사 결과 로딩 중...</p>;
+  if (loading) {
+    return (
+      <div className="bg-white rounded-xl shadow p-6 text-center text-[#222E8D]">
+        내부 진단검사 결과 로딩 중...
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <h2>📊 내부 진단검사 결과</h2>
+    <div className="bg-white rounded-xl shadow p-6 space-y-4">
+      <h2 className="text-xl font-bold text-[#222E8D] border-b pb-2">
+        📊 내부 진단검사 결과
+      </h2>
+
       {internalResults.length > 0 ? (
-        <ul>
+        <ul className="divide-y">
           {internalResults.map((result) => (
-            <li key={result.resultId} style={{ marginBottom: '10px' }}>
-              <Link to={`/diagnosis/result/${result.resultId}`}>
-                {result.testName} | 점수: {result.totalScore} | 날짜: {result.completionDate}
-              </Link>
+            <li
+              key={result.resultId}
+              className="flex flex-col sm:flex-row sm:items-center justify-between py-3"
+            >
+              <div className="text-gray-700">
+                <Link
+                  to={`/diagnosis/result/${result.resultId}`}
+                  className="font-medium text-[#28B8B2] hover:underline"
+                >
+                  {result.testName}
+                </Link>
+                <span className="ml-2 text-gray-500 text-sm">
+                  | 점수: {result.totalScore} | 날짜: {result.completionDate}
+                </span>
+              </div>
               <button
-                style={{ marginLeft: '10px', background: 'green', color: 'white' }}
+                className="bg-[#28B8B2] text-white px-3 py-1 rounded-lg hover:bg-[#1a807b] transition mt-2 sm:mt-0"
                 onClick={() => handleDownloadPdf(result.resultId)}
               >
                 PDF 다운로드
@@ -48,7 +68,9 @@ const InternalResultsFeature = ({ studentNo }) => {
           ))}
         </ul>
       ) : (
-        <p>내부 진단검사 결과가 없습니다.</p>
+        <p className="text-gray-500 text-center">
+          내부 진단검사 결과가 없습니다.
+        </p>
       )}
     </div>
   );
