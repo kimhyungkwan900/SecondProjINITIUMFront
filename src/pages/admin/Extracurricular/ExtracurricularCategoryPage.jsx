@@ -15,7 +15,7 @@ const ExtracurricularCategoryPage = () => {
   const [programList, setProgramList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-  const [selectedCategoryIdForDelete, setSelectedCategoryIdForDelete] = useState(null);
+  const [setSelectedCategoryIdForDelete] = useState(null);
 
   // 신규 입력 상태 (CategoryInputBox에서 입력받을 값들)
   const [inputValues, setInputValues] = useState({
@@ -42,7 +42,6 @@ const ExtracurricularCategoryPage = () => {
 
   // 리스트 조회
   useEffect(() => {
-     console.log("programList 확인:", programList);
     if (selectedCategoryId !== null) {
       getCategory({ categoryId: selectedCategoryId })
         .then(setProgramList)
