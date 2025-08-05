@@ -27,7 +27,7 @@ const UserLoginFeature = () => {
 
 return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-[#f6f9fc]">
-      <LogoHeader logoSrc='' schoolName='TeamINITIUM' englishName='University' subtitle='학생역량관리 시스템 로그인' />
+      <LogoHeader logoSrc="/Logo/Logo.png" schoolName='TeamINITIUM' englishName='University' subtitle='학생역량관리 시스템 로그인' />
       <form
         onSubmit={handleLogin}
         className="w-[340px] flex flex-col gap-4 items-center"
