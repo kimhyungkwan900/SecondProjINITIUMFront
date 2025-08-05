@@ -2,7 +2,7 @@ import React from 'react';
 import ExternalTestListFeature from '../../../features/user/diagnostic/ExternalTestListFeature.jsx';
 
 const ExternalDiagnosisPage = () => {
-  const studentNo = '20250001'; // 로그인한 학생 번호
+  const studentNo = '1'; // 형관님 파트
 
   return (
     <div>
