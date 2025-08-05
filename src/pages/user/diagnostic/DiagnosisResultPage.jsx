@@ -8,21 +8,28 @@ const DiagnosisResultPage = () => {
   const { resultId } = useParams(); // 🔹 URL 파라미터
 
   return (
-    <div className="min-h-screen bg-[#f6f9fc] flex justify-center items-start py-10">
-      <MainHeader />
-      <div className="w-full max-w-5xl bg-white shadow-lg rounded-2xl p-8 space-y-8">
-        <h1 className="text-3xl font-bold text-[#222E8D] mb-6 text-center">
-          진단검사 결과
-        </h1>
+    <div className="min-h-screen bg-[#f6f9fc]">
+      {/* 상단 고정 헤더 */}
+      <div className="fixed top-0 left-0 w-full z-50 shadow bg-white">
+        <MainHeader />
+      </div>
 
-        {/* 결과 요약 */}
-        <div className="bg-gray-50 rounded-xl p-6 shadow">
-          <DiagnosisResult resultId={resultId} />
-        </div>
+      {/* 콘텐츠 영역 (헤더 높이만큼 패딩 추가) */}
+      <div className="flex justify-center items-start pt-24 pb-10">
+        <div className="w-full max-w-5xl bg-white shadow-lg rounded-2xl p-8 space-y-8">
+          <h1 className="text-3xl font-bold text-[#222E8D] mb-6 text-center">
+            진단검사 결과
+          </h1>
 
-        {/* 결과 차트 */}
-        <div className="bg-gray-50 rounded-xl p-6 shadow">
-          <DiagnosisResultChart resultId={resultId} />
+          {/* 결과 요약 */}
+          <div className="bg-gray-50 rounded-xl p-6 shadow">
+            <DiagnosisResult resultId={resultId} />
+          </div>
+
+          {/* 결과 차트 */}
+          <div className="bg-gray-50 rounded-xl p-6 shadow">
+            <DiagnosisResultChart resultId={resultId} />
+          </div>
         </div>
       </div>
     </div>

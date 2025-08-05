@@ -28,7 +28,7 @@ const ExternalResultsFeature = ({ studentNo }) => {
   return (
     <div className="bg-white rounded-xl shadow p-6 space-y-4">
       <h2 className="text-xl font-bold text-[#222E8D] border-b pb-2">
-        🌐 외부 진단검사 결과
+        🌐 커리어넷 진단검사 결과
       </h2>
 
       {externalResults.length > 0 ? (
