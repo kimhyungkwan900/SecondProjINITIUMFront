@@ -14,6 +14,9 @@ export default function MainHeader() {
             ],
         },
         {
+            label: "상담신청", to: "/consult"
+        },
+        {
             label: "비교과 프로그램",
             submenu: [
                 { label: "전체", to: "/programs/all" },

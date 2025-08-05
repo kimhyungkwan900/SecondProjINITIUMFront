@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import loginRouter from "./user/auth/loginRouter";
+import consultationRouter from "./user/consultation/consultationRouter";
 import MainPage from "../pages/MainPage";
 import ExtracurricularRoutes from "./admin/extracurricular/ExtracurricularRouter";
 import { diagnosticRoutes } from "./user/diagnostic/diagnosticRouter";
@@ -11,6 +12,7 @@ const createAppRouter = () => {
         ...ExtracurricularRoutes,
         ...diagnosticRoutes,
         ...coreCompetencyRouter,
+        ...consultationRouter,
         {
             path: "/",
             element: <MainPage />
