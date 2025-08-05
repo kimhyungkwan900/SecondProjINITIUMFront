@@ -20,9 +20,8 @@ export default function MainHeader() {
         {
             label: "핵심역량",
             submenu: [
-                { label: "창의", to: "/competency/creative" },
-                { label: "소통", to: "/competency/communication" },
-                { label: "문제해결", to: "/competency/problem" },
+                { label: "핵심역량안내", to: "/competency/notice"},
+                { label: "핵심역량진단", to: "/competency/coreCompentency" },
             ],
         },
         {
@@ -45,7 +44,7 @@ export default function MainHeader() {
     return (
         <header className="w-full shadow bg-white">
             <div className="flex items-center justify-between px-8 py-3 max-w-7xl mx-auto">
-                <MainLogo />
+                <MainLogo logoSrc="/Logo/Logo.png" />
                 <nav className="flex gap-8 relative">
                     {NAV_ITEMS.map((item, idx) => (
                         <div

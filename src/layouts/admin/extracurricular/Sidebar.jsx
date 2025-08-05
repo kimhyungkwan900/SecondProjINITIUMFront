@@ -19,7 +19,7 @@ const Sidebar = () => {
     <div className="fixed left-0 top-0 h-screen w-64 bg-white text-gray-800 border-r border-gray-300 shadow z-50 overflow-y-auto">
       
       <div className="p-6 text-xl font-bold border-b border-gray-200 text-center">
-        INTIUM 관리자
+        INITIUM 관리자
       </div>
 
       <nav className="p-4 space-y-2">
@@ -41,7 +41,7 @@ const Sidebar = () => {
                 variants={menuVariants}
                 transition={{ duration: 0.2 }}
               >
-                <Link to="/admin/extracurricular/category" className="block px-2 py-1 rounded hover:bg-gray-100">프로그램 분류 관리</Link>
+                <Link to="/admin/extracurricular/category" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline">프로그램 분류 관리</Link>
               </motion.div>
             )}
           </AnimatePresence>
@@ -65,8 +65,8 @@ const Sidebar = () => {
                 variants={menuVariants}
                 transition={{ duration: 0.2 }}
               >
-                <Link to="/admin/extracurricular/grogram" className="block px-2 py-1 rounded hover:bg-gray-100">비교과 프로그램 조회</Link>
-                <Link to="/admin/extracurricular/apply" className="block px-2 py-1 rounded hover:bg-gray-100">프로그램 수강 신청 조회</Link>
+                <Link to="/admin/extracurricular/grogram" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline">비교과 프로그램 조회</Link>
+                <Link to="/admin/extracurricular/apply" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline">프로그램 수강 신청 조회</Link>
               </motion.div>
             )}
           </AnimatePresence>
@@ -90,8 +90,8 @@ const Sidebar = () => {
                 variants={menuVariants}
                 transition={{ duration: 0.2 }}
               >
-                <Link to="/admin" className="block px-2 py-1 rounded hover:bg-gray-100">분류 1</Link>
-                <Link to="/admin" className="block px-2 py-1 rounded hover:bg-gray-100">분류 2</Link>
+                <Link to="/admin" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline">분류 1</Link>
+                <Link to="/admin" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline">분류 2</Link>
               </motion.div>
             )}
           </AnimatePresence>
