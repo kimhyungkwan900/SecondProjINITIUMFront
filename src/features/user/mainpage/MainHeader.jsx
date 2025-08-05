@@ -6,6 +6,9 @@ export default function MainHeader() {
     const [hoveredIdx, setHoveredIdx] = useState(null);
     const NAV_ITEMS = [
         {
+            label: "상담신청", to: "/consult"
+        },
+        {
             label: "비교과 프로그램",
             submenu: [
                 { label: "전체", to: "/programs/all" },
