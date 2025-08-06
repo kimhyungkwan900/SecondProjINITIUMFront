@@ -9,6 +9,7 @@ import coreCompetencyRouter from "./user/coreCompetency/coreCompetencyRouter";
 const createAppRouter = () => {
     return createBrowserRouter([
         ...loginRouter,
+        ...consultationRouter,
         ...ExtracurricularRoutes,
         ...diagnosticRoutes,
         ...coreCompetencyRouter,

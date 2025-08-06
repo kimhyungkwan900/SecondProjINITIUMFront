@@ -19,6 +19,10 @@ export default function MainHeader() {
                 {label: "진단검사", to: "/diagnosis-home"},
                 {label: "내부진단검사", to: "/diagnosis"},
                 {label: "외부진단검사", to: "/external-diagnosis"},
+            label: "상담",
+            submenu: [
+                { label: "상담신청", to: "/consult/apply"},
+                { label: "상담내역", to: "/consult/list"}
             ],
         },
         {
