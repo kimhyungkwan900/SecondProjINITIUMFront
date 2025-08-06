@@ -30,8 +30,7 @@ const CategoryList = ({ programList = [], currentPage, itemsPerPage, onPageChang
               </tr>
             ) : (
               <>
-                {currentData.map((data, idx) => {
-                  console.log("data:", data);
+                {currentData.map((data) => {
                   const upperCategory = findCategoryById(data.stgrId);
 
                   const competencyLabel =
@@ -42,7 +41,7 @@ const CategoryList = ({ programList = [], currentPage, itemsPerPage, onPageChang
                   const upperCategoryLabel = upperCategory?.label || data.stgrId || "";
 
                   return (
-                    <tr key={idx} style={{ height: `${240 / itemsPerPage}px` }}>
+                    <tr key={data.ctgryId} style={{ height: `${240 / itemsPerPage}px` }}>
                       <td
                         className="border p-2 text-blue-600 font-semibold cursor-pointer"
                         onClick={() => onSelectItem?.(data)}
@@ -53,7 +52,7 @@ const CategoryList = ({ programList = [], currentPage, itemsPerPage, onPageChang
                       <td className="border p-2">{upperCategoryLabel}</td>
                       <td className="border p-2">{data.ctgryNm}</td>
                       <td className="border p-2">
-                        <input 
+                        <input
                           type="checkbox"
                           checked={data.ctgryUseYn === "Y"}
                           disabled
@@ -65,7 +64,7 @@ const CategoryList = ({ programList = [], currentPage, itemsPerPage, onPageChang
                 })}
                 {/* 빈 행 채우기 */}
                 {Array.from({ length: itemsPerPage - currentData.length }).map((_, idx) => (
-                  <tr key={`empty-${idx}`} style={{ height: `${240 / itemsPerPage}px` }}>
+                  <tr key={`empty-${startIndex + idx}`} style={{ height: `${240 / itemsPerPage}px` }}>
                     <td className="border p-2">&nbsp;</td>
                     <td className="border p-2"></td>
                     <td className="border p-2"></td>

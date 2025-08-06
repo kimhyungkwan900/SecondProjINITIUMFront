@@ -37,7 +37,7 @@ const CategoryFilter = ({
           <span>프로그램 분류 명</span>
           <input
             type="text"
-            className="ml-3 px-4 py-1 w-60 rounded-md text-lg focus:outline-none"
+            className="ml-3 px-4 py-1 w-60 rounded focus:outline-none"
             value={filterText}
             onChange={(e) => onChangeFilterText(e.target.value)}
           />
@@ -47,7 +47,7 @@ const CategoryFilter = ({
         <div className="flex items-center">
           <span>핵심역량</span>
           <select
-            className="ml-3 px-4 py-1 w-60 rounded-md text-lg focus:outline-none"
+            className="ml-3 px-4 py-1 w-60 rounded focus:outline-none"
             onChange={(e) => {
               const value = e.target.value;
               const parsed = value ? JSON.parse(value) : [];
@@ -67,7 +67,7 @@ const CategoryFilter = ({
         <div className="flex items-center">
           <span>주관부서</span>
           <select
-            className="ml-3 px-4 py-1 w-60 rounded-md text-lg focus:outline-none"
+            className="ml-3 px-4 py-1 w-60 rounded focus:outline-none"
             onChange={(e) => {
               const value = e.target.value;
               if (onChangeDepartment) onChangeDepartment(value);

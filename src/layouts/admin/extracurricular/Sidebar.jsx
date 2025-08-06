@@ -27,7 +27,7 @@ const Sidebar = () => {
         <div>
           <button
             onClick={() => toggleMenu('category')}
-            className="w-full text-left px-4 py-2 rounded hover:bg-gray-100 transition"
+            className="w-full text-left px-4 py-2 rounded hover:bg-gray-100 transition font-bold"
           >
             분류 체계
           </button>
@@ -41,7 +41,7 @@ const Sidebar = () => {
                 variants={menuVariants}
                 transition={{ duration: 0.2 }}
               >
-                <Link to="/admin/extracurricular/category" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline">프로그램 분류 관리</Link>
+                <Link to="/admin/extracurricular/category" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline font-bold">프로그램 분류 관리</Link>
               </motion.div>
             )}
           </AnimatePresence>
@@ -51,9 +51,9 @@ const Sidebar = () => {
         <div>
           <button
             onClick={() => toggleMenu('programs')}
-            className="w-full text-left px-4 py-2 rounded hover:bg-gray-100 transition"
+            className="w-full text-left px-4 py-2 rounded hover:bg-gray-100 transition font-bold"
           >
-            비교과 프로그램 관리
+            프로그램 관리
           </button>
           <AnimatePresence>
             {openMenu === 'programs' && (
@@ -65,8 +65,9 @@ const Sidebar = () => {
                 variants={menuVariants}
                 transition={{ duration: 0.2 }}
               >
-                <Link to="/admin/extracurricular/grogram" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline">비교과 프로그램 조회</Link>
-                <Link to="/admin/extracurricular/apply" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline">프로그램 수강 신청 조회</Link>
+                <Link to="/admin/extracurricular/program/aplication" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline font-bold">프로그램 등록 요청</Link>
+                <Link to="/admin/extracurricular/program/request" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline font-bold">프로그램 등록 관리</Link>
+                <Link to="/admin/extracurricular/program/apply" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline font-bold">프로그램 수강 신청 관리</Link>
               </motion.div>
             )}
           </AnimatePresence>
@@ -76,7 +77,7 @@ const Sidebar = () => {
         <div>
           <button
             onClick={() => toggleMenu('survey')}
-            className="w-full text-left px-4 py-2 rounded hover:bg-gray-100 transition"
+            className="w-full text-left px-4 py-2 rounded hover:bg-gray-100 transition font-bold"
           >
             목록
           </button>
@@ -90,8 +91,8 @@ const Sidebar = () => {
                 variants={menuVariants}
                 transition={{ duration: 0.2 }}
               >
-                <Link to="/admin" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline">분류 1</Link>
-                <Link to="/admin" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline">분류 2</Link>
+                <Link to="/admin" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline font-bold">분류 1</Link>
+                <Link to="/admin" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline font-bold">분류 2</Link>
               </motion.div>
             )}
           </AnimatePresence>
