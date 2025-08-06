@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import DiagnosisListFeature from '../../../features/user/diagnostic/DiagnosisListFeature.jsx';
 import MainHeader from '../../../features/user/mainpage/MainHeader.jsx';
+import { UserContext } from '../../../App.jsx';
 
 const DiagnosisListPage = () => {
-  const studentNo = '1'; // 로그인 연동 후 수정 예정
+  const { user } = useContext(UserContext);
+  const studentNo = user?.loginId; // 로그인 연동 후 수정 예정
 
   return (
     <div className="min-h-screen bg-[#f6f9fc]">

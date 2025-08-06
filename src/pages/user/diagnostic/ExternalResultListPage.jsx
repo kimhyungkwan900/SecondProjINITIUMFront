@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import ExternalResultsFeature from '../../../features/user/diagnostic/ExternalResultsFeature.jsx';
 import MainHeader from '../../../features/user/mainpage/MainHeader.jsx';
+import { UserContext } from '../../../App.jsx';
 
 const ExternalResultListPage = () => {
-  const studentNo = '1'; // 로그인한 학생 번호(형관님 파트)
+  const { user } = useContext(UserContext);
+  const studentNo = user?.loginId; // 로그인한 학생 번호(형관님 파트)
 
   return (
     <div className="min-h-screen bg-[#f6f9fc]">

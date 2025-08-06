@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import InternalResultsFeature from '../../../features/user/diagnostic/InternalResultsFeature.jsx';
 import ExternalResultsFeature from '../../../features/user/diagnostic/ExternalResultsFeature.jsx';
 import MainHeader from '../../../features/user/mainpage/MainHeader.jsx';
+import { UserContext } from '../../../App.jsx';
 
 const AllResultsPage = () => {
-  const studentNo = '20250001'; // 로그인된 학생 번호 (형관님 파트)
+  const { user } = useContext(UserContext);
+  const studentNo = user?.loginId; // 로그인된 학생 번호 (형관님 파트)
 
   return (
     <div className="min-h-screen bg-[#f6f9fc]">
