@@ -22,20 +22,13 @@ export default function CoreCompetencyMainPage() {
   </div>
 </div>
 
-<<<<<<< HEAD
   {/* 본문 전체 중앙 정렬 */}
   <div className="flex justify-center px-12 py-10">
     <div className="flex w-[1200px]"> {/* 콘텐츠 전체 폭 고정 + flex */}
       {/* 좌측 사이드바 - 고정 너비 지정 */}
-      <div className="w-[220px] flex-shrink-0">
-        <CoreCompetencySideBar />
+      <div className="w-[240px] flex-shrink-0">
+        <CoreCompetencySideBar navItems={navItems}/>
       </div>
-=======
-            {/* 본문: 사이드바 + 콘텐츠 */}
-            <div className="flex px-12 py-10">
-                {/* 좌측 사이드바 */}
-                <CoreCompetencySideBar navItems={navItems}/>
->>>>>>> main
 
       {/* 우측 본문 콘텐츠 */}
       <div className="flex-1 ml-10">

@@ -8,6 +8,11 @@ import CoreCompetencyAssessmentListTable from "../../../features/user/coreCompet
 
 
 const CoreCompetencyListPage = () =>{
+    const navItems = [
+        "핵심역량안내",
+        { link: "/competency/notice", name: "핵심역량안내" },
+        { link: "/competency/coreCompetency", name: "핵심역량진단" }
+    ];
 
     // 로그인 여부 판단 수정 예정
     const [assessments, setAssessment] = useState([]);
@@ -34,7 +39,7 @@ const CoreCompetencyListPage = () =>{
 
             <div className="flex px-12 py-10">
                 {/* 좌측 사이드바 */}
-                <CoreCompetencySideBar />
+                <CoreCompetencySideBar navItems={navItems}/>
 
                 {/* 우측 본문 영역 */}
                 <div className="flex-1 ml-10">

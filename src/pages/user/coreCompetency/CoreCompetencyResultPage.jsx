@@ -1,10 +1,14 @@
-import { useNavigate } from "react-router-dom";
+
 import MainHeader from "../../../features/user/mainpage/MainHeader";
 import CoreCompetencySideBar from "../../../features/user/coreCompetency/CoreCompetencySideBar";
 import DiagnosisTabButtons from "../../../component/user/coreCompetency/DiagnosisTabButtons";
 
 const CoreCompetencyResultPage = () => {
-  const navigate = useNavigate();
+  const navItems = [
+        "핵심역량안내",
+        { link: "/competency/notice", name: "핵심역량안내" },
+        { link: "/competency/coreCompetency", name: "핵심역량진단" }
+    ];
 
   return (
     <div className="bg-white min-h-screen">
@@ -23,12 +27,12 @@ const CoreCompetencyResultPage = () => {
       {/* 본문 영역 (사이드바 + 탭 + 내용) */}
       <div className="flex px-12 py-10 gap-10">
         {/* 좌측 사이드바 */}
-        <CoreCompetencySideBar />
+        <CoreCompetencySideBar navItems={navItems} />
 
         {/* 우측 본문 */}
         <div className="flex-1">
           {/* 탭 버튼 영역 (공통) */}
-          <DiagnosisTabButtons />
+          <DiagnosisTabButtons/>
 
           {/* 진단 결과 출력 (로그인 여부 조건 제거) */}
           <div className="mt-10 text-center text-gray-700">
