@@ -11,7 +11,7 @@ const HomePage = () => {
       </div>
 
       {/* 콘텐츠 레이아웃 */}
-      <div className="flex pt-24 pb-10 max-w-7xl mx-auto">
+      <div className="flex pt-48 pb-10 max-w-7xl mx-auto">
         {/* 왼쪽 사이드바 */}
         <aside className="w-64 bg-white shadow-lg rounded-2xl p-6 h-fit mr-6">
           <h2 className="text-xl font-bold text-[#222E8D] mb-4">
@@ -20,10 +20,10 @@ const HomePage = () => {
           <ul className="space-y-3">
             <li>
               <Link
-                to="/diagnosis"
+                to="/diagnosis/internal"
                 className="block bg-[#28B8B2] text-white text-center py-2 rounded-lg font-medium hover:bg-[#1a807b] transition"
               >
-                내부 진단검사
+                심리 진단검사
               </Link>
             </li>
             <li>
@@ -31,7 +31,7 @@ const HomePage = () => {
                 to="/external-diagnosis"
                 className="block bg-[#28B8B2] text-white text-center py-2 rounded-lg font-medium hover:bg-[#1a807b] transition"
               >
-                외부 진단검사
+                커리어넷 진단검사
               </Link>
             </li>
             <li>
@@ -39,7 +39,7 @@ const HomePage = () => {
                 to="/all-results"
                 className="block bg-[#28B8B2] text-white text-center py-2 rounded-lg font-medium hover:bg-[#1a807b] transition"
               >
-                내 모든 진단검사 결과
+                내 진단검사 결과
               </Link>
             </li>
           </ul>

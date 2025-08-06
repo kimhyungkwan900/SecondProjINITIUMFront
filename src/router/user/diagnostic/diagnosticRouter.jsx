@@ -13,12 +13,12 @@ import ExternalDiagnosisConductPage from '../../../pages/user/diagnostic/Externa
 
 export const diagnosticRoutes = [
   // 홈
-  { path: '/', element: <HomePage /> },
+  { path: '/diagnosis', element: <HomePage /> },
 
   // ✅ 내부 진단검사
-  { path: '/diagnosis', element: <DiagnosisListPage /> },            // 내부 검사 목록
-  { path: '/diagnosis/:testId', element: <DiagnosisConductPage /> }, // 내부 검사 실시
-  { path: '/diagnosis/result/:resultId', element: <DiagnosisResultPage /> }, // 내부 검사 결과
+  { path: '/diagnosis/internal', element: <DiagnosisListPage /> },            // 내부 검사 목록
+  { path: '/diagnosis/internal/:testId', element: <DiagnosisConductPage /> }, // 내부 검사 실시
+  { path: '/diagnosis/internal/result/:resultId', element: <DiagnosisResultPage /> }, // 내부 검사 결과
 
   // ✅ 외부 진단검사
   { path: '/external-diagnosis', element: <ExternalDiagnosisListPage /> }, // 외부 검사 목록
