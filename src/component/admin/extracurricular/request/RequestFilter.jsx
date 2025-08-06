@@ -20,7 +20,7 @@ const RequestFilter = ({ filter, onChangeFilter }) => {
 
   return (
     <div className="bg-gray-200 w-full mt-4 rounded p-4">
-      <div className="flex justify-between text-xl gap-20 px-5">
+      <div className="flex justify-center text-xl gap-20 px-5">
         <div>
           <span>부서</span>
           <select
@@ -37,10 +37,23 @@ const RequestFilter = ({ filter, onChangeFilter }) => {
           </select>
         </div>
 
+         <div>
+          <span>타입  </span>
+          <select
+            className="focus:outline-none rounded w-60 py-1"
+            value={filter.eduType}
+            onChange={(e) => onChangeFilter("eduType", e.target.value)}
+          >
+            <option value={""}>전체</option>
+            <option value={"TEAM"}>팀</option>
+            <option value={"PERSONAL"}>개인</option>
+          </select>
+        </div>
+
         <div>
           <span>상태  </span>
           <select
-            className="focus:outline-none rounded"
+            className="focus:outline-none rounded w-60 py-1"
             value={filter.status}
             onChange={(e) => onChangeFilter("status", e.target.value)}
           >
@@ -57,7 +70,7 @@ const RequestFilter = ({ filter, onChangeFilter }) => {
           <span>프로그램 명</span>
           <input
             type="text"
-            className="ml-3 px-4 py-1 w-60 rounded-md text-lg focus:outline-none"
+            className="ml-3 px-4 py-1 w-80 rounded-md text-lg focus:outline-none"
             value={filter.keyword}
             onChange={(e) => onChangeFilter("keyword", e.target.value)}
           />
