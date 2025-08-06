@@ -9,15 +9,15 @@ export default function ProgramCard({
 
     return (
 
-        <div className="w-64 rounded-xl shadow-lg overflow-hidden bg-white border border-gray-200">
-            <Link to={`/programs/${id}`} className="block">
+        <div className="w-64 rounded-xl shadow-lg overflow-hidden bg-white border border-gray-200 group">
+            <Link to={`/program/${id}`} className="block">
                 {/* 이미지 + D-day + 마일리지 */}
                 <div className="relative h-32 bg-gray-100 flex items-center justify-center">
-                    <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
+                    <img src={imageUrl} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                     <div className="absolute top-2 left-2 flex flex-col items-start">
-                        <span className="bg-[#41a5ff] text-white text-xs font-bold rounded px-2 py-1 mb-1 shadow">
-                            D-{daysLeft}
-                        </span>
+                            {daysLeft >= 0 ? 
+                            <span className="bg-[#41a5ff] text-white text-xs font-bold rounded px-2 py-1 mb-1 shadow">D-{daysLeft}</span> 
+                                : <span className="bg-[#48545e] text-white text-xs font-bold rounded px-2 py-1 mb-1 shadow">마감</span> }
                         <span className="bg-white text-[#28B8B2] border border-[#28B8B2] text-xs font-bold rounded px-2 py-0.5 flex items-center gap-1">
                             <img src="/mileage-icon.png" alt="마일리지" className="w-4 h-4" />
                             {mileage}
