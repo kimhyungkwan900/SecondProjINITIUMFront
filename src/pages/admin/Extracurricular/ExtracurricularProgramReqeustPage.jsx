@@ -6,14 +6,15 @@ import RequestDerail from "../../../component/admin/extracurricular/request/Requ
 import RequestFilter from "../../../component/admin/extracurricular/request/RequestFilter";
 import RequestList from "../../../component/admin/extracurricular/request/RequestList";
 import RequestButton from "../../../component/admin/extracurricular/request/RequestButton";
-
+import RequestApprovedModal from "../../../component/admin/extracurricular/request/RequestApprovedModal";
 
 const ExtracurricularProgramRequestPage = () => {
-  const [filter, setFilter] = useState({ status: "", keyword: "" });
+  const [filter, setFilter] = useState({ status: "", keyword: "", eduType:"", });
   const [programList, setProgramList] = useState([]);
   const [selectedProgram, setSelectedProgram] = useState(null);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [showApprovedModal, setShowApprovedModal] = useState(false); // 🔹 모달 상태 추가
 
   const handleFilterChange = (key, value) => {
     setFilter((prev) => ({ ...prev, [key]: value }));
@@ -40,29 +41,48 @@ const ExtracurricularProgramRequestPage = () => {
     handleSearch();
   }, []);
 
-
-    const handleChangeStatus = async (newStatus) => {
+  const handleChangeStatus = async (newStatus) => {
     if (!selectedProgram) {
       alert("프로그램을 선택해주세요.");
       return;
     }
+
+    if (newStatus === "APPROVED") {
+      setShowApprovedModal(true); // 🔹 모달 열기
+      return;
+    }
+
+    // 반려 로직
     try {
-      // 예시: updateProgramStatus(프로그램ID, 새 상태)
       await updateProgramStatus(selectedProgram.eduMngId, newStatus);
-
-      // 상태 변경 후 리스트 다시 조회 (현재 페이지 유지)
       await handleSearch(page);
-
-      // 선택된 프로그램 다시 선택 (업데이트된 정보가 반영되도록)
       const updatedProgram = programList.find(p => p.eduMngId === selectedProgram.eduMngId);
       setSelectedProgram(updatedProgram || null);
-
       alert(`상태가 '${newStatus === "APPROVED" ? "승인" : "반려"}'로 변경되었습니다.`);
     } catch (error) {
       console.error(error);
       alert("상태 변경에 실패했습니다.");
     }
   };
+
+  // 🔹 승인 + 마일리지 저장 핸들러
+  const handleApproveWithMileage = async (eduMlg) => {
+    try {
+      // 마일리지와 함께 프로그램 상태 업데이트
+      await updateProgramStatus(selectedProgram.eduMngId, "APPROVED", eduMlg);
+
+      await handleSearch(page);
+      const updatedProgram = programList.find(p => p.eduMngId === selectedProgram.eduMngId);
+      setSelectedProgram(updatedProgram || null);
+
+      setShowApprovedModal(false); // 모달 닫기
+      alert("승인이 완료되었습니다.");
+    } catch (error) {
+      console.error(error);
+      alert("승인 처리에 실패했습니다.");
+    }
+  };
+
   return (
     <div className="w-full p-4">
       <div className="sticky top-0 bg-white z-10 py-2">
@@ -71,20 +91,30 @@ const ExtracurricularProgramRequestPage = () => {
           <span className="ml-3">프로그램 등록 관리 페이지</span>
         </h1>
         <hr className="border" />
-        <RequestButton 
-        onSearch={() => handleSearch(0)} 
-        onChangeStatus={handleChangeStatus}  // 상태 변경 함수 전달
-      />
+       <RequestButton
+          onSearch={handleSearch}
+          onChangeStatus={handleChangeStatus}
+          programStatus={selectedProgram?.eduSttsNm}
+        />
         <RequestFilter filter={filter} onChangeFilter={handleFilterChange} />
         <RequestList
           programList={programList}
           onSelect={handleSelectProgram}
-          selectedId={selectedProgram?.id}
+          selectedId={selectedProgram?.eduMngId}
           currentPage={page}
           totalPages={totalPages}
           onPageChange={handlePageChange}
         />
         <RequestDerail program={selectedProgram} />
+
+        {/* 🔹 모달 렌더링 */}
+        {showApprovedModal && selectedProgram && (
+          <RequestApprovedModal
+            programName={selectedProgram.eduNm}
+            onSave={handleApproveWithMileage}
+            onClose={() => setShowApprovedModal(false)}
+          />
+        )}
       </div>
     </div>
   );

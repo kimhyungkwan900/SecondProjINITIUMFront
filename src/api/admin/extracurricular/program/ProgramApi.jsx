@@ -36,6 +36,7 @@ export const fetchPrograms = async (filter, page = 0, size = 10) => {
         keyword: filter.keyword,
         status: filter.status,
         departmentCode: filter.departmentCode,
+        eduType: filter.eduType,
         page,
         size,
       },withCredentials: true,
@@ -47,16 +48,16 @@ export const fetchPrograms = async (filter, page = 0, size = 10) => {
 };
 
 // 비교과 프로그램 업데이트 함수
-export const updateProgramStatus = async (eduMngId, eduSttsCd) => {
+export const updateProgramStatus = async (eduMngId, sttsNm, eduMlg) => {
   try {
     const dto = {
       eduMngId,
-      eduSttsCd,
+      sttsNm,
+      eduMlg,
     };
-
     const response = await axios.put(
       "/api/admin/extracurricular/program/update",
-      dto, // 👈 바디에 DTO가 들어가야 함
+      dto,
       {
         headers: {
           "Content-Type": "application/json",
