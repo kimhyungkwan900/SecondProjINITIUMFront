@@ -13,7 +13,7 @@ const ExternalResultListPage = () => {
       </div>
 
       {/* 콘텐츠 영역 (헤더 높이만큼 패딩 추가) */}
-      <div className="flex justify-center items-start pt-24 pb-10">
+      <div className="flex justify-center items-start pt-48 pb-10">
         <div className="w-full max-w-5xl bg-white shadow-lg rounded-2xl p-8">
           <h1 className="text-3xl font-bold text-[#222E8D] mb-6 text-center">
             외부 진단검사 전체 결과
