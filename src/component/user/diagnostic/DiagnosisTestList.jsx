@@ -31,7 +31,7 @@ const DiagnosisTestList = ({ onSelectTest }) => {
     if (onSelectTest) {
       onSelectTest(test);
     }
-    navigate(`/diagnosis/${test.id}`);
+    navigate(`/diagnosis/internal/${test.id}`);
   };
 
   return (
