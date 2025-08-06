@@ -13,9 +13,6 @@ const createAppRouter = () => {
         ...ExtracurricularRoutes,
         ...diagnosticRoutes,
         ...coreCompetencyRouter,
-        ...diagnosticRoutes,
-        ...coreCompetencyRouter,
-        ...ExtracurricularRoutes,
         {
             path: "/",
             element: <MainPage />
