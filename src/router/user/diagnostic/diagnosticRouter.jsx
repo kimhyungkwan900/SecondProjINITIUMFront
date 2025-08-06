@@ -4,12 +4,14 @@ import HomePage from '../../../pages/user/diagnostic/HomePage';
 import DiagnosisResultPage from '../../../pages/user/diagnostic/DiagnosisResultPage';
 import AllResultsPage from '../../../pages/user/diagnostic/AllResultsPage';
 import ExternalResultListPage from '../../../pages/user/diagnostic/ExternalResultListPage';
-import DiagnosisAdminPage from '../../../pages/user/diagnostic/DiagnosisAdminPage';
 import NotFoundPage from '../../../pages/user/diagnostic/NotFoundPage';
 import DiagnosisConductPage from '../../../pages/user/diagnostic/DiagnosisConductPage';
 import DiagnosisListPage from '../../../pages/user/diagnostic/DiagnosisListPage';
 import ExternalDiagnosisListPage from '../../../pages/user/diagnostic/ExternalDiagnosisListPage';
 import ExternalDiagnosisConductPage from '../../../pages/user/diagnostic/ExternalDiagnosisConductPage';
+import DiagnosisAdminCreatePage from '../../../pages/admin/diagnostic/DiagnosisAdminCreatePage';
+import DiagnosisAdminListPage from '../../../pages/admin/diagnostic/DiagnosisAdminListPage';
+import DiagnosisAdminDashboardPage from '../../../pages/admin/diagnostic/DiagnosisAdminDashboardPage';
 
 export const diagnosticRoutes = [
   // 홈
@@ -26,10 +28,12 @@ export const diagnosticRoutes = [
   { path: '/external-results', element: <ExternalResultListPage /> }, // 외부 검사 전체 결과 페이지
 
   // ✅ 전체 결과
-  { path: '/all-results', element: <AllResultsPage /> },
+  { path: '/diagnosis/all-results', element: <AllResultsPage /> },
 
   // ✅ 관리자
-  { path: '/admin/diagnosis', element: <DiagnosisAdminPage /> },
+  { path: '/admin/diagnosis/dashboard', element: <DiagnosisAdminDashboardPage /> },
+  { path: '/admin/diagnosis/create', element: <DiagnosisAdminCreatePage /> },
+  { path: '/admin/diagnosis/list', element: <DiagnosisAdminListPage /> },
 
   // 404
   { path: '*', element: <NotFoundPage /> }
