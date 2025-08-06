@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import MainHeader from '../../../features/user/mainpage/MainHeader.jsx';
 import ExternalTestQuestions from '../../../component/user/diagnostic/ExternalTestQuestions.jsx';
@@ -9,6 +9,7 @@ import { fetchExternalTests } from '../../../api/user/diagnostic/externalDiagnos
 import UserTopBar from '../../../component/user/mainpage/UserTopBar.jsx';
 
 const ExternalDiagnosisConductPage = () => {
+  const { user } = useContext(UserContext);
   const { testId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const ExternalDiagnosisConductPage = () => {
   const [questionApiCode, setQuestionApiCode] = useState(stateQuestionApiCode || '');
   const [targetCode, setTargetCode] = useState(stateTargetCode || '');
   const [name, setName] = useState(stateName || '');
-  const [studentNo] = useState(stateStudentNo || '1'); // 로그인 연동 예정
+  const [studentNo] = useState(stateStudentNo || user?.loginId); // 로그인 연동 예정
   const [loading, setLoading] = useState(!stateQuestionApiCode || !stateTargetCode);
 
   const [answers, setAnswers] = useState({});

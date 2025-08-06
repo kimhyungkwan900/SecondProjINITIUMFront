@@ -14,7 +14,7 @@ function App() {
   useEffect(() => {
     const init = async () => {
       try {
-        const res = await axios.get("/api/auth/me", { withCredentials: true });
+        const res = await axios.get("http://localhost:8080/api/auth/me", { withCredentials: true });
         const userData = res.data;
         setUser(userData);
         setRouter(createAppRouter(userData.role));
