@@ -8,7 +8,7 @@ const ExternalTestList = ({ onSelectTest }) => {
   const [totalPages, setTotalPages] = useState(0);
 
   const loadTests = useCallback(() => {
-    fetchPagedExternalTests(keyword, page, 5)
+    fetchPagedExternalTests(keyword, page, 3) // ✅ 한 페이지 3개 제한
       .then((res) => {
         setTests(res.content || []);
         setTotalPages(res.totalPages || 0);
@@ -42,7 +42,7 @@ const ExternalTestList = ({ onSelectTest }) => {
         />
         <button
           onClick={handleSearch}
-          className="bg-[#28B8B2] text-white px-4 py-2 rounded-lg hover:bg-[#1a807b] transition"
+          className="bg-[#222E8D] text-white px-4 py-2 rounded-lg hover:bg-[#1a1f6b] transition"
         >
           검색
         </button>
@@ -73,10 +73,10 @@ const ExternalTestList = ({ onSelectTest }) => {
             key={idx}
             disabled={idx === page}
             onClick={() => setPage(idx)}
-            className={`px-3 py-1 rounded-lg border transition ${
+            className={`px-3 py-1 rounded-lg border transition font-medium ${
               idx === page
-                ? 'bg-[#28B8B2] text-white border-[#28B8B2]'
-                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
+                ? 'bg-[#222E8D] text-white border-[#222E8D]'
+                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100 hover:text-[#222E8D]'
             }`}
           >
             {idx + 1}

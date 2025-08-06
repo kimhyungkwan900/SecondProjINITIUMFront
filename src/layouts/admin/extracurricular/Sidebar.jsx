@@ -73,6 +73,38 @@ const Sidebar = () => {
           </AnimatePresence>
         </div>
 
+{/* 진단검사 관리 */}
+        <div>
+          <button
+            onClick={() => toggleMenu('diagnosis')}
+            className="w-full text-left px-4 py-2 rounded hover:bg-gray-100 transition font-bold"
+          >
+            진단검사 관리
+          </button>
+          <AnimatePresence>
+            {openMenu === 'diagnosis' && (
+              <motion.div
+                className="pl-6 space-y-1 text-sm overflow-hidden"
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                variants={menuVariants}
+                transition={{ duration: 0.2 }}
+              >
+                <Link to="/admin/diagnosis/dashboard" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline font-bold">
+                  대시보드
+                </Link>
+                <Link to="/admin/diagnosis/create" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline font-bold">
+                  검사 등록
+                </Link>
+                <Link to="/admin/diagnosis/list" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline font-bold">
+                  검사 조회 및 삭제
+                </Link>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
         {/* 목록 */}
         <div>
           <button
