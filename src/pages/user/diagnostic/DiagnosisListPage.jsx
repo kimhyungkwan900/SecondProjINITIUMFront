@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import DiagnosisListFeature from '../../../features/user/diagnostic/DiagnosisListFeature.jsx';
 import MainHeader from '../../../features/user/mainpage/MainHeader.jsx';
-import UserTopBar from '../../../component/user/mainpage/UserTopBar.jsx';
 import { UserContext } from '../../../App.jsx';
+import UserTopBar from '../../../component/user/mainpage/UserTopBar.jsx';
 
 const DiagnosisListPage = () => {
   const { user } = useContext(UserContext);
