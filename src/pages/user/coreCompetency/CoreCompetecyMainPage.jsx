@@ -4,6 +4,11 @@ import CoreCompetencyTable from "../../../features/user/coreCompetency/CoreCompe
 import CoreCompetencySideBar from "../../../features/user/coreCompetency/CoreCompetencySideBar";
 
 export default function CoreCompetencyMainPage() {
+    const navItems = [
+        "핵심역량안내",
+        {link: "/competency/notice", name: "핵심역량안내"},
+        {link: "/competency/coreCompetency", name: "핵심역량진단"}
+    ]
 
     return (
         <div className="bg-white min-h-screen border border-gray-300">
@@ -18,7 +23,7 @@ export default function CoreCompetencyMainPage() {
             {/* 본문: 사이드바 + 콘텐츠 */}
             <div className="flex px-12 py-10">
                 {/* 좌측 사이드바 */}
-                <CoreCompetencySideBar />
+                <CoreCompetencySideBar navItems={navItems}/>
 
                 {/* 우측 본문 콘텐츠 */}
                 <div className="flex-1 ml-10">
