@@ -7,6 +7,6 @@ const axiosInstance = axios.create({
 });
 
 // 핵심역량진단목록 전체 불러오기
-export const getAllAssessments = () => {
-  return axiosInstance.post(`/api/admin/assessment/all`);
+export const getAllAssessmentList = () => {
+  return axiosInstance.get(`/api/assessments/list`);
 };

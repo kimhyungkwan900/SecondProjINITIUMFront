@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const CoreCompetencySideBar = () => {
     return (
-        <div className="w-64 h-full bg-gradient-to-b from-blue-700 to-blue-500 text-white shadow-xl px-6 py-8 mt-10">
+        <div className="w-64 h-full bg-gradient-to-b from-blue-700 to-blue-500 text-white shadow-xl px-6 py-8 mt-20">
             <h2 className="text-2xl font-semibold text-white tracking-wide mb-8 border-b border-blue-300 pb-3 text-center">
                 핵심역량안내
             </h2>

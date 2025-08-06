@@ -9,7 +9,7 @@ const DiagnosisTabButtons = () => {
 
     return (
         <div className="mt-5 mb-6 px-2">
-            <div className="flex border border-gray-300 rounded-md overflow-hidden shadow-sm text-[20px] font-medium">
+            <div className="flex border border-gray-300 rounded-md overflow-hidden shadow-sm text-[17px] font-medium">
                 <button
                     onClick={() => navigate("/competency/coreCompetency/list")}
                     className={`flex-1 py-3 transition duration-200 ${

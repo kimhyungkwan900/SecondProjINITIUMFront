@@ -1,5 +1,5 @@
-import CoreCompetencyList from "../../../component/user/coreCompetency/coreCompetencyList";
-import CoreCompetencyResult from "../../../component/user/coreCompetency/coreCompetencyResult";
+import CoreCompetencyListPage from "../../../pages/user/coreCompetency/CoreCompetencyListPage";
+import CoreCompetencyResultPage from "../../../pages/user/coreCompetency/CoreCompetencyResultPage";
 import CoreCompetencyMainPage from "../../../pages/user/coreCompetency/CoreCompetecyMainPage";
 import CoreCompetencyAssessmentPage from "../../../pages/user/coreCompetency/CoreCompetencyAssessmentPage";
 import CoreCompetencyTestPage from "../../../pages/user/coreCompetency/CoreCompetencyTestPage";
@@ -16,14 +16,14 @@ const coreCompetencyRouter = [
     },
     {
         path : "/competency/coreCompetency/result",
-        element : <CoreCompetencyResult/>
+        element : <CoreCompetencyResultPage/>
     },
     {
         path : "/competency/coreCompetency/list",
-        element : <CoreCompetencyList/>
+        element : <CoreCompetencyListPage/>
     },
     {
-        path : `/competency/coreCompetency/test/:id`,
+        path : `/competency/coreCompetency/test/:assessmentId`,
         element : <CoreCompetencyTestPage/>
     }
 
