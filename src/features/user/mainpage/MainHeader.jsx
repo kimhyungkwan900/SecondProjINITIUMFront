@@ -8,21 +8,16 @@ export default function MainHeader() {
         {
             label: "진단검사",
             submenu: [
-                {label: "진단검사", to: "/diagnosis"},
-                {label: "내부진단검사", to: "/diagnosis/internal"},
-                {label: "외부진단검사", to: "/external-diagnosis"},
+                { label: "진단검사", to: "/diagnosis" },
+                { label: "내부진단검사", to: "/diagnosis/internal" },
+                { label: "외부진단검사", to: "/external-diagnosis" },
             ],
         },
         {
             label: "상담",
             submenu: [
-                {label: "진단검사", to: "/diagnosis-home"},
-                {label: "내부진단검사", to: "/diagnosis"},
-                {label: "외부진단검사", to: "/external-diagnosis"},
-            label: "상담",
-            submenu: [
-                { label: "상담신청", to: "/consult/apply"},
-                { label: "상담내역", to: "/consult/list"}
+                { label: "상담신청", to: "/consult/apply" },
+                { label: "상담내역", to: "/consult/list" }
             ],
         },
         {
@@ -37,7 +32,7 @@ export default function MainHeader() {
         {
             label: "핵심역량",
             submenu: [
-                { label: "핵심역량안내", to: "/competency/notice"},
+                { label: "핵심역량안내", to: "/competency/notice" },
                 { label: "핵심역량진단", to: "/competency/coreCompetency" },
             ],
         },
