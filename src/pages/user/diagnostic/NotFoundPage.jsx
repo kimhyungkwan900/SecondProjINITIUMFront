@@ -11,7 +11,7 @@ const NotFoundPage = () => {
       </div>
 
       {/* 콘텐츠 영역 */}
-      <div className="flex flex-col items-center justify-center pt-24 px-4 text-center">
+      <div className="flex flex-col items-center justify-center pt-48 px-4 text-center">
         <h1 className="text-6xl font-bold text-red-500 mb-4">404</h1>
         <h2 className="text-2xl font-semibold mb-2">
           페이지를 찾을 수 없습니다
