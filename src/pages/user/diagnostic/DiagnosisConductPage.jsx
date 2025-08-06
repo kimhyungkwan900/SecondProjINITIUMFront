@@ -5,6 +5,7 @@ import DiagnosisResult from '../../../component/user/diagnostic/DiagnosisResult.
 import { submitDiagnosis } from '../../../api/user/diagnostic/diagnosisApi.jsx';
 import MainHeader from '../../../features/user/mainpage/MainHeader.jsx';
 import UserTopBar from '../../../component/user/mainpage/UserTopBar.jsx';
+import { UserContext } from '../../../App.jsx';
 
 const DiagnosisConductPage = () => {
   const { user } = useContext(UserContext);

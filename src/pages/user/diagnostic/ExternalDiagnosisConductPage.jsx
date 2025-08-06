@@ -7,6 +7,7 @@ import ExternalTestSubmit from '../../../component/user/diagnostic/ExternalTestS
 // 🔹 외부 진단검사 목록 API (단일 조회용으로도 사용)
 import { fetchExternalTests } from '../../../api/user/diagnostic/externalDiagnosisApi.jsx';
 import UserTopBar from '../../../component/user/mainpage/UserTopBar.jsx';
+import { UserContext } from '../../../App.jsx';
 
 const ExternalDiagnosisConductPage = () => {
   const { user } = useContext(UserContext);

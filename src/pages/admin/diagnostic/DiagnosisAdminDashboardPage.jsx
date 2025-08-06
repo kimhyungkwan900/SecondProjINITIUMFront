@@ -3,7 +3,7 @@ import Sidebar from '../../../layouts/admin/extracurricular/Sidebar';
 
 const DiagnosisAdminDashboardPage = () => {
   return (
-    <div className="min-h-screen bg-[#f6f9fc] flex">
+    <div className="min-h-screen bg-white flex">
       {/* 관리자 사이드바 */}
       <Sidebar />
 
