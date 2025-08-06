@@ -16,6 +16,7 @@ function App() {
       try {
         const res = await axios.get("http://localhost:8080/api/auth/me", { withCredentials: true });
         const userData = res.data;
+        console.log("유저정보", res.data);
         setUser(userData);
         setRouter(createAppRouter(userData.role));
       } catch (err) {
