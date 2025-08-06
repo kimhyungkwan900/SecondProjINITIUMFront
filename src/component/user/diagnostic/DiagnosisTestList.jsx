@@ -10,7 +10,7 @@ const DiagnosisTestList = ({ onSelectTest }) => {
   const navigate = useNavigate();
 
   const loadTests = useCallback(() => {
-    fetchPagedTests(keyword, page, 5)
+    fetchPagedTests(keyword, page, 3) // ✅ 한 페이지당 3개로 제한
       .then((res) => {
         setTests(res.content);
         setTotalPages(res.totalPages);
@@ -51,7 +51,7 @@ const DiagnosisTestList = ({ onSelectTest }) => {
         />
         <button
           onClick={handleSearch}
-          className="bg-[#28B8B2] text-white px-4 py-2 rounded-lg hover:bg-[#1a807b] transition"
+          className="bg-[#222E8D] text-white px-4 py-2 rounded-lg hover:bg-[#1a1f6b] transition"
         >
           검색
         </button>
@@ -82,10 +82,10 @@ const DiagnosisTestList = ({ onSelectTest }) => {
             key={idx}
             disabled={idx === page}
             onClick={() => setPage(idx)}
-            className={`px-3 py-1 rounded-lg border transition ${
+            className={`px-3 py-1 rounded-lg border transition font-medium ${
               idx === page
-                ? 'bg-[#28B8B2] text-white border-[#28B8B2]'
-                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
+                ? 'bg-[#222E8D] text-white border-[#222E8D]'
+                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100 hover:text-[#222E8D]'
             }`}
           >
             {idx + 1}

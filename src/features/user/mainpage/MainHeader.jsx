@@ -8,7 +8,7 @@ export default function MainHeader() {
         {
             label: "진단검사",
             submenu: [
-                { label: "진단검사", to: "/diagnosis" },
+                { label: "진단검사 안내", to: "/diagnosis" },
                 { label: "내부진단검사", to: "/diagnosis/internal" },
                 { label: "외부진단검사", to: "/external-diagnosis" },
             ],
