@@ -1,17 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import MainHeader from '../../../features/user/mainpage/MainHeader';
+import UserTopBar from '../../../component/user/mainpage/UserTopBar';
 
 const HomePage = () => {
   return (
     <div className="min-h-screen bg-[#f6f9fc]">
       {/* 상단 고정 헤더 */}
       <div className="fixed top-0 left-0 w-full z-50 shadow bg-white">
+        <UserTopBar />
         <MainHeader />
       </div>
 
       {/* 콘텐츠 레이아웃 */}
-      <div className="flex pt-48 pb-10 max-w-7xl mx-auto">
+      <div className="flex pt-60 pb-10 max-w-7xl mx-auto">
         {/* 왼쪽 사이드바 */}
         <aside className="w-64 bg-white shadow-lg rounded-2xl p-6 h-fit mr-6">
           <h2 className="text-xl font-bold text-[#222E8D] mb-4">
