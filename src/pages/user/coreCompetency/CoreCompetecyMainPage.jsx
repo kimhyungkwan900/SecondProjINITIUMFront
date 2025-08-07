@@ -19,7 +19,7 @@ export default function CoreCompetencyMainPage() {
 <div className="bg-gray-100 border-b border-gray-300">
   <div className="max-w-[1200px] mx-auto px-6 py-10 flex justify-between items-center">
     <h1 className="text-4xl font-semibold text-center">핵심역량안내</h1>
-    <div className="text-2xl text-gray-600 whitespace-nowrap ml-auto">HOME &gt; 핵심역량안내</div>
+    <div className="text-1xl text-gray-600 whitespace-nowrap ml-auto">HOME &gt; 핵심역량안내</div>
   </div>
 </div>
 
