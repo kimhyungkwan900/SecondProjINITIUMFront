@@ -62,9 +62,6 @@ const ApplyConsultMainPage = ()=>{
                     {applyItems.map((item, idx)=>(
                         <ApplyConsultBox key={idx} info={item}/>
                     ))}
-                    {/* <ApplyConsultBox name={''} description={''} type={'상담신청'}/>
-                    <ApplyConsultBox name={''} description={''} type={'상담신청'}/>
-                    <ApplyConsultBox name={''} description={''} type={'상담신청'}/> */}
                 </div>
             </div>
         </div>
