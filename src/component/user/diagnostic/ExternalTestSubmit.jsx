@@ -3,81 +3,77 @@ import { submitExternalDiagnosis } from '../../../api/user/diagnostic/externalDi
 import { UserContext } from '../../../App.jsx';
 
 const ExternalTestSubmit = ({ studentNo, qestrnSeq, trgetSe, answers }) => {
-  const { user } = useContext(UserContext); // 🔹 로그인 유저 정보 가져오기
+  const { user } = useContext(UserContext);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
 
   // 🔹 CareerNet 성별 코드 매핑
   const genderCodeMap = {
-    남자: '100323',
-    여자: '100324'
+    10: '10', // 남자
+    20: '10'  // 여자
   };
 
-  // 🔹 CareerNet 학년 코드 매핑 (예시: API 문서 참고)
+  // 🔹 CareerNet 학년 코드 매핑
   const gradeCodeMap = {
-    1: '1', // 1학년
-    2: '2', // 2학년
-    3: '3', // 3학년
-    4: '4'  // 4학년 (있다면)
+    1: '1',
+    2: '2',
+    3: '3',
+    4: '4'
   };
 
   const handleSubmit = () => {
-    // CareerNet 요구 코드값 변환
     const mappedGender = genderCodeMap[user?.gender] || '';
     const mappedGrade = gradeCodeMap[user?.grade] || '';
+    const startDtm = Date.now();
 
+    // 🔸 응답 직렬화 로직 (검사번호에 따라 분기)
+    let serializedAnswers = '';
+    if (qestrnSeq === '6') {
+      // 🔸 직업가치관검사 - 일반,대학생
+      serializedAnswers = Object.entries(answers)
+        .map(([key, val]) => `${key}=${val}`)
+        .join(' ');
+    } else if (['8', '9', '10'].includes(qestrnSeq)) {
+      // 🔸 진로개발준비도/이공계전공적합도/주요능력효능감
+      if (Array.isArray(answers)) {
+        serializedAnswers = answers.join(',');
+      } else {
+        serializedAnswers = Object.values(answers).join(',');
+      }
+    } else {
+      setError("지원되지 않는 검사 유형입니다.");
+      return;
+    }
+
+    // 🔍 디버깅 로그
     console.log("=== CareerNet 제출 데이터 확인 ===");
-    console.log("원본 user:", user);
+    console.log("user:", user);
     console.log("studentNo:", studentNo);
     console.log("qestrnSeq:", qestrnSeq);
     console.log("trgetSe:", trgetSe);
-    console.log("gender(raw):", user?.gender);
     console.log("gender(mapped):", mappedGender);
-    console.log("grade(raw):", user?.grade);
     console.log("grade(mapped):", mappedGrade);
-    console.log("answers(raw):", answers);
-
-    const serializedAnswers = Object.entries(answers)
-      .map(([qNum, value]) => `${qNum}=${value}`)
-      .join(' ');
-
     console.log("answers(serialized):", serializedAnswers);
+    console.log("startDtm:", startDtm);
 
-    // 유효성 체크
-    if (!studentNo) {
-      setError("학생 번호가 비어있습니다.");
-      return;
-    }
-    if (!qestrnSeq) {
-      setError("문항 시퀀스가 비어있습니다.");
-      return;
-    }
-    if (!trgetSe) {
-      setError("대상 구분 코드가 비어있습니다.");
-      return;
-    }
-    if (!mappedGender) {
-      setError("성별 코드가 없습니다.");
-      return;
-    }
-    if (!mappedGrade) {
-      setError("학년 코드가 없습니다.");
-      return;
-    }
-    if (!serializedAnswers.trim()) {
-      setError("응답 데이터가 비어있습니다.");
-      return;
-    }
+    // 🔸 유효성 검사
+    if (!studentNo) return setError("학생 번호가 비어있습니다.");
+    if (!qestrnSeq) return setError("문항 시퀀스가 비어있습니다.");
+    if (!trgetSe) return setError("대상 구분 코드가 비어있습니다.");
+    if (!mappedGender) return setError("성별 코드가 없습니다.");
+    if (!mappedGrade) return setError("학년 코드가 없습니다.");
+    if (!serializedAnswers.trim()) return setError("응답 데이터가 비어있습니다.");
 
-    // CareerNet API 요청
+    // 🔸 CareerNet API 요청
     submitExternalDiagnosis({
       studentNo,
       qestrnSeq,
       trgetSe,
       answers: serializedAnswers,
-      gender: mappedGender, // CareerNet 코드 적용
+      gender: mappedGender,
       school: user?.school || "학교 정보 없음",
-      grade: mappedGrade
+      grade: mappedGrade,
+      startDtm
     })
       .then((res) => {
         console.log("✅ CareerNet 제출 성공:", res);

@@ -11,6 +11,7 @@ const InternalResultsFeature = ({ studentNo }) => {
       .then((data) => setInternalResults(data))
       .catch(console.error)
       .finally(() => setLoading(false));
+      console.log("📦 호출한 studentNo:", studentNo);
   }, [studentNo]);
 
   const handleDownloadPdf = (resultId) => {
@@ -49,7 +50,7 @@ const InternalResultsFeature = ({ studentNo }) => {
             >
               <div className="text-gray-700">
                 <Link
-                  to={`/diagnosis/result/${result.resultId}`}
+                  to={`/diagnosis/internal/result/${result.resultId}`}
                   className="font-medium text-[#28B8B2] hover:underline"
                 >
                   {result.testName}
