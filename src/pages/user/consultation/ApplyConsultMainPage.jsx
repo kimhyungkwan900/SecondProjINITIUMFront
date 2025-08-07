@@ -1,4 +1,3 @@
-// import ApplyConsultList from "../../../component/user/consultation/ApplyConsultList";
 import ApplyConsultBox from "../../../component/user/consultation/ApplyConsultBox"
 import CoreCompetencySideBar from "../../../features/user/coreCompetency/CoreCompetencySideBar";
 import UserTopBar from "../../../component/user/mainpage/UserTopBar";
@@ -9,6 +8,37 @@ const ApplyConsultMainPage = ()=>{
         "상담종합",
         {link: "/consult", name: "상담신청"},
         {link: "/consult/list", name: "상담내역"}
+    ]
+
+    const applyItems = [
+        {
+            imgSrc: "",
+            name: "지도교수 상담",
+            description: "교수님과 상담을 원하는 학생은 상담을 신청해주세요.",
+            type: "상담신청",
+            link: "/consult/apply/professor"
+        },
+        {
+            imgSrc: "",
+            name: "진로취업 상담",
+            description: "진로에 고민이 있거나 취업정보가 부족해 피드백이 필요한 학생은 상담을 신청해주세요.",
+            type: "상담신청",
+            link: "/consult/"
+        },
+        {
+            imgSrc: "",
+            name: "심리상담",
+            description: "심리적 어려움이나 고민이 있는 학생은 상담을 신청해주세요.",
+            type: "상담신청",
+            link: "/consult/"
+        },
+        {
+            imgSrc: "",
+            name: "학습상담",
+            description: "학습 방법이나 성적 향상에 대해 상담이 필요한 학생은 신청해주세요.",
+            type: "상담신청",
+            link: "/consult/"
+        },
     ]
 
     return(
@@ -29,10 +59,12 @@ const ApplyConsultMainPage = ()=>{
 
                 {/* 우측 본문 콘텐츠 */}
                 <div className="flex-1 flex-col ml-10">
-                    <ApplyConsultBox imgSrc={''} name={'지도교수 상담'} description={'교수님과 상담을 원하는 학생은 상담을 신청해주세요.'} type={'상담신청'}/>
-                    <ApplyConsultBox name={'진로취업 상담'} description={'진로에 고민이 있거나 취업정보가 부족해 피드백이 필요한 학생은 상담을 신청해주세요.'} type={'상담신청'}/>
-                    <ApplyConsultBox name={'심리상담'} description={'심리적 어려움이나 고민이 있는 학생은 상담을 신청해주세요.'} type={'상담신청'}/>
-                    <ApplyConsultBox name={'학습상담'} description={'학습 방법이나 성적 향상에 대해 상담이 필요한 학생은 신청해주세요.'} type={'상담신청'}/>
+                    {applyItems.map((item, idx)=>(
+                        <ApplyConsultBox key={idx} info={item}/>
+                    ))}
+                    {/* <ApplyConsultBox name={''} description={''} type={'상담신청'}/>
+                    <ApplyConsultBox name={''} description={''} type={'상담신청'}/>
+                    <ApplyConsultBox name={''} description={''} type={'상담신청'}/> */}
                 </div>
             </div>
         </div>
