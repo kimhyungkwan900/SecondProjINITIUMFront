@@ -1,5 +1,5 @@
 import RequireAdmin from "../../component/admin/RequireAdmin";
-import AdminLayout from "../../features/admin/AdminLayout";
+import AdminLayout from "../../layouts/admin/AdminLayout";
 import AdminMainPage from "../../pages/admin/adminMainPage";
 import StudentListPage from "../../pages/admin/students/StudentListPage";
 

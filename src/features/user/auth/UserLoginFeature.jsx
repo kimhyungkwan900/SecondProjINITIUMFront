@@ -1,31 +1,29 @@
 import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { login } from '../../../api/user/auth/loginApi';
 import { UserContext } from '../../../App';
 import TextInput from '../../../component/common/TextInput';
 import LoginButton from '../../../component/common/auth/LoginButton';
 import FindAccountLink from '../../../component/common/auth/FindAccountLink';
 import LogoHeader from '../../../component/common/auth/logoHeader';
+import { login } from '../../../api/user/auth/loginApi';
 
 const UserLoginFeature = () => {
   const [loginId, setLoginId] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const { setUser } = useContext(UserContext);
-  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const userData = await login({ loginId, password });
       setUser(userData);
-      navigate('/');
+      window.location.replace('/');
     } catch (err) {
       setError('아이디 또는 비밀번호가 일치하지 않습니다.' + err);
     }
   };
 
-return (
+  return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-[#f6f9fc]">
       <LogoHeader logoSrc="/Logo/Logo.png" schoolName='TeamINITIUM' englishName='University' subtitle='학생역량관리 시스템 로그인' />
       <form

@@ -1,5 +1,5 @@
 import AdminSidebar from "../../component/admin/adminSideBar/AdminSideBar";
-import AdminLayout from "../../features/admin/AdminLayout";
+import AdminLayout from "../../layouts/admin/AdminLayout";
 
 export default function AdminMainPage() {
 

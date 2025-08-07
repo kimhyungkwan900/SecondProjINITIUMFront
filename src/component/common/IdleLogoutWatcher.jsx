@@ -1,7 +1,7 @@
 import { useEffect, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { logout } from "../../api/user/auth/logoutApi";
 import { UserContext } from "../../App";
+import { logout } from "../../api/user/auth/loginApi";
 
 const AUTO_LOGOUT_TIME = 60 * 60 * 1000; // 1시간(ms)
 
