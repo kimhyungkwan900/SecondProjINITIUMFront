@@ -3,7 +3,7 @@ import MainHeader from "../../../features/user/mainpage/MainHeader";
 import { getAllAssessments } from "../../../api/user/coreCompetency/AdminAssessmentApi";
 import { useEffect, useState } from "react";
 import DiagnosisTabButtons from "../../../component/user/coreCompetency/DiagnosisTabButtons";
-import CoreCompetencyAssessmentListTable from "../../../features/user/coreCompetency/CoreCompetencyAssessmentListTable";
+import CoreCompetencyAssessmentListTable from "../../../component/user/coreCompetency/CoreCompetencyAssessmentListTable";
 
 
 

@@ -46,6 +46,13 @@ const CoreCompetencyTest = () => {
 
   // 제출 버튼 클릭 시 실행
   const handleSubmit = () => {
+
+    //모든 문항에 응답했는지 확인
+    if(Object.keys(responses).length != questions.length){
+      alert("모든 문항에 응답해주세요");
+      return;
+    }
+
     const formatted = {
       assessmentId: assessmentId,
       responses: Object.entries(responses).map(([questionId, { label, score }]) => ({
@@ -60,7 +67,7 @@ const CoreCompetencyTest = () => {
 
     console.log("제출 데이터:", formatted);
 
-    // 서버 전송용 API (주석 처리됨)
+    // 서버 전송용 API
     // axios.post("/api/user/coreCompetency/submit", formatted)
     //   .then(() => alert("제출 완료"))
     //   .catch((err) => console.error("제출 실패", err));
@@ -99,15 +106,15 @@ const CoreCompetencyTest = () => {
                   {/* 선택지 렌더링 */}
                   {q.responseChoiceOptions.map((opt) => (
                     <td
-                      key={`opt-${q.questionId}-${opt.optionId}`}
+                      key={`${opt.optionId}`}
                       className="border px-2 py-2 min-w-[120px]"
                     >
                       <label className="inline-flex items-center space-x-1 cursor-pointer">
                         <input
                           type="radio"
-                          name={`question_${q.questionId}`} // 동일 문항 그룹화
+                          name={`question_${q.questionId}`} // 동일 문항 그룹화 -> 한 가지만 선택 가능
                           value={opt.score}
-                          checked={responses[q.questionId]?.label === opt.label}
+                          checked={responses[q.questionId]?.label === opt.label}  //선택 상태를 동기화
                           onChange={() => handleChange(q.questionId, opt)}
                           className="accent-blue-600"
                         />
