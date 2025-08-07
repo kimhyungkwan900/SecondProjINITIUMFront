@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchQuestions, submitDiagnosis } from '../../../api/user/diagnostic/diagnosisApi.jsx';
 
-const DiagnosisQuestions = ({ testId, studentNo, onResult }) => {
+const DiagnosisQuestions = ({ testId, studentNo, onSubmit }) => {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({});
 
@@ -16,20 +16,33 @@ const DiagnosisQuestions = ({ testId, studentNo, onResult }) => {
   };
 
   const handleSubmit = () => {
+    console.log("=== 진단검사 제출 데이터 확인 ===");
+    console.log("testId:", testId);
+    console.log("studentNo:", studentNo);
+    console.log("answers(raw):", answers);
+
     const formattedAnswers = Object.entries(answers).map(
       ([questionId, selectedValue]) => ({
         questionId: Number(questionId),
         selectedValue: Number(selectedValue),
       })
     );
+    console.log("answers(formatted):", formattedAnswers);
 
     submitDiagnosis({
       studentNo,
       testId,
       answers: formattedAnswers,
     })
-      .then((res) => onResult(res.resultId))
-      .catch(console.error);
+      .then((res) => {
+        console.log("제출 성공:", res);
+        if (onSubmit) {
+          onSubmit(res.resultId); // ✅ 부모로 resultId 전달
+        }
+      })
+      .catch((err) => {
+        console.error("제출 실패:", err);
+      });
   };
 
   return (
