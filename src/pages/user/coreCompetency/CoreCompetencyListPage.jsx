@@ -1,6 +1,6 @@
 import CoreCompetencySideBar from "../../../features/user/coreCompetency/CoreCompetencySideBar";
 import MainHeader from "../../../features/user/mainpage/MainHeader";
-import { getAllAssessments } from "../../../api/user/coreCompetency/AdminAssessmentApi";
+import { getAllAssessments } from "../../../api/admin/coreCompetency/AdminAssessmentApi";
 import { useEffect, useState } from "react";
 import DiagnosisTabButtons from "../../../component/user/coreCompetency/DiagnosisTabButtons";
 import CoreCompetencyAssessmentListTable from "../../../component/user/coreCompetency/CoreCompetencyAssessmentListTable";
