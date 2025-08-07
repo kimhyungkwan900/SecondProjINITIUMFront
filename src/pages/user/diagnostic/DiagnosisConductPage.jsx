@@ -27,7 +27,7 @@ const DiagnosisConductPage = () => {
     submitDiagnosis(requestData)
       .then((res) => {
         setResultId(res.resultId);
-        navigate(`/diagnosis/result/${res.resultId}`);
+        navigate(`/diagnosis/internal/result/${res.resultId}`);
       })
       .catch(console.error);
   };
