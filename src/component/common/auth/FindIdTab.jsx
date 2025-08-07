@@ -13,7 +13,7 @@ export default function FindIdTab() {
     const handleSendCode = async () => {
         setLoading(true);
         try {
-            await axios.post("/api/v1/auth/send-email-code", { email });
+            await axios.post("http://localhost:8080/api/auth/send-email-code", { email });
             setSent(true);
             alert("인증코드가 전송되었습니다.");
         } catch {
@@ -26,7 +26,7 @@ export default function FindIdTab() {
     const handleVerify = async () => {
         setLoading(true);
         try {
-            const res = await axios.post("/api/v1/auth/verify-email-code", { email, authCode: code });
+            const res = await axios.post("http://localhost:8080/api/auth/verify-email-code", { email, authCode: code });
             if (res.data) {
                 setVerified(true);
             } else {
@@ -42,7 +42,7 @@ export default function FindIdTab() {
     const handleFindId = async () => {
         setLoading(true);
         try {
-            const res = await axios.post("/api/v1/auth/find-id", { email });
+            const res = await axios.post("http://localhost:8080/api/auth/find-id", { email });
             setResult(`회원님의 아이디는 [${res.data.loginId}] 입니다.`);
         } catch {
             alert("아이디 조회에 실패했습니다.");

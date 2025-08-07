@@ -35,12 +35,14 @@ return (
         <TextInput
           type="text"
           placeholder="아이디"
+          className="w-full rounded-md border border-blue-200 px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
           value={loginId}
           onChange={(e) => setLoginId(e.target.value)}
         />
         <TextInput
           type="password"
           placeholder="비밀번호"
+          className="w-full rounded-md border border-blue-200 px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />

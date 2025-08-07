@@ -1,26 +1,15 @@
 
-export default function LogoHeader({
-  logoSrc = "/logo.png",
-  schoolName = "TeamINITIUM",
-  englishName = "University",
-  subtitle = "학생역량통합관리 시스템 로그인"
-}) {
+import { Link } from 'react-router-dom';
+
+export default function LogoHeader({ logoSrc, schoolName, englishName, subtitle, logoLink = '/' }) {
   return (
-    <div className="mb-10 flex flex-col items-center">
-      <img
-        src={logoSrc}
-        alt={schoolName + " 로고"}
-        className="w-28 mb-4"
-      />
-      <h2 className="text-2xl md:text-3xl font-bold text-[#222E8D] mb-2">
-        {schoolName}
-      </h2>
-      <span className="text-[#222E8D] text-lg font-bold mb-2">
-        {englishName}
-      </span>
-      <div className="text-[#222E8D] text-xl font-bold mt-2 mb-6">
-        {subtitle}
-      </div>
+    <div className="text-center mb-8">
+      <Link to={logoLink} className="inline-block">
+        <img src={logoSrc} alt="로고" className="h-16 mx-auto" />
+      </Link>
+      <h1 className="text-3xl font-bold text-[#222E8D] mt-4">{schoolName}</h1>
+      <p className="text-sm text-gray-500">{englishName}</p>
+      {subtitle && <h2 className="text-xl text-gray-700 mt-6">{subtitle}</h2>}
     </div>
   );
 }
