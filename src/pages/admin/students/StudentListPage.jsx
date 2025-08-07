@@ -28,7 +28,7 @@ export default function StudentListPage() {
     const fetchStudents = async (newPage = 0, newSize = size) => {
         setLoading(true);
         try {
-            const response = await axios.get("/api/students", {
+            const response = await axios.get("http://localhost:8080/api/students", {
                 params: {
                     studentNo: filters.studentNo,
                     name: filters.name,
@@ -50,7 +50,7 @@ export default function StudentListPage() {
         }
     };
 
-    // size(페이지 단위) 바뀔 때도 바로 조회
+    // 페이지단위 바뀔 때도 바로 조회
     const handleSizeChange = e => {
         const newSize = parseInt(e.target.value, 10);
         setSize(newSize);
