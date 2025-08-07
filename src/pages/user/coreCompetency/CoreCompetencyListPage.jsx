@@ -3,7 +3,7 @@ import MainHeader from "../../../features/user/mainpage/MainHeader";
 import { getAllAssessments } from "../../../api/user/coreCompetency/AdminAssessmentApi";
 import { useEffect, useState } from "react";
 import DiagnosisTabButtons from "../../../component/user/coreCompetency/DiagnosisTabButtons";
-import CoreCompetencyAssessmentListTable from "../../../features/user/coreCompetency/CoreCompetencyAssessmentListTable";
+import CoreCompetencyAssessmentListTable from "../../../component/user/coreCompetency/CoreCompetencyAssessmentListTable";
 
 
 
@@ -33,7 +33,7 @@ const CoreCompetencyListPage = () =>{
             <div className="bg-gray-100 border-b border-gray-300">
                 <div className="max-w-[1200px] mx-auto px-6 py-10 flex justify-between items-center">
                     <h1 className="text-4xl font-semibold text-center">핵심역량진단</h1>
-                    <div className="text-2xl text-gray-600 whitespace-nowrap ml-auto">HOME &gt; 핵심역량진단 &gt; 진단목록</div>
+                    <div className="text-1xl text-gray-600 whitespace-nowrap ml-auto">HOME &gt; 핵심역량진단 &gt; 진단목록</div>
                 </div>
             </div>
 
