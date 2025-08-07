@@ -8,7 +8,7 @@ import ConsultComplete from "../../../features/user/consultation/ConsultComplete
 
 const ApplyProfessorConsultPage = ()=>{
 
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(0);
     const [selectedSlot, setSelectedSlot] = useState(null);
 
     const handleSlotSelect = (slot) => {
