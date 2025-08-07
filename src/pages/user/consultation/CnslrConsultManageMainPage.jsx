@@ -7,18 +7,11 @@ import MainHeader from "../../../features/user/mainpage/MainHeader";
 const CnslrConsultManageMainPage = ()=>{
     const navItems = [
         "상담종합",
-        {link: "/consult", name: "상담신청"},
-        {link: "/consult/list", name: "상담내역"}
+        {link: "/cnslr/consult", name: "상담관리"},
+        {link: "/cnslr/consult/list", name: "상담내역"}
     ]
 
     const applyItems = [
-        {
-            imgSrc: "",
-            name: "지도교수 상담",
-            description: "교수님과 상담을 원하는 학생은 상담을 신청해주세요.",
-            type: "상담관리",
-            link: ""
-        },
         {
             imgSrc: "",
             name: "진로취업 상담",
