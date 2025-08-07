@@ -6,9 +6,12 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-// 핵심역량진단목록 전체 불러오기
+// 핵심역량진단목록 등록
 export const getAllAssessmentList = () => {
   return axiosInstance.get(`/api/assessments/list`);
 };
 
+// 핵심역량진단목록 수정
 
+
+// 핵심역량진단목록 삭제
