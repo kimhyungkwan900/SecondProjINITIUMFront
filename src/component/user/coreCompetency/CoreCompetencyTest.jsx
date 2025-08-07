@@ -66,11 +66,12 @@ const CoreCompetencyTest = () => {
     navigate("/competency/coreCompetency/result");
 
     console.log("제출 데이터:", formatted);
+    const studentNo = localStorage.getItem("studentNo"); 
 
     // 서버 전송용 API
-    // axios.post("/api/user/coreCompetency/submit", formatted)
-    //   .then(() => alert("제출 완료"))
-    //   .catch((err) => console.error("제출 실패", err));
+    axios.post(`/api/user/coreCompetency/submit?studentNo=${studentNo}`, formatted)
+      .then(() => alert("제출 완료"))
+      .catch((err) => console.error("제출 실패", err));
   };
 
   return (

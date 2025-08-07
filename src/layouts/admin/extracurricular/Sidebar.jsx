@@ -73,7 +73,7 @@ const Sidebar = () => {
           </AnimatePresence>
         </div>
 
-{/* 진단검사 관리 */}
+        {/* 진단검사 관리 */}
         <div>
           <button
             onClick={() => toggleMenu('diagnosis')}
@@ -99,6 +99,35 @@ const Sidebar = () => {
                 </Link>
                 <Link to="/admin/diagnosis/list" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline font-bold">
                   검사 조회 및 삭제
+                </Link>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* 핵심역량 관리 */}
+        <div>
+          <button
+            onClick={() => toggleMenu('coreCompetency')}
+            className="w-full text-left px-4 py-2 rounded hover:bg-gray-100 transition font-bold"
+          >
+            핵심역량
+          </button>
+          <AnimatePresence>
+            {openMenu === 'coreCompetency' && (
+              <motion.div
+                className="pl-6 space-y-1 text-sm overflow-hidden"
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                variants={menuVariants}
+                transition={{ duration: 0.2 }}
+              >
+                <Link to="/admin/coreCompetency/assessment" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline font-bold">
+                  핵심역량진단
+                </Link>
+                <Link to="/admin/coreCompetency/assessment/result" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline font-bold">
+                  핵심역량결과분석
                 </Link>
               </motion.div>
             )}
