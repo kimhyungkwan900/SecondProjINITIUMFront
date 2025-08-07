@@ -9,7 +9,7 @@ const CoreCompetencyImage = () => {
       <img
         src={coreCompetencyImage} // 이미지 경로
         alt="핵심역량"            // 접근성 및 SEO를 위한 대체 텍스트
-        className="max-w-[650px] w-full h-auto bg-orange-100" // 스타일 지정
+        className="max-w-[700px] w-full h-auto bg-orange-100" // 스타일 지정
         // max-w: 이미지 최대 너비 제한
         // w-full: 부모 기준 너비 100%
         // h-auto: 비율 유지

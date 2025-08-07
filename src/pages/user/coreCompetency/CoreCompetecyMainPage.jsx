@@ -2,6 +2,7 @@ import MainHeader from "../../../features/user/mainpage/MainHeader";
 import CoreCompetencyImage from "../../../features/user/coreCompetency/CoreCompetencyImage";
 import CoreCompetencyTable from "../../../features/user/coreCompetency/CoreCompetencyTable";
 import CoreCompetencySideBar from "../../../features/user/coreCompetency/CoreCompetencySideBar";
+import CoreCompetencyNoticeComment from "../../../component/user/coreCompetency/CoreCompetencyNoticeComment";
 
 export default function CoreCompetencyMainPage() {
     const navItems = [
@@ -18,7 +19,7 @@ export default function CoreCompetencyMainPage() {
 <div className="bg-gray-100 border-b border-gray-300">
   <div className="max-w-[1200px] mx-auto px-6 py-10 flex justify-between items-center">
     <h1 className="text-4xl font-semibold text-center">핵심역량안내</h1>
-    <div className="text-2xl text-gray-600 whitespace-nowrap ml-auto">HOME &gt; 핵심역량안내</div>
+    <div className="text-1xl text-gray-600 whitespace-nowrap ml-auto">HOME &gt; 핵심역량안내</div>
   </div>
 </div>
 
@@ -33,7 +34,7 @@ export default function CoreCompetencyMainPage() {
       {/* 우측 본문 콘텐츠 */}
       <div className="flex-1 ml-10">
         {/* 상단 블루탭 */}
-        <div className="text-4xl text-black inline-block px-4 rounded mt-5 font-bold">
+        <div className="text-4xl text-black inline-block px-2 rounded mt-5 font-bold">
           ▣ EARTH 핵심역량 정의
         </div>
 
@@ -42,8 +43,14 @@ export default function CoreCompetencyMainPage() {
           <CoreCompetencyImage />
         </div>
 
+        {/* 핵심 역량 안내 멘트 */}
+        <div className="mt-20">
+          <CoreCompetencyNoticeComment />
+        </div>
+        
+
         {/* 표 설명 영역 */}
-        <div className="mt-10">
+        <div className="mt-20">
           <CoreCompetencyTable />
         </div>
       </div>
