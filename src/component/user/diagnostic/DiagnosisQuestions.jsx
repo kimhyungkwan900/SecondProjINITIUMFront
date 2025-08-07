@@ -1,3 +1,4 @@
+// DiagnosisQuestions.jsx
 import React, { useEffect, useState } from 'react';
 import { fetchQuestions, submitDiagnosis } from '../../../api/user/diagnostic/diagnosisApi.jsx';
 
@@ -16,32 +17,27 @@ const DiagnosisQuestions = ({ testId, studentNo, onSubmit }) => {
   };
 
   const handleSubmit = () => {
-    console.log("=== 진단검사 제출 데이터 확인 ===");
-    console.log("testId:", testId);
-    console.log("studentNo:", studentNo);
-    console.log("answers(raw):", answers);
-
     const formattedAnswers = Object.entries(answers).map(
       ([questionId, selectedValue]) => ({
         questionId: Number(questionId),
         selectedValue: Number(selectedValue),
       })
     );
-    console.log("answers(formatted):", formattedAnswers);
 
+    // 🔹 진단검사 직접 제출
     submitDiagnosis({
       studentNo,
       testId,
       answers: formattedAnswers,
     })
       .then((res) => {
-        console.log("제출 성공:", res);
+        console.log("✅ 진단검사 제출 완료:", res);
         if (onSubmit) {
-          onSubmit(res.resultId); // ✅ 부모로 resultId 전달
+          onSubmit(res.resultId); // ✅ 부모로 전달
         }
       })
       .catch((err) => {
-        console.error("제출 실패:", err);
+        console.error("❌ 제출 실패:", err);
       });
   };
 
@@ -56,12 +52,10 @@ const DiagnosisQuestions = ({ testId, studentNo, onSubmit }) => {
           key={q.id}
           className="bg-gray-50 border border-gray-200 rounded-xl p-5 shadow-sm"
         >
-          {/* 질문 */}
           <p className="font-medium text-gray-800 mb-3">
             {idx + 1}. {q.content}
           </p>
 
-          {/* 선택지 */}
           <div className="space-y-2">
             {q.answers.map((opt) => (
               <label
@@ -82,7 +76,6 @@ const DiagnosisQuestions = ({ testId, studentNo, onSubmit }) => {
         </div>
       ))}
 
-      {/* 제출 버튼 */}
       <div className="text-center">
         <button
           onClick={handleSubmit}
