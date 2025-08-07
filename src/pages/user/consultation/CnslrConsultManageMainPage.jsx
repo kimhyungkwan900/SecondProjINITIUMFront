@@ -1,9 +1,10 @@
+// import ApplyConsultList from "../../../component/user/consultation/ApplyConsultList";
 import ApplyConsultBox from "../../../component/user/consultation/ApplyConsultBox"
 import CoreCompetencySideBar from "../../../features/user/coreCompetency/CoreCompetencySideBar";
 import UserTopBar from "../../../component/user/mainpage/UserTopBar";
 import MainHeader from "../../../features/user/mainpage/MainHeader";
 
-const ApplyConsultMainPage = ()=>{
+const CnslrConsultManageMainPage = ()=>{
     const navItems = [
         "상담종합",
         {link: "/consult", name: "상담신청"},
@@ -15,29 +16,29 @@ const ApplyConsultMainPage = ()=>{
             imgSrc: "",
             name: "지도교수 상담",
             description: "교수님과 상담을 원하는 학생은 상담을 신청해주세요.",
-            type: "상담신청",
-            link: "/consult/apply/professor"
+            type: "상담관리",
+            link: ""
         },
         {
             imgSrc: "",
             name: "진로취업 상담",
             description: "진로에 고민이 있거나 취업정보가 부족해 피드백이 필요한 학생은 상담을 신청해주세요.",
-            type: "상담신청",
-            link: "/consult/"
+            type: "상담관리",
+            link: "/"
         },
         {
             imgSrc: "",
             name: "심리상담",
             description: "심리적 어려움이나 고민이 있는 학생은 상담을 신청해주세요.",
-            type: "상담신청",
-            link: "/consult/"
+            type: "상담관리",
+            link: "/"
         },
         {
             imgSrc: "",
             name: "학습상담",
             description: "학습 방법이나 성적 향상에 대해 상담이 필요한 학생은 신청해주세요.",
-            type: "상담신청",
-            link: "/consult/"
+            type: "상담관리",
+            link: "/"
         },
     ]
 
@@ -67,4 +68,4 @@ const ApplyConsultMainPage = ()=>{
         </div>
     );
 }
-export default ApplyConsultMainPage;
+export default CnslrConsultManageMainPage;
