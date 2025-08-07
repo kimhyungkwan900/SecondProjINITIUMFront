@@ -7,8 +7,8 @@ import MainHeader from "../../../features/user/mainpage/MainHeader";
 const CnslrConsultManageMainPage = ()=>{
     const navItems = [
         "상담종합",
-        {link: "/consult", name: "상담신청"},
-        {link: "/consult/list", name: "상담내역"}
+        {link: "/cnslr/consult", name: "상담관리"},
+        {link: "/cnslr/consult/list", name: "상담내역"}
     ]
 
     const applyItems = [

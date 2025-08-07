@@ -1,74 +1,52 @@
 const SearchEmployee = ()=>{
     return(
-        <div className="w-full max-w-lg bg-white rounded-lg shadow-lg p-6">
-      {/* 제목 */}
-      <h2 className="text-2xl font-semibold mb-6 text-center">교원 정보 조회</h2>
+        <div class="w-full max-w-3xl mx-auto p-6 flex flex-col space-y-4">
+            {/* <!-- 상단 검색 바 --> */}
+            <div class="flex items-center space-x-4">
+                {/* <!-- 학부 선택 --> */}
+                <select class="border border-gray-300 rounded px-3 py-2">
+                    <option value="">학부 선택</option>
+                    <option value="">컴퓨터공학부</option>
+                    <option value="">소프트웨어학부</option>
+                </select>
 
-      {/* 검색 폼 */}
-      <div className="grid grid-cols-1 gap-4 mb-6">
-        {/* 학부 */}
-        <div className="flex flex-col">
-          <label htmlFor="department" className="font-medium text-gray-700 mb-1">
-            학부
-          </label>
-          <select
-            id="department"
-            className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-700"
-            defaultValue=""
-          >
-            <option value="" disabled>
-              학부를 선택하세요
-            </option>
-            <option value="cs">컴퓨터공학부</option>
-            <option value="sw">소프트웨어학부</option>
-            <option value="ee">전기전자공학부</option>
-            {/* ... */}
-          </select>
+                {/* <!-- 교원번호 입력 --> */}
+                <input
+                type="text"
+                class="border border-gray-300 rounded px-3 py-2 flex-1"
+                placeholder="교원번호 입력"
+                />
+
+                {/* <!-- 이름 입력 --> */}
+                <input
+                type="text"
+                class="border border-gray-300 rounded px-3 py-2 flex-1"
+                placeholder="이름 입력"
+                />
+
+                {/* <!-- 조회 버튼 --> */}
+                <button class="h-10 bg-[#222E8D] text-white hover:bg-[#28B8B2] transition font-medium px-4 py-2 rounded">
+                    조회
+                </button>
+            </div>
+
+            {/* <!-- 출력창 --> */}
+            <div class="border border-gray-300 rounded p-4 h-64 overflow-auto">
+                {/* <!-- 조회된 교원 정보 목록이 여기 출력됩니다 --> */}
+                <ul class="divide-y divide-gray-200">
+                <li class="py-2">교원 A 정보</li>
+                <li class="py-2">교원 B 정보</li>
+                <li class="py-2">교원 C 정보</li>
+                </ul>
+            </div>
+
+            {/* <!-- 닫기 버튼 --> */}
+            <div class="flex justify-end">
+                <button class="bg-red-500 text-white hover:bg-red-700 transition font-medium px-4 py-2 rounded">
+                닫기
+                </button>
+            </div>
         </div>
-
-        {/* 교원번호 */}
-        <div className="flex flex-col">
-          <label htmlFor="facultyId" className="font-medium text-gray-700 mb-1">
-            교원번호
-          </label>
-          <input
-            id="facultyId"
-            type="text"
-            className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-700"
-            placeholder="교원번호 입력"
-          />
-        </div>
-
-        {/* 이름 */}
-        <div className="flex flex-col">
-          <label htmlFor="facultyName" className="font-medium text-gray-700 mb-1">
-            이름
-          </label>
-          <input
-            id="facultyName"
-            type="text"
-            className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-700"
-            placeholder="이름 입력"
-          />
-        </div>
-      </div>
-
-      {/* 버튼 그룹 */}
-      <div className="flex justify-end space-x-3">
-        <button
-        //   onClick={}
-          className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-4 py-2 rounded"
-        >
-          조회
-        </button>
-        <button
-        //   onClick={}
-          className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium px-4 py-2 rounded"
-        >
-          닫기
-        </button>
-      </div>
-    </div>
     );
 }
 export default SearchEmployee;

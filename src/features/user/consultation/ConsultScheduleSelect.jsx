@@ -1,7 +1,11 @@
+import { useState } from 'react'
 import { addDays, format, getDay } from 'date-fns'
 import { ko } from 'date-fns/locale'
+import ReactModal from "react-modal";
+import SearchEmployee from './SearchEmployee';
 
 const ConsultScheduleSelect = ()=>{
+    const [searchModalIsOpen, setSearchModalIsOpen] = useState(false);
     const today = new Date();
 
     const dates = Array.from(
@@ -21,9 +25,17 @@ const ConsultScheduleSelect = ()=>{
 
     // 테이블 폭 = (전체 컬럼 수 / 보이는 컬럼 수) * 100%
     const tableWidthPercent = (totalCols / visibleCols) * 100;
-
     // 각 컬럼 폭 = 100% / 보이는 컬럼 수
     const colWidthPercent = 100 / visibleCols;
+
+    const openSearchModal = () => {
+        // setSelectedProduct();
+        setSearchModalIsOpen(true);
+    };
+    const closeSearchModal = () => {
+        setSearchModalIsOpen(false);
+        // setSelectedProduct(null);
+    };
 
     return(
         <div className="w-4/5 px-20 py-6 mx-auto">
@@ -53,7 +65,7 @@ const ConsultScheduleSelect = ()=>{
             <div className="flex items-center gap-3 mt-4 mb-4">
                 <input type="text" readOnly className="w-40 border border-black rounded px-3 py-1 text-gray-400" value={"학부 선택"}/>
                 <input type="text" readOnly className="w-40 border border-black rounded px-3 py-1 text-gray-400" value={"교수 조회"}/>
-                <button className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-4 py-1 rounded">
+                <button onClick={() => openSearchModal()} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-4 py-1 rounded">
                     조회
                 </button>
             </div>
@@ -95,6 +107,17 @@ const ConsultScheduleSelect = ()=>{
                 </tbody>
                 </table>
             </div>
+            <ReactModal
+                isOpen={searchModalIsOpen}
+                onRequestClose={closeSearchModal}
+            >
+                {/* {selected && <ConsultInfoDetail/>} */}
+                <SearchEmployee/>
+                <button className=""
+                    onClick={closeSearchModal}>
+                    닫기
+                </button>   
+            </ReactModal>
         </div>
     );
 }
