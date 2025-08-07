@@ -14,13 +14,6 @@ const CnslrConsultManageMainPage = ()=>{
     const applyItems = [
         {
             imgSrc: "",
-            name: "지도교수 상담",
-            description: "교수님과 상담을 원하는 학생은 상담을 신청해주세요.",
-            type: "상담관리",
-            link: ""
-        },
-        {
-            imgSrc: "",
             name: "진로취업 상담",
             description: "진로에 고민이 있거나 취업정보가 부족해 피드백이 필요한 학생은 상담을 신청해주세요.",
             type: "상담관리",
