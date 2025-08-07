@@ -33,7 +33,6 @@ const ExtracurricularProgramListPage = () => {
       page: currentPage - 1,
       size: 12,
     });
-    console.log("백엔드 응답:", response);
     setPrograms(response.content);      
     setTotalPages(response.totalPages);
   } catch (error) {
@@ -68,7 +67,7 @@ const ExtracurricularProgramListPage = () => {
         <UserTopBar />
         <MainHeader />
      </div>
-    <div className="w-[56.5%] min-w-[56.5%] m-auto pt-[180px]">
+    <div className="w-[62.6%] min-w-[62.6%] m-auto pt-[180px]">
         <div className="bg-white pb-4 rounded mt-[10px] shadow">
       <FilterMenu onSelectIds={setCompetencyIds} />
       <SearchBar onSearch={setProgramName} />
@@ -89,7 +88,7 @@ const ExtracurricularProgramListPage = () => {
           <ProgramCard
             id={program.eduMngId}
             title={program.eduNm}
-            daysLeft={daysLeft > 0 ? daysLeft : "마감"}
+            daysLeft={daysLeft >= 0 ? daysLeft : "마감"}
             applicationPeriod={`${program.eduAplyBgngDt.substring(0,10)} ~ ${program.eduAplyEndDt.substring(0,10)}`}
             operatingPeriod={`${program.eduBgngYmd.substring(0,10)} ~ ${program.eduEndYmd.substring(0,10)}`}
             capacity={program.eduPtcpNope}
@@ -102,6 +101,8 @@ const ExtracurricularProgramListPage = () => {
             category={program.ctgryNm}
             tag={program.eduType === "TEAM" ? "팀 프로그램" : "개인 프로그램"}
             mileage={program.eduMlg}
+
+            pick={program.eduSlctnType === "FIRSTCOME" ? "선착순" : "선발식"}
           />
         </div>
       );
