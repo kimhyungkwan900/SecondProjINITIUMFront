@@ -4,7 +4,7 @@ const DiagnosisAdminDashboardPage = () => {
   return (
     <div className="min-h-screen bg-white flex">
       {/* 관리자 사이드바 */}
-      <Sidebar />
+      {/* <Sidebar /> */}
 
       {/* 콘텐츠 영역 */}
       <main className="flex-1 ml-64 flex items-center justify-center">

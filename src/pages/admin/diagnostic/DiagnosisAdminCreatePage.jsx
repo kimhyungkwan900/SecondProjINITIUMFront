@@ -21,7 +21,7 @@ const DiagnosisAdminCreatePage = () => {
   return (
     <div className="min-h-screen flex bg-white">
       {/* Sidebar */}
-      <Sidebar />
+      {/* <Sidebar /> */}
 
       {/* 메인 콘텐츠 */}
       <main className="flex-1 ml-64 p-8">

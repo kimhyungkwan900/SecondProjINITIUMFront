@@ -16,7 +16,7 @@ const AdminCoreCompetencyAssessment = () => {
   return (
     <div>
       {/*  관리자 사이드바 */}
-      <Sidebar />
+      {/* <Sidebar /> */}
 
       {/*  상단 제목 영역 */}
       <div className="flex items-center ml-[265px] mt-16 gap-2">

@@ -17,7 +17,7 @@ const AdminCoreCompetencyResult = () => {
   return (
     <div>
       {/* 좌측 관리자 사이드바 */}
-      <Sidebar />
+      {/* <Sidebar /> */}
 
       {/* 페이지 제목 */}
       <div className="flex items-center ml-[265px] mt-16 gap-2">
