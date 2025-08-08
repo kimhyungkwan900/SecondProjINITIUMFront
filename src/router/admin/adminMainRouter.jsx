@@ -1,6 +1,11 @@
 import RequireAdmin from "../../component/admin/RequireAdmin";
 import AdminLayout from "../../layouts/admin/AdminLayout";
 import AdminMainPage from "../../pages/admin/adminMainPage";
+import AdminCoreCompetencyAssessment from "../../pages/admin/coreCompetency/assessment/AdminCoreCompetencyAssessment";
+import AdminCoreCompetencyResult from "../../pages/admin/coreCompetency/result/AdminCoreCompetencyResult";
+import DiagnosisAdminCreatePage from "../../pages/admin/diagnostic/DiagnosisAdminCreatePage";
+import DiagnosisAdminDashboardPage from "../../pages/admin/diagnostic/DiagnosisAdminDashboardPage";
+import DiagnosisAdminListPage from "../../pages/admin/diagnostic/DiagnosisAdminListPage";
 import StudentListPage from "../../pages/admin/students/StudentListPage";
 
 
