@@ -3,9 +3,6 @@ import CoreCompetencyResultPage from "../../../pages/user/coreCompetency/CoreCom
 import CoreCompetencyMainPage from "../../../pages/user/coreCompetency/CoreCompetecyMainPage";
 import CoreCompetencyAssessmentPage from "../../../pages/user/coreCompetency/CoreCompetencyAssessmentPage";
 import CoreCompetencyTestPage from "../../../pages/user/coreCompetency/CoreCompetencyTestPage";
-import AdminCoreCompetencyAssessment from "../../../pages/admin/coreCompetency/assessment/AdminCoreCompetencyAssessment";
-import AdminCoreCompetencyResult from "../../../pages/admin/coreCompetency/result/AdminCoreCompetencyResult";
-
 
 const coreCompetencyRouter = [
     {

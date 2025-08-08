@@ -9,10 +9,6 @@ import DiagnosisConductPage from '../../../pages/user/diagnostic/DiagnosisConduc
 import DiagnosisListPage from '../../../pages/user/diagnostic/DiagnosisListPage';
 import ExternalDiagnosisListPage from '../../../pages/user/diagnostic/ExternalDiagnosisListPage';
 import ExternalDiagnosisConductPage from '../../../pages/user/diagnostic/ExternalDiagnosisConductPage';
-import DiagnosisAdminCreatePage from '../../../pages/admin/diagnostic/DiagnosisAdminCreatePage';
-import DiagnosisAdminListPage from '../../../pages/admin/diagnostic/DiagnosisAdminListPage';
-import DiagnosisAdminDashboardPage from '../../../pages/admin/diagnostic/DiagnosisAdminDashboardPage';
-import RequireAdmin from '../../../component/admin/RequireAdmin';
 
 export const diagnosticRoutes = [
   // 홈
