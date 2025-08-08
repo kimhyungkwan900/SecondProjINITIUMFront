@@ -5,6 +5,7 @@ import PageHeader from "../../../component/common/PageHeader";
 import useStudentInfo from "../../../hooks/useStudentInfo";
 import StudentDiagnosticResultsContainer from "../../../features/user/students/StudentDIagnosticResultContainer";
 import StudentParticipatedProgramList from "../../../features/user/students/StudentParticipatedProgramList";
+import StudentConsultList from "../../../features/user/students/StudentConsultList";
 
 const MyPageHome = () => {
 
@@ -12,7 +13,7 @@ const MyPageHome = () => {
     const { student, loading, error } = useStudentInfo(user?.loginId);
 
     return (
-        <div>
+        <div className="space-y-10">
             <PageHeader
                 title="마이홈"
                 breadcrumb={[
@@ -23,6 +24,7 @@ const MyPageHome = () => {
             <div className="space-y-8">
                 {/* 학생 기본정보 */}
                 <section className="bg-white rounded-lg shadow p-6">
+                    <h3 className="font-semibold text-lg mb-4">학생 정보</h3>
                     <StudentBasicInfo student={student} />
                 </section>
 
@@ -34,12 +36,13 @@ const MyPageHome = () => {
 
                 {/* 상담이력 */}
                 <section className="bg-white rounded-lg shadow p-6">
-                    <h3 className="font-semibold text-lg mb-4">상담이력</h3>
-                    <div>상담 이력 테이블</div>
+                    <h3 className="font-semibold text-lg mb-4">상담 내역</h3>
+                    <StudentConsultList />
                 </section>
 
                 {/* 진단검사 결과 */}
                 <section className="bg-white rounded-lg shadow p-6">
+                    <h3 className="font-semibold text-lg mb-4">진단검사 결과</h3>
                     <StudentDiagnosticResultsContainer studentNo={user?.loginId} />
                 </section>
 
@@ -51,6 +54,7 @@ const MyPageHome = () => {
 
                 {/* 비교과 프로그램 참여 이력 */}
                 <section className="bg-white rounded-lg shadow p-6">
+                    <h3 className="font-semibold text-lg mb-4">참여중인 비교과 프로그램 리스트</h3>
                     <StudentParticipatedProgramList />
                 </section>
 

@@ -1,10 +1,9 @@
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 
+// 로그인
 export const login = async (credentials) => {
   try {
-    const response = await axios.post("http://localhost:8080/api/auth/login", credentials, {
-      withCredentials: true,
-    });
+    const response = await axiosInstance.post("/auth/login", credentials);
     return response.data;
   } catch (error) {
     console.error("Login failed:", error);
@@ -12,16 +11,13 @@ export const login = async (credentials) => {
   }
 };
 
+// 로그아웃
 export const logout = async () => {
   try {
-    const response = await axios.post(
-      "http://localhost:8080/api/auth/logout",
-      {},
-      { withCredentials: true }
-    );
+    const response = await axiosInstance.post("/auth/logout", {});
     return response.data;
   } catch (error) {
-    console.error("Logout failed", error);
+    console.error("Logout failed:", error);
     throw error;
   }
 };

@@ -1,15 +1,7 @@
-import axios from 'axios';
+import axiosInstance from '../../axiosInstance';
 
 // 기본 설정
-const BASE_URL = '/api/diagnosis';
-
-// Axios 인스턴스 (공통 설정)
-const axiosInstance = axios.create({
-  withCredentials: true, // 로그인 세션/쿠키 인증 유지
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+const BASE_URL = '/diagnosis';
 
 // 공통 에러 핸들러
 const handleError = (error) => {

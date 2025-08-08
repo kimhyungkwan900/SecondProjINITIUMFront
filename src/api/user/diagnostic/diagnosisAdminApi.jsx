@@ -1,15 +1,7 @@
-import axios from 'axios';
+import axiosInstance from '../../axiosInstance';
 
 // 관리자 API 기본 경로
-const ADMIN_BASE_URL = '/api/admin/diagnosis';
-
-// Axios 인스턴스 (공통 설정)
-const axiosInstance = axios.create({
-  withCredentials: true, // 관리자 인증 세션 유지
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+const ADMIN_BASE_URL = '/admin/diagnosis';
 
 // 공통 에러 핸들러
 const handleError = (error) => {
