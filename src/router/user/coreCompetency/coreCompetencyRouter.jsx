@@ -27,19 +27,7 @@ const coreCompetencyRouter = [
     {
         path : `/competency/coreCompetency/test/:assessmentId`,
         element : <CoreCompetencyTestPage/>
-    }
-    ,
-    {
-        path : "/admin/coreCompetency/assessment",
-        element : <AdminCoreCompetencyAssessment/>
     },
-    {
-        path : "/admin/coreCompetency/assessment/result",
-        element : <AdminCoreCompetencyResult/>
-    }
-
-
-    
 ];
 
 export default coreCompetencyRouter;

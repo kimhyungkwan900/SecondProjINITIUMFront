@@ -13,8 +13,18 @@ const adminMainRouter = [
         path: "",
         element: <AdminLayout />,
         children: [
+          // 학생
           { path: "", element: <AdminMainPage /> },
-          { path: "students/student-list", element: <StudentListPage /> }
+          { path: "students/student-list", element: <StudentListPage /> },
+
+          // 진단평가
+          { path: 'diagnosis/dashboard', element: <DiagnosisAdminDashboardPage /> },
+          { path: 'diagnosis/create', element: <DiagnosisAdminCreatePage /> },
+          { path: 'diagnosis/list', element: <DiagnosisAdminListPage /> },
+
+          // 핵심역량진단
+          { path: "coreCompetency/assessment", element: <AdminCoreCompetencyAssessment /> },
+          { path: "coreCompetency/assessment/result", element: <AdminCoreCompetencyResult /> }
         ]
       }
     ]
