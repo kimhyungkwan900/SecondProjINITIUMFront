@@ -1,4 +1,3 @@
-import Sidebar from "../../../../layouts/admin/extracurricular/Sidebar";
 import { useState } from "react";
 
 // 하단 3개는 핵심역량 진단결과 관련 컴포넌트들
@@ -16,9 +15,6 @@ const AdminCoreCompetencyResult = () => {
 
   return (
     <div>
-      {/* 좌측 관리자 사이드바 */}
-      <Sidebar />
-
       {/* 페이지 제목 */}
       <div className="flex items-center ml-[265px] mt-16 gap-2">
         <span className="text-[26px] text-blue-600">▐</span>

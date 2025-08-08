@@ -1,12 +1,6 @@
-import React from 'react';
-import Sidebar from '../../../layouts/admin/extracurricular/Sidebar';
-
 const DiagnosisAdminDashboardPage = () => {
   return (
     <div className="min-h-screen bg-white flex">
-      {/* 관리자 사이드바 */}
-      <Sidebar />
-
       {/* 콘텐츠 영역 */}
       <main className="flex-1 ml-64 flex items-center justify-center">
         {/* 🔹 중앙 정렬을 위해 flex + items-center + justify-center */}

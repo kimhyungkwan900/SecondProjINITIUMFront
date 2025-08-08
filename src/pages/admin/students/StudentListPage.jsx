@@ -1,60 +1,53 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect, useCallback } from "react";
 import TextInput from "../../../component/common/TextInput";
 import PageButton from "../../../component/admin/extracurricular/PagaButton";
-import GenderDisplay from "../../../component/common/GenderDisplay";
-import StudentStatusDisplay from "../../../component/common/StudentStatusDisplay";
+import { fetchStudents as fetchStudentsApi } from "../../../api/user/auth/studentsApi";
+import CodeDisplay from "../../../component/common/CodeDisplay";
 
 export default function StudentListPage() {
     const [filters, setFilters] = useState({
         studentNo: "",
         name: "",
-        status: "",
+        studentStatusCode: "",
         schoolSubjectCode: ""
     });
     const [page, setPage] = useState(0);
-    const [size, setSize] = useState(15); // 기본 페이지 사이즈
+    const [size, setSize] = useState(15);
     const [students, setStudents] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
     const [totalElements, setTotalElements] = useState(0);
     const [loading, setLoading] = useState(false);
 
-    // 최초 로딩 시 학생 목록 조회
-    useEffect(() => {
-        fetchStudents();
-    }, []);
-
-    // 조회
-    const fetchStudents = async (newPage = 0, newSize = size) => {
+    const fetchStudents = useCallback(async (newPage = page, newSize = size, f = filters) => {
         setLoading(true);
         try {
-            const response = await axios.get("/api/students", {
-                params: {
-                    studentNo: filters.studentNo,
-                    name: filters.name,
-                    status: filters.status,
-                    schoolSubjectCode: filters.schoolSubjectCode,
-                    page: newPage,
-                    size: newSize
-                }
+            const data = await fetchStudentsApi({
+                ...f,
+                page: newPage,
+                size: newSize
             });
-            console.log(response.data);
-            setStudents(response.data.content);
-            setTotalPages(response.data.totalPages);
-            setTotalElements(response.data.totalElements);
+            setStudents(data.content);
+            setTotalPages(data.totalPages);
+            setTotalElements(data.totalElements);
             setPage(newPage);
         } catch (e) {
-            alert("조회에 실패했습니다.",e);
+            alert("조회에 실패했습니다.", e);
         } finally {
             setLoading(false);
         }
-    };
+    }, [page, size, filters]);
 
-    // size(페이지 단위) 바뀔 때도 바로 조회
-    const handleSizeChange = e => {
+    useEffect(() => {
+        fetchStudents(page, size, filters);
+        // eslint-disable-next-line
+    }, [page, size, filters, fetchStudents]);
+
+    const handleSearch = () => setPage(0);
+
+    const handleSizeChange = (e) => {
         const newSize = parseInt(e.target.value, 10);
         setSize(newSize);
-        fetchStudents(0, newSize);
+        setPage(0);
     };
 
     return (
@@ -74,13 +67,14 @@ export default function StudentListPage() {
                     className="w-auto rounded border border-gray-300 px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
                 <select
-                    className="w-auto rounded border border-gray-300 px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    value={filters.status}
-                    onChange={e => setFilters(f => ({ ...f, status: e.target.value }))}
+                    value={filters.studentStatusCode}
+                    onChange={e => setFilters(f => ({ ...f, studentStatusCode: e.target.value }))}
                 >
-                    <option value="">(전체)</option>
-                    <option value="ENROLLED">재학</option>
-                    <option value="GRADUATED">졸업</option>
+                    <option value="10">재학</option>
+                    <option value="20">휴학</option>
+                    <option value="30">제적</option>
+                    <option value="40">수료</option>
+                    <option value="50">졸업</option>
                 </select>
                 <TextInput
                     placeholder="학과코드"
@@ -90,7 +84,7 @@ export default function StudentListPage() {
                 />
                 <button
                     className="bg-[#222E8D] text-white px-3 py-1 rounded text-sm font-semibold hover:bg-blue-800 transition"
-                    onClick={() => fetchStudents(0, size)}
+                    onClick={handleSearch}
                     disabled={loading}
                 >조회</button>
                 <div className="flex items-center ml-auto">
@@ -122,7 +116,11 @@ export default function StudentListPage() {
                     </tr>
                 </thead>
                 <tbody>
-                    {students.length === 0 ? (
+                    {loading ? (
+                        <tr>
+                            <td colSpan={8} className="text-gray-400 py-6">로딩 중...</td>
+                        </tr>
+                    ) : students.length === 0 ? (
                         <tr>
                             <td colSpan={8} className="text-gray-400 py-6">데이터가 없습니다</td>
                         </tr>
@@ -132,9 +130,9 @@ export default function StudentListPage() {
                                 <td className="border px-2 py-1">{s.studentNo}</td>
                                 <td className="border px-2 py-1">{s.name}</td>
                                 <td className="border px-2 py-1">{s.birthDate}</td>
-                                <td className="border px-2 py-1"><GenderDisplay genderCode={s.genderCode} /></td>
+                                <td className="border px-2 py-1"><CodeDisplay category="CO0001" code={s.genderCode} /></td>
                                 <td className="border px-2 py-1">{s.email}</td>
-                                <td className="border px-2 py-1"><StudentStatusDisplay statusCode={s.studentStatusCode} /></td>
+                                <td className="border px-2 py-1"><CodeDisplay category="studentStatus" code={s.studentStatusCode} /></td>
                                 <td className="border px-2 py-1">{s.schoolSubjectCode}</td>
                                 <td className="border px-2 py-1">{s.admissionDate}</td>
                             </tr>
@@ -151,7 +149,7 @@ export default function StudentListPage() {
                 <PageButton
                     totalPages={totalPages}
                     currentPage={page + 1}
-                    onPageChange={(p) => fetchStudents(p - 1, size)}
+                    onPageChange={(p) => setPage(p - 1)}
                 />
             </div>
         </div>

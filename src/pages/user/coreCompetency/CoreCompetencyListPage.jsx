@@ -1,4 +1,4 @@
-import CoreCompetencySideBar from "../../../features/user/coreCompetency/CoreCompetencySideBar";
+import CoreCompetencySideBar from "../../../features/user/UserSideBar";
 import MainHeader from "../../../features/user/mainpage/MainHeader";
 import { getAllAssessments } from "../../../api/admin/coreCompetency/AdminAssessmentApi";
 import { useEffect, useState } from "react";
