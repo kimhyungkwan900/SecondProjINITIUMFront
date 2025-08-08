@@ -4,10 +4,29 @@ import DiagnosisQuestions from '../../../component/user/diagnostic/DiagnosisQues
 import DiagnosisResult from '../../../component/user/diagnostic/DiagnosisResult.jsx';
 import { submitDiagnosis } from '../../../api/user/diagnostic/diagnosisApi.jsx';
 
+/**
+ * DiagnosisListFeature
+ * - 내부 진단검사 전체 흐름(목록 → 문항 응답 → 결과)을 관리하는 컨테이너 컴포넌트
+ * - props:
+ *    studentNo: 현재 로그인한 학생 번호
+ */
 const DiagnosisListFeature = ({ studentNo }) => {
+  // 현재 선택된 검사 정보 (id, name 등)
   const [selectedTest, setSelectedTest] = useState(null);
+
+  // 검사 제출 후 생성된 결과 ID (결과 화면 전환 trigger)
   const [resultId, setResultId] = useState(null);
 
+  /**
+   * 검사 응답 제출
+   * - answers: {문항ID: 선택값, ...}
+   * - requestData 구조: 
+   *   {
+   *     studentNo,
+   *     testId,
+   *     answers: [{ questionId, selectedValue }, ...]
+   *   }
+   */
   const handleSubmit = (answers) => {
     const requestData = {
       studentNo,
@@ -18,6 +37,7 @@ const DiagnosisListFeature = ({ studentNo }) => {
       })),
     };
 
+    // API 호출 → 결과 ID 저장 → 결과 화면으로 전환
     submitDiagnosis(requestData)
       .then((res) => setResultId(res.resultId))
       .catch(console.error);

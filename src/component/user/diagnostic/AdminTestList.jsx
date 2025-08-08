@@ -5,7 +5,7 @@ const AdminTestList = () => {
   const [tests, setTests] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // ✅ 검사 목록 불러오기
+  // 검사 목록 불러오기
   const loadTests = async () => {
     setLoading(true);
     try {
@@ -18,7 +18,7 @@ const AdminTestList = () => {
     }
   };
   
-  // ✅ 삭제 처리
+  // 삭제 처리
   const handleDelete = async (testId) => {
     if (!window.confirm('정말 이 검사를 삭제하시겠습니까?')) return;
     try {

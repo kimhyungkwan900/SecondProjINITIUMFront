@@ -2,13 +2,18 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { fetchPagedExternalTests } from '../../../api/user/diagnostic/externalDiagnosisApi.jsx';
 
 const ExternalTestList = ({ onSelectTest }) => {
-  const [tests, setTests] = useState([]);
-  const [keyword, setKeyword] = useState('');
-  const [page, setPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
+  const [tests, setTests] = useState([]);        // 외부 검사 목록 상태
+  const [keyword, setKeyword] = useState('');   // 검색 키워드 상태
+  const [page, setPage] = useState(0);           // 현재 페이지 번호
+  const [totalPages, setTotalPages] = useState(0); // 전체 페이지 수
 
+  /**
+   *   외부 검사 목록 로드
+   * - useCallback: keyword, page 변경될 때만 함수 재생성
+   * - API 호출 시 size=3으로 한 페이지당 3개만 조회
+   */
   const loadTests = useCallback(() => {
-    fetchPagedExternalTests(keyword, page, 3) // ✅ 한 페이지 3개 제한
+    fetchPagedExternalTests(keyword, page, 3) 
       .then((res) => {
         setTests(res.content || []);
         setTotalPages(res.totalPages || 0);
@@ -16,10 +21,12 @@ const ExternalTestList = ({ onSelectTest }) => {
       .catch(console.error);
   }, [keyword, page]);
 
+  // 컴포넌트 마운트 및 page/keyword 변경 시 목록 로드
   useEffect(() => {
     loadTests();
   }, [loadTests]);
 
+  // 검색 버튼 클릭 시 첫 페이지로 초기화 후 목록 로드
   const handleSearch = () => {
     setPage(0);
     loadTests();

@@ -7,7 +7,7 @@ import { UserContext } from '../../../App.jsx';
 
 const ExternalDiagnosisListPage = () => {
   const { user } = useContext(UserContext);
-  const studentNo = user?.loginId; // 로그인 연동 예정
+  const studentNo = user?.loginId;
 
   return (
     <div className="min-h-screen bg-[#f6f9fc]">

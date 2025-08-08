@@ -6,7 +6,7 @@ import MainHeader from '../../../features/user/mainpage/MainHeader.jsx';
 import UserTopBar from '../../../component/user/mainpage/UserTopBar.jsx';
 
 const DiagnosisResultPage = () => {
-  const { resultId } = useParams(); // 🔹 URL 파라미터
+  const { resultId } = useParams(); // URL 파라미터
 
   return (
     <div className="min-h-screen bg-[#f6f9fc]">

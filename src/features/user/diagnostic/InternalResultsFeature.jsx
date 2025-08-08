@@ -2,10 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { fetchAllResultsByStudent, downloadResultPdf } from '../../../api/user/diagnostic/diagnosisApi.jsx';
 import { Link } from 'react-router-dom';
 
+/**
+ *  InternalResultsFeature
+ * - 내부 진단검사(심리 검사) 결과 목록을 표시하는 기능 컴포넌트
+ * - props:
+ *    - studentNo: 현재 학생 번호 (로그인된 사용자 식별)
+ * - 기능:
+ *    1) 마운트 시 해당 학생의 모든 내부 검사 결과 조회
+ *    2) 각 결과에 대해 상세 페이지 링크 제공
+ *    3) PDF 다운로드 기능 제공
+ */
 const InternalResultsFeature = ({ studentNo }) => {
   const [internalResults, setInternalResults] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // 컴포넌트 마운트 또는 studentNo 변경 시 실행
   useEffect(() => {
     fetchAllResultsByStudent(studentNo)
       .then((data) => setInternalResults(data))
@@ -14,13 +25,18 @@ const InternalResultsFeature = ({ studentNo }) => {
       console.log("📦 호출한 studentNo:", studentNo);
   }, [studentNo]);
 
+  /**
+   * PDF 다운로드 처리
+   * - resultId로 백엔드 PDF API 호출
+   * - Blob 객체로 변환 후 강제로 다운로드 실행
+   */
   const handleDownloadPdf = (resultId) => {
     downloadResultPdf(resultId)
       .then((res) => {
-        const url = window.URL.createObjectURL(new Blob([res.data]));
-        const link = document.createElement('a');
+        const url = window.URL.createObjectURL(new Blob([res.data])); // Blob → URL 변환
+        const link = document.createElement('a'); // a 태그 생성
         link.href = url;
-        link.setAttribute('download', `internal_diagnosis_${resultId}.pdf`);
+        link.setAttribute('download', `internal_diagnosis_${resultId}.pdf`); // 파일명 지정
         document.body.appendChild(link);
         link.click();
       })

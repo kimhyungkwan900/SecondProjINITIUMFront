@@ -1,16 +1,19 @@
-// src/component/user/diagnostic/ExternalTestQuestions.jsx
 import React, { useEffect, useState, useContext } from 'react';
 import { fetchExternalQuestionsParsed, submitExternalDiagnosis } from '../../../api/user/diagnostic/externalDiagnosisApi.jsx';
 import { UserContext } from '../../../App.jsx';
 
 const ExternalTestQuestions = ({ qestrnSeq, trgetSe, studentNo, testName }) => {
   const { user } = useContext(UserContext);
-  const [questions, setQuestions] = useState([]);     // [{questionText, options:[{text,value}]}]
-  const [answers, setAnswers] = useState({});         // { 1: '5', 2: '3', ... }  (value는 answerScore)
-  const [result, setResult] = useState(null);
-  const [error, setError] = useState(null);
+  const [questions, setQuestions] = useState([]); // [{ questionText, options:[{text, value}] }]
+  const [answers, setAnswers] = useState({});     // { 문항번호: 값(answerScore) }
+  const [result, setResult] = useState(null);     // 제출 결과 저장
+  const [error, setError] = useState(null);       // 오류 메시지
 
-  // v1은 trgetSe 불필요 → qestrnSeq만 사용
+  /**
+   *  외부 진단검사 문항 불러오기
+   * - CareerNet API에서 문항을 파싱된 형태로 가져옴
+   * - qestrnSeq만 필요 (v1 API)
+   */
   useEffect(() => {
     setError(null);
     fetchExternalQuestionsParsed(String(qestrnSeq))
@@ -21,11 +24,19 @@ const ExternalTestQuestions = ({ qestrnSeq, trgetSe, studentNo, testName }) => {
       });
   }, [qestrnSeq]);
 
+  /**
+   * 특정 문항의 선택값 변경
+   * - questionNumber: 문항 번호 (1부터 시작)
+   * - value: 선택된 답변 값(answerScore)
+   */
   const handleAnswerChange = (questionNumber, value) => {
     setAnswers((prev) => ({ ...prev, [questionNumber]: value }));
   };
 
-  // 성별 코드 매핑: 100323(남) / 100324(여)
+  /**
+   * 성별을 CareerNet 코드로 변환
+   * - 남: 100323 / 여: 100324
+   */
   const mapGenderToCode = (g) => {
     if (g == null) return '';
     const s = String(g).toLowerCase().trim(); // '10','20','m','남', 등
@@ -34,14 +45,17 @@ const ExternalTestQuestions = ({ qestrnSeq, trgetSe, studentNo, testName }) => {
     return '';
   };
 
-  // 문항번호 오름차순으로 페어 생성
+  // 응답 객체를 [문항번호, 값] 배열로 변환 (번호 오름차순)
   const toPairsSorted = (answersObj) =>
     Object.keys(answersObj)
       .map(Number)
       .sort((a, b) => a - b)
       .map((k) => [k, answersObj[k]]);
 
-  // 답변 직렬화
+  /**
+   * CareerNet 제출 규격에 맞춰 답변 직렬화
+   * - 검사 종류별 응답 포맷 다름
+   */
   const buildAnswers = () => {
     const qno = String(qestrnSeq);
     const total = questions.length;
@@ -77,12 +91,6 @@ const ExternalTestQuestions = ({ qestrnSeq, trgetSe, studentNo, testName }) => {
     const grade = user?.grade ? String(user.grade) : '';
     const serialized = buildAnswers();
 
-    // 디버그 로그가 필요하면 주석 해제
-    // console.log('DBG submit vars', {
-    //   studentNo, qestrnSeq, trgetSe, userGender: user?.gender, genderCode, grade,
-    //   answersCount: Object.keys(answers || {}).length, serialized
-    // });
-
     if (!studentNo || !qestrnSeq || !trgetSe || !genderCode || !grade || !serialized) {
       setError('필수 정보가 누락되었거나 모든 문항에 응답하지 않았습니다.');
       return;
@@ -92,10 +100,10 @@ const ExternalTestQuestions = ({ qestrnSeq, trgetSe, studentNo, testName }) => {
       studentNo,
       qestrnSeq: String(qestrnSeq),
       trgetSe: String(trgetSe),
-      answers: serialized,                 // ← 커리어넷 v1 규격
-      gender: genderCode,                  // 100323/100324
+      answers: serialized,                 
+      gender: genderCode,                  
       school: user?.school || '학교 정보 없음',
-      grade,                               // "1".."4" 등
+      grade,
       startDtm: String(Date.now()),
       name: user?.name || '홍길동',
       email: user?.email || 'user@example.com',

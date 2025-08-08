@@ -3,14 +3,19 @@ import { fetchPagedTests } from '../../../api/user/diagnostic/diagnosisApi.jsx';
 import { useNavigate } from 'react-router-dom';
 
 const DiagnosisTestList = ({ onSelectTest }) => {
-  const [tests, setTests] = useState([]);
-  const [keyword, setKeyword] = useState('');
-  const [page, setPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
-  const navigate = useNavigate();
+  const [tests, setTests] = useState([]);        // 검사 목록 상태
+  const [keyword, setKeyword] = useState('');   // 검색 키워드 상태
+  const [page, setPage] = useState(0);           // 현재 페이지 번호
+  const [totalPages, setTotalPages] = useState(0); // 총 페이지 수
+  const navigate = useNavigate();               // 페이지 이동 훅
 
+  /**
+   * 검사 목록 로드 함수
+   * - useCallback으로 메모이제이션 (keyword, page 변경 시 재생성)
+   * - API 호출 시 한 페이지당 3개 제한
+   */
   const loadTests = useCallback(() => {
-    fetchPagedTests(keyword, page, 3) // ✅ 한 페이지당 3개로 제한
+    fetchPagedTests(keyword, page, 3)
       .then((res) => {
         setTests(res.content);
         setTotalPages(res.totalPages);
@@ -18,15 +23,22 @@ const DiagnosisTestList = ({ onSelectTest }) => {
       .catch(console.error);
   }, [keyword, page]);
 
+  // 컴포넌트 마운트 및 page/keyword 변경 시 검사 목록 로드
   useEffect(() => {
     loadTests();
   }, [loadTests]);
 
+  // 검색 버튼 클릭 시 첫 페이지로 이동 후 목록 다시 로드
   const handleSearch = () => {
     setPage(0);
     loadTests();
   };
 
+  /**
+   *  검사 항목 클릭 시 동작
+   * - 부모 콜백(onSelectTest) 호출
+   * - 해당 검사 상세 페이지로 이동
+   */
   const handleTestClick = (test) => {
     if (onSelectTest) {
       onSelectTest(test);
