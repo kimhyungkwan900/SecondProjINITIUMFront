@@ -1,6 +1,5 @@
+import CodeDisplay from "../../../component/common/CodeDisplay";
 import EmployeeDisplay from "../../../component/common/EmployeeDisplay";
-import GenderDisplay from "../../../component/common/GenderDisplay";
-import StudentStatusDisplay from "../../../component/common/StudentStatusDisplay";
 
 const StudentBasicInfo = ({ student }) => {
     if (!student) return null;
@@ -43,11 +42,11 @@ const StudentBasicInfo = ({ student }) => {
                     <tr>
                         <th className="bg-gray-100 text-left px-3 py-2 border">학적상태</th>
                         <td className="px-3 py-2 border">
-                            <StudentStatusDisplay statusCode={student.studentStatusCode} />
+                            <CodeDisplay category="studentStatus" code={student.studentStatusCode} />
                         </td>
                         <th className="bg-gray-100 text-left px-3 py-2 border">성별</th>
                         <td className="px-3 py-2 border">
-                            <GenderDisplay genderCode={student.genderCode} />
+                            <CodeDisplay category="CO0001" code={student.genderCode} />
                         </td>
                     </tr>
                     <tr>

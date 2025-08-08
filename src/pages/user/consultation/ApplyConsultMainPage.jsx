@@ -1,5 +1,5 @@
 import ApplyConsultBox from "../../../component/user/consultation/ApplyConsultBox"
-import CoreCompetencySideBar from "../../../features/user/coreCompetency/CoreCompetencySideBar";
+import CoreCompetencySideBar from "../../../features/user/UserSideBar";
 import UserTopBar from "../../../component/user/mainpage/UserTopBar";
 import MainHeader from "../../../features/user/mainpage/MainHeader";
 

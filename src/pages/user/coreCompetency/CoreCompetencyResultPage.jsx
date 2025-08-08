@@ -1,6 +1,6 @@
 
 import MainHeader from "../../../features/user/mainpage/MainHeader";
-import CoreCompetencySideBar from "../../../features/user/coreCompetency/CoreCompetencySideBar";
+import CoreCompetencySideBar from "../../../features/user/UserSideBar";
 import DiagnosisTabButtons from "../../../component/user/coreCompetency/DiagnosisTabButtons";
 
 const CoreCompetencyResultPage = () => {

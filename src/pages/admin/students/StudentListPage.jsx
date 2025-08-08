@@ -1,9 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import TextInput from "../../../component/common/TextInput";
 import PageButton from "../../../component/admin/extracurricular/PagaButton";
-import GenderDisplay from "../../../component/common/GenderDisplay";
-import StudentStatusDisplay from "../../../component/common/StudentStatusDisplay";
 import { fetchStudents as fetchStudentsApi } from "../../../api/user/auth/studentsApi";
+import CodeDisplay from "../../../component/common/CodeDisplay";
 
 export default function StudentListPage() {
     const [filters, setFilters] = useState({
@@ -131,9 +130,9 @@ export default function StudentListPage() {
                                 <td className="border px-2 py-1">{s.studentNo}</td>
                                 <td className="border px-2 py-1">{s.name}</td>
                                 <td className="border px-2 py-1">{s.birthDate}</td>
-                                <td className="border px-2 py-1"><GenderDisplay genderCode={s.genderCode} /></td>
+                                <td className="border px-2 py-1"><CodeDisplay category="CO0001" code={s.genderCode} /></td>
                                 <td className="border px-2 py-1">{s.email}</td>
-                                <td className="border px-2 py-1"><StudentStatusDisplay statusCode={s.studentStatusCode} /></td>
+                                <td className="border px-2 py-1"><CodeDisplay category="studentStatus" code={s.studentStatusCode} /></td>
                                 <td className="border px-2 py-1">{s.schoolSubjectCode}</td>
                                 <td className="border px-2 py-1">{s.admissionDate}</td>
                             </tr>

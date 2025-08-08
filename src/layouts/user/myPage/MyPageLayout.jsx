@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import CoreCompetencySideBar from "../../../features/user/coreCompetency/CoreCompetencySideBar";
+import CoreCompetencySideBar from "../../../features/user/UserSideBar";
 import MainHeader from "../../../features/user/mainpage/MainHeader";
 import UserTopBar from "../../../component/user/mainpage/UserTopBar";
 
