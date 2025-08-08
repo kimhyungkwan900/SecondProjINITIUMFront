@@ -37,7 +37,36 @@ const sidebarMenus = {
         }
       ]
     },
-    { label: "장학관리" },
+    {
+      label: "진단평가",
+      children: [
+        {
+          label: "대시보드",
+          to: "/admin/diagnosis/dashboard"
+        },
+        {
+          label: "진단평가 생성",
+          to: "/admin/diagnosis/create"
+        },
+        {
+          label: "진단평가 목록",
+          to: "/admin/diagnosis/list"
+        }
+      ]
+    },
+    {
+      label: "핵심역량진단",
+      children: [
+        {
+          label: "핵심역량진단평가",
+          to: "/admin/coreCompetency/assessment"
+        },
+        {
+          label: "핵심역량진단결과",
+          to: "/admin/coreCompetency/assessment/result"
+        }
+      ]
+    },
     { label: "상담관리" }
   ],
   "즐겨찾기": [

@@ -15,8 +15,8 @@ export default function AdminHeader({ selectedTopMenu, onMenuChange }) {
       <Link to="/admin" className="flex items-center pb-2 no-underline text-current">
         <img src="/Logo/Logo.png" alt="로고" className="h-12 mr-4" />
         <div>
-          <div className="font-bold text-xl text-[#222E8D]">충남도립대학교</div>
-          <div className="text-sm text-gray-500">Chungnam State University</div>
+          <div className="font-bold text-xl text-[#222E8D]">TeamINITIUM</div>
+          <div className="text-sm text-gray-500">TeamINITIUM</div>
         </div>
       </Link>
 
