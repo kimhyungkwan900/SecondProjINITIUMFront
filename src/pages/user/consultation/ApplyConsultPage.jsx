@@ -6,8 +6,9 @@ import ConsultScheduleSelect from "../../../features/user/consultation/ConsultSc
 import ConsultApplyForm from "../../../features/user/consultation/ConsultApplyForm";
 import ConsultComplete from "../../../features/user/consultation/ConsultComplete";
 
-const ApplyProfessorConsultPage = ({type})=>{
+const ApplyConsultPage = ({type})=>{
 
+    console.log(type);
     const [step, setStep] = useState(0);
     const [selectedSlot, setSelectedSlot] = useState(null);
 
@@ -55,4 +56,4 @@ const ApplyProfessorConsultPage = ({type})=>{
         </div>
     );
 }
-export default ApplyProfessorConsultPage;
+export default ApplyConsultPage;

@@ -3,10 +3,10 @@ import { Suspense, lazy } from "react";
 const Loading = <div>Loading...</div>
 const ApplyConsultMainPage = lazy(() => import("../../../pages/user/consultation/ApplyConsultMainPage"))
 const ConsultListPage = lazy(() => import("../../../pages/user/consultation/ConsultListPage"))
-const ApplyProfessorConsultPage = lazy(() => import("../../../pages/user/consultation/ApplyProfessorConsultPage"))
-const ApplyRestConsultPage = lazy(() => import("../../../pages/user/consultation/ApplyRestConsultPage"))
+const ApplyConsultPage = lazy(() => import("../../../pages/user/consultation/ApplyConsultPage"))
 const CnslrConsultManageMainPage = lazy(()=> import("../../../pages/user/consultation/CnslrConsultManageMainPage"))
 const CnslrConsultListPage = lazy(()=> import("../../../pages/user/consultation/CnslrConsultListPage"))
+const CnslrConsultManagePage= lazy(()=> import("../../../pages/user/consultation/CnslrConsultManagePage"))
 
 const consultationRouter = [
     //학생
@@ -20,19 +20,19 @@ const consultationRouter = [
     },
     {
         path: "/consult/apply/professor",
-        element: <Suspense fallback={Loading}><ApplyProfessorConsultPage type={"a"}/></Suspense>,
+        element: <Suspense fallback={Loading}><ApplyConsultPage type={"A"}/></Suspense>,
     },
     {
         path: "/consult/apply/career",
-        element: <Suspense fallback={Loading}><ApplyRestConsultPage type={"c"}/></Suspense>,
+        element: <Suspense fallback={Loading}><ApplyConsultPage type={"C"}/></Suspense>,
     },
     {
         path: "/consult/apply/psycho",
-        element: <Suspense fallback={Loading}><ApplyRestConsultPage type={"p"}/></Suspense>,
+        element: <Suspense fallback={Loading}><ApplyConsultPage type={"P"}/></Suspense>,
     },
     {
         path: "/consult/apply/learning",
-        element: <Suspense fallback={Loading}><ApplyRestConsultPage type={"l"}/></Suspense>,
+        element: <Suspense fallback={Loading}><ApplyConsultPage type={"L"}/></Suspense>,
     },
     // 상담사
     {
@@ -42,6 +42,18 @@ const consultationRouter = [
     {
         path: "/cnslr/consult/list",
         element:<Suspense fallback={Loading}><CnslrConsultListPage /></Suspense>,
+    },
+    {
+        path: "/cnslr/consult/manage/career",
+        element:<Suspense fallback={Loading}><CnslrConsultManagePage /></Suspense>,
+    },
+    {
+        path: "/cnslr/consult/manage/psycho",
+        element:<Suspense fallback={Loading}><CnslrConsultManagePage /></Suspense>,
+    },
+    {
+        path: "/cnslr/consult/manage/learning",
+        element:<Suspense fallback={Loading}><CnslrConsultManagePage /></Suspense>,
     },
 ];
 export default consultationRouter;
