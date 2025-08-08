@@ -122,3 +122,14 @@ export const fetchResultDetails = async (resultId) => {
   }
 };
 
+// ✅ 학생별 검사 결과 "페이징" 조회
+export const fetchPagedResultsByStudent = async (studentNo, page = 0, size = 3, sort = 'completionDate,desc') => {
+  try {
+    const res = await axiosInstance.get(`${BASE_URL}/results/${studentNo}/paged`, {
+      params: { page, size, sort },
+    });
+    return res.data; // Page<DiagnosticResultDto>
+  } catch (err) {
+    handleError(err);
+  }
+};

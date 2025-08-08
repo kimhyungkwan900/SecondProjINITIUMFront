@@ -1,44 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import { fetchAllResultsByStudent, downloadResultPdf } from '../../../api/user/diagnostic/diagnosisApi.jsx';
+import { fetchPagedResultsByStudent, downloadResultPdf } from '../../../api/user/diagnostic/diagnosisApi.jsx';
 import { Link } from 'react-router-dom';
 
 /**
- *  InternalResultsFeature
- * - 내부 진단검사(심리 검사) 결과 목록을 표시하는 기능 컴포넌트
+ * InternalResultsFeature
+ * - 내부 진단검사 결과를 서버 페이징으로 표시
  * - props:
- *    - studentNo: 현재 학생 번호 (로그인된 사용자 식별)
- * - 기능:
- *    1) 마운트 시 해당 학생의 모든 내부 검사 결과 조회
- *    2) 각 결과에 대해 상세 페이지 링크 제공
- *    3) PDF 다운로드 기능 제공
+ *    - studentNo: 현재 학생 번호
  */
 const InternalResultsFeature = ({ studentNo }) => {
-  const [internalResults, setInternalResults] = useState([]);
+  const [pageData, setPageData] = useState(null); // Page 객체
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(0); // 0-base
+  const [size, setSize] = useState(3);
 
-  // 컴포넌트 마운트 또는 studentNo 변경 시 실행
   useEffect(() => {
-    fetchAllResultsByStudent(studentNo)
-      .then((data) => setInternalResults(data))
+    if (!studentNo) return;
+    setLoading(true);
+    fetchPagedResultsByStudent(studentNo, page, size)
+      .then((data) => setPageData(data))
       .catch(console.error)
       .finally(() => setLoading(false));
-      console.log("📦 호출한 studentNo:", studentNo);
-  }, [studentNo]);
+  }, [studentNo, page, size]);
 
-  /**
-   * PDF 다운로드 처리
-   * - resultId로 백엔드 PDF API 호출
-   * - Blob 객체로 변환 후 강제로 다운로드 실행
-   */
   const handleDownloadPdf = (resultId) => {
     downloadResultPdf(resultId)
       .then((res) => {
-        const url = window.URL.createObjectURL(new Blob([res.data])); // Blob → URL 변환
-        const link = document.createElement('a'); // a 태그 생성
+        const url = window.URL.createObjectURL(new Blob([res.data]));
+        const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', `internal_diagnosis_${resultId}.pdf`); // 파일명 지정
+        link.setAttribute('download', `internal_diagnosis_${resultId}.pdf`);
         document.body.appendChild(link);
         link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
       })
       .catch(console.error);
   };
@@ -51,15 +46,25 @@ const InternalResultsFeature = ({ studentNo }) => {
     );
   }
 
+  if (!pageData) {
+    return (
+      <div className="bg-white rounded-xl shadow p-6 text-center">
+        데이터 없음
+      </div>
+    );
+  }
+
+  const { content = [], totalElements, totalPages, number, first, last } = pageData;
+
   return (
     <div className="bg-white rounded-xl shadow p-6 space-y-4">
       <h2 className="text-xl font-bold text-[#222E8D] border-b pb-2">
-        📊 심리 진단검사 결과
+        📊 심리 진단검사 결과 (총 {totalElements}건)
       </h2>
 
-      {internalResults.length > 0 ? (
+      {content.length > 0 ? (
         <ul className="divide-y">
-          {internalResults.map((result) => (
+          {content.map((result) => (
             <li
               key={result.resultId}
               className="flex flex-col sm:flex-row sm:items-center justify-between py-3"
@@ -72,7 +77,10 @@ const InternalResultsFeature = ({ studentNo }) => {
                   {result.testName}
                 </Link>
                 <span className="ml-2 text-gray-500 text-sm">
-                  | 점수: {result.totalScore} | 날짜: {result.completionDate}
+                  | 점수: {result.totalScore} | 날짜:{' '}
+                  {result.completionDate
+                    ? new Date(result.completionDate).toLocaleString()
+                    : '-'}
                 </span>
               </div>
               <button
@@ -89,6 +97,40 @@ const InternalResultsFeature = ({ studentNo }) => {
           내부 진단검사 결과가 없습니다.
         </p>
       )}
+
+      <div className="flex items-center justify-between pt-4">
+        <div className="text-sm text-gray-600">
+          페이지 {number + 1} / {Math.max(totalPages, 1)}
+        </div>
+        <div className="flex gap-2 items-center">
+          <button
+            className="px-3 py-1 border rounded disabled:opacity-50"
+            onClick={() => setPage((p) => Math.max(p - 1, 0))}
+            disabled={first}
+          >
+            이전
+          </button>
+          <button
+            className="px-3 py-1 border rounded disabled:opacity-50"
+            onClick={() => setPage((p) => (last ? p : p + 1))}
+            disabled={last}
+          >
+            다음
+          </button>
+          <select
+            className="ml-2 border rounded px-2 py-1"
+            value={size}
+            onChange={(e) => {
+              setPage(0);
+              setSize(parseInt(e.target.value, 10));
+            }}
+          >
+            <option value={3}>3개</option>
+            <option value={5}>5개</option>
+            <option value={10}>10개</option>
+          </select>
+        </div>
+      </div>
     </div>
   );
 };
