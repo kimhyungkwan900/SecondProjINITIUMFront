@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import CoreCompetencySideBar from "../../../features/user/UserSideBar";
+import UserSideBar from "../../../features/user/UserSideBar";
 import MainHeader from "../../../features/user/mainpage/MainHeader";
 import UserTopBar from "../../../component/user/mainpage/UserTopBar";
 
@@ -15,16 +15,7 @@ const navItems = [
   },
   {
     name: "상담이력조회",
-    children: [
-      {
-        name: "지도교수 상담",
-        link: "/mypage/counsel/professor",
-      },
-      {
-        name: "취업지원관 상담",
-        link: "/mypage/counsel/employment",
-      },
-    ],
+    link: "/mypage/consult"
   },
   {
     name: "비교과 프로그램 참여현황",
@@ -59,12 +50,12 @@ const navItems = [
     name: "통합 및 개별 이수증",
     children: [
       {
-        name: "통합이수증 발급",
-        link: "/mypage/issuance/integration",
+        name: "비교과프로그램 이수증발급",
+        link: "/mypage/issuance/extracurricular",
       },
       {
-        name: "개별이수증 발급",
-        link: "/mypage/issuance/individual",
+        name: "진단평가 이수증발급",
+        link: "/mypage/issuance/diagnostic",
       },
     ],
   },
@@ -74,20 +65,7 @@ const navItems = [
   },
   {
     name: "학생상담센터 상담",
-    children: [
-      {
-        name: "개인상담",
-        link: "/mypage/counseling-center/personal",
-      },
-      {
-        name: "개인심리검사",
-        link: "/mypage/counseling-center/personal-test",
-      },
-      {
-        name: "전체심리검사",
-        link: "/mypage/counseling-center/total-test",
-      },
-    ],
+    link: "/mypage/consult/1",
   },
 ];
 
@@ -97,7 +75,7 @@ const MyPageLayout = () => {
       <UserTopBar />
       <MainHeader />
       <div className="flex w-full max-w-screen-xl mx-auto my-8 min-h-[80vh]">
-        <CoreCompetencySideBar navItems={navItems} />
+        <UserSideBar navItems={navItems} />
         <main className="flex-1 px-10 py-8">
           <Outlet />
         </main>

@@ -1,13 +1,6 @@
-// src/api/externalDiagnosisApi.jsx
-import axios from 'axios';
+import axiosInstance from "../../axiosInstance";
 
-const BASE_URL = '/api/external-diagnosis';
-
-// 세션/쿠키가 필요 없다면 false 권장
-const axiosInstance = axios.create({
-  withCredentials: false,
-  headers: { 'Content-Type': 'application/json' },
-});
+const BASE_URL = '/external-diagnosis';
 
 const handleError = (error) => {
   console.error('[External Diagnosis API Error]', error.response || error.message);
