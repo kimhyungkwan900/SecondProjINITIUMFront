@@ -1,8 +1,6 @@
 import AdminAssessmentSearchBar from "../../../../component/admin/coreCompetency/assessment/AdminAssessmentSearchBar";
-import Sidebar from "../../../../layouts/admin/extracurricular/Sidebar";
 import AdminAssessmentListTable from "../../../../component/admin/coreCompetency/assessment/AdminAssessmentListTable";
 import { useState } from "react";
-import AdminAssessmentDetailPanel from "../../../../component/admin/coreCompetency/assessment/AdminAssessmentDetailPanel";
 import AdminAssessmentTab from "../../../../component/admin/coreCompetency/assessment/AdminAssessmentTab";
 
 // 관리자 핵심역량 진단 평가 관리 페이지
@@ -15,9 +13,6 @@ const AdminCoreCompetencyAssessment = () => {
 
   return (
     <div>
-      {/*  관리자 사이드바 */}
-      {/* <Sidebar /> */}
-
       {/*  상단 제목 영역 */}
       <div className="flex items-center ml-[265px] mt-16 gap-2">
         <span className="text-[26px] text-blue-600">▐</span>

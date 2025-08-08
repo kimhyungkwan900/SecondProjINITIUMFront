@@ -15,6 +15,7 @@ export default function AdminSidebarSearch({ onSearch }) {
         placeholder="검색어를 입력하세요"
         value={query}
         onChange={handleChange}
+        className="w-full rounded-md border border-blue-200 px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-300"
       />
     </div>
   );

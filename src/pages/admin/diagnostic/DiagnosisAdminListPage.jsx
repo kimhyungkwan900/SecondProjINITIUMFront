@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { fetchPagedTests } from '../../../api/user/diagnostic/diagnosisApi.jsx';
 import { deleteAdminDiagnosticTest } from '../../../api/user/diagnostic/diagnosisAdminApi.jsx';
-import Sidebar from '../../../layouts/admin/extracurricular/Sidebar.jsx';
 
 const DiagnosisAdminListPage = () => {
   const [tests, setTests] = useState([]);
@@ -40,9 +39,6 @@ const DiagnosisAdminListPage = () => {
 
   return (
     <div className="min-h-screen flex bg-white">
-      {/* Sidebar */}
-      {/* <Sidebar /> */}
-
       {/* 메인 콘텐츠 */}
       <main className="flex-1 ml-64 p-8">
         {/* 제목 */}

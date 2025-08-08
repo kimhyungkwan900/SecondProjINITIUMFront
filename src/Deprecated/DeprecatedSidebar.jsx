@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 
-const Sidebar = () => {
+const DeprecatedSidebar = () => {
   const [openMenu, setOpenMenu] = useState(null)
 
   const toggleMenu = (menu) => {
@@ -163,4 +163,4 @@ const Sidebar = () => {
   )
 }
 
-export default Sidebar
+export default DeprecatedSidebar

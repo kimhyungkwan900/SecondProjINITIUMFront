@@ -1,7 +1,7 @@
 import MainHeader from "../../../features/user/mainpage/MainHeader";
 import CoreCompetencyImage from "../../../features/user/coreCompetency/CoreCompetencyImage";
 import CoreCompetencyTable from "../../../features/user/coreCompetency/CoreCompetencyTable";
-import CoreCompetencySideBar from "../../../features/user/coreCompetency/CoreCompetencySideBar";
+import CoreCompetencySideBar from "../../../features/user/UserSideBar";
 import CoreCompetencyNoticeComment from "../../../component/user/coreCompetency/CoreCompetencyNoticeComment";
 
 export default function CoreCompetencyMainPage() {
