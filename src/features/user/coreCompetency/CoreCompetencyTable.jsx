@@ -26,7 +26,7 @@ const CoreCompetencyTable = () => {
   }, []);
 
   return (
-    <div className="w-[1100px] mx-auto">
+    <div className="w-[1200px] mx-auto">
       {/* 테이블 외곽 박스 */}
       <div className="overflow-x-auto rounded-lg shadow-md border border-gray-200">
         <table className="min-w-full text-gray-800">

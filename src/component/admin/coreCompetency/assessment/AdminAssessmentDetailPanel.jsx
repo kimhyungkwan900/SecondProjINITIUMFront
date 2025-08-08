@@ -48,7 +48,9 @@ const AdminAssessmentDetailPanel = ({ assessment }) => {
 
   return (
     <div className="mt-6 border p-8 rounded bg-white shadow">
-      <h2 className="text-xl font-bold mb-6 text-gray-800">상세 정보</h2>
+        <div className="flex items-center mt-1 mb-4 gap-2">
+          <span className="text-xl text-black font-bold">▐ 기본정보</span>
+        </div>
 
       {/* 필드들을 2열 그리드로 구성 */}
       <div className="grid grid-cols-2 gap-6 text-sm">

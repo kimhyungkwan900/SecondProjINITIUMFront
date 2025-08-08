@@ -30,7 +30,7 @@ const AdminAssessmentSearchBar = ({ setAssessmentList }) => {
   };
 
   return (
-    <div className="ml-64 px-6 py-4 bg-white shadow rounded mb-6">
+    <div className=" px-6 py-4 bg-white shadow rounded mb-6">
       {/*  검색 영역 전체 */}
       <div className="flex flex-wrap gap-4 items-center">
         

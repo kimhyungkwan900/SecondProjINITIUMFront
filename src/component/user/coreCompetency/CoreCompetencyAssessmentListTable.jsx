@@ -59,9 +59,9 @@ const CoreCompetencyAssessmentListTable = () => {
   };
 
   return (
-    <div className="px-6 py-8">
-      <div className="overflow-x-auto shadow rounded-md border border-gray-300">
-        <table className="w-full text-sm text-center">
+    <div className="">
+      <div className="table-fixed max-w-[1000px] shadow rounded-md border border-gray-300">
+        <table className="table-fixed min-w-[1000px] text-sm text-center">
           <thead className="bg-gray-100 text-gray-700 font-semibold">
             <tr>
               <th className="px-4 py-3 border">번호</th>

@@ -24,7 +24,7 @@ const AdminAssessmentResultListTable = ({ assessmentList, setSelectedAssessment 
   };
 
   return (
-    <div className="ml-64 px-6">
+    <div className="">
       {/* 테이블 박스 */}
       <div className="overflow-x-auto shadow rounded bg-white">
         <table className="w-full border text-sm text-center">

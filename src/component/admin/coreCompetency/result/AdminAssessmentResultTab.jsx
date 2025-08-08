@@ -15,7 +15,7 @@ const AdminAssessmentResultTab = ({selectedAssessment}) => {
   },[selectedAssessment]);
 
   return (
-    <div className="ml-64 mt-6 border p-6 rounded bg-white shadow">
+    <div className="mt-6 border p-6 rounded bg-white shadow">
       {/* 탭 버튼 */}
       <div className="flex gap-4 mb-4 border-b pb-2">
         <button 

@@ -14,7 +14,8 @@ const AdminCoreCompetencyAssessment = () => {
   return (
     <div>
       {/*  상단 제목 영역 */}
-      <div className="flex items-center ml-[265px] mt-16 gap-2">
+      <div>
+        <div className="flex items-center mt-16 gap-2">
         <span className="text-[26px] text-blue-600">▐</span>
         <span className="text-[26px] font-semibold">핵심역량진단</span>
       </div>
@@ -34,6 +35,7 @@ const AdminCoreCompetencyAssessment = () => {
       {/*  진단 상세 탭 패널 (선택된 진단 정보에 따라 상세 탭 렌더링) */}
       <AdminAssessmentTab selectedAssessment={selectedAssessment} />
     </div>
+      </div>
   );
 };
 

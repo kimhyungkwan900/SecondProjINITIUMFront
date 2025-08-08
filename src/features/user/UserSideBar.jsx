@@ -50,7 +50,7 @@ const UserSideBar = ({ navItems = [], defaultOpenKeys = [] }) => {
 
   return (
     <aside
-      className="w-64 rounded-xl shadow-lg px-4 py-6 h-fit mr-6 sticky top-48 mt-10
+      className="w-64 rounded-xl shadow-lg px-4 py-6 h-fit mr-4 sticky top-48 mt-10
                  bg-gradient-to-b from-[#0d47a1] to-[#42a5f5]"
     >
       <h2 className="text-lg font-bold text-center text-white border-b border-white pb-3 mb-4">

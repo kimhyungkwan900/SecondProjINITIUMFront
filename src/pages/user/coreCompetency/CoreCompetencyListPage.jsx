@@ -29,13 +29,18 @@ const CoreCompetencyListPage = () =>{
     return(
         <div>
             <MainHeader/>
-            {/* 상단 회색 박스 */}
+            {/* 상단 회색 영역 */}
             <div className="bg-gray-100 border-b border-gray-300">
-                <div className="max-w-[1200px] mx-auto px-6 py-10 flex justify-between items-center">
-                    <h1 className="text-4xl font-semibold text-center">핵심역량진단</h1>
-                    <div className="text-1xl text-gray-600 whitespace-nowrap ml-auto">HOME &gt; 핵심역량진단 &gt; 진단목록</div>
+                <div className="w-[1200px] mx-auto px-6 py-8">
+                    <div className="flex justify-between items-end">
+                        <h1 className="ml-42 text-4xl font-semibold">핵심역량진단</h1>
+                        <div className="text-base text-gray-600 text-right">
+                        HOME &gt; 핵심역량진단 &gt; 진단목록
+                        </div>
+                    </div>
                 </div>
             </div>
+            
 
             <div className="flex px-12 py-10">
                 {/* 좌측 사이드바 */}
