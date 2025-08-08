@@ -6,7 +6,7 @@ const DiagnosisForm = ({ onSubmit }) => {
   const [questions, setQuestions] = useState([]);
   const [scoreLevels, setScoreLevels] = useState([]);
 
-  // 🔹 문항 추가 (기본 YES/NO 자동 생성)
+  // 문항 추가 (기본 YES/NO 자동 생성)
   const addQuestion = () => {
     setQuestions([
       ...questions,
@@ -22,14 +22,14 @@ const DiagnosisForm = ({ onSubmit }) => {
     ]);
   };
 
-  // 🔹 문항 삭제
+  // 문항 삭제
   const deleteQuestion = (index) => {
     const updated = questions.filter((_, i) => i !== index);
     updated.forEach((q, i) => (q.order = i + 1)); // 순서 재정렬
     setQuestions(updated);
   };
 
-  // 🔹 문항 타입 변경 시 자동 답변 생성
+  // 문항 타입 변경 시 자동 답변 생성
   const updateQuestion = (index, field, value) => {
     const updated = [...questions];
     updated[index][field] = value;
@@ -69,7 +69,7 @@ const DiagnosisForm = ({ onSubmit }) => {
     setQuestions(updated);
   };
 
-  // 🔹 답변 수동 추가
+  // 답변 수동 추가
   const addAnswer = (qIndex) => {
     const updated = [...questions];
     updated[qIndex].answers.push({ content: '', score: 0, selectValue: updated[qIndex].answers.length + 1 });
@@ -82,7 +82,7 @@ const DiagnosisForm = ({ onSubmit }) => {
     setQuestions(updated);
   };
 
-  // 🔹 점수 레벨 관리
+  // 점수 레벨 관리
   const addScoreLevel = () => {
     setScoreLevels([
       ...scoreLevels,
@@ -100,7 +100,7 @@ const DiagnosisForm = ({ onSubmit }) => {
     setScoreLevels(updated);
   };
 
-  // 🔹 제출
+  // 제출
   const handleSubmit = (e) => {
     e.preventDefault();
     const dto = {
@@ -111,7 +111,7 @@ const DiagnosisForm = ({ onSubmit }) => {
     };
     onSubmit(dto);
 
-    // 🔄 등록 후 초기화
+    // 등록 후 초기화
     setTestName('');
     setDescription('');
     setQuestions([]);
@@ -120,7 +120,7 @@ const DiagnosisForm = ({ onSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* 📌 기본 정보 */}
+      {/* 기본 정보 */}
       <div className="bg-white shadow rounded-lg p-6">
         <h2 className="text-xl font-bold text-[#222E8D] mb-4">📌 기본 정보</h2>
         <div className="space-y-3">
@@ -154,7 +154,7 @@ const DiagnosisForm = ({ onSubmit }) => {
         </div>
       </div>
 
-      {/* 📝 문항 관리 */}
+      {/* 문항 관리 */}
       <div className="bg-white shadow rounded-lg p-6">
         <h2 className="text-xl font-bold text-[#222E8D] mb-4 flex justify-between items-center">
           📝 문항 관리
@@ -233,7 +233,7 @@ const DiagnosisForm = ({ onSubmit }) => {
         ))}
       </div>
 
-      {/* 📊 점수 레벨 등록 */}
+      {/* 점수 레벨 등록 */}
       <div className="bg-white shadow rounded-lg p-6">
         <h2 className="text-xl font-bold text-[#222E8D] mb-4 flex justify-between items-center">
           📊 점수별 상태 (Score Levels)

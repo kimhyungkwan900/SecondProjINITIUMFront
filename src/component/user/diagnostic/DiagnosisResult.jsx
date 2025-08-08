@@ -4,12 +4,21 @@ import { fetchResultSummary, downloadResultPdf } from '../../../api/user/diagnos
 const DiagnosisResult = ({ resultId }) => {
   const [result, setResult] = useState(null);
 
+  /**
+   * 컴포넌트 마운트 시 결과 요약 데이터 불러오기
+   * - resultId 변경될 때마다 API 호출
+   */
   useEffect(() => {
     fetchResultSummary(resultId)
       .then((res) => setResult(res))
       .catch(console.error);
   }, [resultId]);
 
+  /**
+   * PDF 다운로드 처리
+   * - 서버에서 PDF 바이트 배열을 받아 Blob 생성
+   * - 임시 URL 생성 후 <a> 태그 클릭 방식으로 다운로드
+   */
   const handleDownloadPdf = () => {
     downloadResultPdf(resultId)
       .then((res) => {
@@ -23,6 +32,7 @@ const DiagnosisResult = ({ resultId }) => {
       .catch(console.error);
   };
 
+  // 로딩 상태 UI
   if (!result) {
     return (
       <div className="bg-white shadow-lg rounded-2xl p-8 text-center text-gray-500">
@@ -31,6 +41,7 @@ const DiagnosisResult = ({ resultId }) => {
     );
   }
 
+  // 결과 표시 UI
   return (
     <div className="bg-white shadow-lg rounded-2xl p-8 space-y-4">
       <h2 className="text-2xl font-bold text-[#222E8D] text-center mb-4">

@@ -1,4 +1,3 @@
-// src/pages/admin/diagnostic/DiagnosisAdminPage.jsx
 import React, { useEffect, useState, useCallback } from 'react';
 import {
   createAdminDiagnosticTest,
@@ -7,13 +6,19 @@ import {
 import { fetchPagedTests } from '../../../api/user/diagnostic/diagnosisApi.jsx';
 import DiagnosisForm from '../../../component/user/diagnostic/DiagnosisForm.jsx';
 
+/**
+ *  DiagnosisAdminPage
+ * - 관리자용 진단검사 등록, 조회, 삭제 페이지
+ * - 검색어, 사용여부 필터, 페이징 기능 포함
+ */
 const DiagnosisAdminPage = () => {
-  const [tests, setTests] = useState([]);
-  const [keyword, setKeyword] = useState('');
-  const [useYn, setUseYn] = useState(''); // 필터 (전체, 사용, 미사용)
-  const [page, setPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
+  const [tests, setTests] = useState([]);      // 검사 목록
+  const [keyword, setKeyword] = useState('');  // 검색어
+  const [useYn, setUseYn] = useState('');      // 사용 여부 필터
+  const [page, setPage] = useState(0);         // 현재 페이지
+  const [totalPages, setTotalPages] = useState(0); // 총 페이지 수
 
+  // 검사 목록 불러오기 (검색 + 필터 + 페이징 적용)
   const loadTests = useCallback(() => {
     fetchPagedTests(keyword, page, 5)
       .then((res) => {
@@ -29,10 +34,12 @@ const DiagnosisAdminPage = () => {
       .catch(console.error);
   }, [keyword, page, useYn]);
 
+  // 페이지 로드 시 및 의존값 변경 시 목록 로드
   useEffect(() => {
     loadTests();
   }, [loadTests]);
 
+  // 검사 등록 처리
   const handleCreate = (dto) => {
     createAdminDiagnosticTest(dto)
       .then(() => {
@@ -46,6 +53,7 @@ const DiagnosisAdminPage = () => {
       });
   };
 
+  // 검사 삭제 처리
   const handleDelete = (id) => {
     if (window.confirm('정말 삭제하시겠습니까?')) {
       deleteAdminDiagnosticTest(id)

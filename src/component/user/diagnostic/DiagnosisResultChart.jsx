@@ -12,6 +12,7 @@ import {
   Legend,
 } from 'chart.js';
 
+// Chart.js 모듈 등록 (Line 차트 구성 요소 활성화)
 ChartJS.register(
   LineElement,
   CategoryScale,
@@ -26,11 +27,21 @@ const DiagnosisResultChart = ({ resultId }) => {
   const [result, setResult] = useState(null);
   const [details, setDetails] = useState([]);
 
+  /**
+   * 컴포넌트 마운트 & resultId 변경 시 데이터 로드
+   * - 결과 요약 API 호출 → result 상태 저장
+   * - 결과 상세 API 호출 → details 상태 저장
+   */
   useEffect(() => {
     fetchResultSummary(resultId).then(setResult).catch(console.error);
     fetchResultDetails(resultId).then(setDetails).catch(console.error);
   }, [resultId]);
 
+   /**
+   * Chart.js용 데이터 구성
+   * - labels: "문항 1", "문항 2", ...
+   * - datasets: 점수 데이터, 스타일 옵션
+   */
   const questionScoreData = {
     labels: details.map((d, idx) => `문항 ${idx + 1}`),
     datasets: [

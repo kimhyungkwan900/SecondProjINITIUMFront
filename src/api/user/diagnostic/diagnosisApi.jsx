@@ -1,10 +1,9 @@
-// src/api/diagnosisApi.jsx
 import axios from 'axios';
 
-// ✅ 기본 설정
+// 기본 설정
 const BASE_URL = '/api/diagnosis';
 
-// ✅ Axios 인스턴스 (공통 설정)
+// Axios 인스턴스 (공통 설정)
 const axiosInstance = axios.create({
   withCredentials: true, // 로그인 세션/쿠키 인증 유지
   headers: {
@@ -12,13 +11,13 @@ const axiosInstance = axios.create({
   },
 });
 
-// ✅ 공통 에러 핸들러
+// 공통 에러 핸들러
 const handleError = (error) => {
   console.error('[Diagnosis API Error]', error.response || error.message);
   throw error;
 };
 
-// ✅ 검사 목록 조회
+// 검사 목록 조회
 export const fetchTests = async () => {
   try {
     const res = await axiosInstance.get(`${BASE_URL}/tests`);
@@ -28,7 +27,7 @@ export const fetchTests = async () => {
   }
 };
 
-// ✅ 검사 검색
+// 검사 검색
 export const searchTests = async (keyword = '') => {
   try {
     const res = await axiosInstance.get(`${BASE_URL}/tests/search`, {
@@ -40,7 +39,7 @@ export const searchTests = async (keyword = '') => {
   }
 };
 
-// ✅ 검사 페이징 조회
+// 검사 페이징 조회
 export const fetchPagedTests = async (keyword = '', page = 0, size = 10) => {
   try {
     const res = await axiosInstance.get(`${BASE_URL}/tests/paged`, {
@@ -52,7 +51,7 @@ export const fetchPagedTests = async (keyword = '', page = 0, size = 10) => {
   }
 };
 
-// ✅ 검사 문항 조회
+// 검사 문항 조회
 export const fetchQuestions = async (testId) => {
   try {
     const res = await axiosInstance.get(`${BASE_URL}/${testId}/questions`);
@@ -62,7 +61,7 @@ export const fetchQuestions = async (testId) => {
   }
 };
 
-// ✅ 검사 제출
+// 검사 제출
 export const submitDiagnosis = async (data) => {
   try {
     const res = await axiosInstance.post(`${BASE_URL}/submit`, data);
@@ -72,7 +71,7 @@ export const submitDiagnosis = async (data) => {
   }
 };
 
-// ✅ 결과 요약 조회
+// 결과 요약 조회
 export const fetchResultSummary = async (resultId) => {
   try {
     const res = await axiosInstance.get(`${BASE_URL}/result/${resultId}`);
@@ -82,7 +81,7 @@ export const fetchResultSummary = async (resultId) => {
   }
 };
 
-// ✅ 결과 PDF 다운로드
+// 결과 PDF 다운로드
 export const downloadResultPdf = async (resultId) => {
   try {
     const res = await axiosInstance.get(`${BASE_URL}/result/${resultId}/pdf`, {
@@ -94,7 +93,7 @@ export const downloadResultPdf = async (resultId) => {
   }
 };
 
-// ✅ 학생별 전체 검사 결과 조회
+// 학생별 전체 검사 결과 조회
 export const fetchAllResultsByStudent = async (studentNo) => {
   try {
     const res = await axiosInstance.get(`${BASE_URL}/results/${studentNo}`);
@@ -104,6 +103,7 @@ export const fetchAllResultsByStudent = async (studentNo) => {
   }
 };
 
+// 상세 결과
 export const fetchResultDetails = async (resultId) => {
   try {
     if (!resultId) throw new Error('결과 ID가 유효하지 않습니다.');
@@ -122,3 +122,14 @@ export const fetchResultDetails = async (resultId) => {
   }
 };
 
+// ✅ 학생별 검사 결과 "페이징" 조회
+export const fetchPagedResultsByStudent = async (studentNo, page = 0, size = 3, sort = 'completionDate,desc') => {
+  try {
+    const res = await axiosInstance.get(`${BASE_URL}/results/${studentNo}/paged`, {
+      params: { page, size, sort },
+    });
+    return res.data; // Page<DiagnosticResultDto>
+  } catch (err) {
+    handleError(err);
+  }
+};

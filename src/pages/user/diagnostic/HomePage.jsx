@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import MainHeader from '../../../features/user/mainpage/MainHeader';
 import UserTopBar from '../../../component/user/mainpage/UserTopBar';
 
+// 진단검사 홈페이지
 const HomePage = () => {
   return (
     <div className="min-h-screen bg-[#f6f9fc]">

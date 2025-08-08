@@ -7,6 +7,11 @@ import MainHeader from '../../../features/user/mainpage/MainHeader.jsx';
 import UserTopBar from '../../../component/user/mainpage/UserTopBar.jsx';
 import { UserContext } from '../../../App.jsx';
 
+/**
+ *  DiagnosisConductPage
+ * - 내부 진단검사를 실제로 진행하는 페이지
+ * - 검사 문항 표시 → 응답 제출 후 결과 페이지로 이동
+ */
 const DiagnosisConductPage = () => {
   const { user } = useContext(UserContext);
   const { testId } = useParams();
@@ -14,7 +19,6 @@ const DiagnosisConductPage = () => {
   const studentNo = user?.loginId;
   const [resultId, setResultId] = useState(null);
 
-  // 🔹 자식 컴포넌트에서 resultId 받아와 처리
   const handleSubmit = (resultId) => {
     setResultId(resultId);
     navigate(`/diagnosis/internal/result/${resultId}`);
