@@ -24,7 +24,7 @@ const AdminAssessmentResultSearchBar = ({ setAssessmentList }) => {
   };
 
   return (
-    <div className="ml-64 px-6 py-4 bg-white shadow rounded mb-6">
+    <div className="px-6 py-4 bg-white shadow rounded mb-6">
       <div className="flex flex-wrap gap-4 items-center">
         <label className="font-medium">학년도/학기</label>
         <input

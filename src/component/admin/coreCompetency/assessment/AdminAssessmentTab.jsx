@@ -15,12 +15,13 @@ const AdminAssessmentTab = ({ selectedAssessment }) => {
   // 새로운 진단이 선택되면 기본정보 탭으로 자동 전환
   useEffect(() => {
     if (selectedAssessment) {
+      console.log("assessment : ", selectedAssessment);
       setActiveTab("basicInfo");
     }
   }, [selectedAssessment]);
 
   return (
-    <div className="ml-64 mt-6 border p-6 rounded bg-white shadow">
+    <div className="mt-6 border p-6 rounded bg-white shadow">
       {/* 탭 버튼 그룹 */}
       <div className="flex gap-4 mb-4 border-b pb-2">
         {/* 기본정보 탭 */}
@@ -70,13 +71,13 @@ const AdminAssessmentTab = ({ selectedAssessment }) => {
           <AdminAssessmentDetailPanel assessment={selectedAssessment} />
         )}
         {activeTab === "questionInfo" && (
-          <AdminCoreCompetencyQuestionPage />
+          <AdminCoreCompetencyQuestionPage/>
         )}
         {activeTab === "analysis" && (
-          <AdminCoreCompetencyCategory />
+          <AdminCoreCompetencyCategory assessment={selectedAssessment?.id}/>
         )}
         {activeTab === "analysisItems" && (
-          <AdminCoreCompetencyMapping />
+          <AdminCoreCompetencyMapping assessment={selectedAssessment?.id}/>
         )}
         {activeTab === "participant" && (
           <AdminCoreCompetencyParticipant />
