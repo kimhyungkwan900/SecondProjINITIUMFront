@@ -1,10 +1,11 @@
-import { useState } from 'react'
-import { addDays, format, getDay } from 'date-fns'
-import { ko } from 'date-fns/locale'
-import { useMatch, useLocation } from "react-router-dom"
-import ReactModal from "react-modal";
+import { useState } from 'react';
+import { addDays, format, getDay } from 'date-fns';
+import { ko } from 'date-fns/locale';
+import { useMatch, useLocation } from 'react-router-dom';
+import ReactModal from 'react-modal';
 
-import SearchEmployee from './SearchEmployee';
+import ConsultScheduleBox from "./ConsultScheduleBox";
+import SearchEmployee from "./SearchEmployee";
 
 const ConsultScheduleSelect = ()=>{
     const { pathname } = useLocation();
@@ -45,7 +46,7 @@ const ConsultScheduleSelect = ()=>{
     };
 
     return(
-        <div className="w-4/5 px-20 py-6 mx-auto">
+        <div className="w-4/5 max-w-7xl px-20 py-6 mx-auto">
             <div className="flex items-center justify-center mb-8 space-x-0">
                 <div className="flex flex-col items-center">
                     <div className="w-12 h-12 rounded-full bg-blue-700 text-white flex items-center justify-center">
@@ -90,8 +91,8 @@ const ConsultScheduleSelect = ()=>{
                 </div>
             )}
 
-            <div className={`${isProfessorApply||isCnslr ? "mt-0" : "mt-[5.6rem]"} border-3 border-indigo-950 overflow-auto`}>
-                <table className="w-full table-fixed border-collapse min-w-max" style={{ width: `${tableWidthPercent}%` }}>
+            <div className={`${isProfessorApply||isCnslr ? "mt-0" : "mt-[5.6rem]"} h-[600px] border-3 border-indigo-950 overflow-auto`}>
+                <table className="w-full min-w-max min-h-full table-fixed border-collapse " style={{ width: `${tableWidthPercent}%` }}>
                 <thead>
                     <tr style={{ width: `${colWidthPercent}%` }}>
                         {/* 반복문 처리, 열 총 14개 행 총 13개 */}
@@ -119,8 +120,8 @@ const ConsultScheduleSelect = ()=>{
                                 {`${hour.toString().padStart(2, '0')}:00`}
                             </th>
                             {dates.map((day, di)=>(
-                                <td key={di} className="border px-3 py-2">
-                                    여기에 컴포넌트가 들어감
+                                <td key={di} className="border px-1">
+                                    <ConsultScheduleBox />
                                 </td>
                             ))}
                         </tr>
