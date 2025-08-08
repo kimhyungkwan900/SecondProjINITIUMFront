@@ -7,6 +7,7 @@ import { diagnosticRoutes } from "./user/diagnostic/diagnosticRouter";
 import coreCompetencyRouter from "./user/coreCompetency/coreCompetencyRouter";
 import ExtracurricularProgramRouter from "./user/extracurricular/ExtracurricularProgramUserRouter";
 import adminMainRouter from "./admin/adminMainRouter";
+import myPageRouter from "./user/myPage/myPageRouter";
 
 const createAppRouter = () => {
     return createBrowserRouter([
@@ -17,6 +18,7 @@ const createAppRouter = () => {
         ...coreCompetencyRouter,
         ...ExtracurricularProgramRouter,
         ...adminMainRouter,
+        ...myPageRouter,
         {
             path: "/",
             element: <MainPage />

@@ -12,6 +12,7 @@ import ExternalDiagnosisConductPage from '../../../pages/user/diagnostic/Externa
 import DiagnosisAdminCreatePage from '../../../pages/admin/diagnostic/DiagnosisAdminCreatePage';
 import DiagnosisAdminListPage from '../../../pages/admin/diagnostic/DiagnosisAdminListPage';
 import DiagnosisAdminDashboardPage from '../../../pages/admin/diagnostic/DiagnosisAdminDashboardPage';
+import RequireAdmin from '../../../component/admin/RequireAdmin';
 
 export const diagnosticRoutes = [
   // 홈
@@ -29,11 +30,6 @@ export const diagnosticRoutes = [
 
   // ✅ 전체 결과
   { path: '/diagnosis/all-results', element: <AllResultsPage /> },
-
-  // ✅ 관리자
-  { path: '/admin/diagnosis/dashboard', element: <DiagnosisAdminDashboardPage /> },
-  { path: '/admin/diagnosis/create', element: <DiagnosisAdminCreatePage /> },
-  { path: '/admin/diagnosis/list', element: <DiagnosisAdminListPage /> },
 
   // 404
   { path: '*', element: <NotFoundPage /> }
