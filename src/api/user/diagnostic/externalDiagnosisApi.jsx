@@ -1,18 +1,14 @@
 // src/api/externalDiagnosisApi.jsx
 import axios from 'axios';
 
-// ✅ 기본 설정
 const BASE_URL = '/api/external-diagnosis';
 
-// ✅ Axios 기본 옵션 (withCredentials 공통 적용)
+// ✅ 세션/쿠키가 필요 없다면 false 권장
 const axiosInstance = axios.create({
-  withCredentials: true, // 세션/쿠키 인증 유지
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  withCredentials: false,
+  headers: { 'Content-Type': 'application/json' },
 });
 
-// ✅ 에러 헬퍼 함수
 const handleError = (error) => {
   console.error('[External Diagnosis API Error]', error.response || error.message);
   throw error;
@@ -46,17 +42,17 @@ export const fetchPagedExternalTests = async (keyword = '', page = 0, size = 10)
     const res = await axiosInstance.get(`${BASE_URL}/tests/paged`, {
       params: { keyword, page, size },
     });
-    return res.data;
+    return res.data; // Spring Page 객체 {content, totalElements, ...}
   } catch (err) {
     handleError(err);
   }
 };
 
-// ✅ 외부 검사 문항 조회 (원본)
-export const fetchExternalQuestionsRaw = async (qestrnSeq, trgetSe) => {
+// ✅ 외부 검사 문항 조회 (원본) — v1은 trgetSe 불필요!
+export const fetchExternalQuestionsRaw = async (qestrnSeq) => {
   try {
     const res = await axiosInstance.get(`${BASE_URL}/questions`, {
-      params: { qestrnSeq, trgetSe },
+      params: { qestrnSeq },
     });
     return res.data;
   } catch (err) {
@@ -64,23 +60,25 @@ export const fetchExternalQuestionsRaw = async (qestrnSeq, trgetSe) => {
   }
 };
 
-// ✅ 외부 검사 문항 조회 (파싱)
-export const fetchExternalQuestionsParsed = async (qestrnSeq, trgetSe) => {
+// ✅ 외부 검사 문항 조회 (파싱) — v1은 trgetSe 불필요!
+export const fetchExternalQuestionsParsed = async (qestrnSeq) => {
   try {
     const res = await axiosInstance.get(`${BASE_URL}/questions/parsed`, {
-      params: { qestrnSeq, trgetSe },
+      params: { qestrnSeq },
     });
-    return res.data;
+    return res.data; // { title, description, questions:[{questionText, options:[{text,value}]}] }
   } catch (err) {
     handleError(err);
   }
 };
 
-// ✅ 외부 검사 제출
+// ✅ 외부 검사 제출 (백엔드가 form-urlencoded로 변환해 커리어넷에 POST)
 export const submitExternalDiagnosis = async (data) => {
   try {
+    // data에는 다음이 포함되어야 함:
+    // studentNo, qestrnSeq, trgetSe, answers, gender(100323/100324), grade, name, email, school?, startDtm
     const res = await axiosInstance.post(`${BASE_URL}/submit`, data);
-    return res.data;
+    return res.data; // { inspectSeq, resultUrl, testName }
   } catch (err) {
     handleError(err);
   }
@@ -90,7 +88,7 @@ export const submitExternalDiagnosis = async (data) => {
 export const fetchAllExternalResultsByStudent = async (studentNo) => {
   try {
     const res = await axiosInstance.get(`${BASE_URL}/results/${studentNo}`);
-    return res.data;
+    return res.data; // ExternalDiagnosisResultDto[]
   } catch (err) {
     handleError(err);
   }

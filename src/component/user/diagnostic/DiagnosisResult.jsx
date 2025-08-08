@@ -50,12 +50,13 @@ const DiagnosisResult = ({ resultId }) => {
       </div>
 
       <div className="text-center">
-        <button
-          onClick={handleDownloadPdf}
-          className="bg-[#28B8B2] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#1a807b] transition"
-        >
-          PDF 다운로드
-        </button>
+      <button
+        onClick={handleDownloadPdf}
+        className="bg-[#222E8D] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#1a1f6b] transition"
+      >
+        PDF 다운로드
+      </button>
+
       </div>
     </div>
   );
