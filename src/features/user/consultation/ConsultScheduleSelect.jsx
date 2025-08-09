@@ -120,7 +120,7 @@ const ConsultScheduleSelect = ()=>{
                                 {`${hour.toString().padStart(2, '0')}:00`}
                             </th>
                             {dates.map((day, di)=>(
-                                <td key={di} className="border px-1">
+                                <td key={di} className="border p-3">
                                     <ConsultScheduleBox />
                                 </td>
                             ))}
