@@ -5,8 +5,9 @@ const ScheduleBox = ()=>{
                 <span className="font-medium">9:00</span>
                 <span className="ml-2">예약 대기</span>
             </div>
-            <select className="w-1/2 justify-end ">
-                <option>테스트</option>
+            <select className="w-2/3 justify-end text-black">
+                <option>테스트1</option>
+                <option>테스트2</option>
             </select>
         </div>
     );

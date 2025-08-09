@@ -6,12 +6,18 @@ import { fetchExternalTests } from '../../../api/user/diagnostic/externalDiagnos
 import UserTopBar from '../../../component/user/mainpage/UserTopBar.jsx';
 import { UserContext } from '../../../App.jsx';
 
+/**
+ *  ExternalDiagnosisConductPage
+ * - 외부 진단검사(예: 커리어넷) 진행 페이지
+ * - 문항 API 코드와 대상 코드를 이용해 문항을 불러오고, 응답을 제출
+ */
 const ExternalDiagnosisConductPage = () => {
-  const { user } = useContext(UserContext);
-  const { testId } = useParams();
-  const location = useLocation();
+  const { user } = useContext(UserContext); // 로그인한 사용자 정보
+  const { testId } = useParams();           // URL에서 검사 ID 추출
+  const location = useLocation();           // 페이지 이동 시 전달된 state
   const navigate = useNavigate();
 
+  // location.state로 전달된 값 구조 분해
   const {
     questionApiCode: stateQuestionApiCode,
     targetCode: stateTargetCode,
@@ -19,12 +25,14 @@ const ExternalDiagnosisConductPage = () => {
     studentNo: stateStudentNo
   } = location.state || {};
 
+  // 검사 정보 상태
   const [questionApiCode, setQuestionApiCode] = useState(stateQuestionApiCode || '');
   const [targetCode, setTargetCode] = useState(stateTargetCode || '');
   const [name, setName] = useState(stateName || '');
   const [studentNo] = useState(stateStudentNo || user?.loginId);
   const [loading, setLoading] = useState(!stateQuestionApiCode || !stateTargetCode);
 
+  // 검사 정보 없을 경우 API로 불러오기
   useEffect(() => {
     if (!stateQuestionApiCode || !stateTargetCode) {
       fetchExternalTests()

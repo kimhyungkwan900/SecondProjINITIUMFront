@@ -8,7 +8,7 @@ import { UserContext } from '../../../App.jsx';
 
 const AllResultsPage = () => {
   const { user } = useContext(UserContext);
-  const studentNo = user?.loginId; // 로그인된 학생 번호 (형관님 파트)
+  const studentNo = user?.loginId;
 
   return (
     <div className="min-h-screen bg-[#f6f9fc]">

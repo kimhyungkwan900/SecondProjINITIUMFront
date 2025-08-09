@@ -1,7 +1,7 @@
 import MyPageLayout from "../../../layouts/user/myPage/MyPageLayout";
 import MyPageHome from "../../../pages/user/MyPage/MyPageHome";
 import NavigatorPage from "../../../pages/user/MyPage/NavigatorPage";
-import StudentParticipatedProgramList from "../../../features/user/students/StudentParticipatedProgramList";
+import StudentConsultListFullPage from "../../../pages/user/MyPage/StudentConsultListFullPage";
 
 const myPageRouter = [
   {
@@ -10,6 +10,7 @@ const myPageRouter = [
     children: [
       { path: "", element: <MyPageHome /> },
       { path: "navigator", element: <NavigatorPage /> },
+      { path: "consult", element: <StudentConsultListFullPage />}
     ],
   },
 ];

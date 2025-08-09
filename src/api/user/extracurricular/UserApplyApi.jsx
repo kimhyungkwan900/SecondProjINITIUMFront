@@ -1,13 +1,18 @@
-import axios from "axios"
+import axiosInstance from "../../axiosInstance";
 
+// 비교과 프로그램 등록
 export const programApply = async (stdfntNo, eduMngId, eduAplyCn) => {
   try {
-    const response = await axios.post(`/api/extracurricular/apply?stdfntNo=${stdfntNo}`,
+    const response = await axiosInstance.post(
+      `/extracurricular/apply`,
       {
         extracurricularProgram: {
-          eduMngId: eduMngId, 
+          eduMngId,
         },
-        eduAplyCn: eduAplyCn,
+        eduAplyCn,
+      },
+      {
+        params: { stdfntNo },
       }
     );
     return response.data; // 성공 메시지 반환
