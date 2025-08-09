@@ -1,7 +1,7 @@
 
 import MainHeader from "../../../features/user/mainpage/MainHeader";
 import CoreCompetencySideBar from "../../../features/user/UserSideBar";
-import DiagnosisTabButtons from "../../../component/user/coreCompetency/DiagnosisTabButtons";
+import CoreCompetencyDiagnosisTabButtons from "../../../component/user/coreCompetency/CoreCompetencyDiagnosisTabButtons";
 
 const CoreCompetencyResultPage = () => {
   const navItems = [
@@ -34,7 +34,7 @@ const CoreCompetencyResultPage = () => {
         {/* 우측 본문 */}
         <div className="flex-1">
           {/* 탭 버튼 영역 (공통) */}
-          <DiagnosisTabButtons/>
+          <CoreCompetencyDiagnosisTabButtons/>
 
           {/* 진단 결과 출력 (로그인 여부 조건 제거) */}
           <div className="mt-10 text-center text-gray-700">

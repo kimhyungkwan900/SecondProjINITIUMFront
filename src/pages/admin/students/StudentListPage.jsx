@@ -3,6 +3,7 @@ import TextInput from "../../../component/common/TextInput";
 import PageButton from "../../../component/admin/extracurricular/PagaButton";
 import { fetchStudents as fetchStudentsApi } from "../../../api/user/auth/studentsApi";
 import CodeDisplay from "../../../component/common/CodeDisplay";
+import AdminSectionHeader from "../../../component/admin/AdminSectionHeader";
 
 export default function StudentListPage() {
     const [filters, setFilters] = useState({
@@ -21,14 +22,14 @@ export default function StudentListPage() {
     // 학생 조회 함수
     const fetchStudents = useCallback(async (newPage = page, newSize = size, f = filters) => {
         setLoading(true);
-        console.log("🚀 [fetchStudents] 호출", { page: newPage, size: newSize, filters: f });
+        console.log("[fetchStudents] 호출", { page: newPage, size: newSize, filters: f });
         try {
             const data = await fetchStudentsApi({
                 ...f,
                 page: newPage,
                 size: newSize
             });
-            console.log("✅ [API 응답]", data.content);
+            console.log("[API 응답]", data.content);
 
             setStudents(data.content || []);
             setTotalPages(data.totalPages || 1);
@@ -63,6 +64,7 @@ export default function StudentListPage() {
 
     return (
         <div>
+            <AdminSectionHeader title="학생 목록" />
             {/* 검색/필터 UI */}
             <div className="flex mb-4 items-center gap-2">
                 <TextInput
@@ -149,7 +151,9 @@ export default function StudentListPage() {
                                 <td className="border px-2 py-1">
                                     <CodeDisplay category="studentStatus" code={s.studentStatusCode} />
                                 </td>
-                                <td className="border px-2 py-1">{s.schoolSubjectCode}</td>
+                                <td className="border px-2 py-1">
+                                    <CodeDisplay category="schoolSubject" code={s.schoolSubjectCode} />
+                                </td>
                                 <td className="border px-2 py-1">{s.admissionDate}</td>
                             </tr>
                         ))

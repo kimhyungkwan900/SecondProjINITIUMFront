@@ -43,10 +43,11 @@ const AdminAssessmentResultSearchBar = ({ setAssessmentList }) => {
             setSemesterCode(e.target.value);
             setAssessmentList([]);
           }}
-          className="border px-3 py-1 rounded w-28"
+          className="border px-1 py-1 rounded w-28"
         >
-          <option value="1">1학기</option>
-          <option value="2">2학기</option>
+          <option value="">학기선택</option>
+          <option value="1학기">1학기</option>
+          <option value="2학기">2학기</option>
         </select>
 
         <label className="font-medium">진단번호</label>

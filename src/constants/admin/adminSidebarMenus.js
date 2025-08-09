@@ -1,3 +1,5 @@
+const baseUrl = "/admin";
+
 const sidebarMenus = {
   "학사정보": [
     {
@@ -7,23 +9,23 @@ const sidebarMenus = {
         { label: "수강신청관리" }
       ]
     },
-    { label: "교수정보관리" }
-  ],
-  "행정정보": [
     {
-      label: "공통관리",
+      label: "교직원관리",
       children: [
-        { label: "코드관리" },
-        { label: "공통항목관리" }
+        {
+          label: "교수임용",
+          to: `${baseUrl}/employee/appoint-professor`
+        },
+        {
+          label: "강사임용",
+          to: `${baseUrl}/employee/appoint-instructor`
+        },
+        {
+          label: "교원임용",
+          to: `${baseUrl}/employee/appoint-staff`
+        },
       ]
     },
-    { label: "부서정보관리" }
-  ],
-  "시스템운영": [
-    { label: "권한관리" },
-    { label: "로그관리" }
-  ],
-  "학생지원": [
     {
       label: "학생관리",
       children: [
@@ -31,7 +33,7 @@ const sidebarMenus = {
           label: "학생명단조회",
           children: [{
             label: "학생명부조회",
-            to: "/admin/students/student-list"
+            to: `${baseUrl}/students/student-list`
           }
           ]
         }
@@ -42,15 +44,15 @@ const sidebarMenus = {
       children: [
         {
           label: "대시보드",
-          to: "/admin/diagnosis/dashboard"
+          to: `${baseUrl}/diagnosis/dashboard`
         },
         {
           label: "진단평가 생성",
-          to: "/admin/diagnosis/create"
+          to: `${baseUrl}/diagnosis/create`
         },
         {
           label: "진단평가 목록",
-          to: "/admin/diagnosis/list"
+          to: `${baseUrl}/diagnosis/list`
         }
       ]
     },
@@ -59,29 +61,36 @@ const sidebarMenus = {
       children: [
         {
           label: "핵심역량진단평가",
-          to: "/admin/coreCompetency/assessment"
+          to: `${baseUrl}/coreCompetency/assessment`
         },
         {
           label: "핵심역량진단결과",
-          to: "/admin/coreCompetency/assessment/result"
+          to: `${baseUrl}/coreCompetency/assessment/result`
         }
       ]
     },
     { label: "상담관리" }
   ],
-  "즐겨찾기": [
-    { label: "즐겨찾는 메뉴1" },
-    { label: "즐겨찾는 메뉴2" }
-  ]
+  "운영정보": [
+    {
+      label: "공통관리",
+      children: [
+        { label: "코드관리" },
+        { label: "공통항목관리" }
+      ]
+    },
+    {
+      label: "권한관리"
+    },
+    {
+      label: "부서정보관리"
+    },
+  ],
 };
 
-// "전체업무" 메뉴 자동 생성
 sidebarMenus["전체업무"] = [
   ...sidebarMenus["학사정보"],
-  ...sidebarMenus["행정정보"],
-  ...sidebarMenus["시스템운영"],
-  ...sidebarMenus["학생지원"],
-  ...sidebarMenus["즐겨찾기"]
+  ...sidebarMenus["운영정보"],
 ];
 
 export default sidebarMenus;

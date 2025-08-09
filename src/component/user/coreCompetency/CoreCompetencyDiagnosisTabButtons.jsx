@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 
-const DiagnosisTabButtons = () => {
+const CoreCompetencyDiagnosisTabButtons = () => {
   const navigate = useNavigate();   // 페이지 이동을 위한 훅
   const location = useLocation();   // 현재 URL 경로를 가져오는 훅
 
@@ -46,4 +46,4 @@ const DiagnosisTabButtons = () => {
   );
 };
 
-export default DiagnosisTabButtons;
+export default CoreCompetencyDiagnosisTabButtons;
