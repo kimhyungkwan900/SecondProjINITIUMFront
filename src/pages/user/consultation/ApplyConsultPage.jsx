@@ -15,8 +15,7 @@ const ApplyConsultPage = ({type})=>{
 
     const { user } = useContext(UserContext);   //로그인 인원 정보 가져오기
     // const { student, loading, error } = useStudentInfo(user?.loginId);
-
-    console.log(type);
+    
     const [step, setStep] = useState(0);
     const [selectedSlot, setSelectedSlot] = useState(null);
 
@@ -56,7 +55,7 @@ const ApplyConsultPage = ({type})=>{
 
             <div>
                 {step === 0 && (
-                    <ConsultScheduleSelect onSelect={handleSlotSelect}/>
+                    <ConsultScheduleSelect userInfo={user} type={type} onSelect={handleSlotSelect}/>
                 )}
 
                 {step === 1 && (
