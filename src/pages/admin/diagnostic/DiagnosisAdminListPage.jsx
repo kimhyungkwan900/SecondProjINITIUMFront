@@ -4,6 +4,7 @@ import { deleteAdminDiagnosticTest } from "../../../api/user/diagnostic/diagnosi
 import AdminSectionHeader from "../../../component/admin/AdminSectionHeader.jsx";
 import TextInput from "../../../component/common/TextInput.jsx";
 import PageButton from "../../../component/admin/extracurricular/PagaButton.jsx";
+import { useNavigate } from "react-router-dom";
 
 const PAGE_SIZE = 5;
 
@@ -14,6 +15,7 @@ const DiagnosisAdminListPage = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [selectedTest, setSelectedTest] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const loadTests = useCallback(() => {
     setLoading(true);
@@ -105,6 +107,14 @@ const DiagnosisAdminListPage = () => {
                     <td className="px-3 py-2 border-b border-gray-200 text-center">{test.id}</td>
                     <td className="px-3 py-2 border-b border-gray-200 text-center">{test.name}</td>
                     <td className="px-3 py-2 border-b border-gray-200 text-center">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/admin/diagnosis/edit/${test.id}`);
+                      }}
+                      className="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600 transition mr-2">
+                      수정
+                    </button>
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
