@@ -6,7 +6,7 @@ export default function AdminHeader({ selectedTopMenu, onMenuChange }) {
   const { user } = useContext(UserContext);
 
   const menuList = [
-    "학사정보", "행정정보", "시스템운영", "학생지원", "전체업무", "즐겨찾기"
+    "학사정보", "운영정보", "전체업무"
   ];
 
   return (
