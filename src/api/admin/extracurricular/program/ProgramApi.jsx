@@ -15,7 +15,7 @@ export const aplicationProgram = async (ExtracurricularFormDTO, empId, imageFile
       formData.append("image", imageFile);
     }
     const response = await axiosInstance.post(
-      "/admin/extracurricular/aplication",
+      "/admin/extracurricular/application",
       formData,
       {
         params: { empId },

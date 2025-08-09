@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 import { fetchPrograms , updateProgramStatus } from "../../../api/admin/extracurricular/program/ProgramApi";
 
 import RequestDerail from "../../../component/admin/extracurricular/request/RequestDetail";
@@ -105,7 +104,7 @@ const ExtracurricularProgramRequestPage = () => {
           totalPages={totalPages}
           onPageChange={handlePageChange}
         />
-        <RequestDerail program={selectedProgram} />
+        <RequestDerail program={selectedProgram} />  
 
         {/* 🔹 모달 렌더링 */}
         {showApprovedModal && selectedProgram && (

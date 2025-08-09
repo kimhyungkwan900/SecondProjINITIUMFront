@@ -1,3 +1,5 @@
+import { label } from "framer-motion/client";
+
 const sidebarMenus = {
   "학사정보": [
     {
@@ -72,7 +74,32 @@ const sidebarMenus = {
   "즐겨찾기": [
     { label: "즐겨찾는 메뉴1" },
     { label: "즐겨찾는 메뉴2" }
-  ]
+  ],
+
+  "프로그램 관리" : [
+    {
+      label : "프로그램 관리",
+      children :[
+        {
+          label : "분류 체계 관리",
+          to : "/admin/extracurricular/cateogry"
+        },
+        {
+          label : "프로그램 요청",
+          to : "/admin/extracurricular/program/aplication"
+        },
+        {
+          label : "프로그램 요청 관리",
+          to : "/admin/extracurricular/program/request"
+        },
+        {
+          label : "프로그램 신청 관리",
+          to : "/admin/extracurricular/program/apply"
+        },
+      ]
+    },
+    {label : ""}
+  ],
 };
 
 // "전체업무" 메뉴 자동 생성
@@ -81,7 +108,8 @@ sidebarMenus["전체업무"] = [
   ...sidebarMenus["행정정보"],
   ...sidebarMenus["시스템운영"],
   ...sidebarMenus["학생지원"],
-  ...sidebarMenus["즐겨찾기"]
+  ...sidebarMenus["즐겨찾기"],
+  ...sidebarMenus["프로그램 관리"]
 ];
 
 export default sidebarMenus;

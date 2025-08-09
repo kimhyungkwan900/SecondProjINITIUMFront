@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { fetchPrograms } from "../../../api/admin/extracurricular/program/ProgramApi";
+import { updateApply } from "../../../api/admin/extracurricular/program/ApplyApi";
 
 import Filter from "../../../component/admin/extracurricular/apply/Filter";
 import ProgramList from "../../../component/admin/extracurricular/apply/ProgramList";
 import ApplyList from "../../../component/admin/extracurricular/apply/ApplyList";
+import ApplyButton from "../../../component/admin/extracurricular/apply/ApplyButton";
 
 const ExtracurricularProgramApplyPage = () => {
   const [filter, setFilter] = useState({ keyword: "", eduType: "", status: "APPROVED" });
@@ -11,22 +13,39 @@ const ExtracurricularProgramApplyPage = () => {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [selectedProgram, setSelectedProgram] = useState(null); // ✅ 추가
+  const [selectedApplyIds, setSelectedApplyIds] = useState([]);
+
+  const handleSelectedApplyChange = (selectedIds) => {
+  setSelectedApplyIds(selectedIds);
+};
 
   const handleFilterChange = (field, value) => {
     setFilter((prev) => ({ ...prev, [field]: value }));
   };
 
-  const fetchData = async () => {
-    const data = await fetchPrograms(filter, page - 1, 5);
-    if (data) {
-      setPrograms(data.content || []);
-      setTotalPages(data.totalPages || 0);
-    }
-  };
+const fetchData = async () => {
+  const data = await fetchPrograms(filter, page - 1, 5);
+  if (data) {
+    setPrograms(data.content || []);
+    setTotalPages(data.totalPages || 0);
 
-  useEffect(() => {
-    fetchData();
-  }, [page]);
+    // 현재 선택된 프로그램 ID와 같은 프로그램이 있으면 갱신
+    if (selectedProgram) {
+      const updatedProgram = data.content?.find(
+        (p) => p.id === selectedProgram.id
+      );
+      if (updatedProgram) {
+        setSelectedProgram(updatedProgram);
+      } else {
+        setSelectedProgram(null); // 혹시 선택된 프로그램이 없어졌다면 초기화
+      }
+    }
+  }
+};
+
+ useEffect(() => {
+  fetchData();
+}, [page, filter]);
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
@@ -35,6 +54,27 @@ const ExtracurricularProgramApplyPage = () => {
   const handleSelectProgram = (program) => {
     setSelectedProgram(program); // ✅ 선택된 프로그램 저장
   };
+  const handleUpdateStatus = async (applyIds, newStatus) => {
+  if (!selectedProgram) {
+    alert("프로그램을 선택해주세요.");
+    return;
+  }
+
+  try {
+    const updates = applyIds.map((id) => ({
+      eduAplyId: id,
+      aprySttsNm: newStatus,
+    }));
+
+    await updateApply(updates);
+
+    alert("상태가 성공적으로 변경되었습니다.");
+    fetchData();
+    setSelectedApplyIds([]); // 여기서 체크박스 선택 초기화
+  } catch (error) {
+    alert("상태 변경에 실패했습니다: " + error.message);
+  }
+};
 
   return (
     <div className="w-full p-4">
@@ -59,8 +99,20 @@ const ExtracurricularProgramApplyPage = () => {
         onPageChange={handlePageChange}
         onSelectProgram={handleSelectProgram} // ✅ 전달
       />
+      
+      <ApplyButton
+        selectedApplyIds={selectedApplyIds}
+        onUpdateStatus={handleUpdateStatus}
+        onRefresh={fetchData}
+      />
 
-      {selectedProgram && <ApplyList applyList={selectedProgram.applyList} />}
+      {selectedProgram && (
+      <ApplyList
+        applyList={selectedProgram.applyList}
+        selectedIds={selectedApplyIds}         // 선택 상태를 props로 넘김
+        onSelectionChange={handleSelectedApplyChange}
+      />
+    )}
     </div>
   );
 };
