@@ -2,8 +2,8 @@ import CoreCompetencySideBar from "../../../features/user/UserSideBar";
 import MainHeader from "../../../features/user/mainpage/MainHeader";
 import { getAllAssessments } from "../../../api/admin/coreCompetency/AdminAssessmentApi";
 import { useEffect, useState } from "react";
-import DiagnosisTabButtons from "../../../component/user/coreCompetency/DiagnosisTabButtons";
 import CoreCompetencyAssessmentListTable from "../../../component/user/coreCompetency/CoreCompetencyAssessmentListTable";
+import CoreCompetencyDiagnosisTabButtons from "../../../component/user/coreCompetency/CoreCompetencyDiagnosisTabButtons";
 
 
 
@@ -48,7 +48,7 @@ const CoreCompetencyListPage = () =>{
 
                 {/* 우측 본문 영역 */}
                 <div className="flex-1 ml-10">
-                    <DiagnosisTabButtons/>
+                    <CoreCompetencyDiagnosisTabButtons/>
                     <CoreCompetencyAssessmentListTable assessments={assessments}/>
                 </div>
             </div>
