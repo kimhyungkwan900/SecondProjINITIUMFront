@@ -45,7 +45,7 @@ export const registerSatis = async (satisInfo) => {
 
 //일정 조회
 export const getSchedule = async (dscsnType, empNo) => {
-    const response = await axiosInstance.get(`/consult/schedule/`, { params: {dscsnType: dscsnType, empNo: empNo} });
+    const response = await axiosInstance.get(`/consult/schedule`, { params: {dscsnType: dscsnType, empNo: empNo} });
     return response.data;
 };
 

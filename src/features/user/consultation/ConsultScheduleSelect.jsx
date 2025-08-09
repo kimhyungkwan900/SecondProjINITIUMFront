@@ -7,8 +7,9 @@ import ReactModal from 'react-modal';
 import ConsultScheduleBox from "./ConsultScheduleBox";
 import SearchEmployee from "./SearchEmployee";
 import { getSchedule } from '../../../api/user/consult/ConsultUserApi';
+import { fetchStudentByNo } from '../../../api/user/auth/studentsApi';
 
-const ConsultScheduleSelect = (userInfo, type, onSelect)=>{
+const ConsultScheduleSelect = ({userInfo, type, onSelect})=>{
     const { pathname } = useLocation();
 
     const isProfessorApply = useMatch("/consult/apply/professor");
@@ -38,14 +39,23 @@ const ConsultScheduleSelect = (userInfo, type, onSelect)=>{
     // const [error, setError] = useState<unknown>(null);
 
     useEffect(() => {
+
         (async ()=>{
+            let empNo;
+
             try{
-                const data = await getSchedule({ type, empNo: null });
-                console.log("일정정보: "+ {data});
-                console.log("유저정보: " + {userInfo});
-                console.log("타입; " + type);
+                if (type === "A") {
+                    const result = await fetchStudentByNo(userInfo.studentNo);
+                    empNo = result.advisorId;
+                    console.log(empNo)
+                } else{
+                    empNo = null;
+                }
+
+                const data = await getSchedule( type, empNo );
+                console.log(data);
             } catch(e){
-                console.log("에러 발생: "+e);
+                console.log("에러 발생: " + e);
             }
         })();
         

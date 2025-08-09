@@ -10,7 +10,6 @@ import ConsultComplete from "../../../features/user/consultation/ConsultComplete
 
 const ApplyConsultPage = ({type})=>{
     // const stnt = useRequireAuth("/login");
-
     // if (!stnt) return null;
 
     const { user } = useContext(UserContext);   //로그인 인원 정보 가져오기
