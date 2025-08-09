@@ -16,7 +16,7 @@ const AdminCoreCompetencyResult = () => {
   return (
     <div>
       {/* 페이지 제목 */}
-      <div className="flex items-center ml-[265px] mt-16 gap-2">
+      <div className="flex items-center mt-16 gap-2">
         <span className="text-[26px] text-blue-600">▐</span>
         <span className="text-[26px] font-semibold">핵심역량진단결과</span>
       </div>

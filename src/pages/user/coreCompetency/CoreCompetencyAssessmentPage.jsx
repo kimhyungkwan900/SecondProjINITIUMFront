@@ -1,7 +1,7 @@
 
 import MainHeader from "../../../features/user/mainpage/MainHeader";
 import CoreCompetencySideBar from "../../../features/user/UserSideBar";
-import DiagnosisTabButtons from "../../../component/user/coreCompetency/DiagnosisTabButtons";
+import CoreCompetencyDiagnosisTabButtons from "../../../component/user/coreCompetency/CoreCompetencyDiagnosisTabButtons";
 
 const CoreCompetencyAssessmentPage = () => {
     const navItems = [
@@ -32,7 +32,7 @@ const CoreCompetencyAssessmentPage = () => {
 
                 {/* 우측 본문 영역 */}
                 <div className="flex-1 ml-10">
-                    <DiagnosisTabButtons/>
+                    <CoreCompetencyDiagnosisTabButtons/>
                 </div>
             </div>
         </div>
