@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { addDays, format, getDay } from 'date-fns';
+import { startOfWeek, addDays, format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { useMatch, useLocation } from 'react-router-dom';
 import ReactModal from 'react-modal';
@@ -7,18 +7,20 @@ import ReactModal from 'react-modal';
 import ConsultScheduleBox from "./ConsultScheduleBox";
 import SearchEmployee from "./SearchEmployee";
 
-const ConsultScheduleSelect = ()=>{
+const ConsultScheduleSelect = (onSelect)=>{
     const { pathname } = useLocation();
 
     const isProfessorApply = useMatch("/consult/apply/professor");
     const isCnslr = pathname.startsWith("/cnslr/consult/manage");
 
-    const [searchModalIsOpen, setSearchModalIsOpen] = useState(false);
     const today = new Date();
+
+    const weekStartsOnSunday = { weekStartsOn: 0, locale: ko };
+    const start = startOfWeek(today, weekStartsOnSunday);
 
     const dates = Array.from(
         { length: 14 },
-        (_, i) => addDays(today, i)
+        (_, i) => addDays(start, i)
     );
 
     const startHour = 9;
@@ -35,6 +37,8 @@ const ConsultScheduleSelect = ()=>{
     const tableWidthPercent = (totalCols / visibleCols) * 100;
     // 각 컬럼 폭 = 100% / 보이는 컬럼 수
     const colWidthPercent = 100 / visibleCols;
+
+    const [searchModalIsOpen, setSearchModalIsOpen] = useState(false);
 
     const openSearchModal = () => {
         // setSelectedProduct();
