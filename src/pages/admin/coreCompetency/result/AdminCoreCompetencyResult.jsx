@@ -4,6 +4,7 @@ import { useState } from "react";
 import AdminAssessmentResultTab from "../../../../component/admin/coreCompetency/result/AdminAssessmentResultTab";
 import AdminAssessmentResultSearchBar from "../../../../component/admin/coreCompetency/result/AdminAssessmentResultSearchBar";
 import AdminAssessmentResultListTable from "../../../../component/admin/coreCompetency/result/AdminAssessmentResultListTable";
+import AdminSectionHeader from "../../../../component/admin/AdminSectionHeader";
 
 // 핵심역량 진단결과 페이지 (관리자용)
 const AdminCoreCompetencyResult = () => {
@@ -15,15 +16,7 @@ const AdminCoreCompetencyResult = () => {
 
   return (
     <div>
-      {/* 페이지 제목 */}
-      <div className="flex items-center mt-16 gap-2">
-        <span className="text-[26px] text-blue-600">▐</span>
-        <span className="text-[26px] font-semibold">핵심역량진단결과</span>
-      </div>
-
-      {/* 구분선 */}
-      <hr />
-
+      <AdminSectionHeader title="핵심 역량 결과" />
       {/* 검색 바 컴포넌트: setAssessmentList를 통해 검색 결과 상태 업데이트 */}
       <AdminAssessmentResultSearchBar setAssessmentList={setAssessmentList} />
 

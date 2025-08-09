@@ -1,10 +1,14 @@
+import AdminSectionHeader from "../../../component/admin/AdminSectionHeader";
+
+
 const DiagnosisAdminDashboardPage = () => {
   return (
     <div className="min-h-screen bg-white flex">
-      {/* 콘텐츠 영역 */}
-      <main className="flex-1 ml-64 flex items-center justify-center">
-        {/* 🔹 중앙 정렬을 위해 flex + items-center + justify-center */}
-        <div className="bg-white shadow-lg rounded-2xl p-10 max-w-4xl w-full mx-auto">
+      <main className="flex-1 px-6">
+        <AdminSectionHeader title="진단평가 대시보드" />
+
+        {/* 본문 카드 컨테이너: rounded-lg, shadow-sm, bg-white */}
+        <div className="overflow-x-auto rounded-lg shadow-sm bg-white p-8 max-w-4xl w-full mx-auto">
           <h1 className="text-3xl font-bold text-[#222E8D] mb-6 text-center">
             진단검사 관리자 기능 안내
           </h1>

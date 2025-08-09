@@ -4,7 +4,7 @@ import { UserContext } from "../../App";
 import { logout } from "../../api/user/auth/loginApi";
 
 const AUTO_LOGOUT_TIME = 60 * 60 * 1000; // 1시간(ms)
-
+// const AUTO_LOGOUT_TIME = 10 * 1000 //10초
 export default function IdleLogoutWatcher({ children }) {
   const timerRef = useRef();
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ export default function IdleLogoutWatcher({ children }) {
 
   // 자동 로그아웃 처리
   const handleLogout = async () => {
-    alert("1시간 동안 입력이 없어 자동 로그아웃됩니다.");
+    alert(`${AUTO_LOGOUT_TIME} 동안 입력이 없어 자동 로그아웃됩니다.`);
     await logout();
     setUser(null);
     navigate("/login");
@@ -27,7 +27,7 @@ export default function IdleLogoutWatcher({ children }) {
   useEffect(() => {
     const events = ["mousemove", "keydown", "mousedown", "touchstart", "scroll"];
     events.forEach(e => window.addEventListener(e, resetTimer));
-    resetTimer(); // 첫 시작 타이머
+    resetTimer();
 
     return () => {
       events.forEach(e => window.removeEventListener(e, resetTimer));
