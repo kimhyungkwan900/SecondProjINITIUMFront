@@ -16,9 +16,7 @@ const AdminCoreCompetencyResult = () => {
 
   return (
     <div>
-
       <AdminSectionHeader title="핵심 역량 결과" />
-
       {/* 검색 바 컴포넌트: setAssessmentList를 통해 검색 결과 상태 업데이트 */}
       <AdminAssessmentResultSearchBar setAssessmentList={setAssessmentList} />
 
