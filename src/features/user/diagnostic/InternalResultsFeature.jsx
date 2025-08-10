@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { fetchPagedResultsByStudent, downloadResultPdf } from '../../../api/user/diagnostic/diagnosisApi.jsx';
 import { Link } from 'react-router-dom';
+import SectionTitle from '../../../component/common/SectionTitle.jsx';
 
 /**
  * InternalResultsFeature
- * - 내부 진단검사 결과를 서버 페이징으로 표시
- * - props:
- *    - studentNo: 현재 학생 번호
+ * - 내부 진단검사 결과(서버 페이징)
+ * - 부모 페이지가 레이아웃/카드를 감싸고, 본 컴포넌트는 콘텐츠만 렌더
  */
 const InternalResultsFeature = ({ studentNo }) => {
-  const [pageData, setPageData] = useState(null); // Page 객체
+  const [pageData, setPageData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(0); // 0-base
+  const [page, setPage] = useState(0); // 0-based
   const [size, setSize] = useState(3);
 
   useEffect(() => {
@@ -39,86 +39,79 @@ const InternalResultsFeature = ({ studentNo }) => {
   };
 
   if (loading) {
-    return (
-      <div className="bg-white rounded-xl shadow p-6 text-center text-[#222E8D]">
-        내부 진단검사 결과 로딩 중...
-      </div>
-    );
+    return <div className="text-center text-gray-400 py-8">내부 진단검사 결과 로딩 중...</div>;
   }
 
   if (!pageData) {
-    return (
-      <div className="bg-white rounded-xl shadow p-6 text-center">
-        데이터 없음
-      </div>
-    );
+    return <div className="text-center text-gray-400 py-8">데이터 없음</div>;
   }
 
   const { content = [], totalElements, totalPages, number, first, last } = pageData;
 
   return (
-    <div className="bg-white rounded-xl shadow p-6 space-y-4">
-      <h2 className="text-xl font-bold text-[#222E8D] border-b pb-2">
-        📊 심리 진단검사 결과 (총 {totalElements}건)
-      </h2>
+    <section className="space-y-6">
+      {/* 섹션 헤더 (파란 막대 + 제목) */}
+      <SectionTitle size={22} showDivider>심리 진단검사 결과<span className="text-gray-500 text-base font-normal">(총 {totalElements}건)</span></SectionTitle>
+      <hr className="my-2 border-gray-200" />
 
-      {content.length > 0 ? (
-        <ul className="divide-y">
-          {content.map((result) => (
-            <li
-              key={result.resultId}
-              className="flex flex-col sm:flex-row sm:items-center justify-between py-3"
-            >
-              <div className="text-gray-700">
-                <Link
-                  to={`/diagnosis/internal/result/${result.resultId}`}
-                  className="font-medium text-[#28B8B2] hover:underline"
-                >
-                  {result.testName}
-                </Link>
-                <span className="ml-2 text-gray-500 text-sm">
-                  | 점수: {result.totalScore} | 날짜:{' '}
-                  {result.completionDate
-                    ? new Date(result.completionDate).toLocaleString()
-                    : '-'}
-                </span>
-              </div>
-              <button
-                className="bg-[#28B8B2] text-white px-3 py-1 rounded-lg hover:bg-[#1a807b] transition mt-2 sm:mt-0"
-                onClick={() => handleDownloadPdf(result.resultId)}
+      {/* 리스트 카드 (가이드: bg-gray-50 + border + rounded + shadow-sm) */}
+      <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 shadow-sm">
+        {content.length > 0 ? (
+          <ul className="divide-y">
+            {content.map((result) => (
+              <li
+                key={result.resultId}
+                className="flex flex-col sm:flex-row sm:items-center justify-between py-3"
               >
-                PDF 다운로드
-              </button>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="text-gray-500 text-center">
-          내부 진단검사 결과가 없습니다.
-        </p>
-      )}
+                <div className="text-gray-700">
+                  <Link
+                    to={`/diagnosis/internal/result/${result.resultId}`}
+                    className="font-medium text-[#28B8B2] hover:underline"
+                  >
+                    {result.testName}
+                  </Link>
+                  <span className="ml-2 text-gray-500 text-sm">
+                    | 점수: {result.totalScore} | 날짜:{' '}
+                    {result.completionDate
+                      ? new Date(result.completionDate).toLocaleString()
+                      : '-'}
+                  </span>
+                </div>
 
-      <div className="flex items-center justify-between pt-4">
-        <div className="text-sm text-gray-600">
-          페이지 {number + 1} / {Math.max(totalPages, 1)}
-        </div>
+                <button
+                  className="bg-[#222E8D] text-white px-3 py-1 rounded text-sm font-semibold hover:bg-blue-800 transition mt-2 sm:mt-0"
+                  onClick={() => handleDownloadPdf(result.resultId)}
+                >
+                  PDF 다운로드
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="text-center text-gray-400 py-8">내부 진단검사 결과가 없습니다.</div>
+        )}
+      </div>
+
+      {/* 페이징 바 (가이드 톤) */}
+      <div className="mt-2 flex justify-between items-center">
+        <div className="text-sm text-gray-600">페이지 {number + 1} / {Math.max(totalPages, 1)}</div>
         <div className="flex gap-2 items-center">
           <button
-            className="px-3 py-1 border rounded disabled:opacity-50"
+            className="w-auto rounded border border-gray-300 px-2 py-1 text-sm hover:bg-gray-50 transition disabled:opacity-50"
             onClick={() => setPage((p) => Math.max(p - 1, 0))}
             disabled={first}
           >
             이전
           </button>
           <button
-            className="px-3 py-1 border rounded disabled:opacity-50"
+            className="w-auto rounded border border-gray-300 px-2 py-1 text-sm hover:bg-gray-50 transition disabled:opacity-50"
             onClick={() => setPage((p) => (last ? p : p + 1))}
             disabled={last}
           >
             다음
           </button>
           <select
-            className="ml-2 border rounded px-2 py-1"
+            className="w-auto rounded border border-gray-300 px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
             value={size}
             onChange={(e) => {
               setPage(0);
@@ -131,7 +124,7 @@ const InternalResultsFeature = ({ studentNo }) => {
           </select>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
