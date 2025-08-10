@@ -1,11 +1,33 @@
 import axiosInstance from "../../axiosInstance";
 
-// 핵심역량진단목록 등록
-export const getAllAssessmentList = () => {
-  return axiosInstance.get(`/assessments/list`);
+const CUD_BASE_URL = '/admin/competencyCategory';
+const READ_BASE_URL = '/admin/assessments';
+
+// --- 조회(Read) API ---
+// assessment에 속한 핵심역량 목록 조회
+export const getCoreCategoriesByAssessment = (assessmentId) => {
+    return axiosInstance.get(`${READ_BASE_URL}/${assessmentId}/core`);
 };
 
-// 핵심역량진단목록 수정
+// coreCategory에 속한 하위역량 목록 조회
+export const getSubCategoriesByCore = (coreId) => {
+    return axiosInstance.get(`${READ_BASE_URL}/${coreId}/subcategories`);
+};
 
+// --- 인재상 목록 API ---
+export const getIdealTalentProfiles = () => {
+    return axiosInstance.get(`${CUD_BASE_URL}/ideal-talent-profiles`);
+};
 
-// 핵심역량진단목록 삭제
+// --- 생성/수정/삭제(CUD) API ---
+export const createCategory = (categoryDto) => {
+    return axiosInstance.post(`${CUD_BASE_URL}/create`, categoryDto);
+};
+
+export const updateCategory = (id, categoryDto) => {
+    return axiosInstance.put(`${CUD_BASE_URL}/update/${id}`, categoryDto);
+};
+
+export const deleteCategory = (id, categoryDto) => {
+    return axiosInstance.delete(`${CUD_BASE_URL}/delete/${id}`, { data: categoryDto });
+};
