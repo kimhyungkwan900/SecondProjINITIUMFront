@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { UserContext } from "../../../App";
 
 import UserTopBar from "../../../component/user/mainpage/UserTopBar";
@@ -6,14 +6,15 @@ import MainHeader from "../../../features/user/mainpage/MainHeader";
 import ConsultScheduleSelect from "../../../features/user/consultation/ConsultScheduleSelect";
 import ConsultApplyForm from "../../../features/user/consultation/ConsultApplyForm";
 import ConsultComplete from "../../../features/user/consultation/ConsultComplete";
-import useRequireAuth from "../../../hooks/user/consult/useRequireAuth";
+// import useRequireAuth from "../../../hooks/user/consult/useRequireAuth";
 
 const ApplyConsultPage = ({type})=>{
-    const stnt = useRequireAuth("/login");
-
+    // const stnt = useRequireAuth("/login");
     // if (!stnt) return null;
 
-    console.log(type);
+    const { user } = useContext(UserContext);   //로그인 인원 정보 가져오기
+    // const { student, loading, error } = useStudentInfo(user?.loginId);
+    
     const [step, setStep] = useState(0);
     const [selectedSlot, setSelectedSlot] = useState(null);
 
@@ -40,14 +41,20 @@ const ApplyConsultPage = ({type})=>{
             <MainHeader />
 
             {/* 상단 회색 박스 */}
-            <div className="bg-gray-100 px-12 py-10 border-b border-gray-300 flex justify-between items-center">
-                <h1 className="text-3xl font-semibold">상담종합</h1>
-                <div className="text-2xl text-gray-600">HOME &gt; 상담종합</div>
+            <div className="bg-gray-100 border-b border-gray-300">
+                <div className="w-[1200px] mx-auto px-6 py-8">
+                <div className="flex justify-between items-end">
+                    <h1 className="ml-42 text-4xl font-semibold">상담종합</h1>
+                    <div className="text-base text-gray-600 text-right">
+                    HOME &gt; 상담신청
+                    </div>
+                </div>
+                </div>
             </div>
 
             <div>
                 {step === 0 && (
-                    <ConsultScheduleSelect onSelect={handleSlotSelect}/>
+                    <ConsultScheduleSelect userInfo={user} type={type} onSelect={handleSlotSelect}/>
                 )}
 
                 {step === 1 && (

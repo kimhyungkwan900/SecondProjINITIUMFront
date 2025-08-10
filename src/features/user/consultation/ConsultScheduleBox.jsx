@@ -1,11 +1,10 @@
-const ScheduleBox = ()=>{
+const ScheduleBox = ({onSelect})=>{
+    const stop = (e) => e.stopPropagation();
+
     return(
-        <div className="w-full flex flex-col bg-blue-600 text-white rounded px-2 py-3 text-sm">
-            <div className="mb-2">
-                <span className="font-medium">9:00</span>
-                <span className="ml-2">예약 대기</span>
-            </div>
-            <select className="w-2/3 justify-end text-black">
+        <div className="w-full flex flex-col bg-blue-600 text-white rounded px-3 py-3 text-sm" onClick={onSelect}>
+
+            <select className="w-2/3 justify-end text-black" onClick={stop} >
                 <option>테스트1</option>
                 <option>테스트2</option>
             </select>

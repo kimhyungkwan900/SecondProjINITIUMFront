@@ -8,9 +8,8 @@ import UserTopBar from '../../../component/user/mainpage/UserTopBar.jsx';
 import { UserContext } from '../../../App.jsx';
 
 /**
- *  DiagnosisConductPage
- * - 내부 진단검사를 실제로 진행하는 페이지
- * - 검사 문항 표시 → 응답 제출 후 결과 페이지로 이동
+ * DiagnosisConductPage
+ * - 내부 진단검사 진행 페이지
  */
 const DiagnosisConductPage = () => {
   const { user } = useContext(UserContext);
@@ -19,23 +18,30 @@ const DiagnosisConductPage = () => {
   const studentNo = user?.loginId;
   const [resultId, setResultId] = useState(null);
 
-  const handleSubmit = (resultId) => {
-    setResultId(resultId);
-    navigate(`/diagnosis/internal/result/${resultId}`);
+  const handleSubmit = (rid) => {
+    setResultId(rid);
+    navigate(`/diagnosis/internal/result/${rid}`);
   };
 
   return (
-    <div className="min-h-screen bg-[#f6f9fc]">
-      <div className="fixed top-0 left-0 w-full z-50 shadow bg-white">
+    <div className="min-h-screen bg-[#f6f9fc] flex flex-col items-center">
+      {/* 상단 고정 영역 */}
+      <div className="fixed top-0 left-0 w-full z-50 bg-white shadow">
         <UserTopBar />
         <MainHeader />
       </div>
 
-      <div className="flex justify-center items-start pt-60 pb-10">
-        <div className="w-full max-w-5xl bg-white shadow-lg rounded-2xl p-8">
-          <h1 className="text-3xl font-bold text-[#222E8D] mb-8 text-center">
+      {/* 메인 컨텐츠 영역: 62.6% 폭 + 상단 패딩(겹침 방지) */}
+      <div className="w-[62.6%] min-w-[62.6%] m-auto pt-[220px] pb-10">
+        <main className="bg-white shadow-lg rounded-2xl p-8">
+          <h1 className="text-3xl font-bold text-[#222E8D] text-center mb-8">
             내부 진단검사 실시
           </h1>
+
+          {/* 섹션 헤더(파란 막대 + 제목) */}
+          <div className="flex items-center gap-2 mb-4">
+            <SectionTitle size={22} showDivider>{resultId ? '결과 요약' : '문항 진행'}</SectionTitle>
+          </div>
 
           {!resultId ? (
             <DiagnosisQuestions
@@ -46,7 +52,7 @@ const DiagnosisConductPage = () => {
           ) : (
             <DiagnosisResult resultId={resultId} />
           )}
-        </div>
+        </main>
       </div>
     </div>
   );
