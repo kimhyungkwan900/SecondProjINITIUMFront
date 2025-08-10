@@ -1,32 +1,32 @@
-import { useState } from 'react';
-import { addDays, format, getDay } from 'date-fns';
+import { useState, useEffect } from 'react';
+import { startOfWeek, addDays, getDay, isSameDay, format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { useMatch, useLocation } from 'react-router-dom';
 import ReactModal from 'react-modal';
 
 import ConsultScheduleBox from "./ConsultScheduleBox";
 import SearchEmployee from "./SearchEmployee";
+import { getSchedule } from '../../../api/user/consult/ConsultUserApi';
+import { fetchStudentByNo } from '../../../api/user/auth/studentsApi';
 
-const ConsultScheduleSelect = ()=>{
+const ConsultScheduleSelect = ({userInfo, type, onSelect})=>{
     const { pathname } = useLocation();
 
     const isProfessorApply = useMatch("/consult/apply/professor");
     const isCnslr = pathname.startsWith("/cnslr/consult/manage");
 
-    const [searchModalIsOpen, setSearchModalIsOpen] = useState(false);
     const today = new Date();
+
+    const weekStartsOnSunday = { weekStartsOn: 0, locale: ko };
+    const start = startOfWeek(today, weekStartsOnSunday);
 
     const dates = Array.from(
         { length: 14 },
-        (_, i) => addDays(today, i)
+        (_, i) => addDays(start, i)
     );
 
-    const startHour = 9;
-    const endHour = 22;
-    const timeSlots = Array.from(
-        { length: endHour - startHour + 1 },
-        (_, i) => startHour + i
-    );
+    // const startDay = format(dates[0], "yyyyMMdd");
+    // const endDay  = format(dates[dates.length - 1], "yyyyMMdd");
 
     const totalCols = 1 + dates.length;
     const visibleCols = 1 + dates.slice(0, 7).length;
@@ -35,6 +35,40 @@ const ConsultScheduleSelect = ()=>{
     const tableWidthPercent = (totalCols / visibleCols) * 100;
     // 각 컬럼 폭 = 100% / 보이는 컬럼 수
     const colWidthPercent = 100 / visibleCols;
+
+    // const [error, setError] = useState<unknown>(null);
+
+    useEffect(() => {
+
+        (async ()=>{
+            let empNo;
+
+            try{
+                if (type === "A") {
+                    const result = await fetchStudentByNo(userInfo.studentNo);
+                    empNo = result.advisorId;
+                    console.log(empNo)
+                } else{
+                    empNo = null;
+                }
+
+                const data = await getSchedule( type, empNo );
+                console.log(data);
+            } catch(e){
+                console.log("에러 발생: " + e);
+            }
+        })();
+        
+    }, );
+
+    const startHour = 9;
+    const endHour = 22;
+    const timeSlots = Array.from(
+        { length: endHour - startHour + 1 },
+        (_, i) => startHour + i
+    );
+
+    const [searchModalIsOpen, setSearchModalIsOpen] = useState(false);
 
     const openSearchModal = () => {
         // setSelectedProduct();
@@ -105,8 +139,12 @@ const ConsultScheduleSelect = ()=>{
                                     : getDay(day) === 6
                                     ? "text-blue-500"   // 토요일 → 파랑
                                     : "";
+
+                            const isToday = isSameDay(day, new Date());
+                            const bgClass = isToday ? "bg-gray-500" : "bg-gray-200"; // 오늘이면 하이라이트
+
                             return(
-                                <th key={di} className={`border bg-gray-200 px-3 py-2 text-center ${textColor}`}>
+                                <th key={di} className={`border ${bgClass} px-3 py-2 text-center ${textColor}`}>
                                     {format(day, "MM.dd", {locale: ko})}<br/>{format(day, "EEE", {locale: ko})}
                                 </th>
                             );
@@ -121,7 +159,7 @@ const ConsultScheduleSelect = ()=>{
                             </th>
                             {dates.map((day, di)=>(
                                 <td key={di} className="border p-3">
-                                    <ConsultScheduleBox />
+                                    <ConsultScheduleBox onSelect={onSelect}/>
                                 </td>
                             ))}
                         </tr>
