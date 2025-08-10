@@ -5,47 +5,44 @@ import ExternalTestQuestions from '../../../component/user/diagnostic/ExternalTe
 import { fetchExternalTests } from '../../../api/user/diagnostic/externalDiagnosisApi.jsx';
 import UserTopBar from '../../../component/user/mainpage/UserTopBar.jsx';
 import { UserContext } from '../../../App.jsx';
+import SectionTitle from '../../../component/common/SectionTitle.jsx';
 
 /**
- *  ExternalDiagnosisConductPage
+ * ExternalDiagnosisConductPage
  * - 외부 진단검사(예: 커리어넷) 진행 페이지
- * - 문항 API 코드와 대상 코드를 이용해 문항을 불러오고, 응답을 제출
  */
 const ExternalDiagnosisConductPage = () => {
-  const { user } = useContext(UserContext); // 로그인한 사용자 정보
-  const { testId } = useParams();           // URL에서 검사 ID 추출
-  const location = useLocation();           // 페이지 이동 시 전달된 state
+  const { user } = useContext(UserContext);
+  const { testId } = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
 
-  // location.state로 전달된 값 구조 분해
   const {
     questionApiCode: stateQuestionApiCode,
     targetCode: stateTargetCode,
     name: stateName,
-    studentNo: stateStudentNo
+    studentNo: stateStudentNo,
   } = location.state || {};
 
-  // 검사 정보 상태
   const [questionApiCode, setQuestionApiCode] = useState(stateQuestionApiCode || '');
   const [targetCode, setTargetCode] = useState(stateTargetCode || '');
   const [name, setName] = useState(stateName || '');
   const [studentNo] = useState(stateStudentNo || user?.loginId);
   const [loading, setLoading] = useState(!stateQuestionApiCode || !stateTargetCode);
 
-  // 검사 정보 없을 경우 API로 불러오기
   useEffect(() => {
     if (!stateQuestionApiCode || !stateTargetCode) {
       fetchExternalTests()
         .then((tests) => {
-          const foundTest = tests.find((t) => String(t.id) === String(testId));
-          if (!foundTest) {
+          const found = tests.find((t) => String(t.id) === String(testId));
+          if (!found) {
             alert('검사 정보를 불러올 수 없습니다.');
             navigate('/external-diagnosis');
             return;
           }
-          setQuestionApiCode(foundTest.questionApiCode);
-          setTargetCode(foundTest.targetCode);
-          setName(foundTest.name);
+          setQuestionApiCode(found.questionApiCode);
+          setTargetCode(found.targetCode);
+          setName(found.name);
         })
         .catch((err) => {
           console.error(err);
@@ -60,26 +57,44 @@ const ExternalDiagnosisConductPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#f6f9fc] flex justify-center items-center">
-        <p className="text-gray-600 text-lg font-medium">
-          검사 정보를 불러오는 중...
-        </p>
+      <div className="min-h-screen bg-[#f6f9fc] flex flex-col items-center">
+        {/* 상단 고정 영역 */}
+        <div className="fixed top-0 left-0 w-full z-50 bg-white shadow">
+          <UserTopBar />
+          <MainHeader />
+        </div>
+
+        {/* 메인 컨텐츠 영역 */}
+        <div className="w-[62.6%] min-w-[62.6%] m-auto pt-[220px] pb-10">
+          <div className="bg-white shadow-lg rounded-2xl p-8 text-center text-gray-600">
+            검사 정보를 불러오는 중...
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#f6f9fc]">
-      <div className="fixed top-0 left-0 w-full z-50 shadow bg-white">
+    <div className="min-h-screen bg-[#f6f9fc] flex flex-col items-center">
+      {/* 상단 고정 영역 */}
+      <div className="fixed top-0 left-0 w-full z-50 bg-white shadow">
         <UserTopBar />
         <MainHeader />
       </div>
 
-      <div className="flex justify-center items-start pt-60 pb-10">
-        <div className="w-full max-w-5xl bg-white shadow-lg rounded-2xl p-8">
-          <h1 className="text-3xl font-bold text-[#222E8D] mb-8 text-center">
+      {/* 메인 컨텐츠 영역: 62.6% 폭 + 상단 패딩(겹침 방지) */}
+      <div className="w-[62.6%] min-w-[62.6%] m-auto pt-[220px] pb-10">
+        <main className="bg-white shadow-lg rounded-2xl p-8">
+          <h1 className="text-3xl font-bold text-[#222E8D] text-center mb-8">
             {name || '외부 진단검사 실시'}
           </h1>
+
+          {/* 섹션 헤더 */}
+          <div className="flex items-center gap-2 mb-4">
+            {/* 파란 막대: 글자 대신 블록 요소로 */}
+            <SectionTitle size={22} showDivider>문항 진행</SectionTitle>
+          </div>
+
 
           <ExternalTestQuestions
             qestrnSeq={questionApiCode}
@@ -87,7 +102,7 @@ const ExternalDiagnosisConductPage = () => {
             studentNo={studentNo}
             testName={name}
           />
-        </div>
+        </main>
       </div>
     </div>
   );

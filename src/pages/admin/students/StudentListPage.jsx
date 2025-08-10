@@ -3,6 +3,7 @@ import TextInput from "../../../component/common/TextInput";
 import PageButton from "../../../component/admin/extracurricular/PagaButton";
 import { fetchStudents as fetchStudentsApi } from "../../../api/user/auth/studentsApi";
 import CodeDisplay from "../../../component/common/CodeDisplay";
+import AdminSectionHeader from "../../../component/admin/AdminSectionHeader";
 
 export default function StudentListPage() {
     const [filters, setFilters] = useState({
@@ -18,32 +19,43 @@ export default function StudentListPage() {
     const [totalElements, setTotalElements] = useState(0);
     const [loading, setLoading] = useState(false);
 
+    // 학생 조회 함수
     const fetchStudents = useCallback(async (newPage = page, newSize = size, f = filters) => {
         setLoading(true);
+        console.log("[fetchStudents] 호출", { page: newPage, size: newSize, filters: f });
         try {
             const data = await fetchStudentsApi({
                 ...f,
                 page: newPage,
                 size: newSize
             });
-            setStudents(data.content);
-            setTotalPages(data.totalPages);
-            setTotalElements(data.totalElements);
+            console.log("[API 응답]", data.content);
+
+            setStudents(data.content || []);
+            setTotalPages(data.totalPages || 1);
+            setTotalElements(data.totalElements || 0);
             setPage(newPage);
         } catch (e) {
-            alert("조회에 실패했습니다.", e);
+            console.error("[API 호출 실패]", e);
+            alert("조회에 실패했습니다.");
         } finally {
             setLoading(false);
         }
     }, [page, size, filters]);
 
+    // 페이지/사이즈/필터 바뀔 때마다 호출
     useEffect(() => {
         fetchStudents(page, size, filters);
         // eslint-disable-next-line
     }, [page, size, filters, fetchStudents]);
 
-    const handleSearch = () => setPage(0);
+    // 검색 버튼 클릭
+    const handleSearch = () => {
+        fetchStudents(0, size, filters);
+        setPage(0);
+    };
 
+    // 표시개수 변경
     const handleSizeChange = (e) => {
         const newSize = parseInt(e.target.value, 10);
         setSize(newSize);
@@ -52,6 +64,7 @@ export default function StudentListPage() {
 
     return (
         <div>
+            <AdminSectionHeader title="학생 목록" />
             {/* 검색/필터 UI */}
             <div className="flex mb-4 items-center gap-2">
                 <TextInput
@@ -70,6 +83,7 @@ export default function StudentListPage() {
                     value={filters.studentStatusCode}
                     onChange={e => setFilters(f => ({ ...f, studentStatusCode: e.target.value }))}
                 >
+                    <option value="">전체</option>
                     <option value="10">재학</option>
                     <option value="20">휴학</option>
                     <option value="30">제적</option>
@@ -130,10 +144,16 @@ export default function StudentListPage() {
                                 <td className="border px-2 py-1">{s.studentNo}</td>
                                 <td className="border px-2 py-1">{s.name}</td>
                                 <td className="border px-2 py-1">{s.birthDate}</td>
-                                <td className="border px-2 py-1"><CodeDisplay category="CO0001" code={s.genderCode} /></td>
+                                <td className="border px-2 py-1">
+                                    <CodeDisplay category="CO0001" code={s.genderCode} />
+                                </td>
                                 <td className="border px-2 py-1">{s.email}</td>
-                                <td className="border px-2 py-1"><CodeDisplay category="studentStatus" code={s.studentStatusCode} /></td>
-                                <td className="border px-2 py-1">{s.schoolSubjectCode}</td>
+                                <td className="border px-2 py-1">
+                                    <CodeDisplay category="studentStatus" code={s.studentStatusCode} />
+                                </td>
+                                <td className="border px-2 py-1">
+                                    <CodeDisplay category="schoolSubject" code={s.schoolSubjectCode} />
+                                </td>
                                 <td className="border px-2 py-1">{s.admissionDate}</td>
                             </tr>
                         ))
@@ -149,7 +169,9 @@ export default function StudentListPage() {
                 <PageButton
                     totalPages={totalPages}
                     currentPage={page + 1}
-                    onPageChange={(p) => setPage(p - 1)}
+                    onPageChange={(p) => {
+                        setPage(p - 1);
+                    }}
                 />
             </div>
         </div>

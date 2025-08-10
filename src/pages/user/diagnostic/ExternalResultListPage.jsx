@@ -3,27 +3,34 @@ import ExternalResultsFeature from '../../../features/user/diagnostic/ExternalRe
 import MainHeader from '../../../features/user/mainpage/MainHeader.jsx';
 import UserTopBar from '../../../component/user/mainpage/UserTopBar.jsx';
 import { UserContext } from '../../../App.jsx';
+import SectionTitle from '../../../component/common/SectionTitle.jsx';
 
 const ExternalResultListPage = () => {
   const { user } = useContext(UserContext);
   const studentNo = user?.loginId;
 
   return (
-    <div className="min-h-screen bg-[#f6f9fc]">
-      {/* 상단 고정 헤더 */}
-      <div className="fixed top-0 left-0 w-full z-50 shadow bg-white">
+    <div className="min-h-screen bg-[#f6f9fc] flex flex-col items-center">
+      {/* 상단 고정 영역 */}
+      <div className="fixed top-0 left-0 w-full z-50 bg-white shadow">
         <UserTopBar />
         <MainHeader />
       </div>
 
-      {/* 콘텐츠 영역 (헤더 높이만큼 패딩 추가) */}
-      <div className="flex justify-center items-start pt-60 pb-10">
-        <div className="w-full max-w-5xl bg-white shadow-lg rounded-2xl p-8">
-          <h1 className="text-3xl font-bold text-[#222E8D] mb-6 text-center">
+      {/* 메인 컨텐츠 영역: 62.6% 폭 + 상단 패딩(겹침 방지) */}
+      <div className="w-[62.6%] min-w-[62.6%] m-auto pt-[220px] pb-10">
+        <main className="bg-white shadow-lg rounded-2xl p-8">
+          <h1 className="text-3xl font-bold text-[#222E8D] text-center mb-6">
             외부 진단검사 전체 결과
           </h1>
+
+          {/* 섹션 헤더(파란 막대 + 제목) */}
+          <div className="flex items-center gap-2 mb-4">
+            <SectionTitle size={22} showDivider>결과 목록</SectionTitle>
+          </div>
+
           <ExternalResultsFeature studentNo={studentNo} />
-        </div>
+        </main>
       </div>
     </div>
   );

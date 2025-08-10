@@ -1,15 +1,7 @@
-import axios from 'axios';
+import axiosInstance from '../../axiosInstance';
 
 // 기본 설정
-const BASE_URL = '/api/diagnosis';
-
-// Axios 인스턴스 (공통 설정)
-const axiosInstance = axios.create({
-  withCredentials: true, // 로그인 세션/쿠키 인증 유지
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+const BASE_URL = '/diagnosis';
 
 // 공통 에러 핸들러
 const handleError = (error) => {
@@ -108,7 +100,7 @@ export const fetchResultDetails = async (resultId) => {
   try {
     if (!resultId) throw new Error('결과 ID가 유효하지 않습니다.');
     
-    const res = await axiosInstance.get(`/api/diagnosis/result/${resultId}/details`);
+    const res = await axiosInstance.get(`/diagnosis/result/${resultId}/details`);
     
     if (!Array.isArray(res.data)) {
       console.warn('[fetchResultDetails] 예상치 못한 데이터 형식:', res.data);

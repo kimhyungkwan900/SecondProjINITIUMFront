@@ -3,31 +3,20 @@ import DiagnosisTestList from '../../../component/user/diagnostic/DiagnosisTestL
 import DiagnosisQuestions from '../../../component/user/diagnostic/DiagnosisQuestions.jsx';
 import DiagnosisResult from '../../../component/user/diagnostic/DiagnosisResult.jsx';
 import { submitDiagnosis } from '../../../api/user/diagnostic/diagnosisApi.jsx';
+import SectionTitle from '../../../component/common/SectionTitle.jsx';
 
 /**
  * DiagnosisListFeature
- * - 내부 진단검사 전체 흐름(목록 → 문항 응답 → 결과)을 관리하는 컨테이너 컴포넌트
- * - props:
- *    studentNo: 현재 로그인한 학생 번호
+ * - 내부 진단검사 전체 흐름(목록 → 문항 응답 → 결과)
+ * - 부모 페이지에서 카드/레이아웃을 감싸고, 본 컴포넌트는 콘텐츠만 렌더
  */
 const DiagnosisListFeature = ({ studentNo }) => {
-  // 현재 선택된 검사 정보 (id, name 등)
-  const [selectedTest, setSelectedTest] = useState(null);
-
-  // 검사 제출 후 생성된 결과 ID (결과 화면 전환 trigger)
+  const [selectedTest, setSelectedTest] = useState(null); // { id, name, ... }
   const [resultId, setResultId] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
 
-  /**
-   * 검사 응답 제출
-   * - answers: {문항ID: 선택값, ...}
-   * - requestData 구조: 
-   *   {
-   *     studentNo,
-   *     testId,
-   *     answers: [{ questionId, selectedValue }, ...]
-   *   }
-   */
-  const handleSubmit = (answers) => {
+  const handleSubmit = async (answers) => {
+    if (!selectedTest) return;
     const requestData = {
       studentNo,
       testId: selectedTest.id,
@@ -37,48 +26,100 @@ const DiagnosisListFeature = ({ studentNo }) => {
       })),
     };
 
-    // API 호출 → 결과 ID 저장 → 결과 화면으로 전환
-    submitDiagnosis(requestData)
-      .then((res) => setResultId(res.resultId))
-      .catch(console.error);
+    try {
+      setSubmitting(true);
+      const res = await submitDiagnosis(requestData);
+      setResultId(res.resultId);
+    } catch (e) {
+      console.error(e);
+      alert('제출 중 오류가 발생했습니다.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
+  const resetAll = () => {
+    setSelectedTest(null);
+    setResultId(null);
+  };
+
+  const title = resultId
+    ? '검사 결과'
+    : selectedTest
+    ? selectedTest.name
+    : '진단검사 목록';
+
   return (
-    <div className="min-h-screen bg-[#f6f9fc] flex justify-center items-start py-10">
-      <div className="w-full max-w-4xl bg-white shadow-lg rounded-2xl p-8">
-        <h1 className="text-2xl font-bold text-[#222E8D] mb-6 text-center">
-          {resultId
-            ? '검사 결과'
-            : selectedTest
-            ? selectedTest.name
-            : '진단검사 목록'}
-        </h1>
+    <section className="space-y-6">
+      {/* 섹션 헤더 (블록 막대 + 제목) */}
+      <SectionTitle size={22} showDivider>{title}</SectionTitle>
 
-        {/* 검사 목록 */}
-        {!selectedTest && !resultId && (
-          <div className="space-y-4">
-            <DiagnosisTestList onSelectTest={setSelectedTest} />
+      {/* 상태별 콘텐츠 */}
+      {!selectedTest && !resultId && (
+        <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 shadow-sm">
+          <DiagnosisTestList onSelectTest={setSelectedTest} />
+        </div>
+      )}
+
+      {selectedTest && !resultId && (
+        <div className="space-y-4">
+          {/* 상단 액션바 */}
+          <div className="flex items-center justify-between">
+            <div className="text-sm text-gray-600">
+              선택한 검사: <span className="font-medium">{selectedTest.name}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setSelectedTest(null)}
+                className="w-auto rounded border border-gray-300 px-3 py-1 text-sm hover:bg-gray-50 transition"
+              >
+                목록으로
+              </button>
+            </div>
           </div>
-        )}
 
-        {/* 문항 표시 */}
-        {selectedTest && !resultId && (
-          <div className="space-y-4">
+          <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 shadow-sm">
             <DiagnosisQuestions
               testId={selectedTest.id}
               onSubmit={handleSubmit}
             />
           </div>
-        )}
 
-        {/* 결과 표시 */}
-        {resultId && (
-          <div className="space-y-4">
+          {submitting && (
+            <div className="text-center text-gray-500 text-sm">제출 중...</div>
+          )}
+        </div>
+      )}
+
+      {resultId && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-end gap-2">
+            <button
+              type="button"
+              onClick={resetAll}
+              className="w-auto rounded border border-gray-300 px-3 py-1 text-sm hover:bg-gray-50 transition"
+            >
+              다시 선택
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setResultId(null);
+                // 결과에서 바로 같은 검사 다시 진행하게 하려면 setSelectedTest 유지
+              }}
+              className="bg-[#222E8D] text-white px-3 py-1 rounded text-sm font-semibold hover:bg-blue-800 transition"
+            >
+              동일 검사 재응시
+            </button>
+          </div>
+
+          <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 shadow-sm">
             <DiagnosisResult resultId={resultId} />
           </div>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+    </section>
   );
 };
 
