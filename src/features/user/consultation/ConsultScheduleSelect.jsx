@@ -10,6 +10,8 @@ import { getSchedule } from '../../../api/user/consult/ConsultUserApi';
 import { fetchStudentByNo } from '../../../api/user/auth/studentsApi';
 
 const ConsultScheduleSelect = ({userInfo, type, onSelect})=>{
+    const [data, setData] = useState();
+
     const { pathname } = useLocation();
 
     const isProfessorApply = useMatch("/consult/apply/professor");
@@ -36,8 +38,6 @@ const ConsultScheduleSelect = ({userInfo, type, onSelect})=>{
     // 각 컬럼 폭 = 100% / 보이는 컬럼 수
     const colWidthPercent = 100 / visibleCols;
 
-    // const [error, setError] = useState<unknown>(null);
-
     useEffect(() => {
 
         (async ()=>{
@@ -49,17 +49,18 @@ const ConsultScheduleSelect = ({userInfo, type, onSelect})=>{
                     empNo = result.advisorId;
                     console.log(empNo)
                 } else{
-                    empNo = null;
+                    empNo = "";
                 }
 
                 const data = await getSchedule( type, empNo );
                 console.log(data);
+                setData(data);
             } catch(e){
                 console.log("에러 발생: " + e);
             }
         })();
         
-    }, );
+    }, [userInfo, type]);
 
     const startHour = 9;
     const endHour = 22;
@@ -159,7 +160,18 @@ const ConsultScheduleSelect = ({userInfo, type, onSelect})=>{
                             </th>
                             {dates.map((day, di)=>(
                                 <td key={di} className="border p-3">
-                                    <ConsultScheduleBox onSelect={onSelect}/>
+                                    {
+                                        // const list=[];
+                                        // data.map((data, idx)=>{
+                                        //     if(data.scheduleDate === format(day, "yyyyMMdd", {locale: ko}) && data.startTime === `${hour.toString().padStart(2, '0')}00`){
+                                                
+                                        //         list.push({empNo: data.empNo, empame: data.empName});
+                                        //         // <ConsultScheduleBox onSelect={onSelect}/>
+                                        //     }
+                                        // })
+
+                                        // if()
+                                    }
                                 </td>
                             ))}
                         </tr>
