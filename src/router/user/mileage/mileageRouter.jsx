@@ -1,7 +1,18 @@
-import { createBrowserRouter } from "react-router-dom";
-import MyMileagePage from "@/pages/mileage/MyMileagePage";
+import MyMileagePage from "../../../pages/user/mileage/MyMileagePage";
+import ScholarshipApplyPage from "../../../pages/user/mileage/ScholarshipApplyPage"; 
+import ScholarshipStatusPage from "../../../pages/user/mileage/ScholarshipStatusPage";
 
-export const router = createBrowserRouter([
+const mileageRouter = [
+  {
+    path: "/mileage",
+    element: <MyMileagePage />
+  },
+  { path: "/mileage/apply",
+    element: <ScholarshipApplyPage /> 
+  },
+  { path: "/mileage/status", 
+    element: <ScholarshipStatusPage /> },
   
-  { path: "/mileage/me", element: <MyMileagePage /> },
-]);
+];
+
+export default mileageRouter;

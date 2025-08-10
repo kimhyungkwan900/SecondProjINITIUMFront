@@ -8,6 +8,7 @@ import coreCompetencyRouter from "./user/coreCompetency/coreCompetencyRouter";
 import ExtracurricularProgramRouter from "./user/extracurricular/ExtracurricularProgramUserRouter";
 import adminMainRouter from "./admin/adminMainRouter";
 import myPageRouter from "./user/myPage/myPageRouter";
+import mileageRouter from "./user/mileage/mileageRouter";
 
 const createAppRouter = () => {
     return createBrowserRouter([
@@ -19,6 +20,7 @@ const createAppRouter = () => {
         ...ExtracurricularProgramRouter,
         ...adminMainRouter,
         ...myPageRouter,
+        ...mileageRouter,
         {
             path: "/",
             element: <MainPage />
