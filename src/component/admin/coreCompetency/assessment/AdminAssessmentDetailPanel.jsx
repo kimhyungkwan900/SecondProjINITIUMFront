@@ -1,173 +1,155 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-// AdminAssessmentDetailPanel: 진단 평가 상세 정보를 보여주고 일부 수정 가능한 폼 컴포넌트
-const AdminAssessmentDetailPanel = ({ assessment }) => {
-  // 폼 상태: 수정 가능한 로컬 form 상태로 관리
-  const [form, setForm] = useState(null);
+const AdminAssessmentDetailPanel = ({ initialAssessment, onSave, onDelete, onCancel }) => {
+    const [form, setForm] = useState(null);
 
-  /**
-   * 날짜 문자열을 yyyyMMdd → yyyy-MM-dd 형식으로 변환
-   * <input type="date" />와 호환되도록 가공
-   */
-  const formatDate = (dateStr) => {
-    if (!dateStr) return "";
-    return dateStr.length === 8 
-      ? `${dateStr.slice(0, 4)}-${dateStr.slice(4, 6)}-${dateStr.slice(6, 8)}`
-      : dateStr; // 이미 yyyy-MM-dd 형식이면 그대로 반환
-  };
+    const nameToCodeMap = {
+        semester: { "1학기": "1", "2학기": "2" },
+        online: { "온라인": "Y", "오프라인": "N" },
+    };
 
-  /**
-   * assessment prop이 변경될 때마다 form 상태를 새로 복사하여 설정
-   * 날짜는 보기 좋게 가공된 문자열로 변환하여 form에 반영
-   */
-  useEffect(() => {
-    if (assessment) {
-      setForm({
-        ...assessment,
-        registerDate: formatDate(assessment.registerDate),
-        startDate: formatDate(assessment.startDate),
-        endDate: formatDate(assessment.endDate),
-      });
-    }
-  }, [assessment]);
+    const formatDateForInput = (dateStr) => {
+        if (!dateStr || dateStr.includes('-')) return dateStr || "";
+        return dateStr.length === 8 ? `${dateStr.slice(0, 4)}-${dateStr.slice(4, 6)}-${dateStr.slice(6, 8)}` : "";
+    };
 
-  /**
-   * input/select 변경 시 해당 필드만 갱신하는 핸들러
-   * @param {string} field - 수정할 필드 이름
-   * @param {*} value - 입력값
-   */
-  const handleChange = (field, value) => {
-    setForm((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
+    useEffect(() => {
+        if (initialAssessment) {
+            const semesterCodeValue = nameToCodeMap.semester[initialAssessment.semesterCode] || initialAssessment.semesterCode;
+            const onlineYnValue = nameToCodeMap.online[initialAssessment.onlineYn] || initialAssessment.onlineYn;
+            setForm({
+                ...initialAssessment,
+                semesterCode: semesterCodeValue,
+                onlineYn: onlineYnValue,
+                registerDate: formatDateForInput(initialAssessment.registerDate),
+                startDate: formatDateForInput(initialAssessment.startDate),
+                endDate: formatDateForInput(initialAssessment.endDate),
+            });
+        }
+    }, [initialAssessment]);
 
-  // form이 아직 준비되지 않았다면 렌더링하지 않음
-  if (!form) return null;
+    const handleChange = (field, value) => {
+        setForm((prev) => ({ ...prev, [field]: value }));
+    };
+    
+    // 저장 버튼 클릭 시 날짜 유효성 검사 추가
+    const handleSaveClick = () => {
+        // 필수 입력 항목 검사
+        if (!form.assessmentName || !form.startDate || !form.endDate || !form.academicYear) {
+            alert("진단명, 기간, 학년도는 필수 입력 항목입니다.");
+            return;
+        }
 
-  return (
-    <div className="mt-6 border p-8 rounded bg-white shadow">
-        <div className="flex items-center mt-1 mb-4 gap-2">
-          <span className="text-xl text-black font-bold">▐ 기본정보</span>
-        </div>
+        // 날짜 비교를 위한 객체 생성
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); 
+        const startDate = new Date(form.startDate);
+        const endDate = new Date(form.endDate);
 
-      {/* 필드들을 2열 그리드로 구성 */}
-      <div className="grid grid-cols-2 gap-6 text-sm">
+        // 1. 진단 시작일이 지난 날짜인지 검사
+        if (startDate < today) {
+            alert("진단 시작일은 지난 날짜로 설정할 수 없습니다.");
+            return;
+        }
+
+        // 2. 진단 종료일이 지난 날짜인지 검사 (새로 추가)
+        if (endDate < today) {
+            alert("진단 종료일은 지난 날짜로 설정할 수 없습니다.");
+            return;
+        }
         
-        {/* 진단번호 (PK, 읽기 전용) */}
-        <div>
-          <label className="block text-gray-600 font-medium mb-1 text-[16px]">진단번호</label>
-          <input type="text" value={assessment.assessmentNo} className="w-full border mt-1 px-3 py-2 rounded" readOnly />
-        </div>
+        // 3. 진단 종료일이 시작일보다 빠른지 검사 (새로 추가)
+        if (endDate < startDate) {
+            alert("진단 종료일은 시작일보다 이전 날짜일 수 없습니다.");
+            return;
+        }
 
-        {/* 진단명 */}
-        <div>
-          <label className="block text-gray-600 font-medium mb-1 text-[16px]">진단명</label>
-          <input
-            type="text"
-            value={form.assessmentName}
-            onChange={(e) => handleChange("assessmentName", e.target.value)}
-            className="w-full border mt-1 px-3 py-2 rounded"
-          />
-        </div>
+        // 모든 유효성 검사를 통과하면 부모의 onSave 함수 호출
+        onSave(form);
+    };
 
-        {/* 등록일자 (수정 불가) */}
-        <div>
-          <label className="block text-gray-600 font-medium mb-1 text-[16px]">등록일자</label>
-          <input
-            type="date"
-            value={form.registerDate}
-            className="w-full border mt-1 px-3 py-2 rounded"
-            readOnly
-          />
-        </div>
+    const handleDeleteClick = () => {
+        onDelete(form.id);
+    };
 
-        {/* 진단 시작일 */}
-        <div>
-          <label className="block text-gray-600 font-medium mb-1 text-[16px]">진단 시작일</label>
-          <input
-            type="date"
-            value={form.startDate}
-            onChange={(e) => handleChange("startDate", e.target.value)}
-            className="w-full border mt-1 px-3 py-2 rounded"
-          />
-        </div>
+    if (!form) return null;
 
-        {/* 진단 종료일 */}
-        <div>
-          <label className="block text-gray-600 font-medium mb-1 text-[16px]">진단 종료일</label>
-          <input
-            type="date"
-            value={form.endDate}
-            onChange={(e) => handleChange("endDate", e.target.value)}
-            className="w-full border mt-1 px-3 py-2 rounded"
-          />
-        </div>
+    const isCreating = !form.id;
 
-        {/* 온라인 여부 선택 */}
-        <div>
-          <label className="block text-gray-600 font-medium mb-1 text-[16px]">온라인 실시 여부</label>
-          <select
-            value={form.onlineYn}
-            onChange={(e) => handleChange("onlineYn", e.target.value)}
-            className="w-full border mt-1 px-3 py-2 rounded"
-          >
-            <option value="Y">온라인</option>
-            <option value="N">오프라인</option>
-          </select>
-        </div>
+    return (
+        <div className="p-4"> 
+            <h2 className="text-xl font-bold mb-4 text-gray-800">
+                {isCreating ? "새 진단 등록" : "기본 정보 수정"}
+            </h2>
 
-        {/* 학년도 입력 */}
-        <div>
-          <label className="block text-gray-600 font-medium mb-1 text-[16px]">학년도</label>
-          <input
-            type="text"
-            value={form.academicYear}
-            onChange={(e) => handleChange("academicYear", e.target.value)}
-            className="w-full border mt-1 px-3 py-2 rounded"
-          />
-        </div>
+            <div className="grid grid-cols-2 gap-x-8 gap-y-6 text-sm">
+                 <div>
+                    <label className="block text-gray-600 font-medium mb-1 text-[16px]">진단번호</label>
+                    <input type="text" value={form.assessmentNo || '자동 생성'} className="w-full border mt-1 px-3 py-2 rounded bg-gray-100" readOnly />
+                </div>
+                <div>
+                    <label className="block text-gray-600 font-medium mb-1 text-[16px]">진단명 <span className="text-red-500">*</span></label>
+                    <input type="text" value={form.assessmentName} onChange={(e) => handleChange("assessmentName", e.target.value)} className="w-full border mt-1 px-3 py-2 rounded"/>
+                </div>
+                <div>
+                    <label className="block text-gray-600 font-medium mb-1 text-[16px]">등록일자</label>
+                    <input type="date" value={form.registerDate} className="w-full border mt-1 px-3 py-2 rounded bg-gray-100" readOnly/>
+                </div>
+                <div>
+                    <label className="block text-gray-600 font-medium mb-1 text-[16px]">관리부서</label>
+                    <select value={form.departmentName} onChange={(e) => handleChange("departmentName", e.target.value)} className="w-full border mt-1 px-3 py-2 rounded">
+                        <option value="핵심역량센터">핵심역량센터</option>
+                        <option value="학사지원처">학사지원처</option>
+                        <option value="학생복지처">학생복지처</option>
+                    </select>
+                </div>
+                <div>
+                    <label className="block text-gray-600 font-medium mb-1 text-[16px]">진단 시작일 <span className="text-red-500">*</span></label>
+                    <input type="date" value={form.startDate} onChange={(e) => handleChange("startDate", e.target.value)} className="w-full border mt-1 px-3 py-2 rounded"/>
+                </div>
+                <div>
+                    <label className="block text-gray-600 font-medium mb-1 text-[16px]">진단 종료일 <span className="text-red-500">*</span></label>
+                    <input type="date" value={form.endDate} onChange={(e) => handleChange("endDate", e.target.value)} className="w-full border mt-1 px-3 py-2 rounded"/>
+                </div>
+                <div>
+                    <label className="block text-gray-600 font-medium mb-1 text-[16px]">학년도 <span className="text-red-500">*</span></label>
+                    <input type="text" value={form.academicYear} onChange={(e) => handleChange("academicYear", e.target.value)} className="w-full border mt-1 px-3 py-2 rounded" placeholder="예: 2025" />
+                </div>
+                <div>
+                    <label className="block text-gray-600 font-medium mb-1 text-[16px]">학기</label>
+                    <select value={form.semesterCode} onChange={(e) => handleChange("semesterCode", e.target.value)} className="w-full border mt-1 px-3 py-2 rounded">
+                        <option value="1">1학기</option>
+                        <option value="2">2학기</option>
+                    </select>
+                </div>
+                <div className="col-span-2">
+                    <label className="block text-gray-600 font-medium mb-1 text-[16px]">온라인 실시 여부</label>
+                    <select value={form.onlineYn} onChange={(e) => handleChange("onlineYn", e.target.value)} className="w-full border mt-1 px-3 py-2 rounded">
+                        <option value="Y">온라인</option>
+                        <option value="N">오프라인</option>
+                    </select>
+                </div>
+                <div className="col-span-2">
+                    <label className="block text-gray-600 font-medium mb-1 text-[16px]">안내문</label>
+                    <textarea value={form.guideContent || ''} onChange={(e) => handleChange("guideContent", e.target.value)} className="w-full border mt-1 px-3 py-2 rounded h-32 resize-none"/>
+                </div>
+            </div>
 
-        {/* 학기 선택 */}
-        <div>
-          <label className="block text-gray-600 font-medium mb-1 text-[16px]">학기</label>
-          <select
-            value={form.semesterCode}
-            onChange={(e) => handleChange("semesterCode", e.target.value)}
-            className="w-full border mt-1 px-3 py-2 rounded"
-          >
-            <option value="1">1학기</option>
-            <option value="2">2학기</option>
-          </select>
+            <div className="flex items-center justify-end mt-8 pt-6 border-t border-gray-200">
+                {!isCreating && (
+                    <button onClick={handleDeleteClick} className="bg-red-500 text-white font-bold py-2 px-6 rounded hover:bg-red-700 mr-auto">
+                        삭제
+                    </button>
+                )}
+                <button onClick={onCancel} className="bg-gray-400 text-white font-bold py-2 px-6 rounded hover:bg-gray-600 mr-2">
+                    취소
+                </button>
+                <button onClick={handleSaveClick} className="bg-indigo-500 text-white font-bold py-2 px-6 rounded hover:bg-indigo-700">
+                    {isCreating ? '등록' : '저장'}
+                </button>
+            </div>
         </div>
-
-        {/* 관리부서 선택 */}
-        <div>
-          <label className="block text-gray-600 font-medium mb-1 text-[16px]">관리부서</label>
-          <select
-            value={form.departmentName}
-            onChange={(e) => handleChange("departmentName", e.target.value)}
-            className="w-full border mt-1 px-3 py-2 rounded"
-          >
-            <option value="141">핵심역량센터</option>
-            <option value="104">학사지원처</option>
-            <option value="107">학생복지처</option>
-          </select>
-        </div>
-
-        {/* 안내문 입력 */}
-        <div className="col-span-2">
-          <label className="block text-gray-600 font-medium mb-1 text-[16px]">안내문</label>
-          <textarea
-            value={form.guideContent}
-            onChange={(e) => handleChange("guideContent", e.target.value)}
-            className="w-full border mt-1 px-3 py-2 rounded h-32 resize-none"
-          />
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default AdminAssessmentDetailPanel;
