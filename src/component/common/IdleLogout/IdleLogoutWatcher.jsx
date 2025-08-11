@@ -7,7 +7,7 @@ import { logout } from "../../../api/user/auth/loginApi";
 const AUTO_LOGOUT_TIME = 60 * 60 * 1000; // 1시간(ms)
 // const AUTO_LOGOUT_TIME = 10 * 1000; // 테스트용
 
-export default function IdleLogoutWatcher({ children, resetOnActivity = false }) {
+export default function IdleLogoutWatcher({ children}) {
   const timerRef = useRef(null);
   const tickRef = useRef(null);
   const navigate = useNavigate();
@@ -57,16 +57,6 @@ export default function IdleLogoutWatcher({ children, resetOnActivity = false })
       if (tickRef.current) clearInterval(tickRef.current);
     };
   }, [expiresAt]);
-
-  // (옵션) 활동 시 리셋: 기본 false → 동작 안 함
-  useEffect(() => {
-    if (!resetOnActivity) return; // 수동 모드일 때는 리스너 붙이지 않음
-    const events = ["mousemove", "keydown", "mousedown", "touchstart", "scroll"];
-    events.forEach(e => window.addEventListener(e, resetTimer, { passive: true }));
-    return () => {
-      events.forEach(e => window.removeEventListener(e, resetTimer));
-    };
-  }, [resetOnActivity, resetTimer]);
 
   const value = useMemo(() => ({
     remainingMs,

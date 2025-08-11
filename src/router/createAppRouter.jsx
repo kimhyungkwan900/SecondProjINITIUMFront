@@ -8,6 +8,7 @@ import coreCompetencyRouter from "./user/coreCompetency/coreCompetencyRouter";
 import ExtracurricularProgramRouter from "./user/extracurricular/ExtracurricularProgramUserRouter";
 import adminMainRouter from "./admin/adminMainRouter";
 import myPageRouter from "./user/myPage/myPageRouter";
+import NotFoundPage from "../pages/user/diagnostic/NotFoundPage";
 import mileageRouter from "./user/mileage/mileageRouter";
 
 const createAppRouter = () => {
@@ -21,10 +22,11 @@ const createAppRouter = () => {
         ...adminMainRouter,
         ...myPageRouter,
         ...mileageRouter,
-        {
-            path: "/",
-            element: <MainPage />
-        }
+
+        { path: "/", element: <MainPage /> },
+
+        // 404
+        { path: '*', element: <NotFoundPage /> }
     ]);
 };
 
