@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import DiagnosisResult from '../../../component/user/diagnostic/DiagnosisResult.jsx';
 import DiagnosisResultChart from '../../../component/user/diagnostic/DiagnosisResultChart.jsx';
 import MainHeader from '../../../features/user/mainpage/MainHeader.jsx';
@@ -7,7 +7,7 @@ import UserTopBar from '../../../component/user/mainpage/UserTopBar.jsx';
 import SectionTitle from '../../../component/common/SectionTitle.jsx';
 
 const DiagnosisResultPage = () => {
-  const { resultId } = useParams(); // URL 파라미터
+  const { resultId } = useParams();
 
   return (
     <div className="min-h-screen bg-[#f6f9fc] flex flex-col items-center">
@@ -26,19 +26,25 @@ const DiagnosisResultPage = () => {
 
           {/* 결과 요약 */}
           <section className="bg-gray-50 border border-gray-200 rounded-xl p-6 shadow-sm">
-            <div className="flex items-center gap-2 mb-4">
-              <SectionTitle size={22} showDivider>결과 요약</SectionTitle>
-            </div>
+            <SectionTitle size={22} showDivider>결과 요약</SectionTitle>
             <DiagnosisResult resultId={resultId} />
           </section>
 
           {/* 결과 차트 */}
           <section className="bg-gray-50 border border-gray-200 rounded-xl p-6 shadow-sm">
-            <div className="flex items-center gap-2 mb-4">
-              <SectionTitle size={22} showDivider>결과 차트</SectionTitle>
-            </div>
+            <SectionTitle size={22} showDivider>결과 차트</SectionTitle>
             <DiagnosisResultChart resultId={resultId} />
           </section>
+
+          {/* 상담 신청 CTA */}
+          <div className="flex justify-center pt-2">
+            <Link
+              to="/consult"
+              className="inline-flex items-center justify-center px-6 py-3 rounded-full border shadow-md bg-[#222E8D] text-white font-semibold transition-colors duration-200 hover:bg-blue-800"
+            >
+              상담 신청하기
+            </Link>
+          </div>
         </main>
       </div>
     </div>
