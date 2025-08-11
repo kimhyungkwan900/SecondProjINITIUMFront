@@ -35,7 +35,7 @@ const MyMileagePage = () => {
     fetchData();
   }, [page]);
 
-  // ✅ 마일리지 메뉴 항목
+  // 마일리지 메뉴 항목
   const navItems = [
     "마일리지",
     { link: "/mileage", name: "나의 마일리지" },

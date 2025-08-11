@@ -24,9 +24,9 @@ const UserScholarshipStatusPage = () => {
   const navItems = useMemo(
     () => [
       "마일리지",
-      { link: "/myPage/mileage", name: "나의 마일리지" },
-      { link: "/myPage/mileage/apply", name: "마일리지 장학금 신청" },
-      { link: "/myPage/mileage/status", name: "마일리지 장학금 신청 현황" },
+      { link: "/mileage", name: "나의 마일리지" },
+      { link: "/mileage/apply", name: "마일리지 장학금 신청" },
+      { link: "/mileage/status", name: "마일리지 장학금 신청 현황" },
     ],
     []
   );
