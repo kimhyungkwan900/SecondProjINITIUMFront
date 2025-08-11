@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import UserTopBar from '../../../component/user/mainpage/UserTopBar';
 

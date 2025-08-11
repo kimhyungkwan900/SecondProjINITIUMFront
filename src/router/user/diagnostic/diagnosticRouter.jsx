@@ -1,10 +1,8 @@
 // src/router/user/diagnostic/diagnosticRouter.jsx
-import React from 'react';
 import HomePage from '../../../pages/user/diagnostic/HomePage';
 import DiagnosisResultPage from '../../../pages/user/diagnostic/DiagnosisResultPage';
 import AllResultsPage from '../../../pages/user/diagnostic/AllResultsPage';
 import ExternalResultListPage from '../../../pages/user/diagnostic/ExternalResultListPage';
-import NotFoundPage from '../../../pages/user/diagnostic/NotFoundPage';
 import DiagnosisConductPage from '../../../pages/user/diagnostic/DiagnosisConductPage';
 import DiagnosisListPage from '../../../pages/user/diagnostic/DiagnosisListPage';
 import ExternalDiagnosisListPage from '../../../pages/user/diagnostic/ExternalDiagnosisListPage';
@@ -29,7 +27,5 @@ export const diagnosticRoutes = [
   // ✅ 전체 결과
   { path: '/diagnosis/all-results', element: <AllResultsPage /> },
 
-  // 404
-  { path: '*', element: <NotFoundPage /> }
 ];
 
