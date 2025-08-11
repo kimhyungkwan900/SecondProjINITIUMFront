@@ -24,23 +24,29 @@ const ConsultApplyForm = ({userInfo, type, schedule, onSubmit, onBack})=>{
 
 
     const [dscsnKinds, setDscsnKinds] = useState([]);
-    // const [applyInfo, setApplyInfo] = useState({...initState});
+    const [applyInfo, setApplyInfo] = useState({...initState});
     
     useEffect(() => {
         (async ()=>{
             try{
-                setDscsnKinds(await getDscsnKind(type));
+                const kinds = await getDscsnKind(type);
+                setDscsnKinds(kinds);
+
+                setApplyInfo(prev => {
+                    if (prev.dscsnKindId != null && prev.dscsnKindId !== "") return prev;
+                    const first = kinds?.[0]?.dscsnKindId;
+                    return first == null ? prev : { ...prev, dscsnKindId: String(first) };
+                });
             } catch(e){
                 console.log("에러 발생: " + e);
             }
         })();
     }, [type]);
 
-    // const handleChangeInput = (e) => {
-    //     product[e.target.name] = e.target.value
-
-    //     setProduct({...product})
-    // }
+    const handleChangeInput = (e) => {
+        const { name, value } = e.target;
+        setApplyInfo(prev => ({ ...prev, [name]: name === "dscsnKindId" ? String(value) : value }));
+    }
 
     return(
         <div className="w-4/5 px-20 py-6 mx-auto">
@@ -95,7 +101,12 @@ const ConsultApplyForm = ({userInfo, type, schedule, onSubmit, onBack})=>{
                         <div className="grid grid-cols-1 md:grid-cols-4 border-b border-gray-500 md:divide-x md:divide-gray-500">
                             <div className="px-4 py-2 bg-gray-100 text-center">연락처</div>
                             <div className="px-4 py-2 md:col-span-3">
-                                <input type="text" className="w-10 text-center rounded-md border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300"/> - <input type="text" className="w-12 text-center rounded-md border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300"/> - <input type="text" className="w-12 text-center rounded-md border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300"/>
+                                <input type="text" className="text-center rounded-md border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                    placeholder="예: - 제외하고 작성"
+                                    name="studentTelno"
+                                    value={applyInfo.studentTelno}
+                                    onChange={handleChangeInput}/>
+                                {/* - <input type="text" className="w-12 text-center rounded-md border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300"/> - <input type="text" className="w-12 text-center rounded-md border border-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-300"/> */}
                             </div>
                         </div>
 
@@ -125,15 +136,15 @@ const ConsultApplyForm = ({userInfo, type, schedule, onSubmit, onBack})=>{
                         <div className="grid grid-cols-1 md:grid-cols-4 border-b border-gray-500 md:divide-x md:divide-gray-500">
                             <div className="px-4 py-2 bg-gray-100 text-center">상담유형</div>
                             <div className="px-4 py-2 md:col-span-3">
-                                <select className="border border-black">
-                                    {dscsnKinds.map((kind, ki)=>{
-                                        const kindValue = kind.dscsnKindId;
-                                        const kindName = kind.dscsnKindName;
-
-                                        return(
-                                            <option id={ki} value={kindValue}>{kindName}</option>
-                                        );
-                                    })}
+                                <select 
+                                    className="border border-black"
+                                    name="dscsnKindId"
+                                    type={'text'} 
+                                    value={applyInfo.dscsnKindId}
+                                    onChange={handleChangeInput}>
+                                        {dscsnKinds.map((kind)=>(
+                                            <option id={kind.dscsnKindId} value={String(kind.dscsnKindId)}>{kind.dscsnKindName}</option>
+                                        ))}
                                 </select>
                             </div>
                         </div>
@@ -142,18 +153,29 @@ const ConsultApplyForm = ({userInfo, type, schedule, onSubmit, onBack})=>{
                         <div className="grid grid-cols-1 md:grid-cols-4 md:divide-x md:divide-gray-500">
                             <div className="grid place-items-center px-4 py-2 bg-gray-100 text-center">상담신청 내용</div>
                             <div className="p-1 md:col-span-3 h-[11rem] whitespace-pre-wrap border-t md:border-t-0 border-gray-500">
-                                <textarea className="w-full h-full resize-none rounded-md border border-blue-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                                placeholder="신청내용을 입력하세요"/>
+                                <textarea 
+                                    className="w-full h-full resize-none rounded-md border border-blue-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                    placeholder="신청내용을 입력하세요"
+                                    name="dscsnApplyCn"
+                                    value={applyInfo.dscsnApplyCn}
+                                    onChange={handleChangeInput}
+                                />
                             </div>
                         </div>
                         </div>
 
                 </div>
                 <div className="flex justify-end items-center gap-3 mr-2 mt-2 mb-2">
-                    <button className="bg-red-500 text-white hover:bg-red-700 transition no-underline font-medium px-4 py-1 rounded">
+                    <button 
+                        className="bg-red-500 text-white hover:bg-red-700 transition no-underline font-medium px-4 py-1 rounded"
+                        onClick={()=>onBack}
+                    >
                         뒤로
                     </button>
-                    <button className="bg-[#222E8D] text-white hover:bg-[#28B8B2] transition no-underline font-medium px-4 py-1 rounded">
+                    <button
+                        className="bg-[#222E8D] text-white hover:bg-[#28B8B2] transition no-underline font-medium px-4 py-1 rounded"
+                        onClick={()=>onSubmit(applyInfo)}
+                    >
                         제출
                     </button>
                 </div>
