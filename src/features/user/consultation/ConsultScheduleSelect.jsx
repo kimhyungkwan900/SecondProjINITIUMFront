@@ -6,11 +6,11 @@ import ReactModal from 'react-modal';
 
 import ConsultScheduleBox from "./ConsultScheduleBox";
 import SearchEmployee from "./SearchEmployee";
-import { getSchedule } from '../../../api/user/consult/ConsultUserApi';
+import { getSchedules } from '../../../api/user/consult/ConsultUserApi';
 import { fetchStudentByNo } from '../../../api/user/auth/studentsApi';
 
 const ConsultScheduleSelect = ({userInfo, type, onSelect})=>{
-    const [data, setData] = useState();
+    const [schedules, setSchedules] = useState([]);
 
     const { pathname } = useLocation();
 
@@ -39,7 +39,6 @@ const ConsultScheduleSelect = ({userInfo, type, onSelect})=>{
     const colWidthPercent = 100 / visibleCols;
 
     useEffect(() => {
-
         (async ()=>{
             let empNo;
 
@@ -52,14 +51,13 @@ const ConsultScheduleSelect = ({userInfo, type, onSelect})=>{
                     empNo = "";
                 }
 
-                const data = await getSchedule( type, empNo );
+                const data = await getSchedules(type, empNo);
                 console.log(data);
-                setData(data);
+                setSchedules(data);
             } catch(e){
                 console.log("에러 발생: " + e);
             }
         })();
-        
     }, [userInfo, type]);
 
     const startHour = 9;
@@ -158,22 +156,25 @@ const ConsultScheduleSelect = ({userInfo, type, onSelect})=>{
                             <th className="border px-3 py-2 text-center">
                                 {`${hour.toString().padStart(2, '0')}:00`}
                             </th>
-                            {dates.map((day, di)=>(
-                                <td key={di} className="border p-3">
-                                    {
-                                        // const list=[];
-                                        // data.map((data, idx)=>{
-                                        //     if(data.scheduleDate === format(day, "yyyyMMdd", {locale: ko}) && data.startTime === `${hour.toString().padStart(2, '0')}00`){
-                                                
-                                        //         list.push({empNo: data.empNo, empame: data.empName});
-                                        //         // <ConsultScheduleBox onSelect={onSelect}/>
-                                        //     }
-                                        // })
+                            {dates.map((day, di) => {
+                                const dayStr = format(day, 'yyyyMMdd', { locale: ko });
+                                const timeStr = `${hour.toString().padStart(2, '0')}00`;
 
-                                        // if()
-                                    }
-                                </td>
-                            ))}
+                                const slotItems = schedules.filter(
+                                    s => s.scheduleDate === dayStr && s.startTime === timeStr
+                                );
+
+                                return (
+                                    <td key={di} className="border p-3">
+                                        {slotItems.length > 0 && (
+                                            <ConsultScheduleBox
+                                                infos={slotItems}
+                                                onSelect={onSelect}
+                                            />
+                                        )}
+                                    </td>
+                                );
+                            })}
                         </tr>
                     ))}
                 </tbody>

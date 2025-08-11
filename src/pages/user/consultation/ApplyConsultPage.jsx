@@ -6,6 +6,8 @@ import MainHeader from "../../../features/user/mainpage/MainHeader";
 import ConsultScheduleSelect from "../../../features/user/consultation/ConsultScheduleSelect";
 import ConsultApplyForm from "../../../features/user/consultation/ConsultApplyForm";
 import ConsultComplete from "../../../features/user/consultation/ConsultComplete";
+
+import { getScheduleById, applyConsult } from "../../../api/user/consult/ConsultUserApi";
 // import useRequireAuth from "../../../hooks/user/consult/useRequireAuth";
 
 const ApplyConsultPage = ({type})=>{
@@ -16,22 +18,29 @@ const ApplyConsultPage = ({type})=>{
     // const { student, loading, error } = useStudentInfo(user?.loginId);
     
     const [step, setStep] = useState(0);
-    const [selectedSlot, setSelectedSlot] = useState(null);
+    const [selectedSchedule, setSelectedSchedule] = useState({});
 
-    const handleSlotSelect = (slot) => {
-        setSelectedSlot(slot);
-        setStep(1);
+    const handleSlotSelect = async (dscsnDtId) => {
+        const data = await getScheduleById(dscsnDtId);
+        
+        if(data.dscsnYn === "Y") {
+            alert("이미 예약된 일정입니다.")
+        } else{
+            setSelectedSchedule(data);
+            setStep(1);
+        }
     };
 
-    const handleFormSubmit = async () => {
-
+    const handleSubmit = async (applyInfo) => {
+        const result = await applyConsult(applyInfo)
+        console.log(result);
         setStep(2);
     };
 
     const handleBack = () => {
         if (step === 1) {
         setStep(0);
-        setSelectedSlot(null);
+        setSelectedSchedule(null);
         }
     };
 
@@ -58,11 +67,11 @@ const ApplyConsultPage = ({type})=>{
                 )}
 
                 {step === 1 && (
-                    <ConsultApplyForm slot={selectedSlot} onSubmit={handleFormSubmit} onBack={handleBack}/>
+                    <ConsultApplyForm userInfo={user} type={type} schedule={selectedSchedule} onSubmit={handleSubmit} onBack={handleBack}/>
                 )}
 
                 {step === 2 && (
-                    <ConsultComplete slot={selectedSlot}/>
+                    <ConsultComplete/>
                 )}
             </div>
         </div>
