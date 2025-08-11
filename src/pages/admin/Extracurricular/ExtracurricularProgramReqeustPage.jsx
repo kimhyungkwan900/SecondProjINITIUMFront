@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 import { fetchPrograms , updateProgramStatus } from "../../../api/admin/extracurricular/program/ProgramApi";
 
 import RequestDerail from "../../../component/admin/extracurricular/request/RequestDetail";
@@ -12,7 +11,7 @@ const ExtracurricularProgramRequestPage = () => {
   const [filter, setFilter] = useState({ status: "", keyword: "", eduType:"", });
   const [programList, setProgramList] = useState([]);
   const [selectedProgram, setSelectedProgram] = useState(null);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [showApprovedModal, setShowApprovedModal] = useState(false); // 🔹 모달 상태 추가
 
@@ -42,50 +41,60 @@ const ExtracurricularProgramRequestPage = () => {
   }, []);
 
   const handleChangeStatus = async (newStatus) => {
-    if (!selectedProgram) {
-      alert("프로그램을 선택해주세요.");
-      return;
-    }
+  if (!selectedProgram) {
+    alert("프로그램을 선택해주세요.");
+    return;
+  }
 
-    if (newStatus === "APPROVED") {
-      setShowApprovedModal(true); // 🔹 모달 열기
-      return;
-    }
+  if (newStatus === "APPROVED") {
+    setShowApprovedModal(true);
+    return;
+  }
 
-    // 반려 로직
-    try {
-      await updateProgramStatus(selectedProgram.eduMngId, newStatus);
-      await handleSearch(page);
-      const updatedProgram = programList.find(p => p.eduMngId === selectedProgram.eduMngId);
-      setSelectedProgram(updatedProgram || null);
-      alert(`상태가 '${newStatus === "APPROVED" ? "승인" : "반려"}'로 변경되었습니다.`);
-    } catch (error) {
-      console.error(error);
-      alert("상태 변경에 실패했습니다.");
-    }
-  };
+  try {
+    // 반려 시 null 값 명시적으로 전달
+    await updateProgramStatus(selectedProgram.eduMngId, newStatus, null, null);
+    await handleSearch(page);
+    const updatedProgram = programList.find(p => p.eduMngId === selectedProgram.eduMngId);
+    setSelectedProgram(updatedProgram || null);
+    alert(`상태가 '반려'로 변경되었습니다.`);
+  } catch (error) {
+    console.error(error);
+    alert("상태 변경에 실패했습니다.");
+  }
+};
 
   // 🔹 승인 + 마일리지 저장 핸들러
-  const handleApproveWithMileage = async (eduMlg) => {
-    try {
-      // 마일리지와 함께 프로그램 상태 업데이트
-      await updateProgramStatus(selectedProgram.eduMngId, "APPROVED", eduMlg);
-
-      await handleSearch(page);
-      const updatedProgram = programList.find(p => p.eduMngId === selectedProgram.eduMngId);
-      setSelectedProgram(updatedProgram || null);
-
-      setShowApprovedModal(false); // 모달 닫기
-      alert("승인이 완료되었습니다.");
-    } catch (error) {
-      console.error(error);
-      alert("승인 처리에 실패했습니다.");
+ const handleApproveWithMileage = async (surveyData) => {
+  try {
+    // surveyData = { eduMlg, srvyTtl, srvyQitemCn, srvyBgngDt, srvyEndDt }
+    await updateProgramStatus(
+    selectedProgram.eduMngId,
+    "APPROVED",
+    surveyData.eduMlg,
+    {
+      srvyTtl: surveyData.srvyTtl,
+      srvyQitemCn: surveyData.srvyQitemCn,
+      srvyBgngDt: surveyData.srvyBgngDt,
+      srvyEndDt: surveyData.srvyEndDt,
     }
-  };
+  );
+
+    await handleSearch(page);
+    const updatedProgram = programList.find(p => p.eduMngId === selectedProgram.eduMngId);
+    setSelectedProgram(updatedProgram || null);
+
+    setShowApprovedModal(false);
+    alert("승인이 완료되었습니다.");
+  } catch (error) {
+    console.error(error);
+    alert("승인 처리에 실패했습니다.");
+  }
+};
 
   return (
     <div className="w-full p-4">
-      <div className="sticky top-0 bg-white z-10 py-2">
+      <div className="sticky top-0 z-10 py-2">
         <h1 className="font-extrabold text-2xl text-gray-700">
           <span className="bg-sky-500 w-1 text-sky-500 select-none">1</span>
           <span className="ml-3">프로그램 등록 관리 페이지</span>
@@ -105,12 +114,13 @@ const ExtracurricularProgramRequestPage = () => {
           totalPages={totalPages}
           onPageChange={handlePageChange}
         />
-        <RequestDerail program={selectedProgram} />
+        <RequestDerail program={selectedProgram} />  
 
         {/* 🔹 모달 렌더링 */}
         {showApprovedModal && selectedProgram && (
           <RequestApprovedModal
             programName={selectedProgram.eduNm}
+            programEndDate={selectedProgram.eduEndDt}
             onSave={handleApproveWithMileage}
             onClose={() => setShowApprovedModal(false)}
           />
