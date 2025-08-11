@@ -2,6 +2,7 @@
 import MainHeader from "../../../features/user/mainpage/MainHeader";
 import CoreCompetencySideBar from "../../../features/user/UserSideBar";
 import CoreCompetencyDiagnosisTabButtons from "../../../component/user/coreCompetency/CoreCompetencyDiagnosisTabButtons";
+import UserTopBar from "../../../component/user/mainpage/UserTopBar";
 
 const CoreCompetencyAssessmentPage = () => {
     const navItems = [
@@ -12,6 +13,7 @@ const CoreCompetencyAssessmentPage = () => {
     
     return (
         <div className="bg-white min-h-screen border border-gray-300">
+            <UserTopBar />
             <MainHeader />
 
             {/* 상단 회색 영역 */}

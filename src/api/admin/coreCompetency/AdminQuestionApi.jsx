@@ -1,21 +1,28 @@
-// api/adminCoreQuestionApi.js
-import axios from "axios";
+import axios from 'axios';
 
-// 문항 전체 목록 조회
-export const getAllQuestions = () =>
-  axios.get("/api/admin/core-competency/question/get/all");
+const API_BASE_URL = '/api/admin/coreCompetency/question';
 
-// 문항 단건 조회
-export const getQuestion = (questionId) =>
-  axios.get(`/api/admin/core-competency/question/get/${questionId}`);
+export const createCoreCompetencyQuestion = (assessmentId, dto) =>
+  axios.post(`${API_BASE_URL}/create/${assessmentId}`, dto).then(r => r.data);
 
-// 드롭다운 변경: 해당 문항 옵션 개수 재생성
-export const setOptionCount = (questionId, count) =>
-  axios.patch(`/api/admin/core-competency/question/${questionId}/option-count`, null, {
-    params: { count },
-  });
+export const updateCoreCompetencyQuestion = (questionId, dto) =>
+  axios.put(`${API_BASE_URL}/update/${questionId}`, dto).then(r => r.data);
 
-// 문항 수정(기본정보 + 옵션 라벨/점수만)
-// dto 구조는 백엔드 CoreCompetencyQuestionCreateRequestDto에 맞춘다.
-export const updateQuestion = (questionId, dto) =>
-  axios.put(`/api/admin/core-competency/question/update/${questionId}`, dto);
+export const deleteCoreCompetencyQuestion = (questionId) =>
+  axios.delete(`${API_BASE_URL}/delete/${questionId}`).then(r => r.data);
+
+export const getCoreCompetencyQuestion = (questionId) =>
+  axios.get(`${API_BASE_URL}/get/${questionId}`).then(r => r.data);
+
+export const getAllCoreCompetencyQuestions = () =>
+  axios.get(`${API_BASE_URL}/get/all`).then(r => r.data);
+
+export const setAnswerOptionCount = (questionId, count) =>
+  axios.patch(`${API_BASE_URL}/${questionId}/option-count`, null, { params: { count } })
+       .then(r => r.data);
+
+export const getQuestionsByAssessment = (assessmentId) =>
+  axios.get(`${API_BASE_URL}/assessment/${assessmentId}`).then(r => r.data);
+
+export const getSubCategoriesByAssessment = (assessmentId) =>
+  axios.get(`${API_BASE_URL}/assessment/${assessmentId}/subcategories`).then(r => r.data);

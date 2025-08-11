@@ -71,7 +71,11 @@ const AdminCoreCompetencyAssessment = () => {
         try {
             // formData에 id가 없으면 생성으로 간주하고, 진단 번호를 조합하여 생성합니다.
             if (!formData.id) {
-                const newAssessmentNo = `ASMT${formData.academicYear}-0${formData.semesterCode}`;
+            // 100000부터 999999 사이의 6자리 난수를 생성합니다.
+                const randomNumber = Math.floor(100000 + Math.random() * 900000);
+
+                // 예시: ASMT2025-01-459123
+                const newAssessmentNo = `ASMT${formData.academicYear}-0${formData.semesterCode}${randomNumber}`;
                 formData.assessmentNo = newAssessmentNo;
             }
 
@@ -163,21 +167,22 @@ const AdminCoreCompetencyAssessment = () => {
             {/* 진단 평가 목록을 표시하는 테이블 컴포넌트 */}
             <AdminAssessmentListTable
                 assessmentList={assessmentList}
+                selectedAssessment={selectedAssessment}
                 setSelectedAssessment={setSelectedAssessment}
             />
 
             {/* 에러가 발생했을 경우 메시지를 표시합니다. */}
-    {error && <p className="text-red-500 text-center mt-4">{error}</p>}
+            {error && <p className="text-red-500 text-center mt-4">{error}</p>}
             
             {/* selectedAssessment에 값이 있을 경우에만 상세 정보/수정 탭을 렌더링합니다. */}
-    {selectedAssessment && (
-                <AdminAssessmentTab
-                    selectedAssessment={selectedAssessment}
-                    onSave={handleSave}
-                    onDelete={handleDelete}
-                    onCancel={handleCancel}
-                />
-            )}
+            {selectedAssessment && (
+                        <AdminAssessmentTab
+                            selectedAssessment={selectedAssessment}
+                            onSave={handleSave}
+                            onDelete={handleDelete}
+                            onCancel={handleCancel}
+                        />
+                    )}
         </div>
     );
 };
