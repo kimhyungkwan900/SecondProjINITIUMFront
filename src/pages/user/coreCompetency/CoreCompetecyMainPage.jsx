@@ -3,6 +3,7 @@ import CoreCompetencyImage from "../../../features/user/coreCompetency/CoreCompe
 import CoreCompetencyTable from "../../../features/user/coreCompetency/CoreCompetencyTable";
 import CoreCompetencySideBar from "../../../features/user/UserSideBar";
 import CoreCompetencyNoticeComment from "../../../component/user/coreCompetency/CoreCompetencyNoticeComment";
+import UserTopBar from "../../../component/user/mainpage/UserTopBar";
 
 export default function CoreCompetencyMainPage() {
   const navItems = [
@@ -13,6 +14,7 @@ export default function CoreCompetencyMainPage() {
 
   return (
     <div className="bg-white min-h-screen border border-gray-300">
+      <UserTopBar />
       <MainHeader />
 
       {/* 상단 회색 영역 */}

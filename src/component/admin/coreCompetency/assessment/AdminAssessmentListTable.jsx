@@ -1,7 +1,8 @@
 import { useState } from "react";
 
 // 관리자 진단 평가 리스트 테이블 컴포넌트
-const AdminAssessmentListTable = ({ assessmentList, setSelectedAssessment }) => {
+// 🔽 1. selectedAssessment prop을 추가로 받습니다.
+const AdminAssessmentListTable = ({ assessmentList, selectedAssessment, setSelectedAssessment }) => {
 
   // 현재 페이지 상태 (기본값 1페이지)
   const [currentPage, setCurrentPage] = useState(1);
@@ -47,9 +48,12 @@ const AdminAssessmentListTable = ({ assessmentList, setSelectedAssessment }) => 
             {currentItems.length > 0 ? (
               currentItems.map((item, index) => (
                 <tr
-                  key={`${item.assessmentNo}-${index}`} // 고유 키 구성
-                  onClick={() => setSelectedAssessment(item)} // 행 클릭 시 선택된 진단 설정
-                  className="cursor-pointer hover:bg-blue-50 transition" // 마우스 오버 효과
+                  key={`${item.assessmentNo}-${index}`}
+                  onClick={() => setSelectedAssessment(item)}
+                  // 🔽 2. 현재 항목이 선택된 항목과 같으면 배경색과 폰트를 강조합니다.
+                  className={`cursor-pointer hover:bg-blue-50 transition ${
+                    selectedAssessment?.id === item.id ? "bg-blue-100 font-semibold" : ""
+                  }`}
                 >
                   <td className="border px-4 py-2">{item.assessmentNo}</td>
                   <td className="border px-4 py-2">{item.assessmentName}</td>
@@ -80,10 +84,10 @@ const AdminAssessmentListTable = ({ assessmentList, setSelectedAssessment }) => 
           {Array.from({ length: totalPages }, (_, idx) => idx + 1).map((page) => (
             <button
               key={page}
-              onClick={() => setCurrentPage(page)} // 버튼 클릭 시 해당 페이지로 이동
+              onClick={() => setCurrentPage(page)}
               className={`px-3 py-1 rounded border ${
                 currentPage === page
-                  ? "bg-blue-600 text-white" // 현재 페이지 버튼 강조
+                  ? "bg-blue-600 text-white"
                   : "bg-white text-gray-700"
               } hover:bg-blue-100`}
             >

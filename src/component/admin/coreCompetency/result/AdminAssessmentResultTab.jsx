@@ -30,19 +30,12 @@ const AdminAssessmentResultTab = ({selectedAssessment}) => {
         >
           결과조회
         </button>
-        <button 
-          className={activeTab === "total" ? "font-bold border-b-2" : ""} 
-          onClick={() => setActiveTab("total")}
-        >
-          총계표
-        </button>
       </div>
 
       {/* 내용 렌더링 */}
       <div>
         {(activeTab === "basicInfo") && <AdminAssessmentResultDetail/>}
         {(activeTab === "getResult") && <AdminCoreCompetencyGetResultPage/>}
-        {(activeTab === "total") && <AdminAssessmentResultTotal/>}
       </div>
     </div>
   );
