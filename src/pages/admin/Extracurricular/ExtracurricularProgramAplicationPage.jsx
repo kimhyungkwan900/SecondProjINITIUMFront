@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useContext} from "react";
+import { UserContext } from "../../../App";
 import AplicationButton from "../../../component/admin/extracurricular/aplication/AplicationButton";
 import ApplicationInput from "../../../component/admin/extracurricular/aplication/AplicationInput";
 import { aplicationProgram } from "../../../api/admin/extracurricular/program/ProgramApi";
+
 
 const ExtracurricularProgramAplicationPage = () => {
   const [programName, setProgramName] = useState("");
@@ -24,8 +26,9 @@ const ExtracurricularProgramAplicationPage = () => {
   const [imageFile, setImageFile] = useState(null);
   const [selectedDays, setSelectedDays] = useState([]);
   
-  const empNo = "E000000001"; // 로그인한 관리자 
 
+const { user } = useContext(UserContext); // user가 로그인 사용자 정보 객체라고 가정
+const empNo = user?.employeeNo || ""; // 없으면 빈 문자열
 
 const dayToEnum = (day) => {
   switch (day) {
@@ -74,6 +77,7 @@ const handleInsert = async () => {
     console.log(imageFile)
     const result = await aplicationProgram(formDTO, empNo, imageFile);
     alert("저장 성공: " + result);
+    handleDelete
   } catch (error) {
     alert("저장 실패: " + error.message);
   }
@@ -102,7 +106,7 @@ const handleInsert = async () => {
 
   return (
     <div className="w-full p-4">
-      <div className="sticky top-0 bg-white z-10 py-2">
+      <div className="sticky top-0 z-10 py-2">
         <h1 className="font-extrabold text-2xl text-gray-700">
           <span className="bg-cyan-700 w-1 text-cyan-700 select-none">1</span>
           <span className="ml-3">프로그램 등록 신청 페이지</span>

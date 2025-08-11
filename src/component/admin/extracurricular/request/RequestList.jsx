@@ -25,8 +25,8 @@ const RequestList = ({
   const rowHeight = 240 / 5; 
 
   return (
-    <div className="mt-4 border rounded p-4">
-      <table className="w-full table-auto border-collapse border" style={{ tableLayout: 'fixed' }}>
+    <div className="mt-4 border rounded p-4 bg-white">
+      <table className="w-full table-auto border-collapse border " style={{ tableLayout: 'fixed' }}>
         <thead>
           <tr className="bg-gray-100 text-center">
             <th className="border p-2" style={{ width: "5%" }}>ID</th>

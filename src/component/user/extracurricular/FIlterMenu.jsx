@@ -5,10 +5,10 @@ const FilterMenu = ({onSelectIds}) => {
 
   const categories = [
     { name: "전체", ids: null },
-    { name: "S.융합역량", ids: [1, 2] },
-    { name: "T.창의역량", ids: [3, 4] },
-    { name: "A.리더십", ids: [5, 6] },
-    { name: "R.소통역량", ids: [7, 8] },
+    { name: "융합역량", ids: [1, 2] },
+    { name: "창의역량", ids: [3, 4] },
+    { name: "리더십", ids: [5, 6] },
+    { name: "소통역량", ids: [7, 8] },
   ];
 
     const handleClick = (index) => {

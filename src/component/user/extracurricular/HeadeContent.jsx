@@ -9,6 +9,14 @@ const HeaderContent = ({...program}) => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+
+  const applyStart = program.eduAplyBgngDt ? new Date(program.eduAplyBgngDt) : null;
+  const applyEnd = program.eduAplyEndDt ? new Date(program.eduAplyEndDt) : null;
+  const now = new Date();
+
+  const isApplyPeriod =
+    applyStart && applyEnd && now >= applyStart && now <= applyEnd;
+
   return (
     <div className="max-w-5xl mx-auto bg-white rounded-lg  p-6 flex gap-6">
       {/* 왼쪽 이미지 및 운영부서 영역 */}
@@ -113,28 +121,31 @@ const HeaderContent = ({...program}) => {
         {/* 신청 버튼 */}
           <button
             onClick={openModal}
-            className="mt-auto bg-blue-600 text-white font-semibold py-3 rounded hover:bg-blue-700 transition"
-           
+            disabled={!isApplyPeriod}
+            className={`mt-auto font-semibold py-3 rounded transition ${
+              isApplyPeriod
+                ? "bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
+                : "bg-gray-400 text-gray-700 cursor-not-allowed"
+            }`}
           >
-            신청 버튼
-          </button>
+        신청 버튼
+      </button>
       </div>
        {/* 모달 노출 */}
-      {isModalOpen && (
+     {isModalOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
           onClick={closeModal}
-        
         >
           <div
             onClick={(e) => e.stopPropagation()}
             className="bg-white rounded-lg p-6"
           >
-            <ApplyModal 
-                programName = {program.eduNm} 
-                programId = {program.eduMngId}
-                />
-            
+            <ApplyModal
+              programName={program.eduNm}
+              programId={program.eduMngId}
+            />
+
             <button
               onClick={closeModal}
               className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
