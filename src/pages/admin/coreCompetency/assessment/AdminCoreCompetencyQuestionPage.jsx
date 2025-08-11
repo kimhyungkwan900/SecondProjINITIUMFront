@@ -1,11 +1,10 @@
-import AdminQuestionManager from "../../../../features/user/coreCompetency/admin/AdminQuestionManager";
+import AdminQuestionDetail from "./AdminQuestionDetail";
+import AdminQuestionList from "./AdminQuestionList";
 
-const AdminCoreCompetencyQuestionPage = ({ assessmentId, subCategoryId }) => {
-  return (
+const AdminCoreCompetencyQuestionPage = ({assessmentId}) => {
+  return(
     <div>
-      <AdminQuestionManager assessmentId={assessmentId} subCategoryId={subCategoryId} />
-    </div>
+        <AdminQuestionList assessmentId = {assessmentId}/>    </div>
   );
 };
-
 export default AdminCoreCompetencyQuestionPage;
