@@ -12,7 +12,7 @@ export const getMileageSummary = async (studentNo, page=1, size=10) => {
 export const getUserScholarshipInfo = async (studentNo) => {
   const res = await axiosInstance.get(`/user/scholarship/info/${studentNo}`);
   return res.data;
-  // 쿼리파라미터 버전이면:
+  // 쿼리파라미터 버전이면
   // return (await axiosInstance.get("/user/scholarship/info", { params: { studentNo }})).data;
 };
 
@@ -26,7 +26,7 @@ export const applyScholarship = async (payload) => {
 
 export const getScholarshipStatus = async (studentNo, page = 1, size = 10) => {
   const res = await axiosInstance.get(`/user/scholarship/status/${studentNo}`, {
-    params: { page: page - 1, size }, // ← 여기!
+    params: { page: page - 1, size }, 
   });
   return res.data;
-  };
+  };     
