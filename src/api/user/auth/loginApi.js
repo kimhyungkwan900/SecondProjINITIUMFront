@@ -31,7 +31,7 @@ export const logout = async () => {
 export const getCurrentUser = async () => {
   try {
     const res = await axiosInstance.get("/auth/me");
-    return res.data; // UserDetailDto
+    return res.data;
   } catch (error) {
     logErr("Get current user failed", error);
     throw error;

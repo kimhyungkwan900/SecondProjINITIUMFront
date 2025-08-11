@@ -37,6 +37,16 @@ export const sidebarMenus = {
         { label: "핵심역량진단결과", to: `${baseUrl}/coreCompetency/assessment/result` }
       ]
     },
+    {
+      label: "비교과프로그램",
+      children: [
+        { label: "분류 체계 관리", to: "/admin/extracurricular/cateogry" },
+        { label: "프로그램 요청", to: "/admin/extracurricular/program/aplication" },
+        { label: "프로그램 요청 관리", to: "/admin/extracurricular/program/request" },
+        { label: "프로그램 신청 관리", to: "/admin/extracurricular/program/apply" },
+        { label: "프로그램 출석 관리", to: "/admin/extracurricular/program/schedule" }
+      ]
+    },
     { label: "상담관리" }
   ],
   "운영정보": [

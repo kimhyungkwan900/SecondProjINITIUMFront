@@ -42,11 +42,13 @@ const ApplicationInput = ({
 }) => {
   const days = ["월요일", "화요일", "수요일", "목요일", "금요일"];
 
-  const toggleDay = (day) => {
-    setSelectedDays((prev) =>
-      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
-    );
-  };
+const toggleDay = (day) => {
+  if (selectedDays.includes(day)) {
+    setSelectedDays([]);
+  } else {
+    setSelectedDays([day]);
+  }
+};
 
   const [categoryList, setCategoryList] = useState([]);
 
@@ -130,17 +132,17 @@ const ApplicationInput = ({
         {/* 분류 */}
       <div>
         <label className="font-semibold flex flex-col">분류</label>
-        <select
-            value={category}
-            onChange={(e) => setCategory(parseInt(e.target.value))}
-            className="border rounded px-3 py-1 focus:outline-none w-40"
-            >
-            <option value="">선택</option>
-            {categoryList.map((item) => (
-                <option key={item.ctgryId} value={item.ctgryId}>
-                {item.ctgryNm}
+            <select
+          value={category ?? ""}
+          onChange={(e) => setCategory(e.target.value ? parseInt(e.target.value) : "")}
+          className="border rounded px-3 py-1 focus:outline-none w-40"
+        >
+          <option value="">선택</option>
+          {categoryList.map((item) => (
+            <option key={item.ctgryId} value={item.ctgryId}>
+              {item.ctgryNm}
             </option>
-            ))}
+          ))}
         </select>
         </div>
 

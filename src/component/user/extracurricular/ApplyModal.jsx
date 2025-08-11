@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
 import { programApply } from "../../../api/user/extracurricular/UserApplyApi";
+import { UserContext } from "../../../App";
 
 const ApplyModal = ({programId, onClose}) => {
   const [checked, setChecked] = useState(false);
@@ -9,7 +10,8 @@ const ApplyModal = ({programId, onClose}) => {
     setChecked(e.target.checked);
   };
 
-  const logNo = "S000000001"; // 하드코딩
+  const { user } = useContext(UserContext);
+   const logNo = user?.loginId || ""; 
 
   const handleSubmit = async() => {
     if (!checked){

@@ -12,7 +12,6 @@ export default function AdminSidebar({
   const [search, setSearch] = useState("");
   const menuList = sidebarMenus[selectedTopMenu || "전체업무"] || [];
 
-  // leaf(실제 링크)에만 data-nav 부여 → 그때만 드로어 닫기
   const handleContainerClick = useCallback(
     (e) => {
       if (!onNavigate) return;
