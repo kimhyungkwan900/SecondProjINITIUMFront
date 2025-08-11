@@ -21,6 +21,14 @@ export const studentMyPageMenus = [
         ],
     },
     {
+        name: "마일리지 현황",
+        children: [
+            { name: "나의 마일리지", link: "/mypage/mileage" },
+            { name: "마일리지 장학금 신청", link: "/mypage/mileage/apply" },
+            { name: "장학금 현황", link: "/mypage/mileage/status" },
+        ],
+    },
+    {
         name: "통합 및 개별 이수증",
         children: [
             { name: "비교과 프로그램 이수증 발급", link: "/mypage/issuance/extracurricular" },
