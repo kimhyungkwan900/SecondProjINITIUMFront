@@ -7,6 +7,7 @@ import DiagnosisAdminCreatePage from "../../pages/admin/diagnostic/DiagnosisAdmi
 import DiagnosisAdminDashboardPage from "../../pages/admin/diagnostic/DiagnosisAdminDashboardPage";
 import DiagnosisAdminListPage from "../../pages/admin/diagnostic/DiagnosisAdminListPage";
 import StudentListPage from "../../pages/admin/students/StudentListPage";
+import StudentManagePage from "../../pages/admin/students/StudentManagePage";
 
 import ExtracurricularCategoryPage from "../../pages/admin/Extracurricular/ExtracurricularCategoryPage";
 import ExtracurricularProgramAplicationPage from "../../pages/admin/Extracurricular/ExtracurricularProgramAplicationPage";
@@ -25,6 +26,7 @@ const adminMainRouter = [
           // 학생
           { path: "", element: <AdminMainPage /> },
           { path: "students/student-list", element: <StudentListPage /> },
+          { path: "students/student-manage", element: <StudentManagePage />},
 
           // 진단평가
           { path: 'diagnosis/dashboard', element: <DiagnosisAdminDashboardPage /> },
