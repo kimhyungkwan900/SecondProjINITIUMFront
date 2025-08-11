@@ -168,7 +168,7 @@ const ConsultApplyForm = ({userInfo, type, schedule, onSubmit, onBack})=>{
                 <div className="flex justify-end items-center gap-3 mr-2 mt-2 mb-2">
                     <button 
                         className="bg-red-500 text-white hover:bg-red-700 transition no-underline font-medium px-4 py-1 rounded"
-                        onClick={()=>onBack}
+                        onClick={()=>onBack()}
                     >
                         뒤로
                     </button>

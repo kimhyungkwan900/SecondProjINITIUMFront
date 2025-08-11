@@ -32,6 +32,7 @@ const ApplyConsultPage = ({type})=>{
     };
 
     const handleSubmit = async (applyInfo) => {
+        
         const result = await applyConsult(applyInfo)
         console.log(result);
         setStep(2);
