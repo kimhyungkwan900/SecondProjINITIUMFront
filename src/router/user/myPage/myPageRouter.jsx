@@ -25,7 +25,7 @@ export const myPageRouter = [
           { path: "navigator", element: <NavigatorPage /> },         
           { path: "consult", element: <StudentConsultListFullPage /> },
             
-          { path: "program", element: <ExtracurricularProgramMyPage/>}
+          { path: "program", element: <ExtracurricularProgramMyPage/>},
           
           { path: "mileage", element: <MyMileagePage /> },
           { path: "mileage/apply", element: <ScholarshipApplyPage /> },

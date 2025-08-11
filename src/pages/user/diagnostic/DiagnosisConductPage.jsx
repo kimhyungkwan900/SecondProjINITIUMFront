@@ -6,6 +6,7 @@ import DiagnosisResult from '../../../component/user/diagnostic/DiagnosisResult.
 import MainHeader from '../../../features/user/mainpage/MainHeader.jsx';
 import UserTopBar from '../../../component/user/mainpage/UserTopBar.jsx';
 import { UserContext } from '../../../App.jsx';
+import SectionTitle from '../../../component/common/SectionTitle.jsx';
 
 /**
  * DiagnosisConductPage
