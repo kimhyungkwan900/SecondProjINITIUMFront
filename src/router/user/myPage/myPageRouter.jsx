@@ -8,6 +8,10 @@ import EmployeeMyPageHome from "../../../pages/user/MyPage/EmployeeMyPageHome";
 import StudentUpdateMyInfo from "../../../pages/user/MyPage/StudentUpdateMyInfo";
 import RequireRole from "../../../component/common/Require/RequireRole";
 import ExtracurricularProgramMyPage from "../../../pages/user/extracurricular/ExtracurricularProgramMyPage";
+import MyMileagePage from "../../../pages/user/mileage/MyMileagePage";
+import ScholarshipApplyPage from "../../../pages/user/mileage/ScholarshipApplyPage";
+import ScholarshipStatusPage from "../../../pages/user/mileage/ScholarshipStatusPage";
+
 export const myPageRouter = [
   {
     path: "/mypage",
@@ -20,7 +24,12 @@ export const myPageRouter = [
           { path: "update-info", element: <StudentUpdateMyInfo /> },  
           { path: "navigator", element: <NavigatorPage /> },         
           { path: "consult", element: <StudentConsultListFullPage /> },
+            
           { path: "program", element: <ExtracurricularProgramMyPage/>}
+          
+          { path: "mileage", element: <MyMileagePage /> },
+          { path: "mileage/apply", element: <ScholarshipApplyPage /> },
+          { path: "mileage/status", element: <ScholarshipStatusPage /> },
         ],
       },
     ],

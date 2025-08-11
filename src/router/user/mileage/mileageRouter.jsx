@@ -4,13 +4,13 @@ import ScholarshipStatusPage from "../../../pages/user/mileage/ScholarshipStatus
 
 const mileageRouter = [
   {
-    path: "/mileage",
+    path: "/mypage/mileage",
     element: <MyMileagePage />
   },
-  { path: "/mileage/apply",
+  { path: "/mypage/mileage/apply",
     element: <ScholarshipApplyPage /> 
   },
-  { path: "/mileage/status", 
+  { path: "/mypage/mileage/status", 
     element: <ScholarshipStatusPage /> },
   
 ];

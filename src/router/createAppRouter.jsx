@@ -8,6 +8,7 @@ import ExtracurricularProgramRouter from "./user/extracurricular/Extracurricular
 import adminMainRouter from "./admin/adminMainRouter";
 import myPageRouter from "./user/myPage/myPageRouter";
 import NotFoundPage from "../pages/user/diagnostic/NotFoundPage";
+import mileageRouter from "./user/mileage/mileageRouter";
 
 const createAppRouter = () => {
     return createBrowserRouter([
@@ -18,6 +19,7 @@ const createAppRouter = () => {
         ...ExtracurricularProgramRouter,
         ...adminMainRouter,
         ...myPageRouter,
+        ...mileageRouter,
 
         { path: "/", element: <MainPage /> },
 
