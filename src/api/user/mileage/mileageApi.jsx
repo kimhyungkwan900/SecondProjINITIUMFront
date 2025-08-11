@@ -29,4 +29,4 @@ export const getScholarshipStatus = async (studentNo, page = 1, size = 10) => {
     params: { page: page - 1, size }, // ← 여기!
   });
   return res.data;
-  };
+  };     
