@@ -17,13 +17,15 @@ export default function UserTopBar() {
       console.error("Logout failed", error);
     }
   };
+
   let myPageLink = null;
   let showAdminPage = false;
+
   if (user) {
     if (user.userType === "S") {
       myPageLink = <LinkedButton to="/mypage">마이페이지</LinkedButton>;
     } else if (user.userType === "E" || user.userType === "A") {
-      myPageLink = <LinkedButton to="/employee/mypage">마이페이지</LinkedButton>;
+      myPageLink = <LinkedButton to="/mypage/employee">마이페이지</LinkedButton>;
       if (user.userType === "A") {
         showAdminPage = true;
       }

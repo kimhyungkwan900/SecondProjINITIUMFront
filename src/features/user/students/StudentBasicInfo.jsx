@@ -35,7 +35,7 @@ const StudentBasicInfo = ({ student }) => {
                     </tr>
                     <tr>
                         <th className="bg-gray-100 text-left px-3 py-2 border">학과</th>
-                        <td className="px-3 py-2 border">{student.schoolSubjectName || student.schoolSubjectCode}</td>
+                        <td className="px-3 py-2 border"><CodeDisplay category="schoolSubject" code={student.schoolSubjectCode}/></td>
                         <th className="bg-gray-100 text-left px-3 py-2 border">학년</th>
                         <td className="px-3 py-2 border">{student.grade}</td>
                     </tr>

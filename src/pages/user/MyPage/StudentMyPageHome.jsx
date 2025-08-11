@@ -7,10 +7,10 @@ import StudentDiagnosticResultsContainer from "../../../features/user/students/S
 import StudentParticipatedProgramList from "../../../features/user/students/StudentParticipatedProgramList";
 import StudentConsultList from "../../../features/user/students/StudentConsultList";
 
-const MyPageHome = () => {
+const StudentMyPageHome = () => {
 
     const { user } = useContext(UserContext);
-    const { student, loading, error } = useStudentInfo(user?.loginId);
+    const { student } = useStudentInfo(user?.loginId);
 
     return (
         <div className="space-y-10">
@@ -68,4 +68,4 @@ const MyPageHome = () => {
     );
 };
 
-export default MyPageHome;
+export default StudentMyPageHome;

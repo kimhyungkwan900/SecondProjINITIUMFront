@@ -44,7 +44,6 @@ const UserLoginFeature = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        {error && <p style={{ color: 'red' }}>{error}</p>}
         <LoginButton type="submit">로그인</LoginButton>
         <FindAccountLink />
       </form>

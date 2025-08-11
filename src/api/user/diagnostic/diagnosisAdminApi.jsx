@@ -38,3 +38,22 @@ export const fetchAdminAllTests = async () => {
     handleError(err);
   }
 };
+
+export const updateAdminDiagnosticTest = async (testId, data) => {
+  try {
+    const res = await axiosInstance.put(`${ADMIN_BASE_URL}/tests/${testId}`, data);
+    return res.data; // { testId, message }
+  } catch (err) {
+    handleError(err);
+  }
+};
+
+// 관리자용 검사 단건 조회
+export const fetchAdminDiagnosticTestById = async (testId) => {
+  try {
+    const res = await axiosInstance.get(`${ADMIN_BASE_URL}/tests/${testId}`);
+    return res.data;
+  } catch (err) {
+    handleError(err);
+  }
+};

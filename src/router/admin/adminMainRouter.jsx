@@ -1,4 +1,4 @@
-import RequireAdmin from "../../component/admin/RequireAdmin";
+import RequireRole from "../../component/common/Require/RequireRole";
 import AdminLayout from "../../layouts/admin/AdminLayout";
 import AdminMainPage from "../../pages/admin/adminMainPage";
 import AdminCoreCompetencyAssessment from "../../pages/admin/coreCompetency/assessment/AdminCoreCompetencyAssessment";
@@ -16,7 +16,7 @@ import ExtracurricularProgramApplyPage from "../../pages/admin/Extracurricular/E
 const adminMainRouter = [
   {
     path: "/admin",
-    element: <RequireAdmin />,
+    element: <RequireRole allow={["A"]} />,
     children: [
       {
         path: "",

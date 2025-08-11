@@ -32,7 +32,7 @@ const DiagnosisQuestions = ({ testId, studentNo, onSubmit }) => {
       .then((res) => {
         console.log("✅ 진단검사 제출 완료:", res);
         if (onSubmit) {
-          onSubmit(res.resultId); // 부모로 전달
+          onSubmit(res.resultId);
         }
       })
       .catch((err) => {
