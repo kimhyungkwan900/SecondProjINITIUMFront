@@ -7,7 +7,7 @@ import StudentConsultListFullPage from "../../../pages/user/MyPage/StudentConsul
 import EmployeeMyPageHome from "../../../pages/user/MyPage/EmployeeMyPageHome";
 import StudentUpdateMyInfo from "../../../pages/user/MyPage/StudentUpdateMyInfo";
 import RequireRole from "../../../component/common/Require/RequireRole";
-
+import ExtracurricularProgramMyPage from "../../../pages/user/extracurricular/ExtracurricularProgramMyPage";
 export const myPageRouter = [
   {
     path: "/mypage",
@@ -19,7 +19,8 @@ export const myPageRouter = [
           { index: true, element: <StudentMyPageHome /> },   
           { path: "update-info", element: <StudentUpdateMyInfo /> },  
           { path: "navigator", element: <NavigatorPage /> },         
-          { path: "consult", element: <StudentConsultListFullPage /> } 
+          { path: "consult", element: <StudentConsultListFullPage /> },
+          { path: "program", element: <ExtracurricularProgramMyPage/>}
         ],
       },
     ],

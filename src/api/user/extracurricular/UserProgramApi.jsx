@@ -63,3 +63,22 @@ export const getAppliedProgramList = async ({
     throw error;
   }
 };
+
+export const getMyProgramList = async({
+    stdfntNo,
+    eduFnshYn,
+    keyword,
+    page = 0,
+    size = 5,
+    sort = "eduAplyId",
+    direction = "DESC",
+  }) => {
+  try{
+      const params = { stdfntNo, eduFnshYn, keyword ,page, size, sort, direction };
+      const response = await axiosInstance.get("/user/extracurricular/program/mylist", { params });
+      return response.data;
+  }catch(error) {
+    console.error("신청한 프로그램 목록 요청 실패", error);
+    throw error;
+  }
+}
