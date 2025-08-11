@@ -53,17 +53,18 @@ export const fetchPrograms = async (filter, page = 0, size = 10) => {
 };
 
 // 비교과 프로그램 상태 업데이트
-export const updateProgramStatus = async (eduMngId, sttsNm, eduMlg) => {
+export const updateProgramStatus = async (eduMngId, sttsNm, eduMlg, surveyDTO) => {
   try {
-    const dto = {
-      eduMngId,
-      sttsNm,
-      eduMlg,
+    const payload = {
+      programUpdateFormDTO: {
+        eduMngId,
+        sttsNm,
+        eduMlg,
+      },
+      surveyDTO,
     };
-    const response = await axiosInstance.put(
-      "/admin/extracurricular/program/update",
-      dto
-    );
+
+    const response = await axiosInstance.put("/admin/extracurricular/program/update", payload);
     return response.data;
   } catch (error) {
     console.error("상태 변경 실패:", error);

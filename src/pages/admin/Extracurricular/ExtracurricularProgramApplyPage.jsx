@@ -10,7 +10,7 @@ import ApplyButton from "../../../component/admin/extracurricular/apply/ApplyBut
 const ExtracurricularProgramApplyPage = () => {
   const [filter, setFilter] = useState({ keyword: "", eduType: "", status: "APPROVED" });
   const [programs, setPrograms] = useState([]);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [selectedProgram, setSelectedProgram] = useState(null); // ✅ 추가
   const [selectedApplyIds, setSelectedApplyIds] = useState([]);
@@ -24,20 +24,21 @@ const ExtracurricularProgramApplyPage = () => {
   };
 
 const fetchData = async () => {
-  const data = await fetchPrograms(filter, page - 1, 5);
+  const data = await fetchPrograms(filter, page -1, 5); 
   if (data) {
     setPrograms(data.content || []);
     setTotalPages(data.totalPages || 0);
 
-    // 현재 선택된 프로그램 ID와 같은 프로그램이 있으면 갱신
-    if (selectedProgram) {
+    if (!selectedProgram && data.content && data.content.length > 0) {
+      setSelectedProgram(data.content[0]);
+    } else if (selectedProgram) {
       const updatedProgram = data.content?.find(
         (p) => p.id === selectedProgram.id
       );
       if (updatedProgram) {
         setSelectedProgram(updatedProgram);
       } else {
-        setSelectedProgram(null); // 혹시 선택된 프로그램이 없어졌다면 초기화
+        setSelectedProgram(null);
       }
     }
   }
@@ -78,10 +79,10 @@ const fetchData = async () => {
 
   return (
     <div className="w-full p-4">
-      <div className="sticky top-0 bg-white z-10 py-2">
+      <div className="sticky top-0 z-10 py-2">
         <h1 className="font-extrabold text-2xl text-gray-700">
           <span className="bg-cyan-700 w-1 text-cyan-700 select-none">1</span>
-          <span className="ml-3">프로그램 등록 신청 페이지</span>
+          <span className="ml-3">프로그램 신청 관리 페이지</span>
         </h1>
         <hr className="border" />
       </div>

@@ -154,7 +154,7 @@ const onUpdate = async () => {
 
   return (
     <div className="w-full p-4">
-      <div className="sticky top-0 bg-white z-10 py-2">
+      <div className="sticky top-0  z-10 py-2">
         <h1 className="font-extrabold text-2xl text-gray-700">
           <span className="bg-blue-700 w-1 text-blue-700 select-none">1</span>
           <span className="ml-3">비교과 분류 체계 페이지</span>

@@ -106,7 +106,7 @@ const handleInsert = async () => {
 
   return (
     <div className="w-full p-4">
-      <div className="sticky top-0 bg-white z-10 py-2">
+      <div className="sticky top-0 z-10 py-2">
         <h1 className="font-extrabold text-2xl text-gray-700">
           <span className="bg-cyan-700 w-1 text-cyan-700 select-none">1</span>
           <span className="ml-3">프로그램 등록 신청 페이지</span>

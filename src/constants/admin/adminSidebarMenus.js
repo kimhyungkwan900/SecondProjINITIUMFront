@@ -1,4 +1,3 @@
-
 const baseUrl = "/admin";
 
 export const sidebarMenus = {
@@ -38,36 +37,16 @@ export const sidebarMenus = {
         { label: "핵심역량진단결과", to: `${baseUrl}/coreCompetency/assessment/result` }
       ]
     },
-    { label: "상담관리" }
-  ],
-  "즐겨찾기": [
-    { label: "즐겨찾는 메뉴1" },
-    { label: "즐겨찾는 메뉴2" }
-  ],
-
-  "프로그램 관리" : [
     {
-      label : "프로그램 관리",
-      children :[
-        {
-          label : "분류 체계 관리",
-          to : "/admin/extracurricular/cateogry"
-        },
-        {
-          label : "프로그램 요청",
-          to : "/admin/extracurricular/program/aplication"
-        },
-        {
-          label : "프로그램 요청 관리",
-          to : "/admin/extracurricular/program/request"
-        },
-        {
-          label : "프로그램 신청 관리",
-          to : "/admin/extracurricular/program/apply"
-        },
+      label: "비교과프로그램",
+      children: [
+        { label: "분류 체계 관리", to: "/admin/extracurricular/cateogry" },
+        { label: "프로그램 요청", to: "/admin/extracurricular/program/aplication" },
+        { label: "프로그램 요청 관리", to: "/admin/extracurricular/program/request" },
+        { label: "프로그램 신청 관리", to: "/admin/extracurricular/program/apply" },
       ]
     },
-    {label : ""}
+    { label: "상담관리" }
   ],
   "운영정보": [
     {
@@ -96,10 +75,5 @@ export const sidebarMenus = {
 
 sidebarMenus["전체업무"] = [
   ...sidebarMenus["학사정보"],
-  ...sidebarMenus["행정정보"],
-  ...sidebarMenus["시스템운영"],
-  ...sidebarMenus["학생지원"],
-  ...sidebarMenus["즐겨찾기"],
-  ...sidebarMenus["프로그램 관리"],
   ...sidebarMenus["운영정보"],
 ];

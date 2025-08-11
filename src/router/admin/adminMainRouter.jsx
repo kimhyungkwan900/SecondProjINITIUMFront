@@ -12,7 +12,7 @@ import ExtracurricularCategoryPage from "../../pages/admin/Extracurricular/Extra
 import ExtracurricularProgramAplicationPage from "../../pages/admin/Extracurricular/ExtracurricularProgramAplicationPage";
 import ExtracurricularProgramRequestPage from "../../pages/admin/Extracurricular/ExtracurricularProgramReqeustPage";
 import ExtracurricularProgramApplyPage from "../../pages/admin/Extracurricular/ExtracurricularProgramApplyPage";
-
+import ExtracurricularSchedulePage from "../../pages/admin/Extracurricular/ExtracurricularSchedulePage";
 const adminMainRouter = [
   {
     path: "/admin",
@@ -39,7 +39,8 @@ const adminMainRouter = [
           { path : "extracurricular/cateogry", element : <ExtracurricularCategoryPage/>},
           { path : "extracurricular/program/aplication", element : <ExtracurricularProgramAplicationPage/> },
           { path : "extracurricular/program/request", element : <ExtracurricularProgramRequestPage/>},
-          { path : "extracurricular/program/apply", element : <ExtracurricularProgramApplyPage/>}
+          { path : "extracurricular/program/apply", element : <ExtracurricularProgramApplyPage/>},
+          { path : "extracurricular/program/schedule", element : <ExtracurricularSchedulePage/>},
         ]
       }
     ]
