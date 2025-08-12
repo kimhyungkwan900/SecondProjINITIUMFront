@@ -1,4 +1,4 @@
-import useEmployeeInfo from "../../hooks/useEmployeeInfo";
+import useEmployeeInfo from "../../../hooks/useEmployeeInfo";
 
 const EmployeeDisplay = ({ empNo }) => {
   const { employee, loading, error } = useEmployeeInfo(empNo);

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { CATEGORY, CODEBOOK } from "../../../component/common/CodeBook";
+import { CATEGORY, CODEBOOK } from "../../../component/common/CodeConverter/CodeBook";
 import { fetchStudentByNo, updateMyInfo } from "../../../api/user/auth/studentsApi";
 import TextInput from "../../../component/common/TextInput";
 import PageHeader from "../../../component/common/PageHeader";

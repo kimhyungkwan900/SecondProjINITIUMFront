@@ -7,12 +7,16 @@ import DiagnosisAdminCreatePage from "../../pages/admin/diagnostic/DiagnosisAdmi
 import DiagnosisAdminDashboardPage from "../../pages/admin/diagnostic/DiagnosisAdminDashboardPage";
 import DiagnosisAdminListPage from "../../pages/admin/diagnostic/DiagnosisAdminListPage";
 import StudentListPage from "../../pages/admin/students/StudentListPage";
+import StudentManagePage from "../../pages/admin/students/StudentManagePage";
 
 import ExtracurricularCategoryPage from "../../pages/admin/Extracurricular/ExtracurricularCategoryPage";
 import ExtracurricularProgramAplicationPage from "../../pages/admin/Extracurricular/ExtracurricularProgramAplicationPage";
 import ExtracurricularProgramRequestPage from "../../pages/admin/Extracurricular/ExtracurricularProgramReqeustPage";
 import ExtracurricularProgramApplyPage from "../../pages/admin/Extracurricular/ExtracurricularProgramApplyPage";
 import ExtracurricularSchedulePage from "../../pages/admin/Extracurricular/ExtracurricularSchedulePage";
+
+import AdminMileageItemPage from "../../pages/admin/mileage/AdminMileageItemPage";
+
 const adminMainRouter = [
   {
     path: "/admin",
@@ -25,6 +29,7 @@ const adminMainRouter = [
           // 학생
           { path: "", element: <AdminMainPage /> },
           { path: "students/student-list", element: <StudentListPage /> },
+          { path: "students/student-manage", element: <StudentManagePage />},
 
           // 진단평가
           { path: 'diagnosis/dashboard', element: <DiagnosisAdminDashboardPage /> },
@@ -41,6 +46,9 @@ const adminMainRouter = [
           { path : "extracurricular/program/request", element : <ExtracurricularProgramRequestPage/>},
           { path : "extracurricular/program/apply", element : <ExtracurricularProgramApplyPage/>},
           { path : "extracurricular/program/schedule", element : <ExtracurricularSchedulePage/>},
+
+          //마일리지
+          { path: "mileage/items", element: <AdminMileageItemPage /> },
         ]
       }
     ]
