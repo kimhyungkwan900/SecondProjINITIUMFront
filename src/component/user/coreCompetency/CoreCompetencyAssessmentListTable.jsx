@@ -13,7 +13,8 @@ const CoreCompetencyAssessmentListTable = () => {
   const hasStudentNo = user?.loginId ; // 프로젝트 맞게 조정
   const hasEmployeeNo = !!user?.employeeNo;
   const canViewList = !!user && (hasStudentNo || hasEmployeeNo); // 리스트 접근 가능?
-  const canSeeButtons = hasStudentNo; // 버튼/배지 노출 여부
+  const isStudent  = hasStudentNo && !hasEmployeeNo;
+  const isEmployee = hasEmployeeNo;
 
   // ★ 훅은 최상단에서 호출하고, 내부에서 조건 체크
   useEffect(() => {
@@ -88,8 +89,8 @@ const CoreCompetencyAssessmentListTable = () => {
 
   const renderStatusUI = (status, id) => {
     // 학생만 버튼/배지 노출, 아니면 가림
-    if (!canSeeButtons) return <span className="text-gray-400">-</span>;
-
+    // 학생: 클릭 가능한 버튼
+  if (isStudent) {
     switch (status) {
       case "ACTIVE":
         return (
@@ -106,7 +107,6 @@ const CoreCompetencyAssessmentListTable = () => {
             대기 중
           </span>
         );
-      case "EXPIRED":
       default:
         return (
           <span className="bg-gray-400 text-white text-sm px-[25px] py-2 rounded inline-block">
@@ -114,6 +114,34 @@ const CoreCompetencyAssessmentListTable = () => {
           </span>
         );
     }
+  }
+
+  // 교직원: 텍스트 배지(비클릭)
+  if (isEmployee) {
+    switch (status) {
+      case "ACTIVE":
+        return (
+          <button
+            onClick={() => handleTest(id)}
+            className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-[25px] py-2 rounded shadow-sm transition"
+          >
+            진단진행중
+          </button>
+        );
+      case "UPCOMING":
+        return (
+          <span className="bg-gray-600 text-white text-sm px-[39px] py-2 rounded inline-block">
+            대기중
+          </span>
+        );
+      default:
+        return (
+          <span className="bg-gray-400 text-white text-sm px-[32px] py-2 rounded inline-block">
+            기간만료
+          </span>
+        );
+    }
+  }
   };
 
   return (

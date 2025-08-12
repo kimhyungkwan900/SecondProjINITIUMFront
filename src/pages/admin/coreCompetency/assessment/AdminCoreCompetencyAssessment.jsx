@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState} from "react";
 import AdminSectionHeader from "../../../../component/admin/AdminSectionHeader";
 import AdminAssessmentSearchBar from "../../../../component/admin/coreCompetency/assessment/AdminAssessmentSearchBar";
 import AdminAssessmentListTable from "../../../../component/admin/coreCompetency/assessment/AdminAssessmentListTable";
@@ -15,7 +15,7 @@ const AdminCoreCompetencyAssessment = () => {
     // 사용자가 선택한(또는 새로 생성할) 진단 평가 정보를 저장하는 state. null이 아니면 하단에 탭 UI가 나타납니다.
     const [selectedAssessment, setSelectedAssessment] = useState(null);
     // API 호출 시 로딩 상태를 관리하는 state
-    const [isLoading, setIsLoading] = useState(false);
+    const [setIsLoading] = useState(false);
     // API 호출 중 발생한 에러 메시지를 저장하는 state
     const [error, setError] = useState('');
 
@@ -122,7 +122,7 @@ const AdminCoreCompetencyAssessment = () => {
                 setSelectedAssessment(null); // 선택 상태 초기화
                 // 목록에서 삭제된 항목을 제외한 새 배열로 state를 업데이트합니다.
                 setAssessmentList(prevList => prevList.filter(item => item.id !== id));
-            } catch (err) {
+            } catch{
                 setError('삭제에 실패했습니다.');
                 alert('삭제에 실패했습니다.');
             } finally {
