@@ -23,7 +23,7 @@ const AdminAssessmentTab = ({ selectedAssessment, onSave, onDelete, onCancel }) 
     return (
         <div className="mt-6 border p-6 rounded bg-white shadow">
             <div className="flex gap-4 mb-4 border-b pb-2">
-                {/* 탭 버튼들... (이전과 동일) */}
+                {/* 탭 버튼들*/}
                 <button className={activeTab === "basicInfo" ? "font-bold border-b-2" : ""} onClick={() => setActiveTab("basicInfo")}>기본정보</button>
                 <button className={activeTab === "questionInfo" ? "font-bold border-b-2" : ""} onClick={() => setActiveTab("questionInfo")}>문항정보</button>
                 <button className={activeTab === "analysis" ? "font-bold border-b-2" : ""} onClick={() => setActiveTab("analysis")}>분석기준</button>
@@ -43,7 +43,7 @@ const AdminAssessmentTab = ({ selectedAssessment, onSave, onDelete, onCancel }) 
                 {activeTab === "questionInfo" && <AdminCoreCompetencyQuestionPage assessmentId={selectedAssessment?.id} />}
                 {activeTab === "analysis" && <AdminCoreCompetencyCategory assessmentId={selectedAssessment?.id} />}
                 {activeTab === "analysisItems" && <AdminCoreCompetencyMapping assessmentId={selectedAssessment?.id} />}
-                {activeTab === "participant" && <AdminCoreCompetencyParticipant />}
+                {activeTab === "participant" && <AdminCoreCompetencyParticipant assessmentNo={selectedAssessment?.assessmentNo}/>}
             </div>
         </div>
     );

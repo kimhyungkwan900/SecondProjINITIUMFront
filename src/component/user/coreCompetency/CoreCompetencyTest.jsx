@@ -75,7 +75,6 @@ const CoreCompetencyTest = () => {
         const confirm = window.confirm("제출하시겠습니까?");
         if (!confirm) return;
 
-        alert("제출되었습니다.");
         navigate("/competency/coreCompetency/result");
 
         axios
