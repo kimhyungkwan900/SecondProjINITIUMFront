@@ -1,36 +1,36 @@
 export const CATEGORY = {
-  CO0001: "gender",
-  CO0002: "workType",
-  CO0003: "deptType",
-  CO0004: "birthType",
-  CO0005: "bank",
-  CO0006: "dataScope",
-  CO0007: "dataAuth",
-  CO0008: "hour",
-  CO0009: "minute",
-  CO0010: "userType",
-  CO0041: "accountHolderRelation",
-  CO0085: "dataChangeType",
-  CO0090: "questionType",
-  CO0103: "programPlatform",
-  CO0138: "boardType",
-  CO0139: "boardViewScope",
-  SL0030: "studentStatus",
-  AM0120: "employeeStatus",
-  ML0001: "mileageStatus",
-  SEMES: "semester",
-  ONLYN: "onlineYn",
+  CO0001: "GENDER",
+  CO0002: "WORK_TYPE",
+  CO0003: "DEPT_TYPE",
+  CO0004: "BIRTH_TYPE",
+  CO0005: "BANK",
+  CO0006: "DATA_SCOPE",
+  CO0007: "DATA_AUTH",
+  CO0008: "HOUR",
+  CO0009: "MINUTE",
+  CO0010: "USER_TYPE",
+  CO0041: "ACCOUNT_HOLDER_RELATION",
+  CO0085: "DATA_CHANGE_TYPE",
+  CO0090: "QUESTION_TYPE",
+  CO0103: "PROGRAM_PLATFORM",
+  CO0138: "BOARD_TYPE",
+  CO0139: "BOARD_VIEW_SCOPE",
+  SL0030: "STUDENT_STATUS",
+  AM0120: "EMPLOYEE_STATUS",
+  ML0001: "MILEAGE_STATUS",
+  SEMES: "SEMESTER",
+  ONLYN: "ONLINE_YN",
 };
 
 export const CODEBOOK = {
   // CO0001 성별구분
-  gender: {
+  GENDER: {
     "10": "남자",
     "20": "여자",
   },
 
   // CO0002 업무구분
-  workType: {
+  WORK_TYPE: {
     AA: "회계",
     AB: "예산",
     AE: "시설",
@@ -54,7 +54,7 @@ export const CODEBOOK = {
   },
 
   // CO0003 부서구분
-  deptType: {
+  DEPT_TYPE: {
     "10": "본부",
     "11": "처, 실, 센터",
     "12": "행정부서",
@@ -63,13 +63,13 @@ export const CODEBOOK = {
   },
 
   // CO0004 생일구분
-  birthType: {
+  BIRTH_TYPE: {
     "10": "양력",
     "20": "음력",
   },
 
   // CO0005 은행/금융기관 구분
-  bank: {
+  BANK: {
     "000": "기타",
     "002": "한국산업은행",
     "003": "중소기업은행",
@@ -126,20 +126,20 @@ export const CODEBOOK = {
   },
 
   // CO0006 데이터 범위 구분
-  dataScope: {
+  DATA_SCOPE: {
     R: "수정",
     S: "조회",
   },
 
   // CO0007 데이터 권한 구분
-  dataAuth: {
+  DATA_AUTH: {
     A: "담당",
     D: "부서",
     P: "개인",
   },
 
   // CO0008 시간(시) 구분
-  hour: {
+  HOUR: {
     "01": "01:00:00",
     "02": "02:00:00",
     "03": "03:00:00",
@@ -167,7 +167,7 @@ export const CODEBOOK = {
   },
 
   // CO0009 시간(분) 구분
-  minute: {
+  MINUTE: {
     "00": "00분",
     "01": "01분",
     "02": "02분",
@@ -231,7 +231,7 @@ export const CODEBOOK = {
   },
 
   // CO0010 사용자 구분
-  userType: {
+  USER_TYPE: {
     S: "학생",
     G: "졸업생",
     P: "교원",
@@ -242,47 +242,47 @@ export const CODEBOOK = {
   },
 
   // CO0041 예금주관계구분
-  accountHolderRelation: {
+  ACCOUNT_HOLDER_RELATION: {
     "10": "본인",
     "20": "부모",
   },
 
   // CO0085 데이터 변경 구분
-  dataChangeType: {
+  DATA_CHANGE_TYPE: {
     "10": "INSERT",
     "20": "UPDATE",
     "30": "DELETE",
   },
 
   // CO0090 문항구분
-  questionType: {
+  QUESTION_TYPE: {
     "10": "객관식",
     "20": "객관식기타",
     "30": "주관식",
   },
 
   // CO0103 프로그램 운영 구분
-  programPlatform: {
+  PROGRAM_PLATFORM: {
     "10": "데스크탑용",
     "20": "스마트폰용",
   },
 
   // CO0138 게시판 종류 구분
-  boardType: {
+  BOARD_TYPE: {
     "10": "공지사항",
     "20": "자료실",
     "30": "FAQ",
   },
 
   // CO0139 게시판 조회 범위 구분
-  boardViewScope: {
+  BOARD_VIEW_SCOPE: {
     "10": "전체",
     "20": "학생",
     "30": "교직원",
   },
 
   // SL0030 학생 Status
-  studentStatus: {
+  STUDENT_STATUS: {
     "10": "재학",
     "20": "휴학",
     "30": "제적",
@@ -291,14 +291,14 @@ export const CODEBOOK = {
   },
 
   // AM0120 교직원 Status
-  employeeStatus: {
+  EMPLOYEE_STATUS: {
     "10": "재직",
     "20": "휴직",
     "30": "퇴직",
   },
 
   // ML0001 마일리지 상태 코드
-  mileageStatus: {
+  MILEAGE_STATUS: {
     "1": "신청",
     "2": "승인",
     "3": "반려",
@@ -306,63 +306,63 @@ export const CODEBOOK = {
   },
 
   // SEMES 학기
-  semester: {
+  SEMESTER: {
     "1": "1학기",
     "2": "2학기",
   },
 
   // ONLYN 온라인/오프라인
-  onlineYn: {
+  ONLINE_YN: {
     Y: "온라인",
     N: "오프라인",
   },
 
   // 학과/부서 코드 (schoolSubject)
-  schoolSubject: {
+  SCHOOL_SUBJECT: {
     // 본부
-    "001": "기획본부",
-    "002": "전략본부",
-    "003": "관리본부",
+    "001": { label: "기획본부", isAcademic: false },
+    "002": { label: "전략본부", isAcademic: false },
+    "003": { label: "관리본부", isAcademic: false },
     
     // 처, 실, 센터
-    "104": "학사지원처",
-    "107": "학생복지처",
-    "111": "국제교류센터",
-    "122": "교수학습센터",
-    "133": "정보화센터",
-    "141": "핵심역량센터",
-    "155": "입학처",
-    "166": "산학협력실",
+    "104": { label: "학사지원처", isAcademic: false },
+    "107": { label: "학생복지처", isAcademic: false },
+    "111": { label: "국제교류센터", isAcademic: false },
+    "122": { label: "교수학습센터", isAcademic: false },
+    "133": { label: "정보화센터", isAcademic: false },
+    "141": { label: "핵심역량센터", isAcademic: false },
+    "155": { label: "입학처", isAcademic: false },
+    "166": { label: "산학협력실", isAcademic: false },
     
     // 행정부서
-    "205": "총무행정부서",
-    "212": "재무행정부서",
-    "224": "인사행정부서",
-    "235": "시설행정부서",
-    "249": "비서실행정부서",
-    "256": "안전관리행정부서",
+    "205": { label: "총무행정부서", isAcademic: false },
+    "212": { label: "재무행정부서", isAcademic: false },
+    "224": { label: "인사행정부서", isAcademic: false },
+    "235": { label: "시설행정부서", isAcademic: false },
+    "249": { label: "비서실행정부서", isAcademic: false },
+    "256": { label: "안전관리행정부서", isAcademic: false },
     
     // 학과
-    "108": "컴퓨터공학과",
-    "110": "전자공학과",
-    "127": "기계공학과",
-    "134": "시각디자인학과",
-    "145": "경영학과",
-    "159": "경제학과",
-    "161": "국어국문학과",
-    "174": "수학과",
-    "182": "간호학과",
+    "108": { label: "컴퓨터공학과", isAcademic: true },
+    "110": { label: "전자공학과", isAcademic: true },
+    "127": { label: "기계공학과", isAcademic: true },
+    "134": { label: "시각디자인학과", isAcademic: true },
+    "145": { label: "경영학과", isAcademic: true },
+    "159": { label: "경제학과", isAcademic: true },
+    "161": { label: "국어국문학과", isAcademic: true },
+    "174": { label: "수학과", isAcademic: true },
+    "182": { label: "간호학과", isAcademic: true },
     
     // 부속기관
-    "004": "중앙도서관",
-    "016": "공동실험학습관",
-    "024": "정보전산원",
-    "037": "체육진흥원",
-    "049": "평생진흥원"
+    "004": { label: "중앙도서관", isAcademic: false },
+    "016": { label: "공동실험학습관", isAcademic: false },
+    "024": { label: "정보전산원", isAcademic: false },
+    "037": { label: "체육진흥원", isAcademic: false },
+    "049": { label: "평생진흥원", isAcademic: false }
   },
 
   // 대학 코드 (university)
-  university: {
+  UNIVERSITY: {
     "00000001": "서울대학교",
     "00000002": "연세대학교",
     "00000003": "고려대학교",
@@ -475,9 +475,10 @@ export const CODEBOOK = {
 // 안전한 문자열 변환
 const normalize = (code) => (code === 0 ? "0" : code == null ? "" : String(code));
 
-export const getLabel = (categoryOrCdSe, code, fallback = "미지정") => {
-  const alias = CATEGORY[categoryOrCdSe] || categoryOrCdSe;
+export const getLabel = (categoryKey, code, fallback = "미지정") => {
+  const alias = CATEGORY[categoryKey] || categoryKey;
   const map = CODEBOOK[alias] || {};
   const key = normalize(code);
-  return map[key] ?? fallback;
+  const entry = map[key];
+  return (typeof entry === 'object' && entry !== null) ? entry.label : entry ?? fallback;
 };

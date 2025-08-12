@@ -1,27 +1,31 @@
 import { CODEBOOK, getLabel } from "./CodeBook";
 
-export const CodeSelect = ({ 
-  value, 
-  onChange, 
-  disabled = false, 
-  placeholder = "선택하세요", 
-  category, 
+export const CodeSelect = ({
+  value,
+  onChange,
+  disabled = false,
+  placeholder = "선택하세요",
+  category,
   className = "border rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400",
   allowEmpty = true,
   required = false,
   excludeCodes = [],
   onlyCodes = [],
+  filterByAcademicOnly = false,
   ...props
 }) => {
   const options = CODEBOOK[category] || {};
   
   // 필터링된 옵션 생성
-  const filteredOptions = Object.entries(options).filter(([code]) => {
+  const filteredOptions = Object.entries(options).filter(([code, data]) => {
     if (onlyCodes.length > 0) {
       return onlyCodes.includes(code);
     }
     if (excludeCodes.length > 0) {
       return !excludeCodes.includes(code);
+    }
+    if (filterByAcademicOnly && category === "SCHOOL_SUBJECT") {
+      return data.isAcademic;
     }
     return true;
   });
@@ -40,9 +44,9 @@ export const CodeSelect = ({
           {placeholder}
         </option>
       )}
-      {filteredOptions.map(([code, label]) => (
+      {filteredOptions.map(([code, data]) => (
         <option key={code} value={code}>
-          {label}
+          {typeof data === 'object' && data !== null ? data.label : data}
         </option>
       ))}
     </select>
@@ -52,7 +56,7 @@ export const CodeSelect = ({
 export const GenderSelect = (props) => (
   <CodeSelect
     {...props}
-    category="gender"
+    category="GENDER"
     placeholder="성별을 선택하세요"
   />
 );
@@ -60,7 +64,7 @@ export const GenderSelect = (props) => (
 export const StudentStatusSelect = (props) => (
   <CodeSelect
     {...props}
-    category="studentStatus"
+    category="STUDENT_STATUS"
     placeholder="학적상태를 선택하세요"
   />
 );
@@ -68,15 +72,16 @@ export const StudentStatusSelect = (props) => (
 export const SchoolSubjectSelect = (props) => (
   <CodeSelect
     {...props}
-    category="schoolSubject"
+    category="SCHOOL_SUBJECT"
     placeholder="학과를 선택하세요"
+    filterByAcademicOnly={props.filterByAcademicOnly}
   />
 );
 
 export const BankSelect = (props) => (
   <CodeSelect
     {...props}
-    category="bank"
+    category="BANK"
     placeholder="은행을 선택하세요"
   />
 );
@@ -84,7 +89,7 @@ export const BankSelect = (props) => (
 export const DeptTypeSelect = (props) => (
   <CodeSelect
     {...props}
-    category="deptType"
+    category="DEPT_TYPE"
     placeholder="부서구분을 선택하세요"
   />
 );
@@ -92,18 +97,22 @@ export const DeptTypeSelect = (props) => (
 export const UserTypeSelect = (props) => (
   <CodeSelect
     {...props}
-    category="userType"
+    category="USER_TYPE"
     placeholder="사용자 구분을 선택하세요"
   />
 );
 
-export const GradeSelect = ({ 
-  value, 
-  onChange, 
-  disabled = false, 
+
+
+export const GradeSelect = ({
+  value,
+  onChange,
+  disabled = false,
   className = "border rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400",
   required = false,
+  allowEmpty = true,
   maxGrade = 4,
+  placeholder = "학년을 선택하세요",
   ...props
 }) => {
   const grades = Array.from({ length: maxGrade }, (_, i) => i + 1);
@@ -117,9 +126,11 @@ export const GradeSelect = ({
       required={required}
       {...props}
     >
-      <option value="" disabled={required}>
-        학년을 선택하세요
-      </option>
+      {allowEmpty && (
+        <option value="" disabled={required}>
+          {placeholder}
+        </option>
+      )}
       {grades.map((grade) => (
         <option key={grade} value={grade.toString()}>
           {grade}학년
@@ -129,12 +140,12 @@ export const GradeSelect = ({
   );
 };
 
-export const CodeDisplay = ({ 
-  category, 
-  code, 
+export const CodeDisplay = ({
+  category,
+  code,
   fallback = "미지정",
   className = "",
-  render = null 
+  render = null
 }) => {
   const label = getLabel(category, code, fallback);
   

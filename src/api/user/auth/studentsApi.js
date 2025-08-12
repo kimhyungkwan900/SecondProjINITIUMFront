@@ -1,4 +1,5 @@
 import axiosInstance from "../../axiosInstance";
+import { unwrap, buildParamsWithSort } from "../../../utils/apiUtils";
 
 // 학생 단건 조회
 export const fetchStudentByNo = async (studentNo) => {
@@ -6,73 +7,27 @@ export const fetchStudentByNo = async (studentNo) => {
     const res = await axiosInstance.get(`/students/${studentNo}`);
     return res.data;
   } catch (error) {
-    console.error(`학생 조회 실패 (학번: ${studentNo}):`, error);
-    throw error;
+    unwrap(error);
   }
 };
 
 export const fetchStudents = async (searchParams = {}) => {
-  const {
-    studentNo = "",
-    name = "",
-    universityCode = "",
-    schoolSubjectCode = "",
-    schoolSubjectCodeSe = "",
-    clubCode = "",
-    studentStatusCode = "",
-    studentStatusCodeSe = "",
-    grade = "",
-    genderCode = "",
-    genderCodeSe = "",
-    advisorId = "",
-    email = "",
-    admissionDateFrom = "",
-    admissionDateTo = "",
-    page = 0,
-    size = 15,
-    sort = "studentNo,asc"
-  } = searchParams;
-
   try {
-    // 빈 문자열인 파라미터는 제거하여 요청
-    const params = Object.fromEntries(
-      Object.entries({
-        studentNo,
-        name,
-        universityCode,
-        schoolSubjectCode,
-        schoolSubjectCodeSe,
-        clubCode,
-        studentStatusCode,
-        studentStatusCodeSe,
-        grade,
-        genderCode,
-        genderCodeSe,
-        advisorId,
-        email,
-        admissionDateFrom,
-        admissionDateTo,
-        page,
-        size,
-        sort
-      }).filter(([_, value]) => value !== "" && value !== null && value !== undefined)
-    );
-
-    console.log("[API 요청 파라미터]", params);
-
-    const response = await axiosInstance.get("/students", { params });
-    
-    console.log("[API 응답]", {
-      totalElements: response.data.totalElements,
-      totalPages: response.data.totalPages,
-      currentPage: response.data.number,
-      size: response.data.size
+    const { cleaned, serializer } = buildParamsWithSort({
+      page: 0,
+      size: 15,
+      sort: "studentNo,asc",
+      ...searchParams,
     });
 
+    const response = await axiosInstance.get("/students", { 
+      params: cleaned,
+      paramsSerializer: serializer 
+    });
+    
     return response.data;
   } catch (error) {
-    console.error("학생 목록 조회 실패:", error);
-    throw error;
+    unwrap(error);
   }
 };
 
@@ -80,11 +35,9 @@ export const fetchStudents = async (searchParams = {}) => {
 export const enrollStudent = async (enrollDto) => {
   try {
     const response = await axiosInstance.post("/students", enrollDto);
-    console.log("학생 등록 성공:", response.data);
     return response.data;
   } catch (error) {
-    console.error("학생 등록 실패:", error);
-    throw error;
+    unwrap(error);
   }
 };
 
@@ -92,11 +45,9 @@ export const enrollStudent = async (enrollDto) => {
 export const updateMyInfo = async (studentNo, updateDto) => {
   try {
     const response = await axiosInstance.put(`/students/${studentNo}/my-info`, updateDto);
-    console.log("학생 본인 정보 수정 성공:", response.data);
     return response.data;
   } catch (error) {
-    console.error(`학생 본인 정보 수정 실패 (학번: ${studentNo}):`, error);
-    throw error;
+    unwrap(error);
   }
 };
 
@@ -104,11 +55,9 @@ export const updateMyInfo = async (studentNo, updateDto) => {
 export const adminUpdateStudentInfo = async (studentNo, adminUpdateDto) => {
   try {
     const response = await axiosInstance.put(`/students/${studentNo}/admin-info`, adminUpdateDto);
-    console.log("관리자 학생 정보 수정 성공:", response.data);
     return response.data;
   } catch (error) {
-    console.error(`관리자 학생 정보 수정 실패 (학번: ${studentNo}):`, error);
-    throw error;
+    unwrap(error);
   }
 };
 
@@ -119,11 +68,9 @@ export const changeStudentStatus = async (studentNo, statusCode, statusCodeSe = 
       statusCode,
       statusCodeSe 
     });
-    console.log("학생 상태 변경 성공:", response.data);
     return response.data;
   } catch (error) {
-    console.error(`학생 상태 변경 실패 (학번: ${studentNo}):`, error);
-    throw error;
+    unwrap(error);
   }
 };
 

@@ -19,15 +19,18 @@ export default function StudentListPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [selectedNo, setSelectedNo] = useState("");
+  const [currentSort, setCurrentSort] = useState("studentNo,asc");
 
   const fetchStudents = useCallback(
-    async (newPage = page, newSize = size, f = filters) => {
+    async (newPage = page, newSize = size, f = filters, sort = currentSort) => {
       setLoading(true);
       try {
         const data = await fetchStudentsApi({
           ...f,
           page: newPage,
           size: newSize,
+          sort: sort,
         });
         setStudents(data.content || []);
         setTotalPages(data.totalPages || 1);
@@ -40,16 +43,16 @@ export default function StudentListPage() {
         setLoading(false);
       }
     },
-    [page, size, filters]
+    [page, size, filters, currentSort]
   );
 
   useEffect(() => {
-    fetchStudents(page, size, filters);
+    fetchStudents(page, size, filters, currentSort);
     // eslint-disable-next-line
-  }, [page, size, filters, fetchStudents]);
+  }, [page, size, filters, currentSort, fetchStudents]);
 
   const handleSearch = () => {
-    fetchStudents(0, size, filters);
+    fetchStudents(0, size, filters, currentSort);
     setPage(0);
   };
 
@@ -66,6 +69,16 @@ export default function StudentListPage() {
       studentStatusCode: "",
       schoolSubjectCode: "",
     });
+    setPage(0);
+    setCurrentSort("studentNo,asc");
+  };
+
+  const handleRowClick = (studentNo) => {
+    setSelectedNo(studentNo);
+  };
+
+  const handleSortChange = (sort) => {
+    setCurrentSort(sort);
     setPage(0);
   };
 
@@ -99,7 +112,14 @@ export default function StudentListPage() {
       />
 
       <div>
-        <StudentListTable students={students} loading={loading} />
+        <StudentListTable
+          rows={students}
+          loading={loading}
+          selectedNo={selectedNo}
+          onRowClick={handleRowClick}
+          onSortChange={handleSortChange}
+          currentSort={currentSort}
+        />
       </div>
 
       <div className="mt-4 flex justify-between items-center">
