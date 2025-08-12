@@ -1,6 +1,6 @@
-const ConsultSatisfaction = ()=>{
+const ConsultSatisfaction = ({onClose})=>{
     return(
-        <div class="p-6 bg-white rounded-lg shadow-lg">
+        <div class="p-6 overflow-auto">
             <h2 class="text-2xl font-semibold text-center mb-6">상담 만족도 설문조사</h2>
 
             <table class="w-1/2 table-fixed border-collapse mb-6">
@@ -52,7 +52,10 @@ const ConsultSatisfaction = ()=>{
             </div>
 
             <div class="flex justify-center gap-4">
-                <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium px-6 py-2 rounded">
+                <button
+                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium px-6 py-2 rounded"
+                    onClick={onClose}
+                >
                 닫기
                 </button>
                 <button class="bg-blue-700 hover:bg-blue-800 text-white font-medium px-6 py-2 rounded">

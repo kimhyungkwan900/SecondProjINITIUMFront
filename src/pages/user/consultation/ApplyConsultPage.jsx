@@ -32,16 +32,17 @@ const ApplyConsultPage = ({type})=>{
     };
 
     const handleSubmit = async (applyInfo) => {
-        
         const result = await applyConsult(applyInfo)
         console.log(result);
         setStep(2);
     };
 
     const handleBack = () => {
-        if (step === 1) {
-        setStep(0);
-        setSelectedSchedule(null);
+        const isConfirmed = confirm("작성내용이 저장되지 않습니다. 뒤로 가시겠습니까?");
+
+        if (isConfirmed && step === 1) {
+            setStep(0);
+            setSelectedSchedule(null);
         }
     };
 
