@@ -17,9 +17,7 @@ export const sidebarMenus = {
       label: "학생관리",
       children: [
         { label: "학생 조회(검색)", to: `${baseUrl}/students/student-list` },
-        { label: "학생 등록(입학)", to: `${baseUrl}/students/enroll` },
-        { label: "학생 정보수정", to: `${baseUrl}/students/edit` },
-        { label: "학적 상태변경", to: `${baseUrl}/students/status-change` },
+        { label: "학생 관리", to: `${baseUrl}/students/student-manage` },
       ],
     },
     {
@@ -45,6 +43,12 @@ export const sidebarMenus = {
         { label: "프로그램 요청 관리", to: "/admin/extracurricular/program/request" },
         { label: "프로그램 신청 관리", to: "/admin/extracurricular/program/apply" },
         { label: "프로그램 출석 관리", to: "/admin/extracurricular/program/schedule" }
+      ]
+    },
+        {
+      label: "마일리지",
+      children: [
+        { label: "항목 관리", to: `${baseUrl}/mileage/items` },
       ]
     },
     { label: "상담관리" }

@@ -1,5 +1,5 @@
-import CodeDisplay from "../../../component/common/CodeDisplay";
-import EmployeeDisplay from "../../../component/common/EmployeeDisplay";
+import { CodeDisplay } from "../../../component/common/CodeConverter/CodeSelect";
+import EmployeeDisplay from "../../../component/common/CodeConverter/EmployeeDisplay";
 
 const StudentBasicInfo = ({ student }) => {
     if (!student) return null;

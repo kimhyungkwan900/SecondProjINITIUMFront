@@ -1,24 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DiagnosisTestList from '../../../component/user/diagnostic/DiagnosisTestList.jsx';
 import DiagnosisQuestions from '../../../component/user/diagnostic/DiagnosisQuestions.jsx';
 import DiagnosisResult from '../../../component/user/diagnostic/DiagnosisResult.jsx';
 import { submitDiagnosis } from '../../../api/user/diagnostic/diagnosisApi.jsx';
 import SectionTitle from '../../../component/common/SectionTitle.jsx';
+import { UserContext } from '../../../App.jsx';
 
-/**
- * DiagnosisListFeature
- * - 내부 진단검사 전체 흐름(목록 → 문항 응답 → 결과)
- * - 부모 페이지에서 카드/레이아웃을 감싸고, 본 컴포넌트는 콘텐츠만 렌더
- */
-const DiagnosisListFeature = ({ studentNo }) => {
-  const [selectedTest, setSelectedTest] = useState(null); // { id, name, ... }
+const DiagnosisListFeature = () => {
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const [selectedTest, setSelectedTest] = useState(null);
   const [resultId, setResultId] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
+  // 로그인 체크
+  useEffect(() => {
+    if (!user) {
+      alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+      navigate('/login');
+    }
+  }, [user, navigate]);
+
   const handleSubmit = async (answers) => {
     if (!selectedTest) return;
+
     const requestData = {
-      studentNo,
       testId: selectedTest.id,
       answers: Object.entries(answers).map(([questionId, selectedValue]) => ({
         questionId: Number(questionId),
@@ -51,19 +59,18 @@ const DiagnosisListFeature = ({ studentNo }) => {
 
   return (
     <section className="space-y-6">
-      {/* 섹션 헤더 (블록 막대 + 제목) */}
       <SectionTitle size={22} showDivider>{title}</SectionTitle>
 
-      {/* 상태별 콘텐츠 */}
+      {/* 목록 */}
       {!selectedTest && !resultId && (
         <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 shadow-sm">
           <DiagnosisTestList onSelectTest={setSelectedTest} />
         </div>
       )}
 
+      {/* 문항 */}
       {selectedTest && !resultId && (
         <div className="space-y-4">
-          {/* 상단 액션바 */}
           <div className="flex items-center justify-between">
             <div className="text-sm text-gray-600">
               선택한 검사: <span className="font-medium">{selectedTest.name}</span>
@@ -92,6 +99,7 @@ const DiagnosisListFeature = ({ studentNo }) => {
         </div>
       )}
 
+      {/* 결과 */}
       {resultId && (
         <div className="space-y-4">
           <div className="flex items-center justify-end gap-2">
@@ -106,7 +114,6 @@ const DiagnosisListFeature = ({ studentNo }) => {
               type="button"
               onClick={() => {
                 setResultId(null);
-                // 결과에서 바로 같은 검사 다시 진행하게 하려면 setSelectedTest 유지
               }}
               className="bg-[#222E8D] text-white px-3 py-1 rounded text-sm font-semibold hover:bg-blue-800 transition"
             >
