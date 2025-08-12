@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import InternalResultsFeature from '../../../features/user/diagnostic/InternalResultsFeature.jsx';
 import ExternalResultsFeature from '../../../features/user/diagnostic/ExternalResultsFeature.jsx';
 import MainHeader from '../../../features/user/mainpage/MainHeader.jsx';
@@ -9,7 +10,16 @@ import SectionTitle from '../../../component/common/SectionTitle.jsx';
 
 const AllResultsPage = () => {
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
   const studentNo = user?.loginId;
+
+  // 로그인 가드: 미로그인 시 알림 후 /login 이동
+  useEffect(() => {
+    if (!user) {
+      alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+      navigate('/login');
+    }
+  }, [user, navigate]);
 
   const diagnosisMenu = [
     '진단검사 메뉴',
@@ -47,7 +57,7 @@ const AllResultsPage = () => {
             {/* 외부 진단검사 결과 */}
             <section className="bg-gray-50 border border-gray-200 rounded-xl p-6 shadow-sm">
               <div className="flex items-center gap-2 mb-4">
-              <SectionTitle size={22} showDivider>커리어넷 진단검사 결과</SectionTitle>
+                <SectionTitle size={22} showDivider>커리어넷 진단검사 결과</SectionTitle>
               </div>
               <ExternalResultsFeature studentNo={studentNo} />
             </section>
