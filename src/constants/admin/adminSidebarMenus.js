@@ -47,6 +47,12 @@ export const sidebarMenus = {
         { label: "프로그램 출석 관리", to: "/admin/extracurricular/program/schedule" }
       ]
     },
+        {
+      label: "마일리지",
+      children: [
+        { label: "항목 관리", to: `${baseUrl}/mileage/items` },
+      ]
+    },
     { label: "상담관리" }
   ],
   "운영정보": [
