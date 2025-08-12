@@ -1,4 +1,4 @@
-import CodeDisplay from "../../../component/common/CodeConverter/CodeDisplay";
+import { CodeDisplay } from "../../../component/common/CodeConverter/CodeSelect";
 
 export default function StudentListTable({
   students = [],       // 기본값 지정

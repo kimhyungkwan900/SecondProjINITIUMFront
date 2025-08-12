@@ -16,7 +16,7 @@ export const CodeSelect = ({
   const options = CODEBOOK[category] || {};
   
   // 필터링된 옵션 생성
-  const filteredOptions = Object.entries(options).filter(([code, label]) => {
+  const filteredOptions = Object.entries(options).filter(([code]) => {
     if (onlyCodes.length > 0) {
       return onlyCodes.includes(code);
     }
@@ -103,7 +103,7 @@ export const GradeSelect = ({
   disabled = false, 
   className = "border rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400",
   required = false,
-  maxGrade = 6,
+  maxGrade = 4,
   ...props
 }) => {
   const grades = Array.from({ length: maxGrade }, (_, i) => i + 1);

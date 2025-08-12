@@ -11,6 +11,7 @@ import TextInput from "../../../component/common/TextInput";
 import StudentListTable from "../../../features/admin/students/StudentListTable";
 import PageButton from "../../../component/admin/extracurricular/PagaButton";
 import StudentAdminUpdateForm from "../../../component/admin/student/StudentAdminUpdateForm";
+import StudentListSearchFilter from "../../../features/admin/students/StudentListSearchFilter";
 
 const emptyDetail = {
   studentNo: "",
@@ -73,7 +74,7 @@ export default function StudentManagePage() {
   const fetchStudents = useCallback(async (newPage = page, newSize = size, newSort = sort, f = filters) => {
     setLoading(true);
     setError("");
-    
+
     try {
       // 클라이언트 측 유효성 검증
       const validation = validateSearchParams(f);
@@ -82,9 +83,9 @@ export default function StudentManagePage() {
         setLoading(false);
         return;
       }
-      
+
       setValidationErrors({});
-      
+
       const searchParams = {
         ...f,
         page: newPage,
@@ -95,7 +96,7 @@ export default function StudentManagePage() {
       console.log("[학생 검색 요청]", searchParams);
 
       const data = await fetchStudentsApi(searchParams);
-      
+
       setRows(data.content || []);
       setTotalPages(data.totalPages || 1);
       setTotalElements(data.totalElements || 0);
@@ -191,18 +192,18 @@ export default function StudentManagePage() {
 
         console.log("[학생 등록 요청]", payload);
         const created = await enrollStudent(payload);
-        
+
         setSelectedNo(created?.studentNo || "");
-        setDetail((prev) => ({ 
-          ...prev, 
-          studentNo: created?.studentNo || prev.studentNo 
+        setDetail((prev) => ({
+          ...prev,
+          studentNo: created?.studentNo || prev.studentNo
         }));
         setMode("edit");
-        
+
         // 등록 후 목록 새로고침
         await fetchStudents(0, size, sort, filters);
         setPage(0);
-        
+
         alert("등록되었습니다.");
 
       } else if (mode === "edit" && selectedNo) {
@@ -223,10 +224,10 @@ export default function StudentManagePage() {
 
         console.log("[학생 수정 요청]", { studentNo: selectedNo, payload });
         await adminUpdateStudentInfo(selectedNo, payload);
-        
+
         // 수정 후 목록 새로고침
         await fetchStudents(page, size, sort, filters);
-        
+
         alert("수정되었습니다.");
       }
     } catch (e) {
@@ -242,7 +243,7 @@ export default function StudentManagePage() {
     try {
       console.log("[학생 상세 조회 요청]", studentNo);
       const s = await fetchStudentByNo(studentNo);
-      
+
       setDetail({
         studentNo: s.studentNo || "",
         name: s.name || "",
@@ -258,13 +259,13 @@ export default function StudentManagePage() {
         bankAccountNo: s.bankAccountNo || "",
         studentStatusCode: s.studentStatusCode || "",
       });
-      
+
       setSelectedNo(studentNo);
       setMode("edit");
       setError("");
-      
+
       console.log("[학생 상세 조회 완료]", s);
-      
+
     } catch (e) {
       console.error("상세 조회 실패:", e);
       setError("상세 조회에 실패했습니다: " + (e.message || ""));
@@ -299,7 +300,7 @@ export default function StudentManagePage() {
 
   // 검색 조건이 있는지 확인
   const hasSearchCondition = useMemo(() => {
-    return Object.entries(filters).some(([key, value]) => 
+    return Object.entries(filters).some(([key, value]) =>
       value !== "" && value !== null && value !== undefined
     );
   }, [filters]);
@@ -307,7 +308,7 @@ export default function StudentManagePage() {
   return (
     <div className="space-y-3">
       <AdminSectionHeader title="학생관리" />
-      
+
       {/* 에러 메시지 */}
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
@@ -329,28 +330,28 @@ export default function StudentManagePage() {
       {/* 액션 버튼들 */}
       <div className="flex items-center justify-between">
         <div className="flex gap-2">
-          <button 
-            className="px-3 py-1 rounded bg-gray-800 text-white disabled:opacity-50" 
-            onClick={handleSearch} 
+          <button
+            className="px-3 py-1 rounded bg-gray-800 text-white disabled:opacity-50"
+            onClick={handleSearch}
             disabled={loading}
           >
             {loading ? "조회중..." : "조회"}
           </button>
-          <button 
-            className="px-3 py-1 rounded border hover:bg-gray-50" 
+          <button
+            className="px-3 py-1 rounded border hover:bg-gray-50"
             onClick={handleResetFilters}
           >
             초기화
           </button>
-          <button 
-            className="px-3 py-1 rounded border hover:bg-gray-50" 
+          <button
+            className="px-3 py-1 rounded border hover:bg-gray-50"
             onClick={handleNew}
           >
             신규
           </button>
-          <button 
-            className="px-3 py-1 rounded bg-[#222E8D] text-white disabled:opacity-50 hover:bg-blue-800 transition" 
-            onClick={handleSave} 
+          <button
+            className="px-3 py-1 rounded bg-[#222E8D] text-white disabled:opacity-50 hover:bg-blue-800 transition"
+            onClick={handleSave}
             disabled={disabledAll}
           >
             {saving ? "저장중..." : "저장"}
@@ -365,84 +366,20 @@ export default function StudentManagePage() {
       <div className="grid grid-cols-12 gap-3">
         {/* 검색 필터 */}
         <div className="col-span-8 bg-white border border-gray-200 rounded-lg p-3">
-          <div className="grid grid-cols-12 gap-2 items-center mb-2">
-            <div className="col-span-3">
-              <TextInput 
-                placeholder="학번" 
-                value={filters.studentNo} 
-                onChange={(e) => updateFilter('studentNo', e.target.value)}
-                className="w-full px-2 py-1 text-sm" 
-              />
-            </div>
-            <div className="col-span-3">
-              <TextInput 
-                placeholder="이름" 
-                value={filters.name} 
-                onChange={(e) => updateFilter('name', e.target.value)}
-                className="w-full px-2 py-1 text-sm" 
-              />
-            </div>
-            <div className="col-span-3">
-              <TextInput 
-                placeholder="이메일" 
-                value={filters.email} 
-                onChange={(e) => updateFilter('email', e.target.value)}
-                className="w-full px-2 py-1 text-sm" 
-              />
-            </div>
-            <div className="col-span-3">
-              <TextInput 
-                placeholder="학년" 
-                value={filters.grade} 
-                onChange={(e) => updateFilter('grade', e.target.value)}
-                className="w-full px-2 py-1 text-sm" 
-              />
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-12 gap-2 items-center">
-            <div className="col-span-3">
-              <TextInput 
-                placeholder="학적상태코드" 
-                value={filters.studentStatusCode} 
-                onChange={(e) => updateFilter('studentStatusCode', e.target.value)}
-                className="w-full px-2 py-1 text-sm" 
-              />
-            </div>
-            <div className="col-span-3">
-              <TextInput 
-                placeholder="학과코드" 
-                value={filters.schoolSubjectCode} 
-                onChange={(e) => updateFilter('schoolSubjectCode', e.target.value)}
-                className="w-full px-2 py-1 text-sm" 
-              />
-            </div>
-            <div className="col-span-3">
-              <TextInput 
-                placeholder="성별코드" 
-                value={filters.genderCode} 
-                onChange={(e) => updateFilter('genderCode', e.target.value)}
-                className="w-full px-2 py-1 text-sm" 
-              />
-            </div>
-            <div className="col-span-3">
-              <TextInput 
-                placeholder="지도교수ID" 
-                value={filters.advisorId} 
-                onChange={(e) => updateFilter('advisorId', e.target.value)}
-                className="w-full px-2 py-1 text-sm" 
-              />
-            </div>
-          </div>
+          <StudentListSearchFilter
+            filters={filters}
+            setFilters={setFilters}
+            handleSearch={handleSearch}
+            size={size}
+            handleSizeChange={handleSizeChange}
+            loading={loading}
+          />
         </div>
-        
+
         {/* 선택된 학생 정보 */}
         <div className="col-span-4 bg-white border border-gray-200 rounded-lg p-3">
           <div className="text-sm text-gray-700">
             선택된 학번: <b>{selectedNo || "-"}</b>
-          </div>
-          <div className="text-xs text-gray-500 mt-1">
-            모드: {mode === "create" ? "신규 등록" : mode === "edit" ? "수정" : "조회"}
           </div>
         </div>
       </div>
@@ -451,15 +388,15 @@ export default function StudentManagePage() {
       <div className="grid grid-cols-12 gap-3">
         {/* 학생 목록 테이블 */}
         <div className="col-span-8">
-          <StudentListTable 
-            rows={rows} 
-            loading={loading} 
-            selectedNo={selectedNo} 
+          <StudentListTable
+            rows={rows}
+            loading={loading}
+            selectedNo={selectedNo}
             onRowClick={handleRowClick}
             onSortChange={handleSortChange}
             currentSort={sort}
           />
-          
+
           {/* 페이징 */}
           <div className="mt-3 flex justify-between items-center">
             <div className="text-sm text-gray-600">
@@ -468,9 +405,9 @@ export default function StudentManagePage() {
             </div>
             <div className="flex items-center gap-3">
               <span className="text-sm">표시개수</span>
-              <select 
-                className="w-auto rounded border border-gray-300 px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" 
-                value={size} 
+              <select
+                className="w-auto rounded border border-gray-300 px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                value={size}
                 onChange={handleSizeChange}
                 disabled={loading}
               >
@@ -478,9 +415,9 @@ export default function StudentManagePage() {
                   <option key={n} value={n}>{n}</option>
                 ))}
               </select>
-              <PageButton 
-                totalPages={totalPages} 
-                currentPage={page + 1} 
+              <PageButton
+                totalPages={totalPages}
+                currentPage={page + 1}
                 onPageChange={handlePageChange}
                 disabled={loading}
               />
@@ -494,9 +431,9 @@ export default function StudentManagePage() {
             <div className="text-sm font-semibold text-gray-700 mb-2">
               {mode === "create" ? "신규 등록" : selectedNo ? "학생 정보 수정" : "학생 정보"}
             </div>
-            <StudentAdminUpdateForm 
-              value={detail} 
-              onChange={setDetail} 
+            <StudentAdminUpdateForm
+              value={detail}
+              onChange={setDetail}
               disabled={disabledAll}
               mode={mode}
             />

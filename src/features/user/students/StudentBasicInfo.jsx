@@ -1,4 +1,4 @@
-import CodeDisplay from "../../../component/common/CodeConverter/CodeDisplay";
+import { CodeDisplay } from "../../../component/common/CodeConverter/CodeSelect";
 import EmployeeDisplay from "../../../component/common/CodeConverter/EmployeeDisplay";
 
 const StudentBasicInfo = ({ student }) => {

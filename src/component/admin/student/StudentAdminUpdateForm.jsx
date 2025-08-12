@@ -1,12 +1,6 @@
+import { useCallback } from "react";
+import { BankSelect, CodeDisplay, GenderSelect, GradeSelect, SchoolSubjectSelect, StudentStatusSelect } from "../../common/CodeConverter/CodeSelect";
 import TextInput from "../../common/TextInput";
-import CodeDisplay from "../../common/CodeConverter/CodeDisplay";
-import { 
-  GenderSelect, 
-  StudentStatusSelect, 
-  SchoolSubjectSelect, 
-  BankSelect,
-  GradeSelect 
-} from "../../common/CodeConverter/CodeSelect";
 
 export default function StudentAdminUpdateForm({
   value,
@@ -14,18 +8,20 @@ export default function StudentAdminUpdateForm({
   disabled = false,
   readOnlyFields = [],
   className = "",
-  mode = "edit" // 'create' | 'edit' | 'view'
+  onSubmit,            // 폼 내부 제출 버튼 클릭/엔터시 호출
+  submitting = false,  // 제출 중 스피너/비활성화
+  showSubmit = true,   // 하단 제출 버튼 표시 여부
+  submitText,          // 버튼 라벨 커스텀 (미지정시 mode에 따라 자동)
+  mode = "edit",       // 'create' | 'edit' (부모가 내려주던 값 그대로)
 }) {
   const update = (key) => (e) =>
     onChange((prev) => ({ ...prev, [key]: e.target.value }));
 
   const isRO = (key) => disabled || readOnlyFields.includes(key);
-  const isCreateMode = mode === "create";
 
   // 유효성 검증
   const validateForm = () => {
     const errors = [];
-    
     if (!value.name?.trim()) errors.push("이름은 필수입니다.");
     if (!value.email?.trim()) errors.push("이메일은 필수입니다.");
     if (value.email && !value.email.includes("@")) errors.push("올바른 이메일 형식이 아닙니다.");
@@ -35,34 +31,35 @@ export default function StudentAdminUpdateForm({
     if (!value.grade) errors.push("학년은 필수입니다.");
     if (!value.schoolSubjectCode) errors.push("학과는 필수입니다.");
     if (!value.studentStatusCode) errors.push("학적상태는 필수입니다.");
-    
     return errors;
   };
 
-  const validationErrors = validateForm();
+  const handleSubmit = useCallback((e) => {
+    if (e) e.preventDefault();
+    if (disabled || submitting) return;
+    const errs = validateForm();
+    if (errs.length > 0) {
+      alert(errs[0]);
+      return;
+    }
+    if (typeof onSubmit === "function") onSubmit(value);
+  }, [disabled, submitting, onSubmit, value]);
+
+  const handleKeyDown = (e) => {
+    // Ctrl/Cmd + Enter 로 제출
+    if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+      handleSubmit(e);
+    }
+  };
+
+  const finalSubmitText = submitText ?? (mode === "create" ? "등록" : "저장");
 
   return (
-    <div className={`space-y-4 ${className}`}>
-      {/* 학번 - 등록 모드에서는 표시하지 않음 */}
-      {!isCreateMode && (
-        <div className="grid grid-cols-1">
-          <label className="flex flex-col text-sm">
-            <span className="font-medium text-gray-700 mb-1">학번</span>
-            <div className="flex items-center justify-between">
-              <TextInput
-                value={value.studentNo || ""}
-                disabled={true}
-                placeholder="자동 생성됩니다"
-                className="border rounded px-3 py-2 bg-gray-50 text-gray-600 flex-1"
-              />
-              {value.studentNo && (
-                <span className="ml-2 text-xs text-green-600 font-medium">등록 완료</span>
-              )}
-            </div>
-          </label>
-        </div>
-      )}
-
+    <form
+      className={`space-y-4 ${className}`}
+      onSubmit={handleSubmit}
+      onKeyDown={handleKeyDown}
+    >
       {/* 기본 정보 섹션 */}
       <div className="border-t pt-4">
         <h4 className="text-sm font-semibold text-gray-800 mb-3">기본 정보</h4>
@@ -213,12 +210,12 @@ export default function StudentAdminUpdateForm({
           {/* 대학코드 */}
           <label className="flex flex-col text-sm">
             <span className="font-medium text-gray-700 mb-1">
-              대학코드 <span className="text-red-500">*</span>
+              대학명 <span className="text-red-500">*</span>
             </span>
             <TextInput
               value={value.universityCode || ""}
               onChange={update("universityCode")}
-              placeholder="10"
+              placeholder="서울대학교"
               disabled={isRO("universityCode")}
               className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
@@ -227,11 +224,11 @@ export default function StudentAdminUpdateForm({
 
           {/* 동아리코드 */}
           <label className="flex flex-col text-sm">
-            <span className="font-medium text-gray-700 mb-1">동아리코드</span>
+            <span className="font-medium text-gray-700 mb-1">동아리명</span>
             <TextInput
               value={value.clubCode || ""}
               onChange={update("clubCode")}
-              placeholder="C1001"
+              placeholder=""
               disabled={isRO("clubCode")}
               className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
@@ -239,11 +236,11 @@ export default function StudentAdminUpdateForm({
 
           {/* 지도교수ID */}
           <label className="flex flex-col text-sm col-span-2">
-            <span className="font-medium text-gray-700 mb-1">지도교수ID</span>
+            <span className="font-medium text-gray-700 mb-1">지도교수명</span>
             <TextInput
               value={value.advisorNo || ""}
               onChange={update("advisorNo")}
-              placeholder="P141001"
+              placeholder="컴퓨터공학과교수1"
               disabled={isRO("advisorNo")}
               className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
@@ -257,9 +254,7 @@ export default function StudentAdminUpdateForm({
         <div className="grid grid-cols-2 gap-3">
           {/* 은행 */}
           <label className="flex flex-col text-sm">
-            <span className="font-medium text-gray-700 mb-1">
-              은행
-            </span>
+            <span className="font-medium text-gray-700 mb-1">은행</span>
             <BankSelect
               value={value.bankCode || ""}
               onChange={update("bankCode")}
@@ -274,13 +269,26 @@ export default function StudentAdminUpdateForm({
             <TextInput
               value={value.bankAccountNo || ""}
               onChange={update("bankAccountNo")}
-              placeholder="000-0000-000000"
+              placeholder="000-000-000000"
               disabled={isRO("bankAccountNo")}
               className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </label>
         </div>
       </div>
-    </div>
+
+      {/* ▼ 폼 제출 버튼 */}
+      {showSubmit && (
+        <div className="pt-3 border-t">
+          <button
+            type="submit"
+            className="w-full bg-[#222E8D] text-white px-4 py-2 rounded font-semibold hover:bg-blue-800 transition disabled:opacity-50"
+            disabled={disabled || submitting}
+          >
+            {submitting ? "저장중..." : finalSubmitText}
+          </button>
+        </div>
+      )}
+    </form>
   );
 }
