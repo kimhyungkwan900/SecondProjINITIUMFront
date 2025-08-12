@@ -96,8 +96,8 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
                             return(
                             <tr key={item.dscsnInfoId}>
                                 <td className="border px-3 py-2">{idx + 1}</td>
-                                <td className="border px-3 py-2">{scheduleDate}</td>
-                                <td className="border px-3 py-2">{startTime}</td>
+                                <td className="border px-3 py-2">{`${scheduleDate.slice(0,4)}.${scheduleDate.slice(4,6)}.${scheduleDate.slice(6)}`}</td>
+                                <td className="border px-3 py-2">{`${startTime.slice(0,2)}:${startTime.slice(2)}`}</td>
                                 <td className="border px-3 py-2">{empName}</td>
                                 <td className="border px-3 py-2">{dscsnTypeName}</td>
                                 <td className="border px-3 py-2">{statName}</td>
@@ -123,14 +123,41 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
             <ReactModal
                 isOpen={detailModalIsOpen}
                 onRequestClose={closeDetailModal}
+                overlayClassName="fixed inset-0 bg-black/50 flex items-center justify-center p-0 md:p-4 z-50"
+                style={{
+                    content: {
+                    inset: "unset",
+                    padding: 0,
+                    background: "transparent",
+                    border: "none",
+                    position: "static",
+                    overflow: "visible",
+                    }
+                }}
             >
-                <ConsultInfoDetail info={selectedInfo} onClose={closeDetailModal}/>  
+                {/* <div className="bg-white rounded-2xl shadow-xl w-auto min-w-[20rem] max-w-[120vw] md:max-w-[70rem] max-h-[0vh] overflow-autoinline-block"> */}
+                <div className="bg-white rounded-2xl shadow-xl w-[clamp(24rem,92vw,80rem)] max-h-[96dvh] md:max-h-[92dvh] flex flex-col">
+                    <ConsultInfoDetail info={selectedInfo} onClose={closeDetailModal}/>
+                </div>    
             </ReactModal>
             <ReactModal
                 isOpen={satisModalIsOpen}
                 onRequestClose={closeSatisModal}
+                overlayClassName="fixed inset-0 bg-black/50 flex items-center justify-center p-0 md:p-4 z-50"
+                style={{
+                    content: {
+                    inset: "unset",
+                    padding: 0,
+                    background: "transparent",
+                    border: "none",
+                    position: "static",
+                    overflow: "visible",
+                    }
+                }}
             >
-                <ConsultSatisfaction onClose={closeSatisModal}/>   
+                <div className="bg-white rounded-2xl shadow-xl w-[clamp(24rem,92vw,80rem)] max-h-[96dvh] md:max-h-[92dvh] flex flex-col">
+                    <ConsultSatisfaction onClose={closeSatisModal}/>
+                </div>
             </ReactModal>
         </div>
     );
