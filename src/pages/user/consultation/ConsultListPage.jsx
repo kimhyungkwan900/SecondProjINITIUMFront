@@ -21,17 +21,17 @@ const ConsultListPage = ()=>{
         endDate: '',
     });
 
-    const [currentPage, setCurrentPage] = useState(0);
+    const [current, setCurrent] = useState(1);
 
     const [appliedFilters, setAppliedFilters] = useState(filters);
 
     const handleSearch = () => {
         setAppliedFilters(filters);
-        setCurrentPage(0); // 첫 페이지로 초기화
+        setCurrent(1); // 첫 페이지로 초기화
     };
 
     const handlePageChange = (newPage) => {
-        setCurrentPage(newPage);
+        setCurrent(newPage);
     };
 
     return(
@@ -87,13 +87,16 @@ const ConsultListPage = ()=>{
                             value={filters.endDate}
                             onChange={(e)=>setFilters({ ...filters, endDate: e.target.value })}
                         />
-                        <button className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-4 py-1 rounded">조회</button>
+                        <button
+                            className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-4 py-1 rounded"
+                            onClick={handleSearch}
+                        >조회</button>
                     </div>
 
                     {/* 상담내역 리스트 */}
                     <ConsultList
                         searchFilters={appliedFilters}
-                        currentPage={currentPage}
+                        current={current}
                         onPageChange={handlePageChange}
                     />
                 </div>
