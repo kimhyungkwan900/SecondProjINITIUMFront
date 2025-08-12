@@ -8,6 +8,9 @@ const CoreCompetencyTest = () => {
     const { user } = useContext(UserContext);
     const studentNo = user?.loginId;
 
+    const isEmployee = !!user?.employeeNo;
+    const isStudent  = !!user?.loginId && !isEmployee; // 직원이 아니면서 학번이 있는 경우만 학생
+
     // 상태 정의
     const [questions, setQuestions] = useState([]);      // 전체 문항 리스트
     const [responses, setResponses] = useState({});      // 사용자 응답 상태 (questionId → {label, score})
@@ -42,13 +45,19 @@ const CoreCompetencyTest = () => {
 
     // 닫기 버튼 클릭 시
     const handleClose = () => {
-        const res = window.confirm("작성 중인 응답이 모두 삭제됩니다.\n정말 나가시겠습니까?");
-        if (res) navigate("/competency/coreCompetency/list");
+        if (isEmployee) {
+            navigate("/competency/coreCompetency/list"); 
+        }
+        else{
+            const res = window.confirm("작성 중인 응답이 모두 삭제됩니다.\n정말 나가시겠습니까?");
+            if (res) navigate("/competency/coreCompetency/list");
+        }
     };
 
     // 제출 버튼 클릭 시
-
     const handleSubmit = () => {
+        if (!isStudent) return; // 직원/기타는 실행 불가
+
         if (Object.keys(responses).length !== questions.length) {
             alert("모든 문항에 응답해주세요");
             return;
@@ -154,14 +163,17 @@ const CoreCompetencyTest = () => {
             </div>
             
             {/* 제출 버튼 */}
-            <div className="mt-8 flex justify-end">
-                <button
+            {isStudent && (
+                <div className="mt-8 flex justify-end">
+                    <button
                     onClick={handleSubmit}
                     className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded shadow-md"
-                >
+                    >
                     제출하기
-                </button>
-            </div>
+                    </button>
+                </div>
+            )}
+
         </div>
     );
 };
