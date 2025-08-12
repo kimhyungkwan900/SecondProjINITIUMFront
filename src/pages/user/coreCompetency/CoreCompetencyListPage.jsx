@@ -4,6 +4,7 @@ import { getAllAssessments } from "../../../api/admin/coreCompetency/AdminAssess
 import { useEffect, useState } from "react";
 import CoreCompetencyAssessmentListTable from "../../../component/user/coreCompetency/CoreCompetencyAssessmentListTable";
 import CoreCompetencyDiagnosisTabButtons from "../../../component/user/coreCompetency/CoreCompetencyDiagnosisTabButtons";
+import UserTopBar from "../../../component/user/mainpage/UserTopBar";
 
 
 
@@ -28,6 +29,7 @@ const CoreCompetencyListPage = () =>{
 
     return(
         <div>
+            <UserTopBar />
             <MainHeader/>
             {/* 상단 회색 영역 */}
             <div className="bg-gray-100 border-b border-gray-300">

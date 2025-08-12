@@ -42,7 +42,7 @@ const AdminAssessmentTab = ({ selectedAssessment, onSave, onDelete, onCancel }) 
                 )}
                 {activeTab === "questionInfo" && <AdminCoreCompetencyQuestionPage assessmentId={selectedAssessment?.id} />}
                 {activeTab === "analysis" && <AdminCoreCompetencyCategory assessmentId={selectedAssessment?.id} />}
-                {activeTab === "analysisItems" && <AdminCoreCompetencyMapping assessment={selectedAssessment?.id} />}
+                {activeTab === "analysisItems" && <AdminCoreCompetencyMapping assessmentId={selectedAssessment?.id} />}
                 {activeTab === "participant" && <AdminCoreCompetencyParticipant />}
             </div>
         </div>

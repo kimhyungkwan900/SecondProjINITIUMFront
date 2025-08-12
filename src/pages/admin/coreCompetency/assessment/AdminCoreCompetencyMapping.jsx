@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const AdminCoreCompetencyMapping = ({ assessment }) => {
+const AdminCoreCompetencyMapping = ({ assessmentId }) => {
   const [selectedSubId, setSelectedSubId] = useState(null);
   const [subList, setSubList] = useState([]);
   const [questionList, setQuestionList] = useState([]);
@@ -29,21 +29,23 @@ const AdminCoreCompetencyMapping = ({ assessment }) => {
   // 하위역량 불러오기
   useEffect(() => {
     axios
-      .get(`/api/admin/${assessment}/subcategories`)
+      .get(`/api/admin/${assessmentId}/subcategories`)
       .then((res) => {
+        console.log(res.data)
         setSubList(res.data);
         setCurrentPageLeft(1); // 새로 로딩 시 페이지 초기화
       })
       .catch((err) => console.error("하위역량 불러오기 실패", err));
-  }, [assessment]);
+  }, [assessmentId]);
 
   // 문항 불러오기
   useEffect(() => {
     if (selectedSubId) {
       axios
-        .get(`/api/admin/${assessment}/${selectedSubId}/questions`)
+        .get(`/api/admin/${assessmentId}/${selectedSubId}/questions`)
         .then((res) => {
           setQuestionList(res.data.questions);
+          console.log('정상적으로 API 호출:', selectedSubId);
           setCurrentPageRight(1); // 문항 클릭 시 초기화
         })
         .catch((err) => console.error("문항 불러오기 실패", err));
