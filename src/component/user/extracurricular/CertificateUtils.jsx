@@ -1,11 +1,10 @@
 import { jsPDF } from "jspdf";
-import NotoSansKRRegular from "./NotoSansKR-Reqular";
 
 export const generateCertificatePDF = (userName, programName) => {
   const doc = new jsPDF();
 
   // 순서: VFS → Font 등록 → 사용
-  doc.addFileToVFS("NotoSansKR-Regular.ttf", NotoSansKRRegular);
+  doc.addFileToVFS("NotoSansKR-Regular.ttf");
   doc.addFont("NotoSansKR-Regular.ttf", "NotoSansKR", "normal");
   doc.setFont("NotoSansKR", "normal");
 
