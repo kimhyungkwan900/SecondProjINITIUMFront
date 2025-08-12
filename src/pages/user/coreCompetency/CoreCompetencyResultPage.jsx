@@ -5,6 +5,7 @@ import CoreCompetencySideBar from "../../../features/user/UserSideBar";
 import CoreCompetencyDiagnosisTabButtons from "../../../component/user/coreCompetency/CoreCompetencyDiagnosisTabButtons";
 import UserTopBar from "../../../component/user/mainpage/UserTopBar";
 import { UserContext } from "../../../App";
+import CoreCompetencyResultList from "../../../component/user/coreCompetency/result/CoreCompetencyResultList";
 
 
 const CoreCompetencyResultPage = () => {
@@ -76,9 +77,7 @@ const CoreCompetencyResultPage = () => {
           {/* 3) 정상 접근: 결과 영역 렌더 */}
           {canViewPage && (
             <div className="mt-10 text-center text-gray-700">
-              <h2 className="text-lg font-semibold mb-2">진단 결과 목록</h2>
-              <p className="text-sm">여기에 진단 결과 데이터를 출력합니다.</p>
-              {/* 결과 리스트/그래프 컴포넌트 연결 */}
+              <CoreCompetencyResultList/>
             </div>
           )}
         </div>

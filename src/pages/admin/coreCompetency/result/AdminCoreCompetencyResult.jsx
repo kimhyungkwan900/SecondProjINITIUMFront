@@ -23,11 +23,14 @@ const AdminCoreCompetencyResult = () => {
       {/* 진단 목록 테이블: 클릭 시 setSelectedAssessment 호출 */}
       <AdminAssessmentResultListTable
         assessmentList={assessmentList}
+        selectedAssessment={selectedAssessment}
         setSelectedAssessment={setSelectedAssessment}
       />
 
       {/* 상세 정보 탭: 진단 선택되면 하단에 탭 렌더링 */}
-      <AdminAssessmentResultTab selectedAssessment={selectedAssessment} />
+      {selectedAssessment && (
+        <AdminAssessmentResultTab selectedAssessment={selectedAssessment} />
+      )}
     </div>
   );
 };

@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import AdminAssessmentResultDetail from "./AdminAssessmentResultDetail";
+import AdminStudentRadarResult from "./AdminStudentRadarResult";
 import AdminCoreCompetencyGetResultPage from "../../../../pages/admin/coreCompetency/result/AdminCoreCompetencyGetResultPage";
-import AdminAssessmentResultTotal from "./AdminAssessmentResultTotal";
 
 
 const AdminAssessmentResultTab = ({selectedAssessment}) => {
-  const [activeTab, setActiveTab] = useState("view"); // 기본값: 결과조회
+  const [activeTab, setActiveTab] = useState("result"); // 기본값: 결과조회
 
   //진단 선택 시 기본정보 탭으로 전환
   useEffect(()=>{
@@ -13,7 +12,12 @@ const AdminAssessmentResultTab = ({selectedAssessment}) => {
         setActiveTab("result");
     }
   },[selectedAssessment]);
+  
+  if (!selectedAssessment) {
+      return null;
+  }
 
+  
   return (
     <div className="mt-6 border p-6 rounded bg-white shadow">
       {/* 탭 버튼 */}
@@ -34,8 +38,8 @@ const AdminAssessmentResultTab = ({selectedAssessment}) => {
 
       {/* 내용 렌더링 */}
       <div>
-        {(activeTab === "basicInfo") && <AdminAssessmentResultDetail/>}
-        {(activeTab === "getResult") && <AdminCoreCompetencyGetResultPage/>}
+        {activeTab === "result" && <AdminStudentRadarResult assessmentNo={selectedAssessment?.assessmentNo}/>}
+        {activeTab === "getResult" && <AdminCoreCompetencyGetResultPage assessmentNo={selectedAssessment?.assessmentNo}/>}
       </div>
     </div>
   );
