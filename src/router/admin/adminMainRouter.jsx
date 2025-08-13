@@ -17,6 +17,10 @@ import ExtracurricularSchedulePage from "../../pages/admin/Extracurricular/Extra
 import ExtracurricularSurveyPage from "../../pages/admin/Extracurricular/ExtracurricularSurveyPage";
 
 import AdminMileageItemPage from "../../pages/admin/mileage/AdminMileageItemPage";
+import AdminScorePolicyPage from"../../pages/admin/mileage/AdminScorePolicyPage";
+import AdminMileagePerfPage from "../../pages/admin/mileage/AdminMileagePerfPage";
+import AdminScholarshipPage from "../../pages/admin/mileage/AdminScholarshipPage";
+
 import AdminCoreCompetencyResultPdf from "../../pages/admin/coreCompetency/result/AdminCoreCompetencyResultPdf";
 
 import AdminConsultManagePage from "../../pages/admin/consultation/AdminConsultManagePage.jsx"
@@ -24,6 +28,7 @@ import AdminConsultListPage from "../../pages/admin/consultation/AdminConsultLis
 import AdminConsultKindManagePage from "../../pages/admin/consultation/AdminConsultKindManagePage.jsx"
 import EmployeeManagePage from "../../pages/admin/employee/EmployeeManagePage.jsx";
 import EmployeeListPage from "../../pages/admin/employee/EmployeeListPage.jsx";
+
 
 const adminMainRouter = [
   {
@@ -60,6 +65,10 @@ const adminMainRouter = [
 
           //마일리지
           { path: "mileage/items", element: <AdminMileageItemPage /> },
+          { path: "mileage/scorepolicy", element: <AdminScorePolicyPage /> },
+          { path: "mileage/perf", element: <AdminMileagePerfPage /> },
+          { path: "mileage/scholarship", element: <AdminScholarshipPage /> },
+
 
           //상담
           { path: "consult/manage", element: <AdminConsultManagePage/> },
