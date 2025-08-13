@@ -1,58 +1,6 @@
+
+import { unwrap, buildParamsWithSort } from "../../../utils/apiUtils";
 import axiosInstance from "../../axiosInstance";
-
-/** 공통: 에러 표준화 */
-function unwrap(err) {
-  if (err?.response) {
-    const { status, data } = err.response;
-    const msg = data?.message || data?.error || err.message || "요청 실패";
-    const e = new Error(msg);
-    e.status = status;
-    e.data = data;
-    throw e;
-  }
-  throw err;
-}
-
-/** 공통: 파라미터 정리 (trim + 빈값 제거) */
-function cleanParams(obj = {}) {
-  const out = {};
-  Object.entries(obj).forEach(([k, v]) => {
-    if (v === undefined || v === null) return;
-    if (typeof v === "string") {
-      const t = v.trim();
-      if (t === "") return;
-      out[k] = t;
-    } else {
-      out[k] = v;
-    }
-  });
-  return out;
-}
-
-/** 공통: sort 직렬화 지원 (문자열/배열 모두 OK) */
-function buildParamsWithSort(params) {
-  const { sort, ...rest } = params || {};
-  const cleaned = cleanParams(rest);
-
-  // axios paramsSerializer로 sort만 별도 직렬화
-  const serializer = (p) => {
-    const usp = new URLSearchParams();
-    Object.entries(p).forEach(([k, v]) => {
-      if (Array.isArray(v)) {
-        v.forEach((item) => usp.append(k, String(item)));
-      } else if (v !== undefined && v !== null) {
-        usp.append(k, String(v));
-      }
-    });
-    // sort 직렬화
-    if (sort) {
-      (Array.isArray(sort) ? sort : [sort]).forEach((s) => usp.append("sort", s));
-    }
-    return usp.toString();
-  };
-
-  return { cleaned, serializer };
-}
 
 // ---------- 단건 ----------
 export const fetchEmployeeByNo = async (empNo, { signal } = {}) => {
@@ -146,8 +94,18 @@ export const fetchEmployees = async (params = {}, { signal } = {}) => {
   }
 };
 
+export const fetchProfessors = async (params = {}, { signal } = {}) => {
+  try {
+    const data = await fetchEmployees({ ...params, filterByProfessorOnly: true }, { signal });
+    return data?.content || []; // List<EmployeeDto>
+  } catch (err) {
+    unwrap(err);
+  }
+};
+
 // ---------- 이름 검색(자동완성 전용) ----------
-export const searchEmployeesByName = async (name, { size = 10, signal } = {}) => {
-  const data = await fetchEmployees({ name, page: 0, size }, { signal });
+export const searchEmployeesByName = async (name, { size = 10, filterByProfessorOnly = false, filterByDeptCode = null, signal } = {}) => {
+  const data = await fetchEmployees({ name, page: 0, size, filterByProfessorOnly, filterByDeptCode }, { signal });
   return (data?.content || []).map((e) => ({ empNo: e.empNo, name: e.name }));
 };
+

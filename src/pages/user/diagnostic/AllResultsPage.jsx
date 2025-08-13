@@ -13,11 +13,10 @@ const AllResultsPage = () => {
   const navigate = useNavigate();
   const studentNo = user?.loginId;
 
-  // 로그인 가드: 미로그인 시 알림 후 /login 이동
   useEffect(() => {
     if (!user) {
       alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
-      navigate('/login');
+      navigate('/login', { replace: true });
     }
   }, [user, navigate]);
 

@@ -6,11 +6,7 @@ export const sidebarMenus = {
       label: "교직원관리",
       children: [
         { label: "교직원 조회(검색)", to: `${baseUrl}/employee/list` },
-        { label: "교수 임용", to: `${baseUrl}/employee/appoint-professor` },
-        { label: "강사 고용", to: `${baseUrl}/employee/appoint-instructor` },
-        { label: "직원 고용", to: `${baseUrl}/employee/appoint-staff` },
-        { label: "교직원 정보수정", to: `${baseUrl}/employee/edit` },
-        { label: "교직원 상태변경", to: `${baseUrl}/employee/status-change` },
+        { label: "교직원 관리", to: `${baseUrl}/employee/employee-manage` },
       ],
     },
     {
