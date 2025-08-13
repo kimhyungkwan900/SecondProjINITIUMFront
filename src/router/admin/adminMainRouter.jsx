@@ -16,6 +16,7 @@ import ExtracurricularProgramApplyPage from "../../pages/admin/Extracurricular/E
 import ExtracurricularSchedulePage from "../../pages/admin/Extracurricular/ExtracurricularSchedulePage";
 
 import AdminMileageItemPage from "../../pages/admin/mileage/AdminMileageItemPage";
+import AdminMileagePerfPage from "../../pages/admin/mileage/AdminMileagePerfPage";
 
 const adminMainRouter = [
   {
@@ -49,6 +50,9 @@ const adminMainRouter = [
 
           //마일리지
           { path: "mileage/items", element: <AdminMileageItemPage /> },
+          { path: "mileage/perf", element: <AdminMileagePerfPage /> },
+
+
         ]
       }
     ]
