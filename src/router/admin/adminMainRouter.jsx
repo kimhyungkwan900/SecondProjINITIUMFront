@@ -50,9 +50,7 @@ const adminMainRouter = [
 
           //마일리지
           { path: "mileage/items", element: <AdminMileageItemPage /> },
-          { path: "mileage/perf", element: <AdminMileagePerfPage /> },
-
-
+          { path: "mileage/perf", element:  <AdminMileagePerfPage /> },
         ]
       }
     ]
