@@ -147,7 +147,7 @@ const EmployeeAppointPage = ({ type = "professor" }) => {
         {/* 소속 부서/학과 */}
         <FormRow label="소속" required>
           <select
-            name="schoolSubjectNo"
+            name="subjectCode"
             value={form.schoolSubjectNo}
             onChange={onChange}
             className="input"

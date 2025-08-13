@@ -11,7 +11,7 @@ export default function StudentListPage() {
     studentNo: "",
     name: "",
     studentStatusCode: "",
-    schoolSubjectCode: "",
+    subjectCode: "",
   });
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(15);
@@ -38,7 +38,6 @@ export default function StudentListPage() {
         setPage(newPage);
       } catch (e) {
         console.error("[API 호출 실패]", e);
-        alert("조회에 실패했습니다.");
       } finally {
         setLoading(false);
       }
@@ -67,7 +66,7 @@ export default function StudentListPage() {
       studentNo: "",
       name: "",
       studentStatusCode: "",
-      schoolSubjectCode: "",
+      subjectCode: "",
     });
     setPage(0);
     setCurrentSort("studentNo,asc");
@@ -100,18 +99,7 @@ export default function StudentListPage() {
         loading={loading}
         onEnterSearch={handleSearch} // 선택: Enter로 조회
       />
-
-      <StudentListToolbar
-        onSearch={handleSearch}
-        size={size}
-        onSizeChange={handleSizeChange}
-        loading={loading}
-        totalElements={totalElements}
-        hasSearchCondition={hasSearchCondition}
-        onReset={handleReset}
-      />
-
-      <div>
+      <div className="pt-4">
         <StudentListTable
           rows={students}
           loading={loading}
@@ -123,12 +111,25 @@ export default function StudentListPage() {
       </div>
 
       <div className="mt-4 flex justify-between items-center">
+        <div>
+
+          <StudentListToolbar
+            onSearch={handleSearch}
+            size={size}
+            onSizeChange={handleSizeChange}
+            loading={loading}
+            totalElements={totalElements}
+            hasSearchCondition={hasSearchCondition}
+            onReset={handleReset}
+          />
+        </div>
         <div />
         <PageButton
           totalPages={totalPages}
           currentPage={page + 1}
           onPageChange={(p) => setPage(p - 1)}
           disabled={loading}
+          maxVisible={5}
         />
       </div>
     </div>

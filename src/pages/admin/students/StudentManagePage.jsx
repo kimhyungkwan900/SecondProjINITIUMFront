@@ -22,8 +22,8 @@ const emptyDetail = {
   grade: "",
   clubCode: "",
   universityCode: "",
-  schoolSubjectCode: "",
-  advisorNo: "",
+  subjectCode: "",
+  empNo: "", // advisorNo → empNo로 변경
   bankCode: "",
   bankAccountNo: "",
   studentStatusCode: "",
@@ -35,15 +35,15 @@ export default function StudentManagePage() {
     studentNo: "",
     name: "",
     universityCode: "",
-    schoolSubjectCode: "",
-    schoolSubjectCodeSe: "",
+    subjectCode: "",
+    subjectCodeSe: "", // 중복 제거
     clubCode: "",
     studentStatusCode: "",
     studentStatusCodeSe: "",
     grade: "",
     genderCode: "",
     genderCodeSe: "",
-    advisorId: "",
+    empNo: "", // advisorId → empNo로 변경
     email: "",
     admissionDateFrom: "",
     admissionDateTo: "",
@@ -104,7 +104,7 @@ export default function StudentManagePage() {
     }
   }, [page, size, sort, filters]);
 
-  // 초기 및 필터 변경 시 자동조회(원하면 제거 가능)
+  // 초기 및 필터 변경 시 자동조회
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       fetchStudents(0, size, sort, filters);
@@ -124,15 +124,15 @@ export default function StudentManagePage() {
       studentNo: "",
       name: "",
       universityCode: "",
-      schoolSubjectCode: "",
-      schoolSubjectCodeSe: "",
+      subjectCode: "",
+      subjectCodeSe: "",
       clubCode: "",
       studentStatusCode: "",
       studentStatusCodeSe: "",
       grade: "",
       genderCode: "",
       genderCodeSe: "",
-      advisorId: "",
+      empNo: "",
       email: "",
       admissionDateFrom: "",
       admissionDateTo: "",
@@ -148,15 +148,27 @@ export default function StudentManagePage() {
     setDetail(emptyDetail);
     setError("");
   };
+  // 공통: 날짜 공백 → null
+  const normalizeDate = (s) => (s && String(s).trim().length ? s : null);
 
-  // 모드 전환: 수정(기존 정보 수정)
-  const handleEditMode = () => {
-    if (!selectedNo) {
-      alert("수정할 학생을 먼저 선택하세요.");
-      return;
-    }
-    setMode("edit");
-  };
+  const buildStudentPayload = (d) => ({
+    name: (d.name ?? "").trim(),
+    email: (d.email ?? "").trim(),
+    birthDate: normalizeDate(d.birthDate),         // "YYYY-MM-DD" 문자열
+    admissionDate: normalizeDate(d.admissionDate), // "YYYY-MM-DD" 문자열
+
+    gender: (d.gender ?? d.genderCode ?? "").trim(),
+
+    grade: (d.grade ?? "").trim(),
+    universityCode: (d.universityCode ?? "").trim(),
+    subjectCode: (d.subjectCode ?? "").trim(),
+    empNo: (d.empNo ?? "").trim(),
+
+    bankAccountNo: (d.bankAccountNo ?? "").trim(),
+    bankCode: (d.bankCode ?? "").trim(),
+
+    studentStatusCode: (d.studentStatusCode ?? "").trim(),
+  });
 
   // 저장
   const handleSave = async () => {
@@ -165,22 +177,9 @@ export default function StudentManagePage() {
     setError("");
 
     try {
+      const payload = buildStudentPayload(detail);
+
       if (mode === "create") {
-        const payload = {
-          name: detail.name,
-          schoolSubjectCode: detail.schoolSubjectCode,
-          genderCode: detail.genderCode,
-          email: detail.email,
-          bankCode: detail.bankCode,
-          bankAccountNo: detail.bankAccountNo,
-          grade: detail.grade,
-          advisorNo: detail.advisorNo,
-          birthDate: detail.birthDate,
-          admissionDate: detail.admissionDate,
-          universityCode: detail.universityCode,
-          studentStatusCode: detail.studentStatusCode,
-          clubCode: detail.clubCode,
-        };
         const created = await enrollStudent(payload);
         setSelectedNo(created?.studentNo || "");
         setDetail((prev) => ({ ...prev, studentNo: created?.studentNo || prev.studentNo }));
@@ -189,21 +188,6 @@ export default function StudentManagePage() {
         setPage(0);
         alert("등록되었습니다.");
       } else if (mode === "edit" && selectedNo) {
-        const payload = {
-          name: detail.name,
-          email: detail.email,
-          birthDate: detail.birthDate,
-          admissionDate: detail.admissionDate,
-          genderCode: detail.genderCode,
-          grade: detail.grade,
-          clubCode: detail.clubCode,
-          universityCode: detail.universityCode,
-          schoolSubjectCode: detail.schoolSubjectCode,
-          advisorNo: detail.advisorNo,
-          bankCode: detail.bankCode,
-          bankAccountNo: detail.bankAccountNo,
-          studentStatusCode: detail.studentStatusCode,
-        };
         await adminUpdateStudentInfo(selectedNo, payload);
         await fetchStudents(page, size, sort, filters);
         alert("수정되었습니다.");
@@ -228,12 +212,12 @@ export default function StudentManagePage() {
         email: s.email || "",
         birthDate: s.birthDate || "",
         admissionDate: s.admissionDate || "",
-        genderCode: s.genderCode || "",
+        gender: s.gender ?? s.genderCode ?? "",
         grade: s.grade || "",
         clubCode: s.clubCode || "",
         universityCode: s.universityCode || "",
-        schoolSubjectCode: s.schoolSubjectCode || "",
-        advisorNo: s.advisorId || "",
+        subjectCode: s.subjectCode || "",
+        empNo: s.empNo || s.advisorId || "",
         bankCode: s.bankCode || "",
         bankAccountNo: s.bankAccountNo || "",
         studentStatusCode: s.studentStatusCode || "",
@@ -269,16 +253,23 @@ export default function StudentManagePage() {
       {/* 상단 액션 */}
       <div className="flex items-center justify-between">
         <div className="flex gap-2">
-          <button className="px-3 py-1 rounded bg-gray-800 text-white disabled:opacity-50"
-            onClick={handleSearch} disabled={loading}>
+          <button
+            className="px-3 py-1 rounded bg-gray-800 text-white disabled:opacity-50"
+            onClick={handleSearch}
+            disabled={loading}
+          >
             {loading ? "조회중..." : "조회"}
           </button>
-          <button className="px-3 py-1 rounded border hover:bg-gray-50"
-            onClick={handleCreateMode}>
+          <button
+            className="px-3 py-1 rounded border hover:bg-gray-50"
+            onClick={handleCreateMode}
+          >
             생성
           </button>
-          <button className="px-3 py-1 rounded border hover:bg-gray-50"
-            onClick={handleResetFilters}>
+          <button
+            className="px-3 py-1 rounded border hover:bg-gray-50"
+            onClick={handleResetFilters}
+          >
             초기화
           </button>
         </div>
@@ -286,7 +277,7 @@ export default function StudentManagePage() {
 
       {/* 메인 레이아웃: 좌(검색+목록) / 우(학생 폼) */}
       <div className="grid grid-cols-12 gap-3">
-        {/* 좌측: 검색 + 목록(두 섹션) */}
+        {/* 좌측: 검색 + 목록 */}
         <div className="col-span-8 space-y-3">
           {/* 검색 카드 */}
           <div className="bg-white border border-gray-200 rounded-lg p-3">
@@ -300,9 +291,8 @@ export default function StudentManagePage() {
             />
           </div>
 
-          {/* 목록 카드: 테이블+페이징을 하나의 카드로 */}
+          {/* 목록 카드 */}
           <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-            {/* 테이블은 bare 모드로 */}
             <StudentListTable
               rows={rows}
               loading={loading}
@@ -313,11 +303,13 @@ export default function StudentManagePage() {
               variant="bare"
             />
 
-            {/* 페이징: 같은 카드 안의 하단 바 */}
+            {/* 페이징 */}
             <div className="px-3 py-2 flex justify-between items-center border-t">
               <div className="text-sm text-gray-600">
-                검색결과: <b>{totalElements.toLocaleString()}</b>건{loading && " (로딩중...)"}
+                검색결과: <b>{totalElements.toLocaleString()}</b>건
+                {loading && " (로딩중...)"}
               </div>
+
               <div className="flex items-center gap-3">
                 <span className="text-sm">표시개수</span>
                 <select
@@ -330,28 +322,29 @@ export default function StudentManagePage() {
                     <option key={n} value={n}>{n}</option>
                   ))}
                 </select>
+
                 <PageButton
                   totalPages={totalPages}
-                  currentPage={page + 1}
+                  currentPage={page + 1}     // 내부는 0-based, 버튼은 1-based
                   onPageChange={handlePageChange}
                   disabled={loading}
+                  maxVisible={5}            // 최대 10개만 노출
                 />
               </div>
             </div>
           </div>
         </div>
 
-        {/* ▶ 우측: 학생 폼 카드 */}
+        {/* 우측: 학생 폼 카드 */}
         <div className="col-span-4">
           <div className="bg-white border border-gray-200 rounded-lg p-3 space-y-3 self-start sticky top-20">
             <div className="flex items-center justify-between">
               <div className="text-sm font-semibold text-gray-700">
                 {mode === "create" ? "입학정보 입력" : selectedNo ? "기존 정보 수정" : "학생 정보"}
               </div>
-              {/* 필요 시 우측 상단에 저장 버튼을 두고 싶다면 여기에 추가 */}
             </div>
 
-            {/* 선택된 학번 표시 (헤더와 폼 사이) */}
+            {/* 선택된 학번 표시 */}
             <div className="text-sm text-gray-700 bg-gray-50 border rounded px-3 py-2">
               선택된 학번: <b>{selectedNo || "-"}</b>
             </div>
