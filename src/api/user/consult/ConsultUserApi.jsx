@@ -62,13 +62,13 @@ export const getScheduleById = async (dscsnDtId) => {
 };
 
 // 일정 등록
-export const registerSchedule = async (scheduleInfo, dscsnType) => {
-    const response = await axiosInstance.post(`/consult/schedule/${dscsnType}`, scheduleInfo);
+export const registerSchedule = async (scheduleInfos) => {
+    const response = await axiosInstance.post(`/consult/schedule/new`, scheduleInfos);
     return response.data;
 };
 
 // 일정 삭제
-export const deleteSchedule = async (scheduleId) => {
-    const response = await axiosInstance.delete(`/consult/schedule/${scheduleId}`);
+export const deleteSchedule = async (scheduleIds) => {
+    const response = await axiosInstance.delete(`/consult/schedule/delete`, scheduleIds);
     return response.data;
 };
