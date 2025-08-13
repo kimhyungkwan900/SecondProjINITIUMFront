@@ -9,7 +9,7 @@ const ExtracurricularProgramAplicationPage = () => {
   const [programName, setProgramName] = useState("");
   const [programType, setProgramType] = useState("");
   const [programTarget, setProgramTarget] = useState("");
-  const [genderLimit, setGenderLimit] = useState("");
+  const [genderLimit, setGenderLimit] = useState("ALL");
  const [category, setCategory] = useState(null);
   const [selectionType, setSelectionType] = useState("");
   const [participantCount, setParticipantCount] = useState(0);

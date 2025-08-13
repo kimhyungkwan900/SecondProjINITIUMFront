@@ -42,7 +42,7 @@ const ScheduleList = ({ scheduleList, onSelectSchedule }) => {
               <td className="border border-gray-300 px-4 py-2">{schedule.eduShdlId}</td>
               <td className="border border-gray-300 px-4 py-2">{schedule.eduMngId}</td>
               <td className="border border-gray-300 px-4 py-2">
-                {new Date(schedule.eduDt).toLocaleString()}
+                  {schedule.eduDt?.replace("T", " ") || "-"}
               </td>
               <td className="border border-gray-300 px-4 py-2">{schedule.eduEndTm}</td>
             </tr>
