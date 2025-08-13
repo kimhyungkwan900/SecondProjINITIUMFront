@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import ReactModal from "react-modal";
 import ConsultInfoDetail from "../../../features/user/consultation/ConsultInfoDetail";
 import ConsultSatisfaction from "../../../features/user/consultation/ConsultSatisfaction";
-import { getConsultList } from "../../../api/user/consult/ConsultUserApi"
+import { getConsultList, applyCancel, } from "../../../api/user/consult/ConsultUserApi"
 import PageButton from "../../../component/admin/extracurricular/PagaButton";
 
 const PAGE_SIZE = 10;
@@ -17,10 +17,12 @@ const labelById = {
 const ConsultList = ({ searchFilters, current, onPageChange })=>{
 
     const [selectedInfo, setSelectedInfo] = useState(null);
+    const [selectedInfoId, setSelectedInfoId] = useState("");
     const [detailModalIsOpen, setDetailModalIsOpen] = useState(false);
     const [satisModalIsOpen, setSatisModalIsOpen] = useState(false);
     const [data, setData] = useState([]);
     const [total, setTotal] = useState(0);
+    const [refreshKey, setRefreshKey] = useState(0);
 
     useEffect(() => {
         (async ()=>{
@@ -32,7 +34,7 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
                     ...searchFilters,
                 };
                 const result = await getConsultList(params);
-                // console.log(result);
+                console.log(result);
                 setData(result.data.dscsnInfos?.content || []);
                 setTotal(result.data.dscsnInfos?.totalElements ?? 0);
                 // console.log(total)
@@ -41,7 +43,23 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
                 setData([]);
             } 
         })();
-    }, [searchFilters, current]);
+    }, [searchFilters, current, refreshKey]);
+
+    const handleCancel = async (dscsnInfoId) => {
+        const isConfirmed = confirm("해당 상담을 취소하시겠습니까?");
+
+        if (!isConfirmed) {
+           return;
+        }
+
+        try {
+            await applyCancel(dscsnInfoId);
+        } catch (e) {
+            alert(e.response.data.message);
+        } finally {
+            setRefreshKey((k) => k + 1);
+        }
+    };
 
     const totalPages = Math.ceil(total / PAGE_SIZE);
 
@@ -51,10 +69,10 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
     };
     const closeDetailModal = () => {
         setDetailModalIsOpen(false);
-        setSelectedInfo(null);
     };
 
-    const openSatisModal = () => {
+    const openSatisModal = (infoId) => {
+        setSelectedInfoId(infoId)
         setSatisModalIsOpen(true);
     };
     const closeSatisModal = () => {
@@ -96,7 +114,7 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
                             return(
                             <tr key={item.dscsnInfoId}>
                                 <td className="border px-3 py-2">{idx + 1}</td>
-                                <td className="border px-3 py-2">{`${scheduleDate.slice(0,4)}.${scheduleDate.slice(4,6)}.${scheduleDate.slice(6)}`}</td>
+                                <td className="border px-3 py-2">{`${scheduleDate.slice(0,4)}-${scheduleDate.slice(4,6)}-${scheduleDate.slice(6)}`}</td>
                                 <td className="border px-3 py-2">{`${startTime.slice(0,2)}:${startTime.slice(2)}`}</td>
                                 <td className="border px-3 py-2">{empName}</td>
                                 <td className="border px-3 py-2">{dscsnTypeName}</td>
@@ -105,10 +123,10 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
                                     <button onClick={() => openDetailModal(item)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">조회</button>
                                 </td>
                                 <td className="border px-3 py-2">
-                                    <button className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">취소</button>
+                                    <button onClick={()=> handleCancel(item.dscsnInfoId)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">취소</button>
                                 </td>
                                 <td className="border px-3 py-2">
-                                    <button onClick={() => openSatisModal()} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">참여하기</button>
+                                    <button onClick={() => openSatisModal(item.dscsnInfoId)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">참여하기</button>
                                 </td>
                             </tr>
                         )})
@@ -156,7 +174,7 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
                 }}
             >
                 <div className="bg-white rounded-2xl shadow-xl w-[clamp(24rem,92vw,80rem)] max-h-[96dvh] md:max-h-[92dvh] flex flex-col">
-                    <ConsultSatisfaction onClose={closeSatisModal}/>
+                    <ConsultSatisfaction infoId={selectedInfoId} onClose={closeSatisModal} setRefreshKey={setRefreshKey}/>
                 </div>
             </ReactModal>
         </div>
