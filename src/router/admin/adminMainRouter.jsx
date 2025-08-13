@@ -17,6 +17,7 @@ import ExtracurricularSchedulePage from "../../pages/admin/Extracurricular/Extra
 import ExtracurricularSurveyPage from "../../pages/admin/Extracurricular/ExtracurricularSurveyPage";
 
 import AdminMileageItemPage from "../../pages/admin/mileage/AdminMileageItemPage";
+import AdminCoreCompetencyResultPdf from "../../pages/admin/coreCompetency/result/AdminCoreCompetencyResultPdf";
 
 import AdminConsultManagePage from "../../pages/admin/consultation/AdminConsultManagePage.jsx"
 import AdminConsultListPage from "../../pages/admin/consultation/AdminConsultListPage.jsx"
@@ -44,7 +45,7 @@ const adminMainRouter = [
           // 핵심역량진단
           { path: "coreCompetency/assessment", element: <AdminCoreCompetencyAssessment /> },
           { path: "coreCompetency/assessment/result", element: <AdminCoreCompetencyResult /> },
-
+          
           // 프로그램
           { path : "extracurricular/cateogry", element : <ExtracurricularCategoryPage/>},
           { path : "extracurricular/program/aplication", element : <ExtracurricularProgramAplicationPage/> },

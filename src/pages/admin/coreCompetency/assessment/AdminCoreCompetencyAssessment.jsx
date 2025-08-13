@@ -15,7 +15,7 @@ const AdminCoreCompetencyAssessment = () => {
     // 사용자가 선택한(또는 새로 생성할) 진단 평가 정보를 저장하는 state. null이 아니면 하단에 탭 UI가 나타납니다.
     const [selectedAssessment, setSelectedAssessment] = useState(null);
     // API 호출 시 로딩 상태를 관리하는 state
-    const [setIsLoading] = useState(false);
+      const [isLoading, setIsLoading] = useState(false);
     // API 호출 중 발생한 에러 메시지를 저장하는 state
     const [error, setError] = useState('');
 
@@ -178,6 +178,7 @@ const AdminCoreCompetencyAssessment = () => {
             {selectedAssessment && (
                         <AdminAssessmentTab
                             selectedAssessment={selectedAssessment}
+                            assessmentList={assessmentList}
                             onSave={handleSave}
                             onDelete={handleDelete}
                             onCancel={handleCancel}

@@ -68,7 +68,7 @@ const AdminCoreCompetencyMapping = ({ assessmentId }) => {
               </tr>
             </thead>
             <tbody>
-              {currentSubList.map((sub) => (
+              {currentSubList.map((sub,idx) => (
                 <tr
                   key={sub.id}
                   onClick={() => setSelectedSubId(sub.id)}
@@ -76,7 +76,7 @@ const AdminCoreCompetencyMapping = ({ assessmentId }) => {
                     selectedSubId === sub.id ? "bg-blue-100 font-semibold" : ""
                   }`}
                 >
-                  <td className="border p-2 text-center">{sub.id}</td>
+                  <td className="border p-2 text-center">{idx+1}</td>
                   <td className="border p-2 text-center">{sub.name}</td>
                 </tr>
               ))}
