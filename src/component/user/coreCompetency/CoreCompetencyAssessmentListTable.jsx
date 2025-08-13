@@ -1,6 +1,7 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllAssessmentList } from "../../../api/user/coreCompetency/UserAssessmentApi";
+import { checkDuplicate } from "../../../api/admin/coreCompetency/AdminAssessmentApi";
 import { UserContext } from "../../../App";
 
 const CoreCompetencyAssessmentListTable = () => {
@@ -8,28 +9,125 @@ const CoreCompetencyAssessmentListTable = () => {
   const { user } = useContext(UserContext);
 
   const [assessments, setAssessments] = useState([]);
+  const [attemptedById, setAttemptedById] = useState({}); // { [id]: true/false }
+  const [attemptLoading, setAttemptLoading] = useState(false);
 
-  // 권한 플래그
-  const hasStudentNo = user?.loginId ;
+  const hasStudentNo = !!user?.loginId;
   const hasEmployeeNo = !!user?.employeeNo;
-  const canViewList = !!user && (hasStudentNo || hasEmployeeNo); // 리스트 접근 가능?
+  const canViewList = !!user && (hasStudentNo || hasEmployeeNo);
   const isStudent  = hasStudentNo && !hasEmployeeNo;
   const isEmployee = hasEmployeeNo;
 
-  // ★ 훅은 최상단에서 호출하고, 내부에서 조건 체크
   useEffect(() => {
-    if (!canViewList) return; // 권한 없으면 호출 안 함
+    if (!canViewList) return;
     (async () => {
       try {
         const res = await getAllAssessmentList();
-        setAssessments(res.data);
+        setAssessments(res.data || []);
       } catch (err) {
         console.error("진단 목록 불러오기 실패:", err);
       }
     })();
   }, [canViewList]);
 
-  // ★ 로그인 안 됐으면: 자동 이동 X, 버튼으로만 이동
+  // 날짜/상태 유틸
+  const formatDateForComparison = (yyyymmdd) =>
+    !yyyymmdd || yyyymmdd.length !== 8
+      ? ""
+      : `${yyyymmdd.slice(0, 4)}-${yyyymmdd.slice(4, 6)}-${yyyymmdd.slice(6, 8)}`;
+
+  const formatDateForDisplay = (yyyymmdd) =>
+    !yyyymmdd || yyyymmdd.length !== 8
+      ? ""
+      : `${yyyymmdd.slice(0, 4)}.${yyyymmdd.slice(4, 6)}.${yyyymmdd.slice(6, 8)}`;
+
+  const getAssessmentStatus = (start, end) => {
+    const now = new Date();
+    const startDate = new Date(formatDateForComparison(start));
+    const endDate = new Date(formatDateForComparison(end));
+    endDate.setHours(23, 59, 59, 999);
+    if (now < startDate) return "UPCOMING";
+    if (now > endDate) return "EXPIRED";
+    return "ACTIVE";
+  };
+
+  const sortedAssessments = useMemo(() => {
+    const statusPriority = { ACTIVE: 1, UPCOMING: 2, EXPIRED: 3 };
+    return [...assessments].sort((a, b) => {
+      const aStatus = getAssessmentStatus(a.startDate, a.endDate);
+      const bStatus = getAssessmentStatus(b.startDate, b.endDate);
+      const statusDiff = statusPriority[aStatus] - statusPriority[bStatus];
+      if (statusDiff !== 0) return statusDiff;
+      return Number(b.endDate) - Number(a.endDate);
+    });
+  }, [assessments]);
+
+  // 학생일 때만, ACTIVE 항목에 대해 선조회(이미 응시 여부)
+  useEffect(() => {
+    if (!isStudent || sortedAssessments.length === 0) {
+      setAttemptedById({});
+      return;
+    }
+    const studentNo = user.loginId;
+    const toCheck = sortedAssessments
+      .filter(a => getAssessmentStatus(a.startDate, a.endDate) === "ACTIVE")
+      .map(a => a.id);
+
+    if (toCheck.length === 0) {
+      setAttemptedById({});
+      return;
+    }
+
+    setAttemptLoading(true);
+    Promise.allSettled(
+      toCheck.map(id =>
+        checkDuplicate(id, studentNo)
+          .then(() => ({ id, attempted: false })) // 204 OK → 응시 가능
+          .catch(err => {
+            const already = err?.response?.status === 409; // 409 → 이미 응시
+            return { id, attempted: !!already };
+          })
+      )
+    )
+      .then(results => {
+        const map = {};
+        results.forEach(r => {
+          if (r.status === "fulfilled") map[r.value.id] = r.value.attempted;
+          else if (r.status === "rejected") {
+            const id = r.reason?.config?.url?.match(/\/check\/(\d+)\//)?.[1];
+            if (id) map[Number(id)] = false; // 실패 시 보수적으로 응시 가능 처리
+          }
+        });
+        setAttemptedById(map);
+      })
+      .finally(() => setAttemptLoading(false));
+  }, [isStudent, sortedAssessments, user?.studentNo]);
+
+  // 진단 시작(미응시인 경우만)
+  const handleTest = async (id) => {
+    if (!isStudent) {
+      navigate(`/competency/coreCompetency/test/${id}`);
+      return;
+    }
+    try {
+      await checkDuplicate(id, user.studentNo); // 204면 통과
+      navigate(`/competency/coreCompetency/test/${id}`);
+    } catch (err) {
+      if (err?.response?.status === 409) {
+        // 이미 응시 → 결과보기로
+        navigate(`/competency/coreCompetency/result`);
+      } else {
+        alert("진단 시작 확인에 실패했습니다. 잠시 후 다시 시도해주세요.");
+      }
+    }
+  };
+
+  // 결과 보기(이미 응시 시)
+  const handleResult = (/* id */) => {
+    // 요구사항: 특정 평가 id 전달 없이 공통 결과 페이지로 이동
+    navigate(`/competency/coreCompetency/result`);
+  };
+
   if (!user) {
     return (
       <div className="max-w-[1000px] mt-10 p-6 border rounded-md text-center text-sm text-gray-700">
@@ -44,7 +142,6 @@ const CoreCompetencyAssessmentListTable = () => {
     );
   }
 
-  // 로그인은 했지만 학번/사번이 없으면 리스트 자체 숨김
   if (!canViewList) {
     return (
       <div className="max-w-[1000px] p-6 border border-gray-200 rounded-md text-center text-sm text-gray-600">
@@ -53,94 +150,71 @@ const CoreCompetencyAssessmentListTable = () => {
     );
   }
 
-  const formatDateForComparison = (yyyymmdd) => {
-    if (!yyyymmdd || yyyymmdd.length !== 8) return "";
-    return `${yyyymmdd.slice(0, 4)}-${yyyymmdd.slice(4, 6)}-${yyyymmdd.slice(6, 8)}`;
-  };
-
-  const formatDateForDisplay = (yyyymmdd) => {
-    if (!yyyymmdd || yyyymmdd.length !== 8) return "";
-    return `${yyyymmdd.slice(0, 4)}.${yyyymmdd.slice(4, 6)}.${yyyymmdd.slice(6, 8)}`;
-  };
-
-  const getAssessmentStatus = (start, end) => {
-    const now = new Date();
-    const startDate = new Date(formatDateForComparison(start));
-    const endDate = new Date(formatDateForComparison(end));
-    endDate.setHours(23, 59, 59, 999);
-    if (now < startDate) return "UPCOMING";
-    if (now > endDate) return "EXPIRED";
-    return "ACTIVE";
-  };
-
-  const sortedAssessments = [...assessments].sort((a, b) => {
-    const statusPriority = { ACTIVE: 1, UPCOMING: 2, EXPIRED: 3 };
-    const aStatus = getAssessmentStatus(a.startDate, a.endDate);
-    const bStatus = getAssessmentStatus(b.startDate, b.endDate);
-    const statusDiff = statusPriority[aStatus] - statusPriority[bStatus];
-    if (statusDiff !== 0) return statusDiff;
-    return Number(b.endDate) - Number(a.endDate);
-  });
-
-  const handleTest = (id) => {
-    navigate(`/competency/coreCompetency/test/${id}`);
-  };
-
   const renderStatusUI = (status, id) => {
-    // 학생만 버튼/배지 노출, 아니면 가림
-    // 학생: 클릭 가능한 버튼
-  if (isStudent) {
-    switch (status) {
-      case "ACTIVE":
-        return (
-          <button
-            onClick={() => handleTest(id)}
-            className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-[27px] py-2 rounded shadow-sm transition"
-          >
-            진단하기
-          </button>
-        );
-      case "UPCOMING":
-        return (
-          <span className="bg-gray-600 text-white text-sm px-[32px] py-2 rounded inline-block">
-            대기 중
-          </span>
-        );
-      default:
-        return (
-          <span className="bg-gray-400 text-white text-sm px-[25px] py-2 rounded inline-block">
-            기간 만료
-          </span>
-        );
-    }
-  }
+    if (isStudent) {
+      const attempted = !!attemptedById[id];
 
-  // 교직원: 텍스트 배지(비클릭)
-  if (isEmployee) {
-    switch (status) {
-      case "ACTIVE":
+      // ✅ 이미 응시했다면 어떤 상태든 결과보기 버튼
+      if (attempted) {
         return (
           <button
-            onClick={() => handleTest(id)}
-            className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-[25px] py-2 rounded shadow-sm transition"
+            onClick={() => handleResult(id)}
+            className="bg-emerald-600 hover:bg-emerald-700 text-white text-sm px-[27px] py-2 rounded shadow-sm transition"
           >
-            진단진행중
+            응시완료
           </button>
         );
-      case "UPCOMING":
-        return (
-          <span className="bg-gray-600 text-white text-sm px-[39px] py-2 rounded inline-block">
-            대기중
-          </span>
-        );
-      default:
-        return (
-          <span className="bg-gray-400 text-white text-sm px-[32px] py-2 rounded inline-block">
-            기간만료
-          </span>
-        );
+      }
+
+      // 미응시일 때만 상태별로
+      switch (status) {
+        case "ACTIVE":
+          return (
+            <button
+              onClick={() => handleTest(id)}
+              disabled={attemptLoading}
+              className={`text-sm px-[27px] py-2 rounded shadow-sm transition ${
+                attemptLoading ? "bg-gray-300 text-gray-600" : "bg-blue-600 hover:bg-blue-700 text-white"
+              }`}
+              title={attemptLoading ? "확인 중..." : undefined}
+            >
+              진단하기
+            </button>
+          );
+        case "UPCOMING":
+          return (
+            <span className="bg-gray-600 text-white text-sm px-[32px] py-2 rounded inline-block">
+              대기 중
+            </span>
+          );
+        default:
+          return (
+            <span className="bg-gray-400 text-white text-sm px-[25px] py-2 rounded inline-block">
+              기간 만료
+            </span>
+          );
+      }
     }
-  }
+
+    // 교직원은 기존 로직 유지
+    if (isEmployee) {
+      switch (status) {
+        case "ACTIVE":
+          return (
+            <button
+              onClick={() => navigate(`/competency/coreCompetency/test/${id}`)}
+              className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-[25px] py-2 rounded shadow-sm transition"
+            >
+              진단진행중
+            </button>
+          );
+        case "UPCOMING":
+          return <span className="bg-gray-600 text-white text-sm px-[39px] py-2 rounded inline-block">대기중</span>;
+        default:
+          return <span className="bg-gray-400 text-white text-sm px-[32px] py-2 rounded inline-block">기간만료</span>;
+      }
+    }
+    return null;
   };
 
   return (

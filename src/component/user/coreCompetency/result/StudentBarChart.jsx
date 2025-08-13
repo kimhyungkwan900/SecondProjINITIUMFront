@@ -18,14 +18,14 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
  * - assessmentNo: 문자열 코드 (예: "ASMT-2025-0001")
  * - student: { studentNo } 또는 "학번" 문자열
  * - orientation: "vertical" | "horizontal" (기본 "vertical")
- * - overallBaseline: 전체 평균 기준선 값(기본 2.5)
+ * - overallBaseline: 전체 평균 기준선 값(기본 3.13)
  * - buildUrl: (선택) (assessmentNo, studentNo) => string
  */
 const StudentBarChart = ({
   assessmentNo,
   student,
   orientation = "vertical",
-  overallBaseline = 2.5,
+  overallBaseline = 3.13,
   buildUrl,
 }) => {
   const [averages, setAverages] = useState([]);
@@ -104,14 +104,13 @@ const StudentBarChart = ({
     },
     scales: {
       // 값이 그려지는 축(가로형이면 x, 세로형이면 y)
-      [isHorizontal ? "x" : "y"]: { min: 0, max: 4, ticks: { stepSize: 1 } },
+      [isHorizontal ? "x" : "y"]: { min: 0, max: 5, ticks: { stepSize: 1 } },
       // 카테고리 축(가로형이면 y, 세로형이면 x)
       [isHorizontal ? "y" : "x"]: { ticks: { autoSkip: false, maxRotation: 0 } },
     },
   }), [isHorizontal]);
 
   if (!studentNo) return <div className="text-sm text-gray-500 text-center">학생 정보가 없습니다.</div>;
-  if (loading)     return <div className="text-sm text-gray-500">차트를 불러오는 중입니다…</div>;
   if (error)       return <div className="text-sm text-red-600">{error}</div>;
   if (!labels.length) return <div className="text-sm text-gray-500">차트 데이터가 없습니다.</div>;
 

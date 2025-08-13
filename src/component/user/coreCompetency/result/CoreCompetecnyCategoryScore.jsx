@@ -149,7 +149,7 @@ const CoreCompetecnyCategoryScore = ({
   if (!rows.length) return <div className="text-sm text-gray-500">표시할 데이터가 없습니다.</div>;
 
   return (
-    <div className="overflow-x-auto border rounded-xl mt-14">
+    <div className="overflow-x-auto border rounded-xl">
       <table className="min-w-full text-sm text-center">
         <thead className="bg-gray-100 text-gray-700">
           <tr>

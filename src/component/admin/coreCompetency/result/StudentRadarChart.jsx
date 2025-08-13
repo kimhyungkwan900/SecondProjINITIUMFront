@@ -46,7 +46,7 @@ const StudentRadarChart = ({ assessmentNo, student }) => {
   // 차트 데이터 구성
   const labels = useMemo(() => averages.map((a) => a.subCategoryName), [averages]);
   const personalData = useMemo(() => averages.map((a) => Number(a.average ?? 0)), [averages]);
-  const overallData = useMemo(() => labels.map(() => 2.5), [labels]); // 전체 평균(예시) 2.5 고정
+  const overallData = useMemo(() => labels.map(() => 3.13), [labels]); // 전체 평균(예시) 3.13 고정
 
   const datasets = useMemo(() => [
     {
@@ -96,7 +96,7 @@ const StudentRadarChart = ({ assessmentNo, student }) => {
       scales: {
         r: {
           min: 0,
-          max: 4,
+          max: 5,
           ticks: { stepSize: 1, showLabelBackdrop: false },
           grid: { circular: true },
           angleLines: { color: "rgba(0,0,0,0.1)" },

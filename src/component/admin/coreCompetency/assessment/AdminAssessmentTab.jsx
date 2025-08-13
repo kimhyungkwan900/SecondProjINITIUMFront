@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import AdminAssessmentDetailPanel from "./AdminAssessmentDetailPanel";
-import AdminCoreCompetencyQuestionPage from "../../../../pages/admin/coreCompetency/assessment/AdminCoreCompetencyQuestionPage";
 import AdminCoreCompetencyCategory from "../../../../pages/admin/coreCompetency/assessment/AdminCoreCompetencyCategory";
 import AdminCoreCompetencyMapping from "../../../../pages/admin/coreCompetency/assessment/AdminCoreCompetencyMapping";
 import AdminCoreCompetencyParticipant from "../../../../pages/admin/coreCompetency/assessment/AdminCoreCompetencyParticipant";
+import AdminQuestionList from "../../../../pages/admin/coreCompetency/assessment/AdminQuestionList";
 
 // onSave, onDelete, onCancel 함수를 props로 받습니다.
-const AdminAssessmentTab = ({ selectedAssessment, onSave, onDelete, onCancel }) => {
+const AdminAssessmentTab = ({ selectedAssessment, assessmentList, onSave, onDelete, onCancel }) => {
     const [activeTab, setActiveTab] = useState("basicInfo");
 
     useEffect(() => {
@@ -38,9 +38,10 @@ const AdminAssessmentTab = ({ selectedAssessment, onSave, onDelete, onCancel }) 
                         onSave={onSave}
                         onDelete={onDelete}
                         onCancel={onCancel}
+                        existingAssessments={(assessmentList || []).map(a => ({ id: a.id, assessmentName: a.assessmentName }))}
                     />
                 )}
-                {activeTab === "questionInfo" && <AdminCoreCompetencyQuestionPage assessmentId={selectedAssessment?.id} />}
+                {activeTab === "questionInfo" && <AdminQuestionList assessmentId={selectedAssessment?.id} />}
                 {activeTab === "analysis" && <AdminCoreCompetencyCategory assessmentId={selectedAssessment?.id} />}
                 {activeTab === "analysisItems" && <AdminCoreCompetencyMapping assessmentId={selectedAssessment?.id} />}
                 {activeTab === "participant" && <AdminCoreCompetencyParticipant assessmentNo={selectedAssessment?.assessmentNo}/>}

@@ -45,8 +45,7 @@ const adminMainRouter = [
           // 핵심역량진단
           { path: "coreCompetency/assessment", element: <AdminCoreCompetencyAssessment /> },
           { path: "coreCompetency/assessment/result", element: <AdminCoreCompetencyResult /> },
-          { path: "coreCompetency/assessment/result/student", element: <AdminCoreCompetencyResultPdf /> },
-
+          
           // 프로그램
           { path : "extracurricular/cateogry", element : <ExtracurricularCategoryPage/>},
           { path : "extracurricular/program/aplication", element : <ExtracurricularProgramAplicationPage/> },

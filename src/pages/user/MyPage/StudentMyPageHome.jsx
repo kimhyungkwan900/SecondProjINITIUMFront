@@ -6,6 +6,8 @@ import useStudentInfo from "../../../hooks/useStudentInfo";
 import StudentDiagnosticResultsContainer from "../../../features/user/students/StudentDIagnosticResultContainer";
 import StudentParticipatedProgramList from "../../../features/user/students/StudentParticipatedProgramList";
 import StudentConsultList from "../../../features/user/students/StudentConsultList";
+import StudentRadarChart from "../../../component/admin/coreCompetency/result/StudentRadarChart";
+import CoreCompetencyResultList from "../../../component/user/coreCompetency/result/CoreCompetencyResultList";
 
 const StudentMyPageHome = () => {
 
@@ -49,7 +51,7 @@ const StudentMyPageHome = () => {
                 {/* 핵심역량평가 결과 */}
                 <section className="bg-white rounded-lg shadow p-6">
                     <h3 className="font-semibold text-lg mb-4">핵심역량평가 결과</h3>
-                    <div>핵심역량 그래프 또는 표</div>
+                    <CoreCompetencyResultList/>
                 </section>
 
                 {/* 비교과 프로그램 참여 이력 */}

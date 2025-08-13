@@ -64,3 +64,11 @@ export const deleteAssessment = async (id) => {
   const response = await axios.delete(`${API_BASE_URL}/delete/${id}`);
   return response.data; // "삭제 완료" 메시지 반환
 };
+
+/**
+ * 진단에 학생의 응답이 존재하는지 조회합니다.
+ */
+export const checkDuplicate = async (id,studentNo) => {
+  const response = await axios.get(`/api/response/check/${id}/${studentNo}`);
+  return response.data;
+};

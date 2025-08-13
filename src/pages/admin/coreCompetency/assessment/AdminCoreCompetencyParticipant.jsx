@@ -46,7 +46,7 @@ const AdminCoreCompetencyParticipant = ({assessmentNo}) =>{
           {currentStudentList.length === 0 ? (
             <tr>
               <td colSpan="7" className="p-4 text-center text-gray-500">
-                {assessmentNo ? "학생이 없습니다." : "좌측에서 진단을 먼저 선택하세요."}
+                {assessmentNo ? "학생이 없습니다." : "진단을 먼저 선택하세요."}
               </td>
             </tr>
           ) : (

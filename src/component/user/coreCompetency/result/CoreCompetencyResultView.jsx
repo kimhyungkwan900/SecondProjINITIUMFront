@@ -9,6 +9,7 @@ import ExtracurricularRecommand from "./ExtracurricularRecommand";
 import CoreCompetecnyCategoryScore from "./CoreCompetecnyCategoryScore";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import SubCategoryDef from "./SubCategoryDef";
 
 const CoreCompetencyResultView = () => {
   const { user } = useContext(UserContext);
@@ -172,6 +173,9 @@ const CoreCompetencyResultView = () => {
               </div>
             </div>
              <div>
+                <h2 className="text-[24px] font-semibold text-gray-800 ml-3 mt-5 mb-4 ">💡 핵심역량정의</h2>
+                <SubCategoryDef/>
+                <h2 className="text-[24px] font-semibold text-gray-800 ml-3 mt-5 mb-4 ">💡 역량별평가</h2>
                 <CoreCompetecnyCategoryScore assessmentNo={assessmentNo} student={{ studentNo }}/>
               </div>
           </div>
