@@ -47,20 +47,12 @@ export default function StudentAdminUpdateForm({
     if (typeof onSubmit === "function") onSubmit(value);
   }, [disabled, submitting, onSubmit, value]);
 
-  const handleKeyDown = (e) => {
-    // Ctrl/Cmd + Enter 로 제출
-    if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
-      handleSubmit(e);
-    }
-  };
-
   const finalSubmitText = submitText ?? (mode === "create" ? "등록" : "저장");
 
   return (
     <form
       className={`space-y-4 ${className}`}
       onSubmit={handleSubmit}
-      onKeyDown={handleKeyDown}
     >
       {/* 기본 정보 섹션 */}
       <div className="border-t pt-4">
@@ -175,11 +167,6 @@ export default function StudentAdminUpdateForm({
           <label className="flex flex-col text-sm">
             <span className="font-medium text-gray-700 mb-1">
               학과 <span className="text-red-500">*</span>
-              {value.schoolSubjectCode && (
-                <span className="ml-2 text-xs text-gray-500">
-                  (현재: <CodeDisplay category="SCHOOL_SUBJECT" code={value.schoolSubjectCode} />)
-                </span>
-              )}
             </span>
             <SchoolSubjectSelect
               value={value.schoolSubjectCode || ""}
@@ -195,11 +182,6 @@ export default function StudentAdminUpdateForm({
           <label className="flex flex-col text-sm">
             <span className="font-medium text-gray-700 mb-1">
               학적상태 <span className="text-red-500">*</span>
-              {value.studentStatusCode && (
-                <span className="ml-2 text-xs text-gray-500">
-                  (현재: <CodeDisplay category="STUDENT_STATUS" code={value.studentStatusCode} />)
-                </span>
-              )}
             </span>
             <StudentStatusSelect
               value={value.studentStatusCode || ""}

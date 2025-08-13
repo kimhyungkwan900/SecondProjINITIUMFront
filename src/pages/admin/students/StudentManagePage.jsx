@@ -172,7 +172,7 @@ export default function StudentManagePage() {
           genderCode: detail.genderCode,
           email: detail.email,
           bankCode: detail.bankCode,
-          bankAccountNumber: detail.bankAccountNo,
+          bankAccountNo: detail.bankAccountNo,
           grade: detail.grade,
           advisorNo: detail.advisorNo,
           birthDate: detail.birthDate,
