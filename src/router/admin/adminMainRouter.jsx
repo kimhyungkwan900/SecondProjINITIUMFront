@@ -17,6 +17,7 @@ import ExtracurricularSchedulePage from "../../pages/admin/Extracurricular/Extra
 
 import AdminMileageItemPage from "../../pages/admin/mileage/AdminMileageItemPage";
 
+
 const adminMainRouter = [
   {
     path: "/admin",
