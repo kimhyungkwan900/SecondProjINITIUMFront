@@ -1,8 +1,9 @@
 import { useCallback } from "react";
 import TextInput from "../../common/TextInput";
 import EmployeeSelect from "../../common/CodeConverter/EmployeeSelect";
-import { BankSelect, CodeDisplay, GenderSelect, GradeSelect, SchoolSubjectSelect, StudentStatusSelect } from "../../common/CodeConverter/CodeSelect";
+import { BankSelect, CodeDisplay, GenderSelect, GradeSelect, StudentStatusSelect } from "../../common/CodeConverter/CodeSelect";
 import UniversitySelect from "../../common/CodeConverter/UniversitySelect";
+import SchoolSubjectSelect from "../../common/CodeConverter/SchoolSubjectSelect";
 
 export default function StudentAdminUpdateForm({
   value,

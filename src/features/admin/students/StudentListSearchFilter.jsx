@@ -1,6 +1,7 @@
-import { GenderSelect, GradeSelect, SchoolSubjectSelect, StudentStatusSelect } from "../../../component/common/CodeConverter/CodeSelect";
+import { GenderSelect, GradeSelect, StudentStatusSelect } from "../../../component/common/CodeConverter/CodeSelect";
 import EmployeeSelect from "../../../component/common/CodeConverter/EmployeeSelect";
 import TextInput from "../../../component/common/TextInput";
+import SchoolSubjectSelect from "../../../component/common/CodeConverter/SchoolSubjectSelect";
 
 export default function StudentListSearchFilter({
   filters,
