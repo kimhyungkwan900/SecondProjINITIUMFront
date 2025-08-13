@@ -14,8 +14,15 @@ const HeaderContent = ({...program}) => {
   const applyEnd = program.eduAplyEndDt ? new Date(program.eduAplyEndDt) : null;
   const now = new Date();
 
-  const isApplyPeriod =
-    applyStart && applyEnd && now >= applyStart && now <= applyEnd;
+  const isWithinApplyPeriod =
+  applyStart && applyEnd && now >= applyStart && now <= applyEnd;
+
+  const isFull =
+  typeof program.accept === "number" &&
+  typeof program.eduPtcpNope === "number" &&
+  program.accept >= program.eduPtcpNope;
+
+  const isButtonActive = isWithinApplyPeriod && !isFull;
 
   return (
     <div className="max-w-5xl mx-auto bg-white rounded-lg  p-6 flex gap-6">
@@ -120,16 +127,16 @@ const HeaderContent = ({...program}) => {
 
         {/* 신청 버튼 */}
           <button
-            onClick={openModal}
-            disabled={!isApplyPeriod}
-            className={`mt-auto font-semibold py-3 rounded transition ${
-              isApplyPeriod
-                ? "bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
-                : "bg-gray-400 text-gray-700 cursor-not-allowed"
-            }`}
-          >
-        신청 버튼
-      </button>
+          onClick={openModal}
+          disabled={!isButtonActive}
+          className={`mt-auto font-semibold py-3 rounded transition ${
+            isButtonActive
+              ? "bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
+              : "bg-gray-400 text-gray-700 cursor-not-allowed"
+          }`}
+        >
+          신청 버튼
+        </button>
       </div>
        {/* 모달 노출 */}
      {isModalOpen && (
