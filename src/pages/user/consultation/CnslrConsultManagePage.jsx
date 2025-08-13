@@ -1,8 +1,13 @@
+import { useContext } from "react"
+import { UserContext } from "../../../App";
+
 import UserTopBar from "../../../component/user/mainpage/UserTopBar";
 import MainHeader from "../../../features/user/mainpage/MainHeader";
-import ConsultScheduleSelect from "../../../features/user/consultation/ConsultScheduleSelect";
+import CnslrConsultScheduleSelect from "../../../features/user/consultation/CnslrConsultScheduleSelect";
 
-const CnslrConsultManagePage = ()=>{
+const CnslrConsultManagePage = ({type})=>{
+    const { user } = useContext(UserContext);
+
     return(
         <div className="bg-white min-h-screen border border-gray-300">
             <UserTopBar />
@@ -13,7 +18,7 @@ const CnslrConsultManagePage = ()=>{
                 <h1 className="text-3xl font-semibold">상담종합</h1>
                 <div className="text-2xl text-gray-600">HOME &gt; 상담종합</div>
             </div>
-            <ConsultScheduleSelect />
+            <CnslrConsultScheduleSelect userInfo={user} type={type}/>
         </div>
     );
 }

@@ -1,4 +1,5 @@
 import { Suspense, lazy } from "react";
+import RequireRole from "../../../component/common/Require/RequireRole";
 
 const Loading = <div>Loading...</div>
 const ApplyConsultMainPage = lazy(() => import("../../../pages/user/consultation/ApplyConsultMainPage"))
@@ -35,25 +36,37 @@ const consultationRouter = [
         element: <Suspense fallback={Loading}><ApplyConsultPage type={"L"}/></Suspense>,
     },
     // 상담사
+
     {
-        path: "/cnslr/consult",
-        element: <Suspense fallback={Loading}><CnslrConsultManageMainPage /></Suspense>,
+        path: "/cnslr",
+        element: <RequireRole allow={["E"]} />,
+        children: [
+            {
+                path: "consult",
+                element: <Suspense fallback={Loading}><CnslrConsultManageMainPage /></Suspense>,
+            },
+            {
+                path: "consult/list",
+                element:<Suspense fallback={Loading}><CnslrConsultListPage /></Suspense>,
+            },
+            {
+                path: "consult/manage/professor",
+                element:<Suspense fallback={Loading}><CnslrConsultManagePage type={"A"}/></Suspense>,
+            },
+            {
+                path: "consult/manage/career",
+                element:<Suspense fallback={Loading}><CnslrConsultManagePage type={"C"}/></Suspense>,
+            },
+            {
+                path: "consult/manage/psycho",
+                element:<Suspense fallback={Loading}><CnslrConsultManagePage type={"P"}/></Suspense>,
+            },
+            {
+                path: "consult/manage/learning",
+                element:<Suspense fallback={Loading}><CnslrConsultManagePage type={"L"}/></Suspense>,
+            },
+        ]
     },
-    {
-        path: "/cnslr/consult/list",
-        element:<Suspense fallback={Loading}><CnslrConsultListPage /></Suspense>,
-    },
-    {
-        path: "/cnslr/consult/manage/career",
-        element:<Suspense fallback={Loading}><CnslrConsultManagePage /></Suspense>,
-    },
-    {
-        path: "/cnslr/consult/manage/psycho",
-        element:<Suspense fallback={Loading}><CnslrConsultManagePage /></Suspense>,
-    },
-    {
-        path: "/cnslr/consult/manage/learning",
-        element:<Suspense fallback={Loading}><CnslrConsultManagePage /></Suspense>,
-    },
+    
 ];
 export default consultationRouter;

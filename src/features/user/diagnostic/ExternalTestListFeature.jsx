@@ -13,11 +13,10 @@ const ExternalTestListFeature = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
-  // 로그인 체크
   useEffect(() => {
     if (!user) {
       alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
-      navigate('/login');
+      navigate('/login', { replace: true });
     }
   }, [user, navigate]);
 

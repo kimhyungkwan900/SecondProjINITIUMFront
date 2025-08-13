@@ -44,30 +44,32 @@ const ExtracurricularProgramListPage = () => {
 
     fetchPrograms(); // useEffect 안에서 호출해야 동작함
   }, [competencyIds, programName, currentPage, status]); // 필터 변경 시 재요청
-      const getDaysLeft = (startDateStr, endDateStr) => {
-        if (!startDateStr || !endDateStr) return null;
 
-        const today = new Date();
-        const todayDate = new Date(today.toISOString().substring(0, 10)); // 오늘 날짜 (00시 기준)
-        const startDate = new Date(startDateStr);
-        const endDate = new Date(endDateStr);
 
-        if (todayDate < startDate) {
-          // 아직 신청 시작일 이전
-          return "신청전";
-        }
+  const getDaysLeft = (startDateStr, endDateStr, capacity, participants) => {
+  if (!startDateStr || !endDateStr) return null;
 
-        if (todayDate > endDate) {
-          // 마감일 지남
-          return "마감";
-        }
-
-        // 신청 기간 내 (시작일 ~ 마감일)
-        const diffTime = endDate.getTime() - todayDate.getTime();
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        return diffDays;
-      };
-
+  // 정원 체크
+  if (typeof capacity === "number" && typeof participants === "number" && participants >= capacity) {
+    return "마감";
+  }
+  const today = new Date();
+  const todayDate = new Date(today.toISOString().substring(0, 10)); // 오늘 날짜 (00시 기준)
+  const startDate = new Date(startDateStr);
+  const endDate = new Date(endDateStr);
+  if (todayDate < startDate) {
+    // 아직 신청 시작일 이전
+    return "신청전";
+  }
+  if (todayDate > endDate) {
+    // 마감일 지남
+    return "마감";
+  }
+  // 신청 기간 내 (시작일 ~ 마감일)
+  const diffTime = endDate.getTime() - todayDate.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays;
+};
   
 
   return (
@@ -89,9 +91,11 @@ const ExtracurricularProgramListPage = () => {
     </p>
   ) : (
     programs.map(program => {
-        const daysLeft = getDaysLeft(
-      program.eduAplyBgngDt.substring(0, 10),
-      program.eduAplyEndDt.substring(0, 10)
+      const daysLeft = getDaysLeft(
+    program.eduAplyBgngDt.substring(0, 10),
+    program.eduAplyEndDt.substring(0, 10),
+    program.eduPtcpNope,  
+    program.accept     
     );
         
 

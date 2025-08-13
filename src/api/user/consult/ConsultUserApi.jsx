@@ -9,7 +9,7 @@ export const applyConsult = async (applyInfo) => {
 
 // 상담신청 취소
 export const applyCancel = async (applyId) => {
-    const response = await axiosInstance.delete(`/consult/apply/cancel/${applyId}`);
+    const response = await axiosInstance.post(`/consult/apply/cancel/${applyId}`);
     return response.data;
 };
 
@@ -42,6 +42,12 @@ export const registerSatis = async (satisInfo) => {
     const response = await axiosInstance.post("/consult/satisfaction", satisInfo);
     return response.data;
 };
+
+//상담 만족도 존재여부 조사
+export const isSatisExist = async (dscsnInfoId) =>{
+    const response = await axiosInstance.get(`/consult/satisfaction/exist/${dscsnInfoId}`)
+    return response.data;
+}
 
 //일정 조회
 export const getSchedules = async (dscsnType, empNo) => {

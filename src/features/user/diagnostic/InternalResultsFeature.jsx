@@ -4,6 +4,22 @@ import { Link } from 'react-router-dom';
 import SectionTitle from '../../../component/common/SectionTitle.jsx';
 
 /**
+ * 날짜 포맷터: YYYY-MM-DD HH:mm:ss
+ */
+const formatDate = (value) => {
+  if (!value) return '-';
+  const d = new Date(value);
+  if (isNaN(d.getTime())) return '-';
+  const yy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  const hh = String(d.getHours()).padStart(2, '0');
+  const mi = String(d.getMinutes()).padStart(2, '0');
+  const ss = String(d.getSeconds()).padStart(2, '0');
+  return `${yy}-${mm}-${dd} ${hh}:${mi}:${ss}`;
+};
+
+/**
  * InternalResultsFeature
  * - 내부 진단검사 결과(서버 페이징)
  * - 부모 페이지가 레이아웃/카드를 감싸고, 본 컴포넌트는 콘텐츠만 렌더
@@ -51,7 +67,10 @@ const InternalResultsFeature = ({ studentNo }) => {
   return (
     <section className="space-y-6">
       {/* 섹션 헤더 (파란 막대 + 제목) */}
-      <SectionTitle size={22} showDivider>심리 진단검사 결과<span className="text-gray-500 text-base font-normal">(총 {totalElements}건)</span></SectionTitle>
+      <SectionTitle size={22} showDivider>
+        심리 진단검사 결과
+        <span className="text-gray-500 text-base font-normal">(총 {totalElements}건)</span>
+      </SectionTitle>
       <hr className="my-2 border-gray-200" />
 
       {/* 리스트 카드 (가이드: bg-gray-50 + border + rounded + shadow-sm) */}
@@ -71,10 +90,7 @@ const InternalResultsFeature = ({ studentNo }) => {
                     {result.testName}
                   </Link>
                   <span className="ml-2 text-gray-500 text-sm">
-                    | 점수: {result.totalScore} | 날짜:{' '}
-                    {result.completionDate
-                      ? new Date(result.completionDate).toLocaleString()
-                      : '-'}
+                    | 점수: {result.totalScore} | 날짜: {formatDate(result.completionDate)}
                   </span>
                 </div>
 

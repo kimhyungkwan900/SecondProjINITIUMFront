@@ -14,9 +14,14 @@ import ExtracurricularProgramAplicationPage from "../../pages/admin/Extracurricu
 import ExtracurricularProgramRequestPage from "../../pages/admin/Extracurricular/ExtracurricularProgramReqeustPage";
 import ExtracurricularProgramApplyPage from "../../pages/admin/Extracurricular/ExtracurricularProgramApplyPage";
 import ExtracurricularSchedulePage from "../../pages/admin/Extracurricular/ExtracurricularSchedulePage";
+import ExtracurricularSurveyPage from "../../pages/admin/Extracurricular/ExtracurricularSurveyPage";
 
 import AdminMileageItemPage from "../../pages/admin/mileage/AdminMileageItemPage";
 import AdminCoreCompetencyResultPdf from "../../pages/admin/coreCompetency/result/AdminCoreCompetencyResultPdf";
+
+import AdminConsultManagePage from "../../pages/admin/consultation/AdminConsultManagePage.jsx"
+import AdminConsultListPage from "../../pages/admin/consultation/AdminConsultListPage.jsx"
+import AdminConsultKindManagePage from "../../pages/admin/consultation/AdminConsultKindManagePage.jsx"
 
 const adminMainRouter = [
   {
@@ -48,9 +53,15 @@ const adminMainRouter = [
           { path : "extracurricular/program/request", element : <ExtracurricularProgramRequestPage/>},
           { path : "extracurricular/program/apply", element : <ExtracurricularProgramApplyPage/>},
           { path : "extracurricular/program/schedule", element : <ExtracurricularSchedulePage/>},
+          { path : "extracurricular/program/survey", element : <ExtracurricularSurveyPage/>},
 
           //마일리지
           { path: "mileage/items", element: <AdminMileageItemPage /> },
+
+          //상담
+          { path: "consult/manage", element: <AdminConsultManagePage/> },
+          { path: "consult/list", element: <AdminConsultListPage/> },
+          { path: "consult/kind", element: <AdminConsultKindManagePage/> },
         ]
       }
     ]
