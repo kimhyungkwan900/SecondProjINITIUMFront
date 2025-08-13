@@ -1,4 +1,37 @@
-const ConsultSatisfaction = ({onClose})=>{
+import { useState } from "react";
+import { registerSatis } from "../../../api/user/consult/ConsultUserApi";
+
+const initState = {
+    dscsnSatisfyScore: '',
+    dscsnImp: '',
+    dscsnInfoId: '',
+}
+
+const ConsultSatisfaction = ({infoId, onClose, setRefreshKey})=>{
+    const [satisInfo, setSatisInfo] = useState({...initState, dscsnInfoId: infoId});
+
+    const handleSubmit = async (satisInfo) => {
+        const isConfirmed = confirm("제출하시겠습니까?");
+
+        if (!isConfirmed) {
+            return;
+        }
+
+        try {
+            await registerSatis(satisInfo);
+            setRefreshKey((k) => k + 1);
+        } catch (e) {
+            alert("설문 등록중 오류가 발생했습니다.");
+        } 
+    };
+
+    const handleChangeInput = (e) => {
+        setSatisInfo((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value
+        }));
+    };
+
     return(
         <div class="p-6 overflow-auto">
             <h2 class="text-2xl font-semibold text-center mb-6">상담 만족도 설문조사</h2>
@@ -7,7 +40,7 @@ const ConsultSatisfaction = ({onClose})=>{
                 <tbody>
                 <tr>
                     <th class="w-1/4 bg-gray-200 border px-4 py-2 text-center">설문 연도</th>
-                    <td class="border px-4 py-2">2025</td>
+                    <td class="border px-4 py-2"></td>
                 </tr>
                 <tr>
                     <th class="bg-gray-200 border px-4 py-2 text-center">설문지 유형</th>
@@ -20,23 +53,23 @@ const ConsultSatisfaction = ({onClose})=>{
                 <div class="bg-gray-200 px-4 py-2 font-bold">1. 상담은 만족하십니까?</div>
                 <div class="border border-gray-300 p-4 space-y-2">
                 <label class="flex items-center">
-                    <input type="radio" name="q1" value="1" class="h-4 w-4 text-blue-700 border-gray-300 focus:ring-blue-700" />
+                    <input type="radio" name="dscsnSatisfyScore" value="vd" class="h-4 w-4 text-blue-700 border-gray-300 focus:ring-blue-700" onChange={handleChangeInput}/>
                     <span class="ml-2">전혀 그렇지 않다.</span>
                 </label>
                 <label class="flex items-center">
-                    <input type="radio" name="q1" value="2" class="h-4 w-4 text-blue-700 border-gray-300 focus:ring-blue-700" />
+                    <input type="radio" name="dscsnSatisfyScore" value="d" class="h-4 w-4 text-blue-700 border-gray-300 focus:ring-blue-700" onChange={handleChangeInput}/>
                     <span class="ml-2">그렇지 않다.</span>
                 </label>
                 <label class="flex items-center">
-                    <input type="radio" name="q1" value="3" class="h-4 w-4 text-blue-700 border-gray-300 focus:ring-blue-700" />
+                    <input type="radio" name="dscsnSatisfyScore" value="n" class="h-4 w-4 text-blue-700 border-gray-300 focus:ring-blue-700" onChange={handleChangeInput}/>
                     <span class="ml-2">보통이다.</span>
                 </label>
                 <label class="flex items-center">
-                    <input type="radio" name="q1" value="4" class="h-4 w-4 text-blue-700 border-gray-300 focus:ring-blue-700" />
+                    <input type="radio" name="dscsnSatisfyScore" value="s" class="h-4 w-4 text-blue-700 border-gray-300 focus:ring-blue-700" onChange={handleChangeInput}/>
                     <span class="ml-2">그렇다.</span>
                 </label>
                 <label class="flex items-center">
-                    <input type="radio" name="q1" value="5" class="h-4 w-4 text-blue-700 border-gray-300 focus:ring-blue-700" />
+                    <input type="radio" name="dscsnSatisfyScore" value="vs" class="h-4 w-4 text-blue-700 border-gray-300 focus:ring-blue-700" onChange={handleChangeInput}/>
                     <span class="ml-2">매우 그렇다.</span>
                 </label>
                 </div>
@@ -45,9 +78,11 @@ const ConsultSatisfaction = ({onClose})=>{
             <div class="mb-6">
                 <div class="bg-gray-200 px-4 py-2 font-bold">2. 개선사항 (1000자 이내)</div>
                 <textarea
-                class="w-full border border-gray-300 p-3 mt-1 resize-none focus:outline-none focus:ring-2 focus:ring-blue-700"
-                rows="5"
-                placeholder="개선 사항을 입력해주세요 (최대 1000자)"
+                    class="w-full border border-gray-300 p-3 mt-1 resize-none focus:outline-none focus:ring-2 focus:ring-blue-700"
+                    rows="5"
+                    placeholder="개선 사항을 입력해주세요 (최대 1000자)"
+                    value={satisInfo.dscsnImp}
+                    onChange={handleChangeInput}
                 ></textarea>
             </div>
 
@@ -58,8 +93,11 @@ const ConsultSatisfaction = ({onClose})=>{
                 >
                 닫기
                 </button>
-                <button class="bg-blue-700 hover:bg-blue-800 text-white font-medium px-6 py-2 rounded">
-                제출
+                <button 
+                    class="bg-blue-700 hover:bg-blue-800 text-white font-medium px-6 py-2 rounded"
+                    onClick={()=>handleSubmit(satisInfo)}
+                >
+                    제출
                 </button>
             </div>
         </div>
