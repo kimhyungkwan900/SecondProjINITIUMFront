@@ -57,8 +57,8 @@ const UserSideBar = ({ navItems = [], defaultOpenKeys = [] }) => {
 
   return (
     <aside
-      // 사이드바 배경색 적용 (사용자 지정 그라데이션 유지)
-      className="w-64 rounded-xl shadow-lg px-4 py-6 h-fit mr-4 sticky top-48 mt-10 bg-gradient-to-b from-[#6C7A89] to-[#A3C6C4]"
+      className="w-64 rounded-xl shadow-lg px-4 py-6 h-fit mr-4 sticky top-48 mt-10
+                 bg-gradient-to-b from-[#0d47a1] to-[#42a5f5] flex-shrink-0"
     >
       {/* 제목 텍스트 및 테두리 색상 적용 */}
       <h2 className="text-lg font-bold text-center text-white border-b border-white/50 pb-3 mb-4">
