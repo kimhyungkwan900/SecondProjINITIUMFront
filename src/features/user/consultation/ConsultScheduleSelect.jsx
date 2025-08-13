@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { startOfWeek, addDays, getDay, isSameDay, format } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import { useMatch, useLocation } from 'react-router-dom';
+import { useMatch } from 'react-router-dom';
 import ReactModal from 'react-modal';
 
 import ConsultScheduleBox from "./ConsultScheduleBox";
@@ -12,10 +12,7 @@ import { fetchStudentByNo } from '../../../api/user/auth/studentsApi';
 const ConsultScheduleSelect = ({userInfo, type, onSelect})=>{
     const [schedules, setSchedules] = useState([]);
 
-    const { pathname } = useLocation();
-
     const isProfessorApply = useMatch("/consult/apply/professor");
-    const isCnslr = pathname.startsWith("/cnslr/consult/manage");
 
     const today = new Date();
 
@@ -112,19 +109,8 @@ const ConsultScheduleSelect = ({userInfo, type, onSelect})=>{
                     </button>
                 </div>
             )}
-            
-            {isCnslr && (
-                <div className="flex items-center gap-3 mt-4 mb-4">
-                    <button className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-4 py-1 rounded">
-                        일정등록
-                    </button>
-                    <button className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-4 py-1 rounded">
-                        일정삭제
-                    </button>
-                </div>
-            )}
 
-            <div className={`${isProfessorApply||isCnslr ? "mt-0" : "mt-[5.6rem]"} h-[600px] border-3 border-indigo-950 overflow-auto`}>
+            <div className={`${isProfessorApply ? "mt-0" : "mt-[5.6rem]"} h-[600px] border-3 border-indigo-950 overflow-auto`}>
                 <table className="w-full min-w-max min-h-full table-fixed border-collapse " style={{ width: `${tableWidthPercent}%` }}>
                 <thead>
                     <tr style={{ width: `${colWidthPercent}%` }}>

@@ -126,7 +126,12 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
                                     <button onClick={()=> handleCancel(item.dscsnInfoId)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">취소</button>
                                 </td>
                                 <td className="border px-3 py-2">
-                                    <button onClick={() => openSatisModal(item.dscsnInfoId)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">참여하기</button>
+                                    {item.dscsnStatus === "Completed"? 
+                                        <button onClick={() => openSatisModal(item)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">참여하기</button>
+                                        :
+                                        <button className="bg-gray-500 text-white font-medium px-3 py-1 rounded" disabled>참여하기</button>
+                                    }
+                                    {/* <button onClick={() => openSatisModal(item)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">참여하기</button> */}
                                 </td>
                             </tr>
                         )})
