@@ -31,7 +31,7 @@ const ProgramList = ({ programs, currentPage, totalPages, onPageChange, onSelect
         <tbody>
           {programs.length === 0 ? (
             <tr style={{ height: '240px' }}>
-              <td colSpan="7" className="border p-4 text-center text-gray-500 align-middle">
+              <td colSpan="6" className="border p-4 text-center text-gray-500 align-middle">
                 등록된 프로그램이 없습니다.
               </td>
             </tr>
