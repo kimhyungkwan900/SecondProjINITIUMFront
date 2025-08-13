@@ -18,6 +18,9 @@ import ExtracurricularSurveyPage from "../../pages/admin/Extracurricular/Extracu
 
 import AdminMileageItemPage from "../../pages/admin/mileage/AdminMileageItemPage";
 
+import AdminConsultManagePage from "../../pages/admin/consultation/AdminConsultManagePage.jsx"
+import AdminConsultListPage from "../../pages/admin/consultation/AdminConsultListPage.jsx"
+import AdminConsultKindManagePage from "../../pages/admin/consultation/AdminConsultKindManagePage.jsx"
 
 const adminMainRouter = [
   {
@@ -52,6 +55,11 @@ const adminMainRouter = [
 
           //마일리지
           { path: "mileage/items", element: <AdminMileageItemPage /> },
+
+          //상담
+          { path: "consult/manage", element: <AdminConsultManagePage/> },
+          { path: "consult/list", element: <AdminConsultListPage/> },
+          { path: "consult/kind", element: <AdminConsultKindManagePage/> },
         ]
       }
     ]
