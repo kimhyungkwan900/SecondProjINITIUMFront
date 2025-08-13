@@ -65,45 +65,6 @@ export default function StudentListSearchFilter({
           />
         </div>
 
-        <div className="col-span-3 min-w-0">
-          <label className={labelCls}>학과</label>
-          <SchoolSubjectSelect
-            value={filters.schoolSubjectCode ?? ""}
-            onChange={update("schoolSubjectCode")}
-            disabled={loading}
-            className={selectCls}
-            placeholder="학과 선택"
-            allowEmpty
-          />
-        </div>
-
-        <div className="col-span-3 min-w-0">
-          <label className={labelCls}>이메일</label>
-          <TextInput
-            type="email"
-            placeholder="이메일 입력"
-            value={filters.email ?? ""}
-            onChange={update("email")}
-            disabled={loading}
-            className={inputCls}
-          />
-        </div>
-
-        <div className="col-span-2 min-w-0">
-          <label className={labelCls}>학적상태</label>
-          <StudentStatusSelect
-            value={filters.studentStatusCode ?? ""}
-            onChange={update("studentStatusCode")}
-            disabled={loading}
-            className={selectCls}
-            placeholder="학적상태 선택"
-            allowEmpty
-          />
-        </div>
-      </div>
-
-      {/* 2행: 학년 / 성별 / 지도교수 / 입학일자(시작) / 입학일자(끝) */}
-      <div className="grid grid-cols-12 gap-x-3 gap-y-4">
         <div className="col-span-2 min-w-0">
           <label className={labelCls}>학년</label>
           <GradeSelect
@@ -128,20 +89,6 @@ export default function StudentListSearchFilter({
           />
         </div>
 
-        <div className="col-span-3 min-w-0">
-          <label className={labelCls}>지도교수</label>
-          <EmployeeSelect
-            value={filters.advisorId ?? ""}
-            onChange={update("advisorId")}
-            disabled={loading}
-            className={selectCls}
-            placeholder="지도교수 선택"
-            allowEmpty
-            filterByProfessorOnly
-            filterByDeptCode={filters.schoolSubjectCode}
-          />
-        </div>
-
         <div className="col-span-2 min-w-0">
           <label className={labelCls}>입학일자 (시작)</label>
           <TextInput
@@ -153,7 +100,7 @@ export default function StudentListSearchFilter({
           />
         </div>
 
-        <div className="col-span-3 min-w-0">
+        <div className="col-span-2 min-w-0">
           <label className={labelCls}>입학일자 (끝)</label>
           <TextInput
             type="date"
@@ -161,6 +108,61 @@ export default function StudentListSearchFilter({
             onChange={updateDate("admissionDateTo")}
             disabled={loading}
             className={dateCls}
+          />
+        </div>
+      </div>
+
+      {/* 2행: 학년 / 성별 / 지도교수 / 입학일자(시작) / 입학일자(끝) */}
+      <div className="grid grid-cols-12 gap-x-3 gap-y-4">
+        
+
+        <div className="col-span-3 min-w-0">
+          <label className={labelCls}>이메일</label>
+          <TextInput
+            type="email"
+            placeholder="이메일 입력"
+            value={filters.email ?? ""}
+            onChange={update("email")}
+            disabled={loading}
+            className={inputCls}
+          />
+        </div>
+
+        <div className="col-span-3 min-w-0">
+          <label className={labelCls}>학적상태</label>
+          <StudentStatusSelect
+            value={filters.studentStatusCode ?? ""}
+            onChange={update("studentStatusCode")}
+            disabled={loading}
+            className={selectCls}
+            placeholder="학적상태 선택"
+            allowEmpty
+          />
+        </div>
+
+        <div className="col-span-3 min-w-0">
+          <label className={labelCls}>학과</label>
+          <SchoolSubjectSelect
+            value={filters.subjectCode ?? ""}
+            onChange={update("subjectCode")}
+            disabled={loading}
+            className={selectCls}
+            placeholder="학과 선택"
+            allowEmpty
+          />
+        </div>
+
+        <div className="col-span-3 min-w-0">
+          <label className={labelCls}>지도교수</label>
+          <EmployeeSelect
+            value={filters.advisorId ?? ""}
+            onChange={update("advisorId")}
+            disabled={loading}
+            className={selectCls}
+            placeholder="지도교수 선택"
+            allowEmpty
+            filterByProfessorOnly
+            filterByDeptCode={filters.subjectCode}
           />
         </div>
       </div>
