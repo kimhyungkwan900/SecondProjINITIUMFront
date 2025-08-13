@@ -1,9 +1,10 @@
 import DynamicSelect from "./DynamicSelect";
-import { fetchSchoolSubjectOptions } from "../../../api/common/scbjtApi";
+import { fetchSchoolSubjects } from "../../../api/common/scbjtApi";
 
 const SchoolSubjectSelect = ({ filterByAcademicOnly = false, ...props }) => {
   const fetchOptions = async () => {
-    const allOptions = await fetchSchoolSubjectOptions();
+    const response = await fetchSchoolSubjects({ size: 1000 });
+    const allOptions = response.content || response;
     let filteredOptions = allOptions;
 
     if (filterByAcademicOnly) {

@@ -5,7 +5,7 @@ export default function StudentListToolbar({
   loading = false,
   totalElements = 0,
   hasSearchCondition = false,
-  onReset, // 선택
+  onReset, 
 }) {
   return (
     <div className="flex items-center justify-between mb-3">

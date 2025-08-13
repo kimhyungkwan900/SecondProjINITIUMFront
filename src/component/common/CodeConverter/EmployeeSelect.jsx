@@ -1,15 +1,16 @@
-import { searchEmployeesByName, fetchEmployees } from "../../../api/user/auth/employeesApi";
+import { fetchEmployees, fetchProfessorsSimple } from "../../../api/user/auth/employeesApi";
 import DynamicSelect from "./DynamicSelect";
 
 const EmployeeSelect = ({ filterByProfessorOnly = false, filterBySubjectCode = null, ...props }) => {
   const fetchEmployeeOptions = async () => {
+    let employees;
     if (filterByProfessorOnly) {
-      const professors = await fetchEmployees({ subjectCode: filterBySubjectCode });
-      return professors.map(prof => ({ value: prof.empNo, label: prof.name }));
+      employees = await fetchProfessorsSimple(); // fetch all professors
     } else {
-      const employees = await searchEmployeesByName("", { size: 1000, subjectCode: filterBySubjectCode });
-      return employees.map(emp => ({ value: emp.empNo, label: emp.name }));
+      const data = await fetchEmployees({ subjectCode: filterBySubjectCode, size: 1000 });
+      employees = data.content;
     }
+    return employees.map(item => ({ value: item.empNo, label: item.name }));
   };
 
   return (

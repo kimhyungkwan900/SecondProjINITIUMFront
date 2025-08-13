@@ -14,21 +14,7 @@ export default function MainPage() {
                 <section className="my-12">
                     <h2 className="text-xl font-bold mb-4 text-gray-800">추천 비교과 프로그램</h2>
                     <ProgramCategorySliderSection />
-                    {/* TODO: 임시 확인용 데이터 적용시 삭제 */}
-                    <ProgramCard />
                 </section>
-                {/* LinkedButton 예시 TODO: 개발 완료후 삭제*/}
-                <LinkedButton to="/mypage" variant="default">
-                    default
-                </LinkedButton>
-
-                <LinkedButton to="/login" variant="primary">
-                    primary
-                </LinkedButton>
-
-                <LinkedButton to="/withdraw" variant="danger">
-                    danger
-                </LinkedButton>
             </main>
         </div>
     );

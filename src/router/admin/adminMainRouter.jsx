@@ -22,6 +22,8 @@ import AdminCoreCompetencyResultPdf from "../../pages/admin/coreCompetency/resul
 import AdminConsultManagePage from "../../pages/admin/consultation/AdminConsultManagePage.jsx"
 import AdminConsultListPage from "../../pages/admin/consultation/AdminConsultListPage.jsx"
 import AdminConsultKindManagePage from "../../pages/admin/consultation/AdminConsultKindManagePage.jsx"
+import EmployeeManagePage from "../../pages/admin/employee/EmployeeManagePage.jsx";
+import EmployeeListPage from "../../pages/admin/employee/EmployeeListPage.jsx";
 
 const adminMainRouter = [
   {
@@ -36,6 +38,8 @@ const adminMainRouter = [
           { path: "", element: <AdminMainPage /> },
           { path: "students/student-list", element: <StudentListPage /> },
           { path: "students/student-manage", element: <StudentManagePage />},
+          { path: "employee/employee-list", element: <EmployeeListPage />},
+          { path: "employee/employee-manage", element: <EmployeeManagePage />},
 
           // 진단평가
           { path: 'diagnosis/dashboard', element: <DiagnosisAdminDashboardPage /> },
