@@ -1,4 +1,4 @@
-import { useState, useContext} from "react";
+import React,{ useState, useContext} from "react";
 import { UserContext } from "../../../App";
 import AplicationButton from "../../../component/admin/extracurricular/aplication/AplicationButton";
 import ApplicationInput from "../../../component/admin/extracurricular/aplication/AplicationInput";
@@ -25,6 +25,7 @@ const ExtracurricularProgramAplicationPage = () => {
   const [cndCn, setCndCn] = useState("");
   const [imageFile, setImageFile] = useState(null);
   const [selectedDays, setSelectedDays] = useState([]);
+
   
 
 const { user } = useContext(UserContext); // user가 로그인 사용자 정보 객체라고 가정
@@ -161,6 +162,6 @@ const handleInsert = async () => {
       </div>
     </div>
   );
-};
+};           
 
-export default ExtracurricularProgramAplicationPage;
+export default ExtracurricularProgramAplicationPage; 

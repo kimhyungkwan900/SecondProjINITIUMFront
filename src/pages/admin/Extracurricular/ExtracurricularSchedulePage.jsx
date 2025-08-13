@@ -16,6 +16,7 @@ const ExtracurricularSchedulePage = () => {
   const [selectedProgram, setSelectedProgram] = useState(null);
   const [selectedScheduleId, setSelectedScheduleId] = useState(null);
   const [attendanceData, setAttendanceData] = useState([]);
+  
   const fetchData = async () => {
     const data = await fetchPrograms(filter, page - 1, 5);
     if (data) {
