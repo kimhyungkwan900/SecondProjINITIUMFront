@@ -38,7 +38,8 @@ export const sidebarMenus = {
         { label: "프로그램 요청", to: "/admin/extracurricular/program/aplication" },
         { label: "프로그램 요청 관리", to: "/admin/extracurricular/program/request" },
         { label: "프로그램 신청 관리", to: "/admin/extracurricular/program/apply" },
-        { label: "프로그램 출석 관리", to: "/admin/extracurricular/program/schedule" }
+        { label: "프로그램 출석 관리", to: "/admin/extracurricular/program/schedule" },
+        { label: "프로그램 만족도 조회", to: "/admin/extracurricular/program/survey" }
       ]
     },
         {
