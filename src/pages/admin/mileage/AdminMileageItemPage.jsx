@@ -4,7 +4,7 @@ import {
   fetchMileageItemById,
   createMileageItem,
   deleteMileageItems,
-} from "../../../api/admin/mileage/AdminmileageItemApi";
+} from "../../../api/admin/mileage/AdminMileageItemApi";
 
 export default function AdminMileageItemPage() {
   // table
