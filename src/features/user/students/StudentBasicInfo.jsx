@@ -35,18 +35,18 @@ const StudentBasicInfo = ({ student }) => {
                     </tr>
                     <tr>
                         <th className="bg-gray-100 text-left px-3 py-2 border">학과</th>
-                        <td className="px-3 py-2 border"><CodeDisplay category="schoolSubject" code={student.schoolSubjectCode}/></td>
+                        <td className="px-3 py-2 border"><CodeDisplay category="SCHOOL_SUBJECT" code={student.subjectCode}/></td>
                         <th className="bg-gray-100 text-left px-3 py-2 border">학년</th>
                         <td className="px-3 py-2 border">{student.grade}</td>
                     </tr>
                     <tr>
                         <th className="bg-gray-100 text-left px-3 py-2 border">학적상태</th>
                         <td className="px-3 py-2 border">
-                            <CodeDisplay category="studentStatus" code={student.studentStatusCode} />
+                            <CodeDisplay category="STUDENT_STATUS" code={student.studentStatusCode} />
                         </td>
                         <th className="bg-gray-100 text-left px-3 py-2 border">성별</th>
                         <td className="px-3 py-2 border">
-                            <CodeDisplay category="CO0001" code={student.genderCode} />
+                            <CodeDisplay category="GENDER" code={student.genderCode} />
                         </td>
                     </tr>
                     <tr>
@@ -80,7 +80,7 @@ const StudentBasicInfo = ({ student }) => {
                         <td className="px-3 py-2 border">{student.admissionDate}</td>
                         <th className="bg-gray-100 text-left px-3 py-2 border">지도교수명</th>
                         <td className="px-3 py-2 border">
-                            <EmployeeDisplay empNo={student.advisorId || "-"} />
+                            <EmployeeDisplay empNo={student.empNo || "-"} />
                         </td>
                     </tr>
                 </tbody>

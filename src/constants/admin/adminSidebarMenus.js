@@ -5,7 +5,7 @@ export const sidebarMenus = {
     {
       label: "교직원관리",
       children: [
-        { label: "교직원 조회(검색)", to: `${baseUrl}/employee/list` },
+        { label: "교직원 조회(검색)", to: `${baseUrl}/employee/employee-list` },
         { label: "교직원 관리", to: `${baseUrl}/employee/employee-manage` },
       ],
     },

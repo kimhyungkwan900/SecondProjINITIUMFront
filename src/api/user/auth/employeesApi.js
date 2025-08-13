@@ -110,7 +110,7 @@ export const fetchProfessorsSearch = async (params = {}, { signal } = {}) => {
 export const fetchProfessorsSimple = async ({ signal } = {}) => {
   try {
     const { data } = await axiosInstance.get("/employees/professors", { signal });
-    return Array.isArray(data) ? data : []; // List<EmployeeDto>
+    return Array.isArray(data) ? data : [];
   } catch (err) {
     unwrap(err);
   }

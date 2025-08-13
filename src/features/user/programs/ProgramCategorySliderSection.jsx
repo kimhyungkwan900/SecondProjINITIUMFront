@@ -1,28 +1,32 @@
 import { useEffect, useState } from "react";
 import ProgramCard from "./ProgramCard";
-import axios from "axios";
+import { filterProgramList } from "../../../api/user/extracurricular/UserProgramApi";
 import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/css';
+import { formatDate } from "../../../utils/dateUtils";
 
 export default function ProgramCategorySliderSection() {
     const [programsByCategory, setProgramsByCategory] = useState({});
 
     useEffect(() => {
-        // 호출주소 입력
-        axios.get("프로그램 목록전체 조회")
-            .then(res => {
+        const fetchPrograms = async () => {
+            try {
+                const response = await filterProgramList({ size: 100 });
+                const programs = response.content || [];
                 const byCategory = {};
-                res.data.forEach(program => {
-                    const category = program.category || "기타";
+                programs.forEach(program => {
+                    const category = program.categoryName || "기타";
                     if (!byCategory[category]) byCategory[category] = [];
                     byCategory[category].push(program);
                 });
                 setProgramsByCategory(byCategory);
-            })
-            .catch(err => {
+            } catch (err) {
                 console.error("프로그램을 불러오는 중 오류가 발생했습니다:", err);
                 setProgramsByCategory({});
-            });
+            }
+        };
+
+        fetchPrograms();
     }, []);
 
     // 카테고리별 렌더링
@@ -46,8 +50,19 @@ export default function ProgramCategorySliderSection() {
                             className="!px-2"
                         >
                             {programs.map(program => (
-                                <SwiperSlide key={program.id}>
-                                    <ProgramCard {...program} />
+                                <SwiperSlide key={program.eduMngId}>
+                                    <ProgramCard
+                                        id={program.eduMngId}
+                                        title={program.eduNm}
+                                        imageUrl={program.extracurricularImageDTO?.[0]?.fileUrl}
+                                        mileage={program.eduMlg}
+                                        category={program.ctgryNm}
+                                        description={program.eduDtlCn}
+                                        applicationPeriod={`${formatDate(program.eduAplyBgngDt)} ~ ${formatDate(program.eduAplyEndDt)}`}
+                                        operatingPeriod={`${formatDate(program.eduBgngYmd)} ~ ${formatDate(program.eduEndYmd)}`}
+                                        participants={program.accept}
+                                        capacity={program.eduPtcpNope}
+                                    />
                                 </SwiperSlide>
                             ))}
                         </Swiper>

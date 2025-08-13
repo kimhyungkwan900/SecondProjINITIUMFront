@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 
-const DynamicSelect = ({ 
-  value, 
-  onChange, 
-  placeholder, 
-  fetchOptions, 
-  ...props 
+const DynamicSelect = ({
+  value,
+  onChange,
+  placeholder,
+  fetchOptions,
+  allowEmpty,
+  filterByDeptCode, // Added filterByDeptCode
+  ...props
 }) => {
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -31,6 +33,7 @@ const DynamicSelect = ({
   return (
     <select value={value} onChange={onChange} {...props}>
       {placeholder && <option value="">{placeholder}</option>}
+      {allowEmpty && !placeholder && <option value="">선택 안함</option>}
       {loading && <option value="">Loading...</option>}
       {error && <option value="">Error loading data</option>}
       {!loading && !error && options.map(opt => (

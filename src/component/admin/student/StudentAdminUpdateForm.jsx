@@ -124,11 +124,6 @@ export default function StudentAdminUpdateForm({
           <label className="flex flex-col text-sm">
             <span className="font-medium text-gray-700 mb-1">
               성별 <span className="text-red-500">*</span>
-              {value.genderCode && (
-                <span className="ml-2 text-xs text-gray-500">
-                  (현재: <CodeDisplay category="gender" code={value.genderCode} />)
-                </span>
-              )}
             </span>
             <GenderSelect
               value={value.genderCode || ""}
@@ -143,11 +138,6 @@ export default function StudentAdminUpdateForm({
           <label className="flex flex-col text-sm">
             <span className="font-medium text-gray-700 mb-1">
               학년 <span className="text-red-500">*</span>
-              {value.grade && (
-                <span className="ml-2 text-xs text-gray-500">
-                  (현재: {value.grade}학년)
-                </span>
-              )}
             </span>
             <GradeSelect
               value={value.grade || ""}
