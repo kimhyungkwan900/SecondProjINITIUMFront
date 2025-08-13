@@ -80,11 +80,6 @@ const AdminQuestionDetail = ({ question, subCategories, onSave, onDelete }) => {
     onSave(form);
   };
 
-  // 렌더링할 데이터가 아직 없으면 null 반환
-  if (!form.id && question.id === null) {
-      return <div className="p-4 text-center">문항을 선택하거나 새 문항을 추가해주세요.</div>;
-  }
-
   return (
     <div className="bg-white p-6 rounded-lg shadow-md w-full space-y-6">
       <span className="text-xl text-black font-bold">▐ 문항 상세정보</span>
@@ -108,11 +103,11 @@ const AdminQuestionDetail = ({ question, subCategories, onSave, onDelete }) => {
         </div>
         <div className="md:col-span-2">
           <label className="block text-sm mb-1">문항명</label>
-          <input type="text" name="questionName" value={form.questionName ?? ""} onChange={handleChange} className="w-full p-2 border rounded" placeholder="문항 제목을 입력" />
+          <input type="text" name="questionName" value={form.questionName ?? ""} onChange={handleChange} className="w-full p-2 border rounded" placeholder="문항 제목을 입력하세요" />
         </div>
         <div className="md:col-span-2">
           <label className="block text-sm mb-1">문항 설명</label>
-          <textarea name="questionContent" value={form.questionContent ?? ""} onChange={handleChange} rows={3} className="w-full p-2 border rounded" placeholder="문항 설명을 입력" />
+          <textarea name="questionContent" value={form.questionContent ?? ""} onChange={handleChange} rows={3} className="w-full p-2 border rounded" placeholder="문항 설명을 입력하세요" />
         </div>
         <div>
           <label className="block text-sm mb-1">답변문항구분</label>

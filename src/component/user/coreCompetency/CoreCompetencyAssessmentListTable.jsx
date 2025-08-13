@@ -10,7 +10,7 @@ const CoreCompetencyAssessmentListTable = () => {
   const [assessments, setAssessments] = useState([]);
 
   // 권한 플래그
-  const hasStudentNo = user?.loginId ; // 프로젝트 맞게 조정
+  const hasStudentNo = user?.loginId ;
   const hasEmployeeNo = !!user?.employeeNo;
   const canViewList = !!user && (hasStudentNo || hasEmployeeNo); // 리스트 접근 가능?
   const isStudent  = hasStudentNo && !hasEmployeeNo;
@@ -49,7 +49,6 @@ const CoreCompetencyAssessmentListTable = () => {
     return (
       <div className="max-w-[1000px] p-6 border border-gray-200 rounded-md text-center text-sm text-gray-600">
         <p className="mb-2">접근 권한이 없습니다.</p>
-        <p className="text-gray-500">학생번호 또는 교직원번호가 필요한 화면입니다.</p>
       </div>
     );
   }

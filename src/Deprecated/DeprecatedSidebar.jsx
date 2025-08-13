@@ -129,6 +129,9 @@ const DeprecatedSidebar = () => {
                 <Link to="/admin/coreCompetency/assessment/result" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline font-bold">
                   핵심역량결과분석
                 </Link>
+                <Link to="/admin/coreCompetency/assessment/result/student" className="block px-2 py-1 rounded hover:bg-gray-100 no-underline font-bold">
+                  학생핵심역량진단결과(담당용)
+                </Link>
               </motion.div>
             )}
           </AnimatePresence>
