@@ -80,7 +80,7 @@ export default function StudentListTable({
               {s.name}
             </div>
             <div className="px-3 py-3 text-sm border-r last:border-r-0 border-gray-100 min-w-0">
-              <CodeDisplay category="SCHOOL_SUBJECT" code={s.schoolSubjectCode} />
+              <CodeDisplay category="SCHOOL_SUBJECT" code={s.subjectCode} />
             </div>
             <div className="px-3 py-3 text-sm border-r last:border-r-0 border-gray-100 min-w-0">
               <CodeDisplay category="STUDENT_STATUS" code={s.studentStatusCode} />

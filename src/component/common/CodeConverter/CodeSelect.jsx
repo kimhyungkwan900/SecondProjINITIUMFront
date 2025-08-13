@@ -69,14 +69,7 @@ export const StudentStatusSelect = (props) => (
   />
 );
 
-export const SchoolSubjectSelect = (props) => (
-  <CodeSelect
-    {...props}
-    category="SCHOOL_SUBJECT"
-    placeholder="학과를 선택하세요"
-    filterByAcademicOnly={props.filterByAcademicOnly}
-  />
-);
+
 
 export const BankSelect = (props) => (
   <CodeSelect
