@@ -9,9 +9,9 @@ const MyPageLayout = ({ navItems }) => {
     <div className="min-h-screen bg-[#E0E7E9]">
       <UserTopBar />
       <MainHeader />
-      <div className="flex w-full max-w-screen-xl mx-auto my-8 min-h-[80vh]">
+      <div className="page-container">
         <UserSideBar navItems={navItems} defaultOpenKeys={["마이홈"]} />
-        <main className="flex-1 px-10 py-8 min-w-0">
+        <main className="main-content">
           <Outlet />
         </main>
       </div>
