@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .page-container {
+    @apply flex w-full max-w-screen-xl mx-auto my-8 min-h-[80vh];
+  }
+
+  .main-content {
+    @apply flex-1 px-10 py-8 min-w-0;
+  }
+
+  .content-section {
+    @apply bg-white rounded-lg shadow-md p-6;
+  }
+
+  .section-title {
+    @apply font-semibold text-lg mb-4 text-[#354649];
+  }
+
+  /* 정보 그리드 공용 스타일 */
+  .info-grid-th {
+    @apply bg-[#E0E7E9] text-[#354649] p-3 font-semibold flex items-center justify-center border-r border-b border-gray-300;
+  }
+
+  .info-grid-td {
+    @apply bg-white p-3 flex items-center border-r border-b border-gray-300;
+  }
+}

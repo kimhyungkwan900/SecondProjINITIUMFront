@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AdminSectionHeader from "../../../component/admin/AdminSectionHeader";
 import PageButton from "../../../component/admin/extracurricular/PagaButton";
 import StudentListSearchFilter from "../../../features/admin/students/StudentListSearchFilter";
 import StudentListTable from "../../../features/admin/students/StudentListTable";
-import StudentListToolbar from "../../../features/admin/students/StudentListToolbar";
 import { fetchStudents as fetchStudentsApi } from "../../../api/user/auth/studentsApi";
+import AdminListToolbar from "../../../component/admin/AdminListToolbar";
 
 export default function StudentListPage() {
   const [filters, setFilters] = useState({
@@ -23,7 +23,7 @@ export default function StudentListPage() {
   const [currentSort, setCurrentSort] = useState("studentNo,asc");
 
   const fetchStudents = useCallback(
-    async (newPage = page, newSize = size, f = filters, sort = currentSort) => {
+    async (newPage, newSize, f, sort) => {
       setLoading(true);
       try {
         const data = await fetchStudentsApi({
@@ -42,23 +42,24 @@ export default function StudentListPage() {
         setLoading(false);
       }
     },
-    [page, size, filters, currentSort]
+    []
   );
 
   useEffect(() => {
     fetchStudents(page, size, filters, currentSort);
     // eslint-disable-next-line
-  }, [page, size, filters, currentSort, fetchStudents]);
+  }, [page, size, filters, currentSort]); // fetchStudents를 종속성에서 제거
 
   const handleSearch = () => {
-    fetchStudents(0, size, filters, currentSort);
+    // 검색 시 항상 첫 페이지부터 조회
     setPage(0);
+    fetchStudents(0, size, filters, currentSort);
   };
 
   const handleSizeChange = (e) => {
     const newSize = parseInt(e.target.value, 10);
     setSize(newSize);
-    setPage(0);
+    setPage(0); // 사이즈 변경 시 첫 페이지로
   };
 
   const handleReset = () => {
@@ -78,28 +79,25 @@ export default function StudentListPage() {
 
   const handleSortChange = (sort) => {
     setCurrentSort(sort);
-    setPage(0);
+    setPage(0); // 정렬 변경 시 첫 페이지로
   };
-
-  const hasSearchCondition = useMemo(
-    () =>
-      Object.entries(filters).some(
-        ([, v]) => v !== "" && v !== null && v !== undefined
-      ),
-    [filters]
-  );
 
   return (
     <div>
       <AdminSectionHeader title="학생목록" />
-
+      <AdminListToolbar
+        onSearch={handleSearch}
+        onReset={handleReset}
+        loading={loading}
+      />
       <StudentListSearchFilter
         filters={filters}
         setFilters={setFilters}
         loading={loading}
-        onEnterSearch={handleSearch} // 선택: Enter로 조회
+        onEnterSearch={handleSearch}
       />
-      <div className="pt-4">
+
+      <div className="mt-4 bg-white border border-gray-200 rounded-lg overflow-hidden">
         <StudentListTable
           rows={students}
           loading={loading}
@@ -108,29 +106,39 @@ export default function StudentListPage() {
           onSortChange={handleSortChange}
           currentSort={currentSort}
         />
-      </div>
 
-      <div className="mt-4 flex justify-between items-center">
-        <div>
+        <div className="p-4 flex justify-between items-center border-t border-gray-200">
+          {/* 왼쪽: 검색 결과 및 표시 개수 */}
+          <div className="flex items-center gap-4">
+            <div className="text-sm text-gray-600">
+              검색결과: <b>{totalElements.toLocaleString()}</b>건
+            </div>
+            <div className="flex items-center">
+              <span className="mr-2 text-sm">표시개수</span>
+              <select
+                className="w-auto rounded border border-gray-300 px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                value={size}
+                onChange={handleSizeChange}
+                disabled={loading}
+              >
+                {[15, 30, 50, 100].map((n) => (
+                  <option key={n} value={n}>
+                    {n}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
 
-          <StudentListToolbar
-            onSearch={handleSearch}
-            size={size}
-            onSizeChange={handleSizeChange}
-            loading={loading}
-            totalElements={totalElements}
-            hasSearchCondition={hasSearchCondition}
-            onReset={handleReset}
+          {/* 오른쪽: 페이지네이션 */}
+          <PageButton
+            totalPages={totalPages}
+            currentPage={page + 1}
+            onPageChange={(p) => setPage(p - 1)}
+            disabled={loading}
+            maxVisible={5}
           />
         </div>
-        <div />
-        <PageButton
-          totalPages={totalPages}
-          currentPage={page + 1}
-          onPageChange={(p) => setPage(p - 1)}
-          disabled={loading}
-          maxVisible={5}
-        />
       </div>
     </div>
   );

@@ -1,7 +1,8 @@
+
 const AdminConsultManagePage = ()=>{
     return(
         <div>
-            
+        
         </div>
     );
 }

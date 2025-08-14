@@ -10,7 +10,8 @@ const ExtracurricularCategoryPage = () => {
   // 필터 및 리스트 관련 상태
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [filterText, setFilterText] = useState("");
-  const [selectedCompetencies, setSelectedCompetencies] = useState([]);
+  const [selectedCompetency, setSelectedCompetency] = useState(null);
+
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [programList, setProgramList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,17 +28,16 @@ const ExtracurricularCategoryPage = () => {
     ctgryDtl: "",
   });
 
- const handleSelectItem = (item) => {
+const handleSelectItem = (item) => {
   setInputValues({
-     ctgryId: item.ctgryId || "",
-    competency: item.competency || "",
-    stgrId: item.stgrId || "",
+    ctgryId: item.ctgryId || "",
+    competency: item.coreCategoryId || "",  
+    stgrId: item.stgrId || "",               
     subjectCode: item.subjectCode || "",
     ctgryNm: item.ctgryNm || "",
     ctgryDtl: item.ctgryDtl || "",
     ctgryUseYn: item.ctgryUseYn || "N", 
   });
-  setSelectedCategoryIdForDelete(item.ctgryId);  // 삭제할 ID도 저장
 };
 
   // 리스트 조회
@@ -56,7 +56,7 @@ const ExtracurricularCategoryPage = () => {
     getCategory({
       categoryId: null,
       programName: filterText,
-      competencyIds: selectedCompetencies,
+      competencyId: selectedCompetency,
       departmentCode: selectedDepartment,
     })
       .then(setProgramList)
@@ -170,7 +170,7 @@ const onUpdate = async () => {
         <CategoryFilter
           filterText={filterText}
           onChangeFilterText={setFilterText}
-          onChangeCompetency={(selected) => setSelectedCompetencies(selected)}
+          onChangeCompetency={(selected) => setSelectedCompetency(selected)}
           onChangeDepartment={(dept) => setSelectedDepartment(dept)}
         />
 

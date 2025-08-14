@@ -7,13 +7,6 @@ import PageButton from "../../../component/admin/extracurricular/PagaButton";
 
 const PAGE_SIZE = 10;
 
-const labelById = {
-    "Waiting": "예약대기",
-    "Confirmed": "예약완료",
-    "Canceled": "예약취소",
-    "Completed": "상담완료",
-};
-
 const ConsultList = ({ searchFilters, current, onPageChange })=>{
 
     const [selectedInfo, setSelectedInfo] = useState(null);
@@ -109,7 +102,6 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
                             const startTime = item.dscsnApplyDto.dscsnScheduleDto.startTime;
                             const empName = item.dscsnApplyDto.dscsnScheduleDto.empName;
                             const dscsnTypeName = item.dscsnApplyDto.dscsnKindDto.dscsnTypeName;
-                            const statName = labelById[item.dscsnStatus];
 
                             return(
                             <tr key={item.dscsnInfoId}>
@@ -118,7 +110,7 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
                                 <td className="border px-3 py-2">{`${startTime.slice(0,2)}:${startTime.slice(2)}`}</td>
                                 <td className="border px-3 py-2">{empName}</td>
                                 <td className="border px-3 py-2">{dscsnTypeName}</td>
-                                <td className="border px-3 py-2">{statName}</td>
+                                <td className="border px-3 py-2">{item.dscsnStatus}</td>
                                 <td className="border px-3 py-2">
                                     <button onClick={() => openDetailModal(item)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">조회</button>
                                 </td>

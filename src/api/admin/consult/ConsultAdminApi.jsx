@@ -12,8 +12,8 @@ export const addDscsnKind = async (kindInfo) => {
 // api/admin/consult/dscsnkind
 // api/admin/consult/dscsnkind/{page}
 export const findDscsnKind = async (searchParams) => {
-    const response = await axiosInstance.get("/admin/consult/dscsnkind", { params: searchParams });
-    return response.data;
+    const { page, ...queryParams } = searchParams;
+    return await axiosInstance.get(`/admin/consult/dscsnkind/${page}`, { params: queryParams });
 }
 
 //상담항목 수정

@@ -13,6 +13,7 @@ export const studentMyPageMenus = [
         name: "비교과 프로그램 참여 현황",
         children: [
             { name: "참여 비교과 프로그램", link: "/mypage/program" },
+            { name: "신청 비교과 프로그램", link: "/mypage/program/apply" },
             { name: "관심 비교과 프로그램", link: "/mypage/program/interest" },
             { name: "추천 비교과 프로그램", link: "/mypage/program/recommended" },
             { name: "비교과 만족도 참여 현황", link: "/mypage/program/satisfaction" },

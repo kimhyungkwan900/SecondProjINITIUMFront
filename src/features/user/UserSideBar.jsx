@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const UserSideBar = ({ navItems = [], defaultOpenKeys = [] }) => {
-  const location = useLocation(); // 현재 URL 경로를 가져옴 (메뉴 활성화 상태 판단에 사용)
+  const location = useLocation(); // 현재 URL 경로
   const [openKeys, setOpenKeys] = useState(new Set(defaultOpenKeys));
 
   // 첫 항목은 제목으로 사용
@@ -25,7 +25,7 @@ const UserSideBar = ({ navItems = [], defaultOpenKeys = [] }) => {
     });
   };
 
-  // 현재 경로 기준으로 어떤 메뉴가 활성인지 계산
+  // 현재 경로 기준 메뉴 활성화 계산
   const activePath = location.pathname;
   const isItemActive = (item) => {
     if (item.link) return item.link === activePath;
@@ -35,7 +35,7 @@ const UserSideBar = ({ navItems = [], defaultOpenKeys = [] }) => {
     return false;
   };
 
-  // 라우트 변경 시, 활성 자식이 있는 부모는 자동 오픈
+  // 라우트 변경 시, 활성 자식이 있는 부모 자동 오픈
   useEffect(() => {
     const next = new Set(openKeys);
     items.forEach((item, idx) => {
@@ -48,12 +48,20 @@ const UserSideBar = ({ navItems = [], defaultOpenKeys = [] }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activePath]);
 
+  // 메뉴 아이템 스타일 정의 (첫 번째 테마 적용)
+  const baseStyle = "block w-full mx-auto text-center py-2 rounded-lg font-medium no-underline transition";
+  const activeStyle = "bg-[#E0E7E9] text-[#354649]";
+  // hover 시 글자색이 우선 적용되도록 '!' 추가
+  const inactiveStyle = "bg-white/10 text-white hover:bg-[#E0E7E9] hover:!text-[#354649]";
+
+
   return (
     <aside
-      className="w-64 rounded-xl shadow-lg px-4 py-6 h-fit mr-4 sticky top-48 mt-10
-                 bg-gradient-to-b from-[#0d47a1] to-[#42a5f5]"
+      // 사이드바 배경색 적용 (사용자 지정 그라데이션 유지)
+      className="w-64 rounded-xl shadow-lg px-4 py-6 h-fit mr-4 sticky top-48 mt-10 bg-gradient-to-b from-[#6C7A89] to-[#A3C6C4]"
     >
-      <h2 className="text-lg font-bold text-center text-white border-b border-white pb-3 mb-4">
+      {/* 제목 텍스트 및 테두리 색상 적용 */}
+      <h2 className="text-lg font-bold text-center text-white border-b border-white/50 pb-3 mb-4">
         {title}
       </h2>
 
@@ -70,8 +78,7 @@ const UserSideBar = ({ navItems = [], defaultOpenKeys = [] }) => {
               <li className="w-full" key={key}>
                 <Link
                   to={item.link}
-                  className={`block w-full mx-auto text-center py-2 rounded-lg font-medium no-underline transition
-                    ${active ? "bg-white text-[#0d47a1]" : "bg-white/10 text-white hover:bg-white hover:!text-[#0d47a1]"}`}
+                  className={`${baseStyle} ${active ? activeStyle : inactiveStyle}`}
                 >
                   {item.name}
                 </Link>
@@ -85,10 +92,9 @@ const UserSideBar = ({ navItems = [], defaultOpenKeys = [] }) => {
               <button
                 type="button"
                 onClick={() => toggleOpen(key)}
-                className={`w-full mx-auto text-center py-2 rounded-lg font-bold transition select-none
-                   ${active || open ? "bg-white text-[#0d47a1]" : "bg-white/10 text-white hover:bg-white hover:!text-[#0d47a1]"}`}
+                className={`${baseStyle} w-full select-none ${active || open ? activeStyle : inactiveStyle}`}
               >
-                <span className="inline-flex items-center gap-2">
+                <span className="inline-flex items-center justify-center gap-2 w-full">
                   {item.name}
                   <svg
                     width="14"
@@ -119,8 +125,7 @@ const UserSideBar = ({ navItems = [], defaultOpenKeys = [] }) => {
                           <li className="w-full" key={`${key}-child-${cIdx}`}>
                             <Link
                               to={child.link}
-                              className={`block w-full mx-auto text-center py-2 rounded-lg font-medium no-underline transition
-                                ${childActive ? "bg-white text-[#0d47a1]" : "bg-white/10 text-white hover:bg-white hover:!text-[#0d47a1]"}`}
+                              className={`${baseStyle} ${childActive ? activeStyle : inactiveStyle}`}
                             >
                               {child.name}
                             </Link>

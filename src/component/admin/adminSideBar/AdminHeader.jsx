@@ -52,7 +52,7 @@ export default function AdminHeader({ selectedTopMenu, onMenuChange }) {
         />
 
         {/* 데스크톱: 상단 메뉴 + 유틸 */}
-        <div className="hidden md:flex items-end flex-1 ml-12">
+        <div className="hidden md:flex items-center flex-1 ml-12">
           {/* 상단 메뉴 */}
           <nav className="flex-1">
             <ul className="flex space-x-8 font-bold text-[#222E8D]">
