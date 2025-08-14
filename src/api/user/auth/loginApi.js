@@ -38,3 +38,12 @@ export const changePassword = async ({ currentPassword, newPassword }) => {
     unwrap(error);
   }
 };
+
+// 비밀번호 인증
+export const verifyPassword = async ({ password }) => {
+  try {
+    await axiosInstance.post("/auth/verify-password", { password });
+  } catch (error) {
+    unwrap(error);
+  }
+};

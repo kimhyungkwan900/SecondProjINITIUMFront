@@ -6,7 +6,7 @@ import UserTopBar from "../../../component/user/mainpage/UserTopBar";
 const MyPageLayout = ({ navItems }) => {
 
   return (
-    <div className="min-h-screen bg-[#f6f9fc]">
+    <div className="min-h-screen bg-[#E0E7E9]">
       <UserTopBar />
       <MainHeader />
       <div className="flex w-full max-w-screen-xl mx-auto my-8 min-h-[80vh]">

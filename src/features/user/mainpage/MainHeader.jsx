@@ -66,7 +66,8 @@ export default function MainHeader() {
                             onMouseLeave={() => setHoveredIdx(null)}
                             className="relative"
                         >
-                            <button className="font-semibold text-lg text-[#222E8D] hover:text-[#28B8B2] transition">
+                            {/* 네비게이션 메뉴 텍스트 및 호버 색상 적용 */}
+                            <button className="font-semibold text-lg text-[#354649] hover:text-[#6C7A89] transition">
                                 {item.label}
                             </button>
                             <NavMenuHorizontalDropdown
