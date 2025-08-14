@@ -133,9 +133,9 @@ export default function StudentDetailPanel({
         <div className="grid grid-cols-[120px_1fr] items-center gap-2">
           <div className="text-sm text-gray-600">지도교수ID</div>
           <TextInput
-            value={value.advisorNo || ""}
-            onChange={update("advisorNo")}
-            disabled={isRO("advisorNo")}
+            value={value.empNo || ""}
+            onChange={update("empNo")}
+            disabled={isRO("empNo")}
             placeholder="P141001"
             className="px-2 py-1"
           />

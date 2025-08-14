@@ -14,12 +14,21 @@ import ExtracurricularProgramAplicationPage from "../../pages/admin/Extracurricu
 import ExtracurricularProgramRequestPage from "../../pages/admin/Extracurricular/ExtracurricularProgramReqeustPage";
 import ExtracurricularProgramApplyPage from "../../pages/admin/Extracurricular/ExtracurricularProgramApplyPage";
 import ExtracurricularSchedulePage from "../../pages/admin/Extracurricular/ExtracurricularSchedulePage";
+import ExtracurricularSurveyPage from "../../pages/admin/Extracurricular/ExtracurricularSurveyPage";
 
 import AdminMileageItemPage from "../../pages/admin/mileage/AdminMileageItemPage";
+import AdminScorePolicyPage from"../../pages/admin/mileage/AdminScorePolicyPage";
+import AdminMileagePerfPage from "../../pages/admin/mileage/AdminMileagePerfPage";
+import AdminScholarshipPage from "../../pages/admin/mileage/AdminScholarshipPage";
+
+import AdminCoreCompetencyResultPdf from "../../pages/admin/coreCompetency/result/AdminCoreCompetencyResultPdf";
 
 import AdminConsultManagePage from "../../pages/admin/consultation/AdminConsultManagePage.jsx"
 import AdminConsultListPage from "../../pages/admin/consultation/AdminConsultListPage.jsx"
 import AdminConsultKindManagePage from "../../pages/admin/consultation/AdminConsultKindManagePage.jsx"
+import EmployeeManagePage from "../../pages/admin/employee/EmployeeManagePage.jsx";
+import EmployeeListPage from "../../pages/admin/employee/EmployeeListPage.jsx";
+
 
 const adminMainRouter = [
   {
@@ -34,6 +43,8 @@ const adminMainRouter = [
           { path: "", element: <AdminMainPage /> },
           { path: "students/student-list", element: <StudentListPage /> },
           { path: "students/student-manage", element: <StudentManagePage />},
+          { path: "employee/employee-list", element: <EmployeeListPage />},
+          { path: "employee/employee-manage", element: <EmployeeManagePage />},
 
           // 진단평가
           { path: 'diagnosis/dashboard', element: <DiagnosisAdminDashboardPage /> },
@@ -43,16 +54,21 @@ const adminMainRouter = [
           // 핵심역량진단
           { path: "coreCompetency/assessment", element: <AdminCoreCompetencyAssessment /> },
           { path: "coreCompetency/assessment/result", element: <AdminCoreCompetencyResult /> },
-
+          
           // 프로그램
           { path : "extracurricular/cateogry", element : <ExtracurricularCategoryPage/>},
           { path : "extracurricular/program/aplication", element : <ExtracurricularProgramAplicationPage/> },
           { path : "extracurricular/program/request", element : <ExtracurricularProgramRequestPage/>},
           { path : "extracurricular/program/apply", element : <ExtracurricularProgramApplyPage/>},
           { path : "extracurricular/program/schedule", element : <ExtracurricularSchedulePage/>},
+          { path : "extracurricular/program/survey", element : <ExtracurricularSurveyPage/>},
 
           //마일리지
           { path: "mileage/items", element: <AdminMileageItemPage /> },
+          { path: "mileage/scorepolicy", element: <AdminScorePolicyPage /> },
+          { path: "mileage/perf", element: <AdminMileagePerfPage /> },
+          { path: "mileage/scholarship", element: <AdminScholarshipPage /> },
+
 
           //상담
           { path: "consult/manage", element: <AdminConsultManagePage/> },

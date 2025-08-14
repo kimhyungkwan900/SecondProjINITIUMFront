@@ -5,7 +5,7 @@ export const sidebarMenus = {
     {
       label: "교직원관리",
       children: [
-        { label: "교직원 조회(검색)", to: `${baseUrl}/employee/list` },
+        { label: "교직원 조회(검색)", to: `${baseUrl}/employee/employee-list` },
         { label: "교직원 관리", to: `${baseUrl}/employee/employee-manage` },
       ],
     },
@@ -38,17 +38,18 @@ export const sidebarMenus = {
         { label: "프로그램 요청", to: "/admin/extracurricular/program/aplication" },
         { label: "프로그램 요청 관리", to: "/admin/extracurricular/program/request" },
         { label: "프로그램 신청 관리", to: "/admin/extracurricular/program/apply" },
-        { label: "프로그램 출석 관리", to: "/admin/extracurricular/program/schedule" }
+        { label: "프로그램 출석 관리", to: "/admin/extracurricular/program/schedule" },
+        { label: "프로그램 만족도 조회", to: "/admin/extracurricular/program/survey" }
       ]
     },
         {
       label: "마일리지",
       children: [
         { label: "항목 관리", to: `${baseUrl}/mileage/items` },
+        { label: "배점 관리", to: `${baseUrl}/mileage/scorepolicy` },
         { label: "실적 관리", to: `${baseUrl}/mileage/perf` },
-        { label: "누적 관리", to: `${baseUrl}/mileage/total` },
-        { label: "장학금 관리", to: `${baseUrl}/mileage/scholarshipply`},
-        { label: "베점 관리", to: `${baseUrl}/mileage/scorepolicy` },
+        { label: "장학금 관리", to: `${baseUrl}/mileage/scholarship`},
+        
       ]
 
     },

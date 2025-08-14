@@ -42,7 +42,7 @@ const ConsultScheduleSelect = ({userInfo, type, onSelect})=>{
             try{
                 if (type === "A") {
                     const result = await fetchStudentByNo(userInfo.studentNo);
-                    empNo = result.advisorId;
+                    empNo = result.empNo;
                     console.log(empNo)
                 } else{
                     empNo = "";

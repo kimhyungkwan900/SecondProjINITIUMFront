@@ -7,8 +7,10 @@ const ProgramList = ({ programs, loading, onDataChange, selectedIds, setSelected
   const [isSurveyOpen, setIsSurveyOpen] = useState(false);
   const [selectedProgram, setSelectedProgram] = useState(null);
 
-   const { user } = useContext(UserContext);
-   const name = user?.name || ""; 
+  const { user } = useContext(UserContext);
+  const name = user?.name || ""; 
+  const studentNo = user?.studentNo || ""; 
+  const schoolSubject = user?.schoolSubject || "";
   
   if (loading) {
     return (
@@ -86,6 +88,7 @@ const ProgramList = ({ programs, loading, onDataChange, selectedIds, setSelected
             <th className="px-3 py-2 border-b border-gray-200 text-center">교육 마지막일</th>
             <th className="px-3 py-2 border-b border-gray-200 text-center">수료 여부</th>
             <th className="px-3 py-2 border-b border-gray-200 text-center">설문 여부</th>
+            <th className="px-3 py-2 border-b border-gray-200 text-center">수료증발급</th>
           </tr>
         </thead>
         <tbody>
@@ -108,7 +111,7 @@ const ProgramList = ({ programs, loading, onDataChange, selectedIds, setSelected
                   {program.eduNm}
                 </td>
                 <td className="px-3 py-2 border-b border-gray-200 text-center">
-                  {program.cndCn} 이상
+                  출석 {program.cndCn}
                 </td>
                 <td className="px-3 py-2 border-b border-gray-200 text-center">
                   {program.attendance}%
@@ -118,14 +121,11 @@ const ProgramList = ({ programs, loading, onDataChange, selectedIds, setSelected
                 </td>
                <td className="px-3 py-2 border-b border-gray-200 text-center">
                 {program.eduFnshYn === "Y" ? (
-                  <button
+                  <div
                     className="px-2 py-1 text-green-600 rounded"
-                    onClick={() => {
-                      generateCertificatePDF(name,program.eduNm);
-                    }}
                   >
                     수료
-                  </button>
+                  </div>
                 ) : (
                   <span className="text-red-500 font-semibold">미수료</span>
                 )}
@@ -147,6 +147,21 @@ const ProgramList = ({ programs, loading, onDataChange, selectedIds, setSelected
                     "미등록"
                   )}
                 </td>
+
+                <td className="px-3 py-2 border-b border-gray-200 text-center">
+                {program.eduFnshYn === "Y" ? (
+                  <button
+                    className="px-2 py-1 text-white font-bold rounded bg-green-600 hover:bg-green-700"
+                    onClick={() => {
+                      generateCertificatePDF(name,program.eduNm , studentNo, schoolSubject);
+                    }}
+                  >
+                    발급
+                  </button>
+                ) : (
+                  <span className="text-red-500 font-semibold">발급불가</span>
+                )}
+              </td>
               </tr>
             );
           })}

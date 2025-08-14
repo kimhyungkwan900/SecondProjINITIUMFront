@@ -127,6 +127,12 @@ const AdminQuestionList = ({ assessmentId }) => {
           <button
             onClick={() => {
               const defaultSub = subCategories[0]?.id ?? null;
+
+              if (defaultSub === null) {
+              alert('역량 카테고리를 등록해주세요.');
+              return; // 함수 실행 중단
+            }
+
               setSelectedQuestion({
                 id: null,
                 questionNo: questions.length + 1,
@@ -140,7 +146,6 @@ const AdminQuestionList = ({ assessmentId }) => {
               });
             }}
             className="bg-green-500 text-white px-4 py-2 rounded"
-            disabled={!subCategories.length}
           >
             새 문항 추가
           </button>
@@ -204,6 +209,10 @@ const AdminQuestionList = ({ assessmentId }) => {
           onOptionCountChange={handleOptionCountChange}
           onSave={handleSave}
           onDelete={handleDelete}
+          existingQuestions={(questions || []).map(q => ({
+          id: q.id,
+          questionName: q.questionName || q.name || ""
+        }))}
         />
       )}
     </div>

@@ -1,8 +1,9 @@
 import { useCallback } from "react";
 import TextInput from "../../common/TextInput";
 import EmployeeSelect from "../../common/CodeConverter/EmployeeSelect";
-import { BankSelect, CodeDisplay, GenderSelect, GradeSelect, SchoolSubjectSelect, StudentStatusSelect } from "../../common/CodeConverter/CodeSelect";
+import { BankSelect, CodeDisplay, GenderSelect, GradeSelect, StudentStatusSelect } from "../../common/CodeConverter/CodeSelect";
 import UniversitySelect from "../../common/CodeConverter/UniversitySelect";
+import SchoolSubjectSelect from "../../common/CodeConverter/SchoolSubjectSelect";
 
 export default function StudentAdminUpdateForm({
   value,
@@ -10,11 +11,11 @@ export default function StudentAdminUpdateForm({
   disabled = false,
   readOnlyFields = [],
   className = "",
-  onSubmit,            // 폼 내부 제출 버튼 클릭/엔터시 호출
-  submitting = false,  // 제출 중 스피너/비활성화
-  showSubmit = true,   // 하단 제출 버튼 표시 여부
-  submitText,          // 버튼 라벨 커스텀 (미지정시 mode에 따라 자동)
-  mode = "edit",       // 'create' | 'edit' (부모가 내려주던 값 그대로)
+  onSubmit,            
+  submitting = false,  
+  showSubmit = true,   
+  submitText,          
+  mode = "edit",       
 }) {
   const update = (key) => (e) =>
     onChange((prev) => ({ ...prev, [key]: e.target.value }));
@@ -31,7 +32,7 @@ export default function StudentAdminUpdateForm({
     if (!value.admissionDate) errors.push("입학일자는 필수입니다.");
     if (!value.genderCode) errors.push("성별은 필수입니다.");
     if (!value.grade) errors.push("학년은 필수입니다.");
-    if (!value.schoolSubjectCode) errors.push("학과는 필수입니다.");
+    if (!value.subjectCode) errors.push("학과는 필수입니다.");
     if (!value.studentStatusCode) errors.push("학적상태는 필수입니다.");
     return errors;
   };
@@ -123,16 +124,11 @@ export default function StudentAdminUpdateForm({
           <label className="flex flex-col text-sm">
             <span className="font-medium text-gray-700 mb-1">
               성별 <span className="text-red-500">*</span>
-              {value.genderCode && (
-                <span className="ml-2 text-xs text-gray-500">
-                  (현재: <CodeDisplay category="GENDER" code={value.genderCode} />)
-                </span>
-              )}
             </span>
             <GenderSelect
               value={value.genderCode || ""}
               onChange={update("genderCode")}
-              disabled={isRO("gender")}
+              disabled={isRO("genderCode")} 
               className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
@@ -142,11 +138,6 @@ export default function StudentAdminUpdateForm({
           <label className="flex flex-col text-sm">
             <span className="font-medium text-gray-700 mb-1">
               학년 <span className="text-red-500">*</span>
-              {value.grade && (
-                <span className="ml-2 text-xs text-gray-500">
-                  (현재: {value.grade}학년)
-                </span>
-              )}
             </span>
             <GradeSelect
               value={value.grade || ""}
@@ -169,12 +160,11 @@ export default function StudentAdminUpdateForm({
               학과 <span className="text-red-500">*</span>
             </span>
             <SchoolSubjectSelect
-              value={value.schoolSubjectCode || ""}
-              onChange={update("schoolSubjectCode")}
-              disabled={isRO("schoolSubjectCode")}
+              value={value.subjectCode || ""}
+              onChange={update("subjectCode")}
+              disabled={isRO("subjectCode")}
               className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
-              filterByAcademicOnly={true}
             />
           </label>
 
@@ -206,16 +196,16 @@ export default function StudentAdminUpdateForm({
             />
           </label>
 
-          {/* 지도교수ID */}
+          {/* 지도교수 */}
           <label className="flex flex-col text-sm">
             <span className="font-medium text-gray-700 mb-1">지도교수명</span>
             <EmployeeSelect
-              value={value.advisorNo || ""}
-              onChange={update("advisorNo")}
-              disabled={isRO("advisorNo")}
+              value={value.empNo || ""} // advisorNo → empNo
+              onChange={update("empNo")}
+              disabled={isRO("empNo")}
               className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
               filterByProfessorOnly={true}
-              filterByDeptCode={value.schoolSubjectCode}
+              filterBySubjectCode={value.subjectCode}
             />
           </label>
         </div>
@@ -250,7 +240,7 @@ export default function StudentAdminUpdateForm({
         </div>
       </div>
 
-      {/* ▼ 폼 제출 버튼 */}
+      {/* 폼 제출 버튼 */}
       {showSubmit && (
         <div className="pt-3 border-t">
           <button
