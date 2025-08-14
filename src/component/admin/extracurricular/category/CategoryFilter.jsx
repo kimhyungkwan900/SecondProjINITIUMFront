@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getEmployees } from "../../../../api/admin/extracurricular/category/CategoryApi";
+import { getEmployees , getCoreCateogry} from "../../../../api/admin/extracurricular/category/CategoryApi";
 
 const CategoryFilter = ({
   filterText,
@@ -8,15 +8,10 @@ const CategoryFilter = ({
   onChangeDepartment,
 }) => {
   const [departments, setDepartments] = useState([]);
-
-  const competencyOptions = [
-    { label: "융합역량", value: JSON.stringify([1, 2]) },
-    { label: "창의역량", value: JSON.stringify([3, 4]) },
-    { label: "리더쉽", value: JSON.stringify([5, 6]) },
-    { label: "소통역량", value: JSON.stringify([7, 8]) },
-  ];
+  const [competencyOptions, setCompetencyOptions] = useState([]);
 
   useEffect(() => {
+    // 부서 목록 불러오기
     const fetchDepartments = async () => {
       try {
         const data = await getEmployees();
@@ -26,7 +21,20 @@ const CategoryFilter = ({
       }
     };
 
+    // 핵심역량 불러오기
+    const fetchCompetencies = async () => {
+      try {
+        const data = await getCoreCateogry();
+        // data 예시: [{ id:1, name:"융합역량", codes:[1,2] }, ...]
+        // API 응답 형태에 맞게 가공
+        setCompetencyOptions(data);
+      } catch (error) {
+        console.error("핵심역량 조회 실패", error);
+      }
+    };
+
     fetchDepartments();
+    fetchCompetencies();
   }, []);
 
   return (
@@ -47,17 +55,16 @@ const CategoryFilter = ({
         <div className="flex items-center">
           <span>핵심역량</span>
           <select
-            className="ml-3 px-4 py-1 w-60 rounded focus:outline-none"
-            onChange={(e) => {
-              const value = e.target.value;
-              const parsed = value ? JSON.parse(value) : [];
-              if (onChangeCompetency) onChangeCompetency(parsed);
-            }}
-          >
+              onChange={(e) => {
+                const value = e.target.value;
+                const id = value ? Number(value) : null; // 숫자로 변환
+                if (onChangeCompetency) onChangeCompetency(id);
+              }}
+            >
             <option value="">전체</option>
             {competencyOptions.map((opt) => (
-              <option key={opt.label} value={opt.value}>
-                {opt.label}
+              <option key={opt.id} value={opt.id}>
+                {opt.name}
               </option>
             ))}
           </select>

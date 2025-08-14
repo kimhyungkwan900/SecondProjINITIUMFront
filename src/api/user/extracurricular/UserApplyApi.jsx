@@ -25,3 +25,24 @@ export const programApply = async (stdfntNo, eduMngId, eduAplyCn) => {
     }
   }
 };
+
+export const applyList = async (stdntNo, aprySttsNm, keyword, page = 0, size = 10) => {
+  const params = { stdntNo, page, size };
+  if (aprySttsNm) params.aprySttsNm = aprySttsNm;
+  if (keyword) params.keyword = keyword;
+
+  const response = await axiosInstance.get("/extracurricular/applies", { params });
+  return response.data;
+};
+
+export const cancleApply = async (eduAplyId) => {
+  try {
+    const response = await axiosInstance.delete("/extracurricular/apply/cancel", {
+      params: { eduAplyId },
+    });
+    return response.data; // "비교과 프로그램 신청이 취소되었습니다." 반환
+  } catch (error) {
+    console.error("신청 취소 실패", error);
+    throw error; // 호출한 쪽에서 try/catch로 처리 가능
+  }
+};
