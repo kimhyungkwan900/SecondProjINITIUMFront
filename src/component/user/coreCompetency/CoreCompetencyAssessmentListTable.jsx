@@ -13,7 +13,7 @@ const CoreCompetencyAssessmentListTable = () => {
   const [attemptLoading, setAttemptLoading] = useState(false);
 
   const hasStudentNo = !!user?.loginId;
-  const hasEmployeeNo = !!user?.employeeNo;
+  const hasEmployeeNo = !!user?.empNo;
   const canViewList = !!user && (hasStudentNo || hasEmployeeNo);
   const isStudent  = hasStudentNo && !hasEmployeeNo;
   const isEmployee = hasEmployeeNo;

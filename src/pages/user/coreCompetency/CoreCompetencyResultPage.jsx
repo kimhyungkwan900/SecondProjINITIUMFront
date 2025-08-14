@@ -20,7 +20,7 @@ const CoreCompetencyResultPage = () => {
 
   // 권한 플래그 (리스트/결과 열람: 학생번호 or 교직원번호 보유자)
   const hasStudentNo = user?.loginId;
-  const hasEmployeeNo = !!user?.employeeNo;
+  const hasEmployeeNo = !!user?.empNo;
   const canViewPage = !!user && (hasStudentNo || hasEmployeeNo);
 
   return (

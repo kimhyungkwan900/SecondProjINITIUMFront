@@ -9,7 +9,6 @@ import ExtracurricularRecommand from "./ExtracurricularRecommand";
 import CoreCompetecnyCategoryScore from "./CoreCompetecnyCategoryScore";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import SubCategoryDef from "./SubCategoryDef";
 
 const CoreCompetencyResultView = () => {
   const { user } = useContext(UserContext);
@@ -20,7 +19,7 @@ const CoreCompetencyResultView = () => {
   const { studentNo, assessmentNo } = useParams();
 
   const name = user?.name ?? "";
-  const isEmployee = !!user?.employeeNo;
+  const isEmployee = !!user?.empNo;
   const canView = !!user && (studentNo || isEmployee);
 
    const handleDownloadPdf = async () => {
@@ -145,7 +144,7 @@ const CoreCompetencyResultView = () => {
             <div className="p-8">
             {/* 제목 + 닫기 버튼 행 */}
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-[40px] font-semibold text-gray-800 ml-3 my-4">
+              <h2 className="text-[34px] font-semibold text-gray-800 ml-3 my-2">
                 {name}님의 진단 결과
               </h2>
             </div>
@@ -154,7 +153,7 @@ const CoreCompetencyResultView = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               {/* 왼쪽: 레이더 차트 */}
               <div className="rounded-lg border border-gray-100 p-4">
-                <div className="relative h-[685px] mt-28">
+                <div className="relative h-[525px] mt-14">
                   <StudentRadarChart
                     assessmentNo={assessmentNo}
                     student={{ studentNo }}
@@ -172,14 +171,13 @@ const CoreCompetencyResultView = () => {
                 />
               </div>
             </div>
-             <div>
-                <h2 className="text-[24px] font-semibold text-gray-800 ml-3 mt-5 mb-4 ">💡 핵심역량정의</h2>
-                <SubCategoryDef/>
+              <div>
                 <h2 className="text-[24px] font-semibold text-gray-800 ml-3 mt-5 mb-4 ">💡 역량별평가</h2>
                 <CoreCompetecnyCategoryScore assessmentNo={assessmentNo} student={{ studentNo }}/>
               </div>
           </div>
           </div>
+          <h2 className="text-[24px] font-semibold text-gray-800 ml-10">💡 역량기반 추천 프로그램</h2>
           <ExtracurricularRecommand assessmentNo={assessmentNo} student={{ studentNo }}/>
         </div>
       </div>

@@ -8,7 +8,7 @@ const CoreCompetencyTest = () => {
     const { user } = useContext(UserContext);
     const studentNo = user?.loginId;
 
-    const isEmployee = !!user?.employeeNo;
+    const isEmployee = !!user?.empNo;
     const isStudent  = !!user?.loginId && !isEmployee; // 직원이 아니면서 학번이 있는 경우만 학생
 
     // 상태 정의
@@ -119,9 +119,9 @@ const CoreCompetencyTest = () => {
                     </thead>
                     <tbody>
                         {questions.length > 0 ? (
-                            questions.map((q) => (
+                            questions.map((q,idx) => (
                                 <tr key={q.questionId} className="hover:bg-blue-50 transition">
-                                    <td className="border px-6 py-4">{q.displayOrder}</td>
+                                    <td className="border px-6 py-4">{idx+1}</td>
                                     <td className="border px-4 py-3 text-left text-[16px]">{q.questionName}</td>
                                     
                                     {/* <<< [수정] 최대 선택지 개수만큼 반복하며, 빈 칸을 채우는 로직 */}

@@ -13,14 +13,6 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
-/**
- * props
- * - assessmentNo: 문자열 코드 (예: "ASMT-2025-0001")
- * - student: { studentNo } 또는 "학번" 문자열
- * - orientation: "vertical" | "horizontal" (기본 "vertical")
- * - overallBaseline: 전체 평균 기준선 값(기본 3.13)
- * - buildUrl: (선택) (assessmentNo, studentNo) => string
- */
 const StudentBarChart = ({
   assessmentNo,
   student,
@@ -116,7 +108,7 @@ const StudentBarChart = ({
 
   return (
     <div className="flex-1 min-h-0">
-      <div className="h-[800px]">
+      <div className="h-[580px]">
         <Bar data={barData} options={barOptions} />
       </div>
     </div>
