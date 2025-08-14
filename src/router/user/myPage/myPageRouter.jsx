@@ -12,7 +12,7 @@ import MyMileagePage from "../../../pages/user/mileage/MyMileagePage";
 import ScholarshipApplyPage from "../../../pages/user/mileage/ScholarshipApplyPage";
 import ScholarshipStatusPage from "../../../pages/user/mileage/ScholarshipStatusPage";
 import StudentRadarChart from "../../../component/admin/coreCompetency/result/StudentRadarChart";
-
+import ExtracurricularProgramApplyPage from "../../../pages/user/extracurricular/ExtracurricularProgramApplyPage";
 export const myPageRouter = [
   {
     path: "/mypage",
@@ -27,6 +27,7 @@ export const myPageRouter = [
           { path: "consult", element: <StudentConsultListFullPage /> },
           { path: "consult", element: <StudentRadarChart /> },
           { path: "program", element: <ExtracurricularProgramMyPage/>},
+          { path: "program/apply", element: <ExtracurricularProgramApplyPage/>},
           
           { path: "mileage", element: <MyMileagePage /> },
           { path: "mileage/apply", element: <ScholarshipApplyPage /> },
