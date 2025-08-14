@@ -5,6 +5,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/css';
 import { formatDate } from "../../../utils/dateUtils";
 
+
+const baseUrl = "http://localhost:8080";
+
 export default function ProgramCategorySliderSection() {
     const [programsByCategory, setProgramsByCategory] = useState({});
 
@@ -54,7 +57,11 @@ export default function ProgramCategorySliderSection() {
                                     <ProgramCard
                                         id={program.eduMngId}
                                         title={program.eduNm}
-                                        imageUrl={program.extracurricularImageDTO?.[0]?.fileUrl}
+                                        imageUrl={
+                                            program.extracurricularImageDTO && program.extracurricularImageDTO.length > 0
+                                            ? baseUrl + program.extracurricularImageDTO[0].imgFilePathNm
+                                            : "/default-image.png"
+                                            }
                                         mileage={program.eduMlg}
                                         category={program.ctgryNm}
                                         description={program.eduDtlCn}
