@@ -1,59 +1,69 @@
 import { useEffect, useState } from "react";
 import { getEmployees } from "../../../../api/admin/extracurricular/category/CategoryApi";
-import {CategoryData, findCategoryById} from "../../../../mock/admin/Extracurricular/CategoryData";
+
+import { getCoreCateogry, getSubCateogry } from "../../../../api/admin/extracurricular/category/CategoryApi";
 
 const CategoryInputBox = ({ inputValues, setInputValues }) => {
   const [departments, setDepartments] = useState([]);
+  const [coreCategories, setCoreCategories] = useState([]); // 핵심역량
+  const [subCategories, setSubCategories] = useState([]); // 상위역량
 
-  useEffect(() => {
-    const fetchDepartments = async () => {
-      try {
-        const data = await getEmployees();
-        setDepartments(data);
-      } catch (error) {
-        console.error("부서 조회 실패", error);
-      }
-    };
-
-    fetchDepartments();
-  }, []);
-
- const onChange = (e) => {
-    const { name, value } = e.target;
-
-    if (name === "stgrId") {
-      const result = findCategoryById(value);
-      if (result) {
-        setInputValues((prev) => ({
-          ...prev,
-          [name]: value, // stgrId
-          competency: result.parentId, // 핵심역량 자동 설정
-        }));
-        return;
-      }
+ useEffect(() => {
+  // 핵심역량 조회
+  const fetchCore = async () => {
+    try {
+      const data = await getCoreCateogry(); 
+      // 예: [{ id: 1, label: "융합역량" }, ...]
+      setCoreCategories(data);
+    } catch (error) {
+      console.error("핵심역량 조회 실패", error);
     }
-
-    setInputValues((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
   };
 
-useEffect(() => {
-  if (inputValues.stgrId && !inputValues.competency) {
-    const result = findCategoryById(inputValues.stgrId);
-    if (result?.parentId) {
-      setInputValues((prev) => ({
-        ...prev,
-        competency: result.parentId,
-      }));
+  // 주관부서 조회
+  const fetchDepartments = async () => {
+    try {
+      const data = await getEmployees();
+      setDepartments(data);
+    } catch (error) {
+      console.error("부서 조회 실패", error);
     }
-  }
-}, [inputValues.stgrId, inputValues.competency, setInputValues]);
+  };
 
-  const upperCategories = inputValues.competency
-    ? CategoryData.find((cat) => cat.id === inputValues.competency)?.children || []
-    : [];
+  fetchCore();
+  fetchDepartments();
+}, []);
+
+useEffect(() => {
+  const fetchSub = async () => {
+    if (!inputValues.competency) {
+      setSubCategories([]);
+      setInputValues(prev => ({ ...prev, stgrId: "" }));
+      return;
+    }
+    try {
+      const data = await getSubCateogry(inputValues.competency); 
+      setSubCategories(data);
+      setInputValues(prev => ({
+        ...prev,
+        stgrId: prev.stgrId && data.some(d => d.id === prev.stgrId) ? prev.stgrId : (data.length > 0 ? data[0].id : "")
+      }));
+
+    } catch (error) {
+      console.error("상위역량 조회 실패", error);
+    }
+  };
+  fetchSub();
+}, [inputValues.competency]);
+
+const onChange = (e) => {
+  const { name, value } = e.target;
+
+  setInputValues(prev => ({
+    ...prev,
+    [name]: value,
+  }));
+};
 
   return (
     <div className="grid grid-cols-2 gap-4 p-4 border rounded bg-white w-full">
@@ -67,10 +77,8 @@ useEffect(() => {
           className="flex-1 border rounded p-1 outline-none"
         >
           <option value="">선택</option>
-          {CategoryData.map(({ id, label }) => (
-            <option key={id} value={id}>
-              {label}
-            </option>
+          {coreCategories.map((item) => (
+            <option key={item.id} value={item.id}>{item.name}</option>
           ))}
         </select>
       </div>
@@ -83,13 +91,11 @@ useEffect(() => {
           value={inputValues.stgrId}
           onChange={onChange}
           className="flex-1 border rounded p-1 outline-none"
-          disabled={!inputValues.competency}
+          disabled={!inputValues.competency || subCategories.length === 0}
         >
           <option value="">선택</option>
-          {upperCategories.map(({ id, label }) => (
-            <option key={id} value={id}>
-              {label}
-            </option>
+          {subCategories.map((item) => (
+            <option key={item.id} value={item.id}>{item.name}</option>
           ))}
         </select>
       </div>
