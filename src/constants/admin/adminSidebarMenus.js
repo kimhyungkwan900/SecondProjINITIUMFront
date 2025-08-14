@@ -34,12 +34,12 @@ export const sidebarMenus = {
     {
       label: "비교과프로그램",
       children: [
-        { label: "분류 체계 관리", to: "/admin/extracurricular/cateogry" },
-        { label: "프로그램 요청", to: "/admin/extracurricular/program/aplication" },
-        { label: "프로그램 요청 관리", to: "/admin/extracurricular/program/request" },
-        { label: "프로그램 신청 관리", to: "/admin/extracurricular/program/apply" },
-        { label: "프로그램 출석 관리", to: "/admin/extracurricular/program/schedule" },
-        { label: "프로그램 만족도 조회", to: "/admin/extracurricular/program/survey" }
+        { label: "분류 체계 관리", to: `${baseUrl}/extracurricular/cateogry` },
+        { label: "프로그램 요청", to: `${baseUrl}/extracurricular/program/aplication` },
+        { label: "프로그램 요청 관리", to: `${baseUrl}/extracurricular/program/request` },
+        { label: "프로그램 신청 관리", to: `${baseUrl}/extracurricular/program/apply` },
+        { label: "프로그램 출석 관리", to: `${baseUrl}/extracurricular/program/schedule` },
+        { label: "프로그램 만족도 조회", to: `${baseUrl}/extracurricular/program/survey` }
       ]
     },
         {
@@ -53,7 +53,13 @@ export const sidebarMenus = {
       ]
 
     },
-    { label: "상담관리" }
+    { label: "상담관리",
+      children: [
+        {label: "상담일정 등록", to: `${baseUrl}/consult/manage`},
+        {label: "상담 현황", to: `${baseUrl}/consult/list`},
+        {label: "상담항목 관리", to: `${baseUrl}/consult/kind`},
+      ]
+     }
   ],
   "운영정보": [
     {

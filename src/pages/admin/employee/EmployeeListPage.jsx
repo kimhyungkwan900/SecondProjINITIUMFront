@@ -3,8 +3,8 @@ import AdminSectionHeader from "../../../component/admin/AdminSectionHeader";
 import PageButton from "../../../component/admin/extracurricular/PagaButton";
 import EmployeeListSearchFilter from "../../../features/admin/employee/EmployeeListSearchFilter";
 import EmployeeListTable from "../../../features/admin/employee/EmployeeListTable";
-import EmployeeListToolBar from "../../../features/admin/employee/EmployeeListToobar";
 import { fetchEmployees as fetchEmployeesApi } from "../../../api/user/auth/employeesApi";
+import EmployeeListToolBar from "../../../component/admin/employee/EmployeeListToolbar";
 
 export default function EmployeeListPage() {
   // 검색 조건 (EmployeeListSearchFilter가 사용하는 키와 일치)

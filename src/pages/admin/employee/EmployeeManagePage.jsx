@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { adminUpdateEmployeeInfo, appointInstructor, appointProfessor, appointStaff, fetchEmployeeByNo, fetchEmployees as fetchEmployeesApi, validateEmployeeSearchParams } from "../../../api/user/auth/employeesApi";
 import AdminSectionHeader from "../../../component/admin/AdminSectionHeader";
-import EmployeeListToolBar from "../../../features/admin/employee/EmployeeListToobar";
 import EmployeeListSearchFilter from "../../../features/admin/employee/EmployeeListSearchFilter";
 import EmployeeListTable from "../../../features/admin/employee/EmployeeListTable";
 import PageButton from "../../../component/admin/extracurricular/PagaButton";
 import EmployeeAdminUpdateForm from "../../../component/admin/employee/EmployeeAdminUpdateForm";
+import EmployeeListToolBar from "../../../component/admin/employee/EmployeeListToolbar";
 
 
 const emptyDetail = {
