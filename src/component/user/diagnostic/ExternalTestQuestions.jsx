@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { fetchExternalQuestionsParsed, submitExternalDiagnosis } from '../../../api/user/diagnostic/externalDiagnosisApi.jsx';
-import { UserContext } from '../../../App.jsx';
+import { useAuth } from '../../../hooks/useAuth.jsx';
 
 const ExternalTestQuestions = ({ qestrnSeq, trgetSe, studentNo, testName }) => {
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
   const [questions, setQuestions] = useState([]); // [{ questionText, options:[{text, value}] }]
   const [answers, setAnswers] = useState({});     // { 문항번호: 값(answerScore) }
   const [result, setResult] = useState(null);     // 제출 결과 저장

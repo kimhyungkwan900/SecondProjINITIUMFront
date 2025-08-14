@@ -1,11 +1,11 @@
 // useRequireAuth.js
-import { useEffect, useContext } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from "../../../App";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 import useStudentInfo from "../../../hooks/useStudentInfo";
 
 const useRequireAuth = (redirectPath = '/login')=>{
-    const { user } = useContext(UserContext);
+    const { user } = useAuth();
     const { student } = useStudentInfo(user?.loginId);
     // const { student, loading, error } = useStudentInfo(user?.loginId);
 

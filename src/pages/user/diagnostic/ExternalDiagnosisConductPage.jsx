@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import MainHeader from '../../../features/user/mainpage/MainHeader.jsx';
 import ExternalTestQuestions from '../../../component/user/diagnostic/ExternalTestQuestions.jsx';
 import { fetchExternalTests } from '../../../api/user/diagnostic/externalDiagnosisApi.jsx';
 import UserTopBar from '../../../component/user/mainpage/UserTopBar.jsx';
-import { UserContext } from '../../../App.jsx';
+import { useAuth } from '../../../hooks/useAuth.jsx';
 import SectionTitle from '../../../component/common/SectionTitle.jsx';
 
 /**
@@ -12,7 +12,7 @@ import SectionTitle from '../../../component/common/SectionTitle.jsx';
  * - 외부 진단검사(예: 커리어넷) 진행 페이지
  */
 const ExternalDiagnosisConductPage = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
   const { testId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();

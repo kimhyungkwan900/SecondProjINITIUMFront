@@ -1,15 +1,15 @@
-import React, { useContext } from "react";
+import React from "react";
 import StudentBasicInfo from "../../../features/user/students/StudentBasicInfo";
-import { UserContext } from "../../../App";
 import PageHeader from "../../../component/common/PageHeader";
 import useStudentInfo from "../../../hooks/useStudentInfo";
 import StudentDiagnosticResultsContainer from "../../../features/user/students/StudentDIagnosticResultContainer";
 import StudentParticipatedProgramList from "../../../features/user/students/StudentParticipatedProgramList";
 import StudentConsultList from "../../../features/user/students/StudentConsultList";
 import StudentCoreCompetencyResultList from "./StudentCoreCompetencyResultList";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 
 const StudentMyPageHome = () => {
-    const { user } = useContext(UserContext);
+    const { user } = useAuth();
     const { student } = useStudentInfo(user?.loginId);
 
     const contentStyle = "text-[#6C7A89]";

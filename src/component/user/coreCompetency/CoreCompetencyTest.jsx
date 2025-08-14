@@ -1,11 +1,11 @@
 import axios from "axios";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { UserContext } from "../../../App";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 
 const CoreCompetencyTest = () => {
 
-    const { user } = useContext(UserContext);
+    const { user } = useAuth();
     const studentNo = user?.loginId;
 
     const isEmployee = !!user?.employeeNo;

@@ -1,11 +1,11 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../../../App";
 import { getMyRespondedAssessmentDetails } from "../../../../api/user/coreCompetency/UserAssessmentApi";
+import { useAuth } from "../../../../hooks/useAuth";
 
 const CoreCompetencyResultList = () => {
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
 
   const [assessments, setAssessments] = useState([]);
   const [loading, setLoading] = useState(false);

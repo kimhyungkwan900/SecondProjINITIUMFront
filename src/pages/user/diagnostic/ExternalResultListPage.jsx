@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import ExternalResultsFeature from '../../../features/user/diagnostic/ExternalResultsFeature.jsx';
 import MainHeader from '../../../features/user/mainpage/MainHeader.jsx';
 import UserTopBar from '../../../component/user/mainpage/UserTopBar.jsx';
-import { UserContext } from '../../../App.jsx';
+import { useAuth } from '../../../hooks/useAuth.jsx';
 import SectionTitle from '../../../component/common/SectionTitle.jsx';
 
 const ExternalResultListPage = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
   const studentNo = user?.loginId;
 
   return (

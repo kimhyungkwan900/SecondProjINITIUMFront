@@ -1,6 +1,6 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { deletePrograms } from "../../../api/user/extracurricular/UserSurveyApi";
-import { UserContext } from "../../../App";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 import { applyList, cancleApply } from "../../../api/user/extracurricular/UserApplyApi";
 
 
@@ -19,7 +19,7 @@ const ExtracurricularProgramApplyPage = () => {
   const [loading, setLoading] = useState(false);
   const [selectedIds, setSelectedIds] = useState(new Set());
 
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
 
   const handleFilterChange = (field, value) => {
     setFilter((prev) => ({

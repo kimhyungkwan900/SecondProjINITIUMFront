@@ -1,12 +1,12 @@
-import { useEffect, useState, useContext, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllAssessmentList } from "../../../api/user/coreCompetency/UserAssessmentApi";
 import { checkDuplicate } from "../../../api/admin/coreCompetency/AdminAssessmentApi";
-import { UserContext } from "../../../App";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 
 const CoreCompetencyAssessmentListTable = () => {
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
 
   const [assessments, setAssessments] = useState([]);
   const [attemptedById, setAttemptedById] = useState({}); // { [id]: true/false }

@@ -1,16 +1,15 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import MainHeader from "../../../features/user/mainpage/MainHeader";
 import CoreCompetencySideBar from "../../../features/user/UserSideBar";
 import CoreCompetencyDiagnosisTabButtons from "../../../component/user/coreCompetency/CoreCompetencyDiagnosisTabButtons";
 import UserTopBar from "../../../component/user/mainpage/UserTopBar";
-import { UserContext } from "../../../App";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 import CoreCompetencyResultList from "../../../component/user/coreCompetency/result/CoreCompetencyResultList";
 
 
 const CoreCompetencyResultPage = () => {
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
 
   const navItems = [
     "핵심역량안내",

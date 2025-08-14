@@ -1,16 +1,17 @@
-import React, { useContext, useState } from 'react';
-import { UserContext } from '../../../App';
-import TextInput from '../../../component/common/TextInput';
-import LoginButton from '../../../component/common/auth/LoginButton';
+
+import { useState } from 'react';
 import FindAccountLink from '../../../component/common/auth/FindAccountLink';
-import LogoHeader from '../../../component/common/auth/logoHeader';
+import { useAuth } from '../../../hooks/useAuth.jsx';
 import { login } from '../../../api/user/auth/loginApi';
+import TextInput from '../../../component/common/TextInput';
+import LogoHeader from '../../../component/common/auth/logoHeader';
+import LoginButton from '../../../component/common/auth/LoginButton';
 
 const UserLoginFeature = () => {
   const [loginId, setLoginId] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
-  const { setUser } = useContext(UserContext);
+  const { setUser } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
