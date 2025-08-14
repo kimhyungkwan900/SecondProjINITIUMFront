@@ -1,83 +1,107 @@
-// import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import AdminSectionHeader from "../../../component/admin/AdminSectionHeader";
 import ConsultList from "../../../features/user/consultation/ConsultList";
 import ConsultListSearchFilter from "../../../features/admin/consultation/ConsultListSearchFilter";
+import ConsultListTable from "../../../features/admin/consultation/ConsultListTable";
+import PageButton from "../../../component/admin/extracurricular/PagaButton";
+
+import { getConsultList, applyCancel, } from "../../../api/user/consult/ConsultUserApi"
+
+const PAGE_SIZE = 10;
 
 const AdminConsultListPage = ()=>{
 
-    // const [filters, setFilters] = useState({
-    //     dscsnStatus: '',
-    //     dscsnType: '',
-    //     startDate: '',
-    //     endDate: '',
-    // });
+    const [filters, setFilters] = useState({
+        startDate: '',
+        endDate: '',
+        dscsnType: '',
+        empNo: '',
+        subjectCode: '',
+        studentStatusCode: '',
+        studentNo: '',
+        name: '',
+    });
 
-    // const [current, setCurrent] = useState(1);
+    const [current, setCurrent] = useState(1);
+    const [appliedFilters, setAppliedFilters] = useState(filters);
+    const [data, setData] = useState([]);
+    const [total, setTotal] = useState(0);
+    const [refreshKey, setRefreshKey] = useState(0);
+    const [loading, setLoading] = useState(false);
 
-    // const [appliedFilters, setAppliedFilters] = useState(filters);
+    useEffect(() => {
+        (async ()=>{
+            setLoading(true);
+            try {
+                const params = {
+                    page: current-1, // 0부터 시작
+                    size: PAGE_SIZE,
+                    sort: "consultDate,DESC",
+                    ...appliedFilters,
+                };
+                const result = await getConsultList(params);
+                console.log(result);
+                setData(result.data.dscsnInfos?.content || []);
+                setTotal(result.data.dscsnInfos?.totalElements ?? 0);
+                // console.log(total)
+            } catch (e) {
+                alert("상담 목록을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
+                setData([]);
+            } finally {
+                setLoading(false);
+            }
+        })();
+    }, [appliedFilters, current, refreshKey]);
 
-    // const handleSearch = () => {
-    //     setAppliedFilters(filters);
-    //     setCurrent(1); // 첫 페이지로 초기화
-    // };
+    const handleSearch = () => {
+        setAppliedFilters(filters);
+        setCurrent(1); // 첫 페이지로 초기화
+    };
 
-    // const handlePageChange = (newPage) => {
-    //     setCurrent(newPage);
-    // };
+    const handleCancel = async (dscsnInfoId) => {
+        const isConfirmed = confirm("해당 상담을 취소하시겠습니까?");
+
+        if (!isConfirmed) {
+            return;
+        }
+
+        try {
+            await applyCancel(dscsnInfoId);
+        } catch (e) {
+            alert(e.response.data.message);
+        } finally {
+            setRefreshKey((k) => k + 1);
+        }
+    };
+
+    const totalPages = Math.ceil(total / PAGE_SIZE);
+
+    const handlePageChange = (newPage) => {
+        setCurrent(newPage);
+    };
 
     return(
         <div>
             <AdminSectionHeader title="상담현황 조회" />
-            <ConsultListSearchFilter/>
-            {/* <div className="flex justify-end items-center gap-2 mb-4">
-                <select
-                    className="border border-gray-300 rounded px-2 py-1"
-                    value={filters.dscsnStatus}
-                    onChange={(e)=>setFilters({ ...filters, dscsnStatus: e.target.value })}
-                    >
-                    <option value={null}>-</option>
-                    <option value="Waiting">예약대기</option>
-                    <option value="Confirmed">예약완료</option>
-                    <option value="Canceled">상담취소</option>
-                    <option value="Completed">상담완료</option>
-                </select>
-                <select
-                    className="border border-gray-300 rounded px-2 py-1"
-                    value={filters.dscsnType}
-                    onChange={(e)=>setFilters({ ...filters, dscsnType: e.target.value })}
-                    >
-                    <option value={null}>-</option>
-                    <option value="A">지도교수상담</option>
-                    <option value="C">진로취업상담</option>
-                    <option value="P">심리상담</option>
-                    <option value="L">학습상담</option>
-                </select>
-                <input 
-                    type="date"
-                    className="border border-gray-300 rounded px-2 py-1"
-                    value={filters.startDate}
-                    onChange={(e)=>setFilters({ ...filters, startDate: e.target.value })}
-                />
-                <input
-                    type="date"
-                    className="border border-gray-300 rounded px-2 py-1"
-                    value={filters.endDate}
-                    onChange={(e)=>setFilters({ ...filters, endDate: e.target.value })}
-                />
-                <button
-                    className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-4 py-1 rounded"
-                    onClick={handleSearch}
-                >조회</button>
-            </div>
-            
+            <ConsultListSearchFilter filters={filters} setFilters={setFilters} onSearch={handleSearch}/>
             <div className="pt-4">
-                <ConsultList
-                    searchFilters={appliedFilters}
-                    current={current}
-                    onPageChange={handlePageChange}
+                <ConsultListTable
+                    rows={data}
+                    loading={loading}
+                    onCancel={handleCancel}
                 />
-            </div> */}
+            </div>
+
+            <div className="mt-4 flex justify-between items-center">
+                <PageButton
+                    totalPages={totalPages}
+                    currentPage={current}
+                    onPageChange={handlePageChange}
+                    disabled={loading}
+                    maxVisible={5}
+                />
+            </div>
         </div>
     );
 }

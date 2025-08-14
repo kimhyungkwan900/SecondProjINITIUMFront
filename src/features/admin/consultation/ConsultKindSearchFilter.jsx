@@ -1,9 +1,9 @@
-import { GenderSelect, GradeSelect, StudentStatusSelect } from "../../../component/common/CodeConverter/CodeSelect";
+import { StudentStatusSelect } from "../../../component/common/CodeConverter/CodeSelect";
 import EmployeeSelect from "../../../component/common/CodeConverter/EmployeeSelect";
 import TextInput from "../../../component/common/TextInput";
 import SchoolSubjectSelect from "../../../component/common/CodeConverter/SchoolSubjectSelect";
 
-const ConsultListSearchFilter=({filters, setFilters, onSearch, loading = false,}) => {
+const ConsultKindSearchFilter=({filters, setFilters, onSearch, loading = false,}) => {
   const update = (key) => (e) =>
     setFilters((prev) => ({ ...prev, [key]: e.target?.value ?? e }));
 
@@ -140,4 +140,4 @@ const ConsultListSearchFilter=({filters, setFilters, onSearch, loading = false,}
     </div>
   );
 }
-export default ConsultListSearchFilter;
+export default ConsultKindSearchFilter;
