@@ -12,7 +12,7 @@ const CoreCompetencyResultList = () => {
 
   // 권한 플래그
   const studentNo = user?.loginId;
-  const hasEmployeeNo = !!user?.employeeNo;
+  const hasEmployeeNo = !!user?.empNo;
   const canViewList = !!user && (studentNo || hasEmployeeNo);
   const isStudent = !!studentNo && !hasEmployeeNo;
 
@@ -22,7 +22,7 @@ const CoreCompetencyResultList = () => {
     (async () => {
       try {
         setLoading(true);
-        const res = await getMyRespondedAssessmentDetails(studentNo,);
+        const res = await getMyRespondedAssessmentDetails(studentNo);
         setAssessments(Array.isArray(res?.data) ? res.data : []);
       } catch (err) {
         console.error("응답한 진단 목록 불러오기 실패:", err);

@@ -9,7 +9,7 @@ const CoreCompetencyDiagnosisTabButtons = () => {
     const { user } = useContext(UserContext);
 
   // 역할 플래그
-  const isEmployee = !!user?.employeeNo;
+  const isEmployee = !!user?.empNo;
   const isStudent  = !!user?.loginId && !isEmployee;
 
   // 현재 경로가 진단목록 페이지인지 여부
