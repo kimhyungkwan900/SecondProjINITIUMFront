@@ -19,7 +19,6 @@ export default function EmployeeListTable({
     onSortChange(`${field},${nextDir}`);
   };
 
-  // 헤더/바디 동일 열 정의(분수단위 고정) — StudentListTable 기준
   const COLS = "7fr 7fr 9fr 7fr 7fr 10fr"; // empNo, name, subjectCode, employeeStatus, gender, email
 
   const Header = (
