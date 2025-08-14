@@ -41,7 +41,7 @@ const ApplicationInput = ({
   empNo,
 }) => {
   const days = ["월요일", "화요일", "수요일", "목요일", "금요일"];
-
+  console.log("empNo:", empNo);
 const toggleDay = (day) => {
   if (selectedDays.includes(day)) {
     setSelectedDays([]);
@@ -67,8 +67,9 @@ const toggleDay = (day) => {
     }
   }, [empNo]);
 
-  const isDateInvalid = startApply && endApply && startApply > endApply;
 
+
+  const isDateInvalid = startApply && endApply && startApply > endApply;
   return (
     <div className="p-6 bg-gray-200 space-y-4 rounded max-w-4xl mx-auto">
       {/* 프로그램 이름 */}
@@ -139,6 +140,7 @@ const toggleDay = (day) => {
         >
           <option value="">선택</option>
           {categoryList.map((item) => (
+           
             <option key={item.ctgryId} value={item.ctgryId}>
               {item.ctgryNm}
             </option>
