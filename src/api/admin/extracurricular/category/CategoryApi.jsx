@@ -6,12 +6,12 @@ import axiosInstance from "../../../axiosInstance";
 export const getCategory = async ({
   categoryId = null,
   programName = "",
-  competencyIds = [],
+  competencyId,
   departmentCode = "",
 }) => {
   try {
     const response = await axiosInstance.get("/extracurricular/category", {
-      params: { categoryId, programName, competencyIds, departmentCode },
+      params: { categoryId, programName, competencyId, departmentCode },
       paramsSerializer: params => qs.stringify(params, { arrayFormat: "repeat" }),
     });
     return response.data;
@@ -79,3 +79,29 @@ export const getCategoryInEmpNo = async (empNo) => {
     throw error;
   }
 };
+
+// 핵심역량 받아오기
+export const getCoreCateogry = async() => {
+  try{
+    const response = await axiosInstance.get("/extracurricular/core/category")
+    return response.data
+  }catch(error){
+    console.log("조회 오류" , error)
+    throw error;
+  }
+};
+
+// 핵심역량 하위 역량 받아오기
+export const getSubCateogry = async(id) => {
+  try{
+    const response  = await axiosInstance.get("/extracurricular/sub/category", {
+      params:{
+        id : id
+      }
+    })
+    return response.data
+  }catch(error){
+    console.log("조회 오류" , error)
+    throw error;
+  }
+}

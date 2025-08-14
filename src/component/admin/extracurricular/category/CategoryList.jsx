@@ -1,5 +1,4 @@
 import PageButton from "../PagaButton";
-import { findCategoryById, CategoryData } from "../../../../mock/admin/Extracurricular/CategoryData";
 
 const CategoryList = ({ programList = [], currentPage, itemsPerPage, onPageChange, onSelectItem }) => {
   const totalPages = Math.ceil(programList.length / itemsPerPage);
@@ -15,12 +14,12 @@ const CategoryList = ({ programList = [], currentPage, itemsPerPage, onPageChang
         >
           <thead className="bg-gray-200">
             <tr>
-              <th className="border p-2">ID</th>
+              <th className="border p-2 w-[10%]">ID</th>
               <th className="border p-2">핵심역량</th>
-              <th className="border p-2">상위분류명</th>
-              <th className="border p-2">프로그램분류명</th>
-              <th className="border p-2">사용여부</th>
-              <th className="border p-2">주관부서</th>
+              <th className="border p-2 w-[15%]">상위분류명</th>
+              <th className="border p-2 w-[20%]">프로그램분류명</th>
+              <th className="border p-2 w-[10%]">사용여부</th>
+              <th className="border p-2 w-[15%]">주관부서</th>
             </tr>
           </thead>
           <tbody>
@@ -31,15 +30,6 @@ const CategoryList = ({ programList = [], currentPage, itemsPerPage, onPageChang
             ) : (
               <>
                 {currentData.map((data) => {
-                  const upperCategory = findCategoryById(data.stgrId);
-
-                  const competencyLabel =
-                    upperCategory?.parentLabel ||
-                    CategoryData.find(cat => cat.id === data.competency)?.label ||
-                    data.competency || "";
-
-                  const upperCategoryLabel = upperCategory?.label || data.stgrId || "";
-
                   return (
                     <tr key={data.ctgryId} style={{ height: `${240 / itemsPerPage}px` }}>
                       <td
@@ -48,8 +38,8 @@ const CategoryList = ({ programList = [], currentPage, itemsPerPage, onPageChang
                       >
                         {data.ctgryId}
                       </td>
-                      <td className="border p-2">{competencyLabel}</td>
-                      <td className="border p-2">{upperCategoryLabel}</td>
+                      <td className="border p-2">{data.coreCategory}</td>
+                      <td className="border p-2">{data.subCategory}</td>
                       <td className="border p-2">{data.ctgryNm}</td>
                       <td className="border p-2">
                         <input
