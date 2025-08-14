@@ -3,7 +3,7 @@ import AdminSectionHeader from "../../../component/admin/AdminSectionHeader";
 import PageButton from "../../../component/admin/extracurricular/PagaButton";
 import StudentListSearchFilter from "../../../features/admin/students/StudentListSearchFilter";
 import StudentListTable from "../../../features/admin/students/StudentListTable";
-import StudentListToolbar from "../../../features/admin/students/StudentListToolbar";
+import StudentListToolbar from "../../../component/admin/student/StudentListToolbar";
 import { fetchStudents as fetchStudentsApi } from "../../../api/user/auth/studentsApi";
 
 export default function StudentListPage() {

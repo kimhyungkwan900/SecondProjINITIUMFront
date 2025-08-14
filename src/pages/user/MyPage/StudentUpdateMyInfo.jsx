@@ -67,7 +67,6 @@ export default function StudentUpdateMyInfo() {
     const pwdError = useMemo(() => {
         const { currentPassword, newPassword, confirmPassword } = pwdForm;
         if (!currentPassword && !newPassword && !confirmPassword) return null;
-        if (!currentPassword || !newPassword || !confirmPassword) return "모든 비밀번호 필드를 입력해주세요.";
         if (!PWD_REGEX.test(newPassword)) return "새 비밀번호는 8자 이상, 영문, 숫자, 특수문자($@$!%*#?&)를 포함해야 합니다.";
         if (newPassword !== confirmPassword) return "새 비밀번호 확인이 일치하지 않습니다.";
         return null;

@@ -15,7 +15,7 @@ const StudentMyPageHome = () => {
     const { student } = useStudentInfo(user?.loginId);
 
     return (
-        <div className="space-y-10">
+        <div className="max-w-5xl mx-auto space-y-8">
             <PageHeader
                 title="마이홈"
                 breadcrumb={[

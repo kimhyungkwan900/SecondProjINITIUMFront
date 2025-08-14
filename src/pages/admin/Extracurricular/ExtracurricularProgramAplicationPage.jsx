@@ -29,7 +29,7 @@ const ExtracurricularProgramAplicationPage = () => {
   
 
 const { user } = useContext(UserContext); // user가 로그인 사용자 정보 객체라고 가정
-const empNo = user?.employeeNo || ""; // 없으면 빈 문자열
+const empNo = user?.empNo || ""; // 없으면 빈 문자열
 
 const dayToEnum = (day) => {
   switch (day) {
