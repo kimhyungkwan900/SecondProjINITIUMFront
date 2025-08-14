@@ -2,6 +2,7 @@ import { useState } from "react";
 import ApplyModal from "./ApplyModal";
 
 const HeaderContent = ({...program}) => {
+  console.log(program);
   const baseUrl = "http://localhost:8080";
   const imageList = program.extracurricularImageDTO || [];
 
@@ -9,7 +10,7 @@ const HeaderContent = ({...program}) => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-
+   console.log(program.eduSlctnType);
   const applyStart = program.eduAplyBgngDt ? new Date(program.eduAplyBgngDt) : null;
   const applyEnd = program.eduAplyEndDt ? new Date(program.eduAplyEndDt) : null;
   const now = new Date();
@@ -80,7 +81,8 @@ const HeaderContent = ({...program}) => {
             </span>
 
             <span className="text-lime-600 border font-semibold px-2">
-            {program.eduSlctnType === "FIRSTCOME" ? "선착순" : "선발식"}
+            {program.eduSlctnType === "FIRSTCOME" ? "선착순" : "선발식" }
+           
             </span>
             <span className="bg-purple-500 text-white font-semibold px-2">
             Ⓜ {program.eduMlg || 0}점
