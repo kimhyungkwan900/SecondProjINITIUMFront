@@ -1,32 +1,24 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   fetchMileageItems,
-  fetchMileageItemById,
   createMileageItem,
   deleteMileageItems,
 } from "../../../api/admin/mileage/AdminMileageItemApi";
 
 export default function AdminMileageItemPage() {
-  // table
   const [rows, setRows] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
   const [loading, setLoading] = useState(false);
 
-  // filters
   const [itemCode, setItemCode] = useState("");
   const [eduNm, setEduNm] = useState("");
 
-  // selection
   const [checked, setChecked] = useState(new Set());
 
-  // modals
   const [showCreate, setShowCreate] = useState(false);
   const [createForm, setCreateForm] = useState({ itemCode: "", eduMngId: "" });
-
-  const [showDetail, setShowDetail] = useState(false);
-  const [detail, setDetail] = useState(null);
 
   const load = async (opt = {}) => {
     setLoading(true);
@@ -74,17 +66,6 @@ export default function AdminMileageItemPage() {
     setEduNm("");
     setPage(1);
     load({ page: 1, itemCode: undefined, eduNm: undefined });
-  };
-
-  const openDetail = async (id) => {
-    try {
-      const data = await fetchMileageItemById(id);
-      setDetail(data);
-      setShowDetail(true);
-    } catch (e) {
-      console.error(e);
-      alert("상세 조회 실패");
-    }
   };
 
   const onCreate = async () => {
@@ -189,15 +170,13 @@ export default function AdminMileageItemPage() {
               <th className="p-3 text-left">프로그램명</th>
               <th className="p-3 text-left">마일리지</th>
               <th className="p-3 text-left">생성일</th>
-              <th className="p-3 text-left">수정일</th>
-              <th className="p-3 text-center w-28">상세</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
-              <tr><td colSpan={8} className="p-6 text-center text-gray-500">로딩 중...</td></tr>
+              <tr><td colSpan={6} className="p-6 text-center text-gray-500">로딩 중...</td></tr>
             ) : rows.length === 0 ? (
-              <tr><td colSpan={8} className="p-6 text-center text-gray-500">데이터 없음</td></tr>
+              <tr><td colSpan={6} className="p-6 text-center text-gray-500">데이터 없음</td></tr>
             ) : (
               rows.map((r) => (
                 <tr key={r.id} className="border-t">
@@ -213,15 +192,6 @@ export default function AdminMileageItemPage() {
                   <td className="p-3">{r.eduNm}</td>
                   <td className="p-3">{r.eduMlg}</td>
                   <td className="p-3">{fmt(r.createdAt)}</td>
-                  <td className="p-3">{fmt(r.modifiedAt)}</td>
-                  <td className="p-3 text-center">
-                    <button
-                      className="px-3 py-1 rounded border hover:bg-gray-50"
-                      onClick={() => openDetail(r.id)}
-                    >
-                      보기
-                    </button>
-                  </td>
                 </tr>
               ))
             )}
@@ -300,57 +270,6 @@ export default function AdminMileageItemPage() {
           </div>
         </Modal>
       )}
-
-      {/* Detail Modal */}
-      {showDetail && detail && (
-        <Modal onClose={() => setShowDetail(false)} title="항목 상세">
-          <div className="space-y-3 text-sm">
-            <Row k="ID" v={detail.id} />
-            <Row k="항목 코드" v={detail.itemCode} />
-            <Row k="프로그램명" v={detail.eduNm} />
-            <Row k="비교과 ID" v={detail.eduMngId} />
-            <Row k="마일리지" v={detail.eduMlg} />
-            <Row k="생성일" v={fmt(detail.createdAt)} />
-            <Row k="수정일" v={fmt(detail.modifiedAt)} />
-            <div>
-              <div className="text-gray-600">배점 정책</div>
-              <div className="mt-2 border rounded">
-                {(detail.scorePolicies?.length ?? 0) === 0 ? (
-                  <div className="p-3 text-gray-500">정책 없음</div>
-                ) : (
-                  <table className="min-w-full">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        {Object.keys(detail.scorePolicies[0]).map((k) => (
-                          <th key={k} className="p-2 text-left text-xs text-gray-600">{k}</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {detail.scorePolicies.map((p, i) => (
-                        <tr key={i} className="border-t">
-                          {Object.entries(p).map(([k, v]) => (
-                            <td key={k} className="p-2">{String(v ?? "")}</td>
-                          ))}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
-              </div>
-            </div>
-          </div>
-        </Modal>
-      )}
-    </div>
-  );
-}
-
-function Row({ k, v }) {
-  return (
-    <div className="grid grid-cols-3 gap-2">
-      <div className="col-span-1 text-gray-600">{k}</div>
-      <div className="col-span-2 font-medium">{String(v ?? "")}</div>
     </div>
   );
 }
