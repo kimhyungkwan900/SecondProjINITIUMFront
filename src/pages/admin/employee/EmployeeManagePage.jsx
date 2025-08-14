@@ -56,11 +56,6 @@ export default function EmployeeManagePage() {
   const [error, setError] = useState("");
   const [validationErrors, setValidationErrors] = useState({});
 
-  const hasSearchCondition = useMemo(
-    () => Object.values(filters).some((v) => (typeof v === "string" ? v.trim() : v)),
-    [filters]
-  );
-
   // 목록 조회
   const fetchEmployees = useCallback(
     async (newPage = page, newSize = size, newSort = sort, f = filters) => {

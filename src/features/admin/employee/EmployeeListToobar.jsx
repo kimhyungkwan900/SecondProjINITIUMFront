@@ -1,8 +1,8 @@
 export default function EmployeeListToolBar({
   onSearch,
   loading = false,
-  onReset,   // 선택
-  onCreate,  // 선택: 생성(임용) 버튼 표시용
+  onReset,   
+  onCreate,  
 }) {
   return (
     <div className="flex items-center justify-between mb-3">
