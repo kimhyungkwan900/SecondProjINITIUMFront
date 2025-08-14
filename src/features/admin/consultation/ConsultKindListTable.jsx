@@ -63,7 +63,7 @@ export default function ConsultKindListTable({
                 {s.dscsnKindName}
             </div>
             <div className="px-3 py-3 text-sm border-r last:border-r-0 border-gray-100 whitespace-nowrap min-w-0 overflow-auto">
-                {s.dscsnType}
+                {s.dscsnTypeName}
             </div>
             
             </div>
