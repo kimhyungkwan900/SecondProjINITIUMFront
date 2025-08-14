@@ -122,7 +122,7 @@ const ProgramList = ({ programs, loading, onDataChange, selectedIds, setSelected
                <td className="px-3 py-2 border-b border-gray-200 text-center">
                 {program.eduFnshYn === "Y" ? (
                   <div
-                    className="px-2 py-1 text-green-600 rounded"
+                    className="px-2 py-1 text-green-600 rounded font-bold"
                   >
                     수료
                   </div>
