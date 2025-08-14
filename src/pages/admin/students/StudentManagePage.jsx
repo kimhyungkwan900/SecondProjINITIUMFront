@@ -11,6 +11,7 @@ import StudentListTable from "../../../features/admin/students/StudentListTable"
 import PageButton from "../../../component/admin/extracurricular/PagaButton";
 import StudentAdminUpdateForm from "../../../component/admin/student/StudentAdminUpdateForm";
 import StudentListSearchFilter from "../../../features/admin/students/StudentListSearchFilter";
+import StudentListToolbar from "../../../component/admin/student/StudentListToolbar";
 
 const emptyDetail = {
   studentNo: "",
@@ -251,29 +252,13 @@ export default function StudentManagePage() {
       <AdminSectionHeader title="학생관리" />
 
       {/* 상단 액션 */}
-      <div className="flex items-center justify-between">
-        <div className="flex gap-2">
-          <button
-            className="px-3 py-1 rounded bg-gray-800 text-white disabled:opacity-50"
-            onClick={handleSearch}
-            disabled={loading}
-          >
-            {loading ? "조회중..." : "조회"}
-          </button>
-          <button
-            className="px-3 py-1 rounded border hover:bg-gray-50"
-            onClick={handleCreateMode}
-          >
-            생성
-          </button>
-          <button
-            className="px-3 py-1 rounded border hover:bg-gray-50"
-            onClick={handleResetFilters}
-          >
-            초기화
-          </button>
-        </div>
-      </div>
+      <StudentListToolbar
+        onSearch={handleSearch}
+        loading={loading}
+        onReset={handleResetFilters}
+        onCreate={handleCreateMode}
+      />
+
 
       {/* 메인 레이아웃: 좌(검색+목록) / 우(학생 폼) */}
       <div className="grid grid-cols-12 gap-3">
