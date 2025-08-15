@@ -1,12 +1,11 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { useContext } from "react";
-import { UserContext } from "../../../App";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 
 const CoreCompetencyDiagnosisTabButtons = () => {
   const navigate = useNavigate();   // 페이지 이동을 위한 훅
   const location = useLocation();   // 현재 URL 경로를 가져오는 훅
 
-    const { user } = useContext(UserContext);
+    const { user } = useAuth();
 
   // 역할 플래그
   const isEmployee = !!user?.empNo;

@@ -1,11 +1,10 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import LinkedButton from "../../common/LinkedButton";
-import { UserContext } from "../../../App";
 import { logout } from "../../../api/user/auth/loginApi";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 
 export default function UserTopBar() {
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {

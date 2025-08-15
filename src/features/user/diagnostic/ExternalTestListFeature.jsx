@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ExternalTestList from '../../../component/user/diagnostic/ExternalTestList.jsx';
 import SectionTitle from '../../../component/common/SectionTitle.jsx';
-import { UserContext } from '../../../App.jsx';
+import { useAuth } from '../../../hooks/useAuth.jsx';
 
 /**
  * ExternalTestListFeature
@@ -10,7 +10,7 @@ import { UserContext } from '../../../App.jsx';
  * - 로그인 필요 / studentNo는 프론트에서 넘기지 않음(백엔드/서버 세션으로 식별)
  */
 const ExternalTestListFeature = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {

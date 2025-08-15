@@ -3,11 +3,10 @@ import { Link } from "react-router-dom";
 import PageHeader from "../../../component/common/PageHeader";
 import EmployeeBasicInfo from "../../../features/user/employees/EmployeeBasicInfo";
 import useEmployeeInfo from "../../../hooks/useEmployeeInfo";
-import { useContext } from "react";
-import { UserContext } from "../../../App";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 
 const EmployeeMyPageHome = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
   const { employee } = useEmployeeInfo(user?.loginId);
 
   // 공통 링크 버튼 스타일

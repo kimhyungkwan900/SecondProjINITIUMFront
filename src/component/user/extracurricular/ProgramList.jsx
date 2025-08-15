@@ -1,13 +1,13 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import SurveyModal from "./SurveyModal";
 import { generateCertificatePDF } from "./CertificateUtils";
-import { UserContext } from "../../../App";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 
 const ProgramList = ({ programs, loading, onDataChange, selectedIds, setSelectedIds }) => {
   const [isSurveyOpen, setIsSurveyOpen] = useState(false);
   const [selectedProgram, setSelectedProgram] = useState(null);
 
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
   const name = user?.name || ""; 
   const studentNo = user?.studentNo || ""; 
   const schoolSubject = user?.schoolSubject || "";

@@ -1,6 +1,6 @@
 import { useContext, useMemo, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../../App";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 import LogoHeader from "../../common/auth/logoHeader";
 import { useIdleLogout } from "../../common/IdleLogout/IdleLogoutContext";
 import { logout } from "../../../api/user/auth/loginApi";
@@ -16,7 +16,7 @@ function formatRemain(ms) {
 }
 
 export default function AdminHeader({ selectedTopMenu, onMenuChange }) {
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser } = useAuth();
   const navigate = useNavigate();
   const { remainingMs, resetTimer } = useIdleLogout();
 

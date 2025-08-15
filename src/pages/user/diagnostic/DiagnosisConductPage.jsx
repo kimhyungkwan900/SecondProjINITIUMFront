@@ -1,11 +1,11 @@
 // DiagnosisConductPage.jsx
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import DiagnosisQuestions from '../../../component/user/diagnostic/DiagnosisQuestions.jsx';
 import DiagnosisResult from '../../../component/user/diagnostic/DiagnosisResult.jsx';
 import MainHeader from '../../../features/user/mainpage/MainHeader.jsx';
 import UserTopBar from '../../../component/user/mainpage/UserTopBar.jsx';
-import { UserContext } from '../../../App.jsx';
+import { useAuth } from '../../../hooks/useAuth.jsx';
 import SectionTitle from '../../../component/common/SectionTitle.jsx';
 
 /**
@@ -13,7 +13,7 @@ import SectionTitle from '../../../component/common/SectionTitle.jsx';
  * - 내부 진단검사 진행 페이지
  */
 const DiagnosisConductPage = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
   const { testId } = useParams();
   const navigate = useNavigate();
   const studentNo = user?.loginId;

@@ -13,6 +13,7 @@ import ScholarshipApplyPage from "../../../pages/user/mileage/ScholarshipApplyPa
 import ScholarshipStatusPage from "../../../pages/user/mileage/ScholarshipStatusPage";
 import StudentRadarChart from "../../../component/admin/coreCompetency/result/StudentRadarChart";
 import ExtracurricularProgramApplyPage from "../../../pages/user/extracurricular/ExtracurricularProgramApplyPage";
+import EmployeeUpdateMyInfo from "../../../pages/user/MyPage/EmployeeUpdateMyInfo";
 export const myPageRouter = [
   {
     path: "/mypage",
@@ -44,6 +45,7 @@ export const myPageRouter = [
         element: <MyPageLayout navItems={employeeMyPageMenus} />,
         children: [
           { index: true, element: <EmployeeMyPageHome /> },
+          { path: "update-info", element: <EmployeeUpdateMyInfo />}
         ],
       },
     ],

@@ -1,11 +1,11 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { getMyProgramList} from "../../../api/user/extracurricular/UserProgramApi";
 import { deletePrograms } from "../../../api/user/extracurricular/UserSurveyApi";
 
 import PageHeader from "../../../component/common/PageHeader";
 import Filter from "../../../component/user/extracurricular/Filter";
 import ProgramList from "../../../component/user/extracurricular/ProgramList";
-import { UserContext } from "../../../App";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 import Button from "../../../component/user/extracurricular/Button";
 
 const ExtracurricularProgramMyPage = () => {
@@ -17,7 +17,7 @@ const ExtracurricularProgramMyPage = () => {
   const [loading, setLoading] = useState(false);
   // 체크된 아이디 리스트 상태 추가
   const [selectedIds, setSelectedIds] = useState(new Set());
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
   const handleFilterChange = (field, value) => {
     setFilter((prev) => ({
       ...prev,

@@ -1,12 +1,11 @@
-import { useContext } from "react"
-import { UserContext } from "../../../App";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 
 import UserTopBar from "../../../component/user/mainpage/UserTopBar";
 import MainHeader from "../../../features/user/mainpage/MainHeader";
 import CnslrConsultScheduleSelect from "../../../features/user/consultation/CnslrConsultScheduleSelect";
 
 const CnslrConsultManagePage = ({type})=>{
-    const { user } = useContext(UserContext);
+    const { user } = useAuth();
 
     return(
         <div className="bg-white min-h-screen border border-gray-300">
