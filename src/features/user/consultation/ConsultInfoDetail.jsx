@@ -1,12 +1,4 @@
-const labelById = {
-    "Waiting": "예약대기",
-    "Confirmed": "예약완료",
-    "Canceled": "예약취소",
-    "Completed": "상담완료",
-};
-
 const ConsultInfoDetail = ({info, onClose})=>{
-    const statName = labelById[info.dscsnStatus];
 
     return(
         <div className="p-6 overflow-auto">
@@ -40,7 +32,7 @@ const ConsultInfoDetail = ({info, onClose})=>{
                 </tr>
                 <tr>
                     <th className="border bg-gray-100 px-5 py-3 text-left">상담 상태</th>
-                    <td className="border px-5 py-3" colSpan="3">{statName}</td>
+                    <td className="border px-5 py-3" colSpan="3">{info.dscsnStatus}</td>
                 </tr>
                 <tr>
                     <th className="border bg-gray-100 px-5 py-3 text-left">상담자</th>

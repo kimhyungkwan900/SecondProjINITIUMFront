@@ -6,22 +6,29 @@ import ConsultKindListTable from "../../../features/admin/consultation/ConsultKi
 import ConsultKindForm from "../../../features/admin/consultation/ConsultKindForm";
 import PageButton from "../../../component/admin/extracurricular/PagaButton";
 
-import { findDscsnKind } from "../../../api/admin/consult/ConsultAdminApi"
+import { addDscsnKind, findDscsnKind, updateDscsnKind, deleteDscsnKind } from "../../../api/admin/consult/ConsultAdminApi"
  
 const PAGE_SIZE = 10;
 
 const AdminConsultKindManagePage = ()=>{
-
     const [filters, setFilters] = useState({
         dscsnKindId: '',
         dscsnKindName: '',
         dscsnTypeName: '',
     });
-    
+
+    const [newKind, setNewKind] = useState({
+        dscsnKindId: '',
+        dscsnKindName: '',
+        dscsnTypeName: '',
+    });
+
     const [current, setCurrent] = useState(1);
     const [appliedFilters, setAppliedFilters] = useState(filters);
     const [data, setData] = useState([]);
     const [total, setTotal] = useState(0);
+    // const [selected, setSelected] = useState(null);
+    const [mode, setMode] = useState('create');
     const [refreshKey, setRefreshKey] = useState(0);
     const [loading, setLoading] = useState(false);
 
@@ -59,13 +66,69 @@ const AdminConsultKindManagePage = ()=>{
         setCurrent(newPage);
     };
 
-    const hadleSave= async()=>{
-
+    const handleNew = ()=>{
+        setMode('create')
+        setNewKind({
+            dscsnKindId: '',
+            dscsnKindName: '',
+            dscsnTypeName: '',
+        });
     }
 
-    const handleRowClick = async()=>{
-        
+    const handleSave = async(mode, newKind)=>{
+        if(mode === 'create'){
+            try{
+                await addDscsnKind(newKind);
+                setNewKind({
+                    dscsnKindId: '',
+                    dscsnKindName: '',
+                    dscsnTypeName: '',
+                });
+                alert("저장이 완료되었습니다.")
+            } catch(e){
+                alert("항목 등록중 에러 발생");
+                console.log(e);
+            } finally{
+                setRefreshKey((k) => k+1)
+            }
+        }
+        else if(mode === 'update'){
+            try{
+                await updateDscsnKind(newKind);
+                setNewKind({
+                    dscsnKindId: '',
+                    dscsnKindName: '',
+                    dscsnTypeName: '',
+                });
+                 alert("수정이 완료되었습니다.")
+            } catch(e){
+                alert("항목 수정중 에러 발생");
+                console.log(e);
+            }finally{
+                setRefreshKey((k) => k+1)
+            }
+        }
+        else{
+            alert("작업 중 에러 발생");
+        }
     }
+
+    const handleDelete = async(newKind)=>{
+        try{
+            await deleteDscsnKind(newKind.dscsnKindId);
+        } catch(e){
+            alert("항목 삭제중 에러 발생");
+            console.log(e);
+        }
+        setRefreshKey((k) => k+1)
+    }
+
+    const handleRowClick = async(kindInfo)=>{
+        setMode('update');
+        // setSelected(kindInfo);
+        setNewKind(kindInfo);
+    }
+
     return(
         <div>
             <AdminSectionHeader title="상담항목 관리" />
@@ -80,26 +143,26 @@ const AdminConsultKindManagePage = ()=>{
                     <div className="bg-white border border-gray-200 rounded-lg p-3 space-y-3 self-start sticky top-20">
                         <div className="flex justify-start space-x-3">
                             <button
-                            className=" h-8 bg-white hover:bg-gray-500 text-blue-700 border-2 border-blue-700 font-medium px-2 py-1 rounded align-bottom"
-                            // onClick={}
+                                className=" h-8 bg-white hover:bg-gray-500 text-blue-700 border-2 border-blue-700 font-medium px-2 py-1 rounded align-bottom"
+                                onClick={() => handleNew()}
                             >신규
                             </button>
                             <button
                                 className=" h-8 bg-blue-700 hover:bg-blue-800 text-white font-medium px-2 py-1 rounded align-bottom"
-                                // onClick={}
+                                onClick={() => handleSave(mode, newKind)}
                             >저장
                             </button>
                             <button
                                 className=" h-8 bg-blue-700 hover:bg-blue-800 text-white font-medium px-2 py-1 rounded align-bottom"
-                                // onClick={}
+                                onClick={() => handleDelete(newKind)}
                             >삭제
                             </button>
                         </div>
                         <div className="flex items-center justify-between">
-                            <div className="text-sm font-semibold text-gray-700">
-                                테스트1{/* {mode === "create" ? "입학정보 입력" : selectedNo ? "기존 정보 수정" : "학생 정보"} */}
-                            </div>
-                            <ConsultKindForm />
+                            {/* <div className="text-sm font-semibold text-gray-700"> */}
+                                {/* {mode === "create" ? "입학정보 입력" : selectedNo ? "기존 정보 수정" : "학생 정보"} */}
+                            {/* </div> */}
+                            <ConsultKindForm mode={mode} kind={newKind} setKind={setNewKind}/>
                         </div>
                     </div>
                 </div>
