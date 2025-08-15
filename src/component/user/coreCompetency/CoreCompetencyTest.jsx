@@ -75,7 +75,7 @@ const CoreCompetencyTest = () => {
         const confirm = window.confirm("제출하시겠습니까?");
         if (!confirm) return;
 
-        navigate("/competency/coreCompetency/result");
+        navigate("/competency/coreCompetency/list");
 
         axios
             .post(`/api/user/coreCompetency/submit?studentNo=${studentNo}`, formatted)
@@ -107,10 +107,10 @@ const CoreCompetencyTest = () => {
                 <table className="w-full border border-gray-300 text-center text-sm">
                     <thead className="bg-gray-100 text-gray-700">
                         <tr>
-                            <th className="border px-4 py-3 w-20">문항번호</th>
-                            <th className="border px-4 py-4 w-[400px]">문항 내용</th>
+                            <th className="border px-4 py-3 w-20 text-[14px]">문항번호</th>
+                            <th className="border px-6 py-4 w-[400px] text-[15px]">문항 내용</th>
                             <th 
-                                className="border px-4 py-2" 
+                                className="border px-4 py-2 text-[15px]" 
                                 colSpan={maxOptionsCount}
                             >
                                 선택지
@@ -122,7 +122,7 @@ const CoreCompetencyTest = () => {
                             questions.map((q,idx) => (
                                 <tr key={q.questionId} className="hover:bg-blue-50 transition">
                                     <td className="border px-6 py-4">{idx+1}</td>
-                                    <td className="border px-4 py-3 text-left text-[16px]">{q.questionName}</td>
+                                    <td className="border px-6 py-4 text-left text-[17px]">{q.questionName}</td>
                                     
                                     {/* <<< [수정] 최대 선택지 개수만큼 반복하며, 빈 칸을 채우는 로직 */}
                                     {Array.from({ length: maxOptionsCount }).map((_, index) => {
@@ -130,8 +130,8 @@ const CoreCompetencyTest = () => {
                                         // 현재 인덱스에 해당하는 선택지가 있으면 내용을 렌더링
                                         if (opt) {
                                             return (
-                                                <td key={opt.optionId} className="border px-2 py-2 min-w-[120px]">
-                                                    <label className="inline-flex items-center space-x-1 cursor-pointer">
+                                                <td key={opt.optionId} className="border px-2 py-2 min-w-[130px]">
+                                                    <label className="inline-flex items-center space-x-1 cursor-pointer text-[14px]">
                                                         <input
                                                             type="radio"
                                                             name={`question_${q.questionId}`}
