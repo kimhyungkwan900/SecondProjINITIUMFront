@@ -20,8 +20,10 @@ export const getConsultList = async (params) => {
 };
 
 // 상담상태 변경
-export const updateStatus = async (dscsnInfoId, status) => {
-    const response = await axiosInstance.put(`/consult/dscsnInfo/list/${dscsnInfoId}`, { status });
+export const updateStatus = async (dscsnInfoId) => {
+    const response = await axiosInstance.put(`/consult/dscsnInfo/list/${dscsnInfoId}`, "예약완료",{
+        headers: { "Content-Type": "text/plain; charset=UTF-8" },
+    });
     return response.data;
 };
 
@@ -69,6 +71,9 @@ export const registerSchedule = async (scheduleInfos) => {
 
 // 일정 삭제
 export const deleteSchedule = async (scheduleIds) => {
-    const response = await axiosInstance.delete(`/consult/schedule/delete`, scheduleIds);
+    const response = await axiosInstance.delete(`/consult/schedule/delete`, {
+        data: scheduleIds,
+        headers: { 'Content-Type': 'application/json' },
+    });
     return response.data;
 };
