@@ -7,7 +7,7 @@ import UserTopBar from "../../../component/user/mainpage/UserTopBar";
 import MainHeader from "../../../features/user/mainpage/MainHeader";
 import FilterMenu from "../../../component/user/extracurricular/FIlterMenu";
 import SearchBar from "../../../component/user/extracurricular/SearchBar";
-import PageButton from "../../../component/admin/extracurricular/PagaButton";
+import PageButton from "../../../component/admin/extracurricular/PageButton";
 
 
 const ExtracurricularProgramListPage = () => {

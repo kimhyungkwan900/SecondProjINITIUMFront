@@ -13,7 +13,7 @@ const EmployeeMyPageHome = () => {
   const linkButtonStyle = "text-sm text-blue-600 hover:underline";
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-0">
       <PageHeader
         title="마이홈"
         breadcrumb={[
@@ -21,7 +21,7 @@ const EmployeeMyPageHome = () => {
           { label: "마이홈", active: true },
         ]}
       />
-      <div className="space-y-8">
+      <div className="space-y-0">
         {/* 교직원 기본정보 */}
         <section className="content-section">
           <h3 className="section-title">교직원 정보</h3>

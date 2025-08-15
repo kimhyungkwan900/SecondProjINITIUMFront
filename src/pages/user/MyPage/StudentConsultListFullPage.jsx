@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { getConsultList } from "../../../api/user/consult/ConsultUserApi";
-import PageButton from "../../../component/admin/extracurricular/PagaButton";
+import PageButton from "../../../component/admin/extracurricular/PageButton.jsx";
 import PageHeader from "../../../component/common/PageHeader";
 import TextInput from "../../../component/common/TextInput";
 
@@ -96,7 +96,7 @@ const StudentConsultListFullPage = () => {
     };
 
     return (
-        <div className="space-y-10">
+        <div className="space-y-0">
             <PageHeader
                 title="마이홈"
                 breadcrumb={[
@@ -106,7 +106,7 @@ const StudentConsultListFullPage = () => {
             />
 
             {/* 🔎 검색 + 결과 테이블: 하나의 섹션 */}
-            <section className="bg-white border border-gray-200 rounded-lg shadow-sm">
+            <section className="bg-white rounded-lg shadow-sm">
                 <header className="px-4 py-3 border-b bg-gray-50">
                     <h3 className="text-base font-semibold text-gray-800">상담 이력 조회</h3>
                 </header>

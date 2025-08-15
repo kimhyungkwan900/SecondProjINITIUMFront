@@ -1,5 +1,5 @@
 import { useState } from "react";
-import PageButton from "../PagaButton";
+import PageButton from "../PageButton.jsx";
 
 const ApplyList = ({ applyList, selectedIds, onSelectionChange }) => {
   const [currentPage, setCurrentPage] = useState(0);

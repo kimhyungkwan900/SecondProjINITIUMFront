@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import AdminSectionHeader from "../../../component/admin/AdminSectionHeader";
-import PageButton from "../../../component/admin/extracurricular/PagaButton";
+import PageButton from "../../../component/admin/extracurricular/PageButton.jsx";
 import StudentListSearchFilter from "../../../features/admin/students/StudentListSearchFilter";
 import StudentListTable from "../../../features/admin/students/StudentListTable";
 import { fetchStudents as fetchStudentsApi } from "../../../api/user/auth/studentsApi";
