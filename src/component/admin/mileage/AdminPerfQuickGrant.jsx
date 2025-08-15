@@ -3,10 +3,9 @@ import {
   createMileagePerf,
   fetchMileagePerfList,
   deleteMileagePerfs,
-  fetchEligibleMileageItems, // ✅ 수료 항목 조회 API
+  fetchEligibleMileageItems, // 수ㅂ료 항목 조회 API
 } from "../../../api/admin/mileage/AdminMileagePerfApi";
-// ❌ 삭제: 수료 항목은 AdminMileageItemApi가 아니라 위 API로 조회
-// import { fetchMileageItems } from "../../../api/admin/mileage/AdminMileageItemApi";
+
 import MileagePerfTable from "./MileagePerfTable";
 
 export default function AdminPerfQuickGrant() {
@@ -35,7 +34,7 @@ export default function AdminPerfQuickGrant() {
   // 선택 삭제
   const [selectedIds, setSelectedIds] = useState([]);
 
-  // ✅ 수료 항목 조회(학번 기준)
+  // 수료 항목 조회(학번 기준)
   const loadEligibleItems = async () => {
     const sNo = studentNo.trim();
     if (!sNo) return alert("학번을 입력하세요.");
