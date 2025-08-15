@@ -1,8 +1,8 @@
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import MainHeader from "../../../../features/user/mainpage/MainHeader";
 import UserTopBar from "../../mainpage/UserTopBar";
-import { UserContext } from "../../../../App";
+import { useAuth } from "../../../../hooks/useAuth.jsx";
 import StudentRadarChart from "../../../admin/coreCompetency/result/StudentRadarChart";
 import StudentBarChart from "./StudentBarChart";
 import ExtracurricularRecommand from "./ExtracurricularRecommand";
@@ -11,7 +11,7 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
 const CoreCompetencyResultView = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
   const navigate = useNavigate();
 
    const pdfRef = useRef(null);

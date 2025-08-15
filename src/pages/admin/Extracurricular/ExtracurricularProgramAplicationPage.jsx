@@ -1,5 +1,5 @@
-import React,{ useState, useContext} from "react";
-import { UserContext } from "../../../App";
+import React,{ useState} from "react";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 import AplicationButton from "../../../component/admin/extracurricular/aplication/AplicationButton";
 import ApplicationInput from "../../../component/admin/extracurricular/aplication/AplicationInput";
 import { aplicationProgram } from "../../../api/admin/extracurricular/program/ProgramApi";
@@ -28,7 +28,7 @@ const ExtracurricularProgramAplicationPage = () => {
 
   
 
-const { user } = useContext(UserContext); // user가 로그인 사용자 정보 객체라고 가정
+const { user } = useAuth(); // user가 로그인 사용자 정보 객체라고 가정
 const empNo = user?.empNo || ""; // 없으면 빈 문자열
 
 const dayToEnum = (day) => {
