@@ -20,8 +20,6 @@ import AdminMileageItemPage from "../../pages/admin/mileage/AdminMileageItemPage
 import AdminScholarshipPage from "../../pages/admin/mileage/AdminScholarshipPage";
 import AdminPerfQuickGrant from "../../component/admin/mileage/AdminPerfQuickGrant";
 
-import AdminCoreCompetencyResultPdf from "../../pages/admin/coreCompetency/result/AdminCoreCompetencyResultPdf";
-
 import AdminConsultManagePage from "../../pages/admin/consultation/AdminConsultManagePage.jsx";
 import AdminConsultListPage from "../../pages/admin/consultation/AdminConsultListPage.jsx";
 import AdminConsultKindManagePage from "../../pages/admin/consultation/AdminConsultKindManagePage.jsx";
