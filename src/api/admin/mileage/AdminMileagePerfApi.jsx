@@ -1,6 +1,7 @@
+// src/api/admin/mileage/AdminMileagePerfApi.js
 import axiosInstance from "../../axiosInstance";
 
-// 실적 목록
+// 실적 목록 (기존)
 export async function fetchMileagePerfList({
   page = 1, size = 10, studentNo = "", studentName = "", subjectName = "",
 } = {}) {
@@ -14,10 +15,19 @@ export async function fetchMileagePerfList({
   return { items, total, page: p, size: s };
 }
 
+// 신규: 학생의 "적립 가능(수료된)" 항목만 조회
+export async function fetchEligibleMileageItems(studentNo) {
+  if (!studentNo?.trim()) throw new Error("학번이 필요합니다.");
+  const { data } = await axiosInstance.get(
+    `/admin/mileage-perf/student/${encodeURIComponent(studentNo.trim())}/eligible-items`
+  );
+  // data: [{id, itemCode, eduNm, eduMlg, granted}]
+  return data ?? [];
+}
+
 // 실적 등록 (정책 없이 accMlg로 등록 가능)
-// payload: { studentNo, mileageItemId, accMlg? }
 export async function createMileagePerf({ studentNo, mileageItemId, accMlg }) {
-  const payload = { studentNo, mileageItemId };
+  const payload = { studentNo: studentNo?.trim(), mileageItemId: Number(mileageItemId) };
   if (accMlg != null && accMlg !== "") payload.accMlg = Number(accMlg);
   const { data } = await axiosInstance.post("/admin/mileage-perf/create", payload);
   return data;
@@ -27,4 +37,3 @@ export async function createMileagePerf({ studentNo, mileageItemId, accMlg }) {
 export async function deleteMileagePerfs(ids = []) {
   await axiosInstance.post("/admin/mileage-perf/delete", ids);
 }
-
