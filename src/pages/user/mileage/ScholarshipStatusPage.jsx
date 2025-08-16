@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PageHeader from "../../../component/common/PageHeader";
 import Pagination from "../../../component/user/mileage/Pagination";
 import { getScholarshipStatus } from "../../../api/user/mileage/mileageApi";
@@ -27,8 +27,8 @@ const ScholarshipStatusPage = () => {
     })();
   }, [page, studentNo]);
 
-return (
-    <div className="max-w-5xl mx-auto space-y-6">
+  return (
+    <div className="max-w-5xl mx-auto">
       {/* 상단 헤더 */}
       <PageHeader
         title="마일리지 장학금 신청 현황"
@@ -40,42 +40,38 @@ return (
       />
 
       {/* 본문 카드 */}
-      <section className="bg-white rounded shadow-sm p-6">
-        <table className="w-full border border-gray-200 text-center">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="border p-2">번호</th>
-              <th className="border p-2">신청일</th>
-              <th className="border p-2">상태</th>
-              <th className="border p-2">신청 마일리지</th>
-              <th className="border p-2">환산 금액</th>
+      <section className="content-section">
+        {/* 테이블: 전체 기본 정렬을 없애고, 칼럼별로 지정 */}
+        <table className="w-full border border-gray-200 table-fixed">
+          <thead>
+            <tr className="bg-[#E0E7E9] text-[#354649]">
+              <th className="px-4 py-3 text-left font-semibold align-middle">번호</th>
+              <th className="px-4 py-3 text-left font-semibold align-middle">신청일</th>
+              <th className="px-4 py-3 text-left font-semibold align-middle">상태</th>
+              <th className="px-4 py-3 text-left font-semibold align-middle">신청 마일리지</th>
+              <th className="px-4 py-3 text-left font-semibold align-middle">환산 금액</th>
             </tr>
           </thead>
-          <tbody>
+
+          <tbody className="text-sm">
             {loading ? (
               <tr>
-                <td colSpan="5" className="p-6 text-gray-500">
-                  불러오는 중...
-                </td>
+                <td colSpan="5" className="p-6 text-[#6C7A89] text-center">불러오는 중...</td>
               </tr>
             ) : pageInfo.dtoList.length === 0 ? (
               <tr>
-                <td colSpan="5" className="p-6 text-gray-500">
-                  신청 내역이 없습니다.
-                </td>
+                <td colSpan="5" className="p-6 text-[#6C7A89] text-center">신청 내역이 없습니다.</td>
               </tr>
             ) : (
               pageInfo.dtoList.map((row, idx) => (
-                <tr key={idx}>
-                  <td className="border p-2">
+                <tr key={idx} className="border-t border-gray-200">
+                  <td className="px-4 py-3 align-middle text-center">
                     {(page - 1) * (pageInfo.pageRequestDto?.size || 10) + idx + 1}
                   </td>
-                  <td className="border p-2">
-                    {String(row.applyDate).substring(0, 10)}
-                  </td>
-                  <td className="border p-2">{row.state}</td>
-                  <td className="border p-2">{row.accumulatedMileage}</td>
-                  <td className="border p-2">
+                  <td className="px-4 py-3 align-middle">{String(row.applyDate).substring(0, 10)}</td>
+                  <td className="px-4 py-3 align-middle">{row.state}</td>
+                  <td className="px-4 py-3 align-middle">{row.accumulatedMileage}</td>
+                  <td className="px-4 py-3 align-middle text-right">
                     {Number(row.calculatedAmount ?? 0).toLocaleString()}원
                   </td>
                 </tr>
@@ -88,6 +84,7 @@ return (
           <Pagination pageInfo={pageInfo} onPageChange={(newPage) => setPage(newPage)} />
         </div>
       </section>
+
     </div>
   );
 };

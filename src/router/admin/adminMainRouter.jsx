@@ -1,6 +1,5 @@
 import RequireRole from "../../component/common/Require/RequireRole";
 import AdminLayout from "../../layouts/admin/AdminLayout";
-import AdminMainPage from "../../pages/admin/adminMainPage";
 import AdminCoreCompetencyAssessment from "../../pages/admin/coreCompetency/assessment/AdminCoreCompetencyAssessment";
 import AdminCoreCompetencyResult from "../../pages/admin/coreCompetency/result/AdminCoreCompetencyResult";
 import DiagnosisAdminCreatePage from "../../pages/admin/diagnostic/DiagnosisAdminCreatePage";
@@ -37,7 +36,6 @@ const adminMainRouter = [
         element: <AdminLayout />,
         children: [
           // 학생
-          { path: "", element: <AdminMainPage /> },
           { path: "students/student-list", element: <StudentListPage /> },
           { path: "students/student-manage", element: <StudentManagePage />},
           { path: "employee/employee-list", element: <EmployeeListPage />},

@@ -4,7 +4,7 @@ import AdminSectionHeader from "../../../component/admin/AdminSectionHeader";
 import ConsultList from "../../../features/user/consultation/ConsultList";
 import ConsultListSearchFilter from "../../../features/admin/consultation/ConsultListSearchFilter";
 import ConsultListTable from "../../../features/admin/consultation/ConsultListTable";
-import PageButton from "../../../component/admin/extracurricular/PagaButton";
+import PageButton from "../../../component/admin/extracurricular/PageButton.jsx";
 
 import { getConsultList, applyCancel, } from "../../../api/user/consult/ConsultUserApi"
 

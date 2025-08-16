@@ -96,7 +96,7 @@ const ScholarshipApplyPage = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
+    <div className="max-w-5xl mx-auto">
       <PageHeader
         title="마일리지 장학금 신청"
         breadcrumb={[
@@ -106,7 +106,7 @@ const ScholarshipApplyPage = () => {
         ]}
       />
 
-      <section className="bg-white rounded shadow-sm p-6">
+      <section className="content-section">
         {loading || !userInfo ? (
           <div className="py-20 text-center text-gray-500">불러오는 중...</div>
         ) : (
@@ -138,7 +138,7 @@ const ScholarshipApplyPage = () => {
               <div>
                 <div className="text-gray-500 mb-1">은행명</div>
                 <select
-                  className="w-full border rounded px-3 py-2"
+                  className="w-full border rounded-md px-4 py-3 text-lg"
                   value={selectedBank}
                   onChange={(e) => setSelectedBank(e.target.value)}
                   disabled={!banks.length}
@@ -156,7 +156,7 @@ const ScholarshipApplyPage = () => {
               <div className="col-span-2">
                 <div className="text-gray-500 mb-1">계좌번호</div>
                 <input
-                  className="w-full border rounded px-3 py-2"
+                  className="w-full border rounded-md px-4 py-3 text-lg"
                   placeholder="숫자만 입력"
                   value={accountNo}
                   onChange={(e) => setAccountNo(e.target.value)}
@@ -172,10 +172,8 @@ const ScholarshipApplyPage = () => {
               <button
                 onClick={handleApply}
                 disabled={userInfo.totalScore < 50}
-                className={`px-6 py-3 rounded text-white font-semibold ${
-                  userInfo.totalScore < 50
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-blue-600 hover:bg-blue-700"
+                                className={`bg-[#354649] text-white font-semibold py-2 px-4 rounded-md hover:bg-[#6C7A89] transition-colors ${
+                  userInfo.totalScore < 50 ? "opacity-50 cursor-not-allowed" : ""
                 }`}
               >
                 신청하기

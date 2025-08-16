@@ -28,7 +28,10 @@ const UserSideBar = ({ navItems = [], defaultOpenKeys = [] }) => {
   // 현재 경로 기준 메뉴 활성화 계산
   const activePath = location.pathname;
   const isItemActive = (item) => {
-    if (item.link) return item.link === activePath;
+    return item.link === activePath;
+  };
+
+  const isParentOfActive = (item) => {
     if (Array.isArray(item.children)) {
       return item.children.some((c) => c.link === activePath);
     }
@@ -40,7 +43,7 @@ const UserSideBar = ({ navItems = [], defaultOpenKeys = [] }) => {
     const next = new Set(openKeys);
     items.forEach((item, idx) => {
       const key = item.key ?? item.name ?? `menu-${idx}`;
-      if (Array.isArray(item.children) && isItemActive(item)) {
+      if (Array.isArray(item.children) && isParentOfActive(item)) {
         next.add(key);
       }
     });
@@ -92,7 +95,7 @@ const UserSideBar = ({ navItems = [], defaultOpenKeys = [] }) => {
               <button
                 type="button"
                 onClick={() => toggleOpen(key)}
-                className={`${baseStyle} w-full select-none ${active || open ? activeStyle : inactiveStyle}`}
+                className={`${baseStyle} w-full select-none ${active ? activeStyle : inactiveStyle}`}
               >
                 <span className="inline-flex items-center justify-center gap-2 w-full">
                   {item.name}

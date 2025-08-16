@@ -3,7 +3,7 @@ import { adminUpdateEmployeeInfo, appointInstructor, appointProfessor, appointSt
 import AdminSectionHeader from "../../../component/admin/AdminSectionHeader";
 import EmployeeListSearchFilter from "../../../features/admin/employee/EmployeeListSearchFilter";
 import EmployeeListTable from "../../../features/admin/employee/EmployeeListTable";
-import PageButton from "../../../component/admin/extracurricular/PagaButton";
+import PageButton from "../../../component/admin/extracurricular/PageButton.jsx";
 import EmployeeAdminUpdateForm from "../../../component/admin/employee/EmployeeAdminUpdateForm";
 import EmployeeListToolBar from "../../../component/admin/employee/EmployeeListToolbar";
 

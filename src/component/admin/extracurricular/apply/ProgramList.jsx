@@ -1,5 +1,5 @@
 import { useState } from "react";
-import PageButton from "../PagaButton";
+import PageButton from "../PageButton.jsx";
 const ProgramList = ({ programs, currentPage, totalPages, onPageChange, onSelectProgram }) => {
   const eduTypeMap = {
     PERSONAL: "개인",

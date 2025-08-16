@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 import ConsultInfoDetail from "../../../features/user/consultation/ConsultInfoDetail";
 import ConsultSatisfaction from "../../../features/user/consultation/ConsultSatisfaction";
 import { getConsultList, applyCancel, } from "../../../api/user/consult/ConsultUserApi"
-import PageButton from "../../../component/admin/extracurricular/PagaButton";
+import PageButton from "../../../component/admin/extracurricular/PageButton.jsx";
 
 const PAGE_SIZE = 10;
 
