@@ -7,10 +7,15 @@ import StudentDiagnosticResultsContainer from "../../../features/user/students/S
 import StudentParticipatedProgramList from "../../../features/user/students/StudentParticipatedProgramList";
 import StudentConsultList from "../../../features/user/students/StudentConsultList";
 import StudentCoreCompetencyResultList from "./StudentCoreCompetencyResultList";
+import useMileageSummary from "../../../hooks/user/mileage/useMileageSummary";
+import MileageSummary from "../../../component/user/mileage/MileageSummary";
 
 const StudentMyPageHome = () => {
     const { user } = useContext(UserContext);
     const { student } = useStudentInfo(user?.loginId);
+
+      const { summary, loading: mileageLoading, error: mileageError } =
+    useMileageSummary(user?.loginId);
 
     const contentStyle = "text-[#6C7A89]";
 
@@ -30,17 +35,30 @@ const StudentMyPageHome = () => {
                     <StudentBasicInfo student={student} />
                 </section>
 
-                {/* 보유 마일리지 정보 */}
-                <section className="content-section">
-                    <h3 className="section-title">보유 마일리지 정보</h3>
-                    <div className={contentStyle}>보유 마일리지: 1200점</div>
-                </section>
+
+        {/* 보유 마일리지 정보 */}
+        <section className="content-section">
+          <h3 className="section-title">보유 마일리지 정보</h3>
+
+          {mileageLoading ? (
+            <div className="py-2 text-gray-500">불러오는 중...</div>
+          ) : (
+            <>
+              <MileageSummary totalScore={summary?.totalScore ?? 0} />
+              {mileageError && (
+                <div className="text-sm text-red-500 mt-1">{mileageError}</div>
+              )}
+              <div className={contentStyle}>(50점 이상 신청 가능)</div>
+            </>
+          )}
+        </section>
 
                 {/* 상담이력 */}
                 <section className="content-section">
                     <h3 className="section-title">상담 내역</h3>
                     <StudentConsultList />
                 </section>
+
 
                 {/* 진단검사 결과 */}
                 <section className="content-section">

@@ -17,8 +17,8 @@ export const studentMyPageMenus = [
             { name: "관심 비교과 프로그램", link: "/mypage/program/interest" },
             { name: "추천 비교과 프로그램", link: "/mypage/program/recommended" },
             { name: "비교과 만족도 참여 현황", link: "/mypage/program/satisfaction" },
-            { name: "사전 사후 참여 현황", link: "/mypage/program/after-photo" },
-            { name: "포인트 현황", link: "/mypage/program/point-status" },
+            { name: "사전 사후 참여 현황", link: "/mypage/program/after-photo" }
+        
         ],
     },
     {

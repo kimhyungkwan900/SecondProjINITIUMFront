@@ -3,7 +3,7 @@ import {
   createMileagePerf,
   fetchMileagePerfList,
   deleteMileagePerfs,
-  fetchEligibleMileageItems, // 수ㅂ료 항목 조회 API
+  fetchEligibleMileageItems, // 수료 항목 조회 API
 } from "../../../api/admin/mileage/AdminMileagePerfApi";
 
 import MileagePerfTable from "./MileagePerfTable";
@@ -16,7 +16,6 @@ export default function AdminPerfQuickGrant() {
   // 입력값
   const [studentNo, setStudentNo] = useState("");
   const [mileageItemId, setMileageItemId] = useState("");
-  const [accMlg, setAccMlg] = useState("");
 
   // UI 상태
   const [saving, setSaving] = useState(false);
@@ -43,7 +42,6 @@ export default function AdminPerfQuickGrant() {
       const list = await fetchEligibleMileageItems(sNo);
       setItems(list ?? []);
       setMileageItemId("");
-      setAccMlg("");
       if (!list || list.length === 0) {
         alert("수료하여 적립 가능한 항목이 없습니다.");
       }
@@ -88,14 +86,13 @@ export default function AdminPerfQuickGrant() {
     if (!mileageItemId) return alert("마일리지 항목을 선택하세요.");
     const chosen = items.find((x) => String(x.id) === String(mileageItemId));
     if (chosen?.granted) return alert("이미 적립된 항목입니다.");
-    if (accMlg !== "" && Number(accMlg) <= 0) return alert("적립 점수는 1 이상이어야 합니다.");
 
     setSaving(true);
     try {
       await createMileagePerf({
         studentNo: sNo,
         mileageItemId: Number(mileageItemId),
-        accMlg: accMlg === "" ? undefined : Number(accMlg),
+        // accMlg 제거: 비우면 기본점수로 적립
       });
       alert("실적이 등록되었습니다.");
 
@@ -113,7 +110,6 @@ export default function AdminPerfQuickGrant() {
   const onResetForm = () => {
     setStudentNo("");
     setMileageItemId("");
-    setAccMlg("");
     setItems([]);
   };
 
@@ -142,9 +138,9 @@ export default function AdminPerfQuickGrant() {
       {/* 헤더 */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">실적 간편 등록</h1>
+          <h1 className="text-2xl font-bold tracking-tight">실적 등록</h1>
           <p className="text-sm text-gray-500 mt-1">
-            학번으로 수료한 비교과 항목만 불러온 뒤 선택하여 적립합니다. 점수를 비우면 기본점수로 적립됩니다.
+            학번으로 수료한 비교과 항목만 불러온 뒤 선택하여 적립합니다.
           </p>
         </div>
       </div>
@@ -206,39 +202,22 @@ export default function AdminPerfQuickGrant() {
             </div>
           </div>
 
-          {/* 점수 */}
-          <div className="grid md:grid-cols-3 gap-4">
-            <div className="md:col-span-1">
-              <label className="block text-sm font-medium text-gray-700">적립 점수 (선택)</label>
-              <input
-                type="number"
-                min="1"
-                className="mt-1 w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500/60"
-                value={accMlg}
-                onChange={(e) => setAccMlg(e.target.value)}
-                placeholder="비우면 기본점수로 적립"
-                disabled={!items.length}
-              />
-              <p className="mt-1 text-xs text-gray-500">
-                입력하면 기본점수 대신 해당 점수로 적립됩니다.
-              </p>
-            </div>
-            <div className="md:col-span-2 flex items-end justify-end gap-2">
-              <button
-                type="button"
-                onClick={onResetForm}
-                className="px-4 py-2 rounded-md border text-gray-700 hover:bg-gray-50"
-              >
-                초기화
-              </button>
-              <button
-                disabled={saving || !studentNo.trim() || !mileageItemId}
-                onClick={onSubmit}
-                className="px-4 py-2 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white disabled:opacity-60"
-              >
-                {saving ? "등록 중..." : "적립 등록"}
-              </button>
-            </div>
+          {/* 버튼만 우측 정렬 */}
+          <div className="flex items-center justify-end gap-2">
+            <button
+              type="button"
+              onClick={onResetForm}
+              className="px-4 py-2 rounded-md border text-gray-700 hover:bg-gray-50"
+            >
+              초기화
+            </button>
+            <button
+              disabled={saving || !studentNo.trim() || !mileageItemId}
+              onClick={onSubmit}
+              className="px-4 py-2 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white disabled:opacity-60"
+            >
+              {saving ? "등록 중..." : "적립 등록"}
+            </button>
           </div>
 
           {/* 수료 항목 미리보기 */}
