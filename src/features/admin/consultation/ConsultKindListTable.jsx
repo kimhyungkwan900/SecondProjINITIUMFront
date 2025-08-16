@@ -1,8 +1,7 @@
-
-
 export default function ConsultKindListTable({
   rows = [],
   loading = false,
+  onRowClick,
   variant = "card", // "bare"면 외곽 카드 없음
 }) {
   // 정렬 상태
@@ -10,9 +9,9 @@ export default function ConsultKindListTable({
 
   // 헤더/바디 동일 열 정의(분수단위 고정)
   const COLS = [
-  'minmax(120px, max-content)',
-  'minmax(140px, max-content)',
-  'minmax(120px, max-content)',
+  'minmax(205px, max-content)',
+  'minmax(205px, max-content)',
+  'minmax(400px, max-content)',
 ].join(' ');
 
   const Header = (
@@ -55,6 +54,7 @@ export default function ConsultKindListTable({
                 "grid border-b border-gray-200 last:border-b-0 hover:bg-gray-50 cursor-pointer "
                 }
                 style={{ gridTemplateColumns: COLS }}
+                onClick={() => onRowClick?.(s)}
             >
             <div className="px-3 py-3 text-sm font-medium border-r last:border-r-0 border-gray-100 min-w-0">
                 {s.dscsnKindId}
@@ -73,7 +73,7 @@ export default function ConsultKindListTable({
     
   const Inner = (
     <div className="overflow-x-auto">
-      <div className="min-w-[980px]">
+      <div className="">
         {Header}
         {Body}
       </div>

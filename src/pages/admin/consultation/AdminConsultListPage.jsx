@@ -93,7 +93,7 @@ const AdminConsultListPage = ()=>{
                 />
             </div>
 
-            <div className="mt-4 flex justify-between items-center">
+            <div className="mt-4 flex justify-center items-center">
                 <PageButton
                     totalPages={totalPages}
                     currentPage={current}
