@@ -1,9 +1,7 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useContext } from "react";
 import MainLogo from "../../../component/user/mainpage/MainLogo";
 import NavMenuHorizontalDropdown from "../../../component/user/mainpage/NavMenuHorizontalDropdown";
-
-import { useContext } from "react"
-import { UserContext } from "../../../App";
+import { UserContext } from "../../../hooks/useAuth";
 
 export default function MainHeader() {
     const [hoveredIdx, setHoveredIdx] = useState(null);

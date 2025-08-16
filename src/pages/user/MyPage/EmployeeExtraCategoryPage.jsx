@@ -3,63 +3,79 @@ import { useNavigate } from "react-router-dom";
 import { getCategoryInEmpNo } from "../../../api/admin/extracurricular/category/CategoryApi";
 import PageHeader from "../../../component/common/PageHeader";
 
-const normalizeCategory = (raw = {}) => ({
-  id:
-    raw.id ??
-    raw.ctgryId ??
-    raw.categoryId ??
-    raw.code ??
-    raw?.pk ??
-    null,
-  name:
-    raw.name ??
-    raw.ctgryNm ??
-    raw.categoryName ??
-    raw.codeName ??
-    "이름 미정",
-  description:
-    raw.description ??
-    raw.ctgryDesc ??
-    raw.remark ??
-    "",
-  subCount:
-    raw.subCount ??
-    raw.childrenCount ??
-    raw.childCount ??
-    raw.programCnt ??
-    0,
-});
 
-function CategoryCard({ item, onClick }) {
+function formatDateTime(v) {
+  if (!v) return "-";
+  const d = new Date(v);
+  return isNaN(d) ? String(v) : d.toISOString().slice(0, 19).replace("T", " ");
+}
+
+function UseYnBadge({ yn }) {
+  const isY = String(yn || "").toUpperCase() === "Y";
+  return (
+    <span
+      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium border ${
+        isY
+          ? "text-green-600 border-green-200 bg-green-50"
+          : "text-gray-500 border-gray-200 bg-gray-50"
+      }`}
+      title={isY ? "사용" : "미사용"}
+    >
+      {isY ? "사용" : "미사용"}
+    </span>
+  );
+}
+
+function CategoryCard({ dto, onClick }) {
   return (
     <div
-      className="rounded-2xl border border-[#A3C6C4] bg-white p-5 hover:shadow-md hover:-translate-y-0.5 transition"
+      className="rounded-2xl border border-[#A3C6C4] bg-white p-5 hover:shadow-md hover:-translate-y-0.5 transition cursor-pointer"
+      onClick={onClick}
       role="button"
       tabIndex={0}
-      onClick={onClick}
       onKeyDown={(e) => e.key === "Enter" && onClick?.()}
     >
-      <div className="flex items-start justify-between mb-3">
-        <h4 className="text-lg font-semibold text-[#354649] truncate">
-          {item.name}
+      {/* 상단 타이틀 + 배지 */}
+      <div className="flex items-start justify-between gap-3 mb-2">
+        <h4 className="text-lg font-semibold text-[#354649] line-clamp-1" title={dto.ctgryNm}>
+          {dto.ctgryNm || "(분류명 없음)"}
         </h4>
-        {item.subCount > 0 && (
-          <span className="ml-3 shrink-0 rounded-full bg-[#E0E7E9] px-3 py-1 text-xs text-[#354649] border border-[#A3C6C4]">
-            {item.subCount}개
-          </span>
-        )}
+        <UseYnBadge yn={dto.ctgryUseYn} />
       </div>
 
-      {item.description ? (
-        <p className="text-sm text-[#6C7A89] line-clamp-2 min-h-[2.5rem]">
-          {item.description}
-        </p>
-      ) : (
-        <p className="text-sm text-[#6C7A89] italic">설명이 없습니다.</p>
-      )}
+      {/* 핵심/상위 역량 */}
+      <div className="text-sm text-[#6C7A89] space-y-1 mb-3">
+        <div className="flex gap-2">
+          <span className="w-16 shrink-0 text-[#354649] font-semibold">핵심역량</span>
+          <span className="line-clamp-1" title={dto.coreCategory}>
+            {dto.coreCategory ?? "-"}
+          </span>
+        </div>
+        <div className="flex gap-2">
+          <span className="w-16 shrink-0 text-[#354649] font-semibold">상위역량</span>
+          <span className="line-clamp-1" title={dto.subCategory}>
+            {dto.subCategory ?? "-"}
+          </span>
+        </div>
+      </div>
 
+      {/* 학과 */}
+      <div className="flex items-center justify-between text-sm">
+        <div className="text-[#6C7A89]">
+          <span className="text-[#354649] font-semibold">학과</span>{" "}
+          {dto.subjectName ?? "-"}{" "}
+          {dto.subjectCode ? <span className="text-[#6C7A89]">({dto.subjectCode})</span> : null}
+        </div>
+        <span className="text-xs text-[#6C7A89]" title="생성일">
+          {formatDateTime(dto.dataCrtDt)}
+        </span>
+      </div>
+
+      {/* 하단 액션/ID */}
       <div className="mt-4 flex items-center justify-between">
-        <span className="text-xs text-[#6C7A89]">ID: {item.id ?? "-"}</span>
+        <span className="text-xs text-[#6C7A89]">
+          ID: {dto.ctgryId ?? "-"} {dto.coreCategoryId ? ` / Core:${dto.coreCategoryId}` : ""}
+        </span>
         <button
           type="button"
           className="bg-[#354649] text-white font-semibold py-2 px-4 rounded-md hover:bg-[#6C7A89] transition-colors text-sm"
@@ -76,23 +92,25 @@ function SkeletonCard() {
     <div className="rounded-2xl border border-gray-200 bg-[#E0E7E9] p-5 animate-pulse">
       <div className="h-5 w-2/3 bg-white/50 rounded mb-3" />
       <div className="h-4 w-full bg-white/50 rounded mb-2" />
-      <div className="h-4 w-4/5 bg-white/50 rounded mb-5" />
+      <div className="h-4 w-4/5 bg-white/50 rounded mb-4" />
+      <div className="h-4 w-3/5 bg-white/50 rounded mb-4" />
       <div className="h-8 w-24 bg-white/50 rounded ml-auto" />
     </div>
   );
 }
 
-export default function EmployeeExtraCategoryPage({ empNo: propEmpNo }) {
+export default function EmployeeCategoryGridPage({ empNo: propEmpNo }) {
   const navigate = useNavigate();
   const empNo =
     propEmpNo ??
     sessionStorage.getItem("empNo") ??
     sessionStorage.getItem("employeeNo") ??
-    ""; // 세션 키는 프로젝트에 맞게 조정
+    "";
 
   const [keyword, setKeyword] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [useYn, setUseYn] = useState("ALL");
   const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   const load = useCallback(async () => {
@@ -105,11 +123,11 @@ export default function EmployeeExtraCategoryPage({ empNo: propEmpNo }) {
     try {
       setLoading(true);
       setError("");
-      const data = await getCategoryInEmpNo(empNo);
-      const list = Array.isArray(data) ? data : [];
-      setRows(list.map(normalizeCategory));
+      const res = await getCategoryInEmpNo(empNo);
+      const list = Array.isArray(res) ? res : [];
+      setRows(list);
     } catch (e) {
-      console.error("분류 조회 실패", e);
+      console.error(e);
       setError(e?.response?.data?.message || "분류 목록을 불러오지 못했습니다.");
       setRows([]);
     } finally {
@@ -122,15 +140,33 @@ export default function EmployeeExtraCategoryPage({ empNo: propEmpNo }) {
   }, [load]);
 
   const filtered = useMemo(() => {
-    if (!keyword.trim()) return rows;
     const q = keyword.trim().toLowerCase();
-    return rows.filter(
-      (r) =>
-        String(r.name || "").toLowerCase().includes(q) ||
-        String(r.description || "").toLowerCase().includes(q) ||
-        String(r.id || "").toLowerCase().includes(q)
-    );
-  }, [rows, keyword]);
+    return rows.filter((r) => {
+      // 사용여부 필터
+      if (useYn !== "ALL") {
+        const yn = String(r.ctgryUseYn || "").toUpperCase();
+        if (yn !== useYn) return false;
+      }
+      // 키워드 필터 (분류명/핵심/상위/학과/코드/상세)
+      if (!q) return true;
+      const hay = [
+        r.ctgryNm,
+        r.coreCategory,
+        r.subCategory,
+        r.subjectName,
+        r.subjectCode,
+        r.ctgryDtl,
+        r.ctgryId,
+        r.stgrId,
+        r.coreCategoryId,
+      ]
+        .filter(Boolean)
+        .map(String)
+        .join(" ")
+        .toLowerCase();
+      return hay.includes(q);
+    });
+  }, [rows, keyword, useYn]);
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
@@ -143,16 +179,26 @@ export default function EmployeeExtraCategoryPage({ empNo: propEmpNo }) {
         ]}
       />
 
-      {/* 검색/툴바 */}
       <section className="content-section">
+        {/* 툴바 */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
             <input
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
-              placeholder="분류명/설명/ID 검색…"
-              className="w-72 border rounded-md px-4 py-2 text-sm"
+              placeholder="분류명 / 핵심·상위역량 / 학과 / 코드 검색…"
+              className="w-80 border rounded-md px-4 py-2 text-sm"
             />
+            <select
+              value={useYn}
+              onChange={(e) => setUseYn(e.target.value)}
+              className="border rounded-md px-3 py-2 text-sm"
+              title="사용여부"
+            >
+              <option value="ALL">전체</option>
+              <option value="Y">사용</option>
+              <option value="N">미사용</option>
+            </select>
             <button
               type="button"
               className="bg-[#354649] text-white font-semibold py-2 px-4 rounded-md hover:bg-[#6C7A89] transition-colors text-sm"
@@ -162,11 +208,12 @@ export default function EmployeeExtraCategoryPage({ empNo: propEmpNo }) {
             </button>
           </div>
           <div className="text-sm text-[#6C7A89]">
-            총 <span className="font-semibold text-[#354649]">{rows.length}</span>건
-            {keyword ? (
+            총{" "}
+            <span className="font-semibold text-[#354649]">{rows.length}</span>
+            건{keyword || useYn !== "ALL" ? (
               <>
                 {" "}
-                (필터링 결과{" "}
+                (필터{" "}
                 <span className="font-semibold text-[#354649]">
                   {filtered.length}
                 </span>
@@ -176,14 +223,7 @@ export default function EmployeeExtraCategoryPage({ empNo: propEmpNo }) {
           </div>
         </div>
 
-        {/* 상태 표시 */}
-        {error && (
-          <div className="mt-4 p-3 rounded-md border border-red-200 text-red-600 bg-red-50">
-            {error}
-          </div>
-        )}
-
-        {/* Grid 카드 목록 */}
+        {/* 그리드 */}
         <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
           {loading
             ? Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)
@@ -193,12 +233,12 @@ export default function EmployeeExtraCategoryPage({ empNo: propEmpNo }) {
                 표시할 분류가 없습니다.
               </div>
             )
-            : filtered.map((cat) => (
+            : filtered.map((dto) => (
                 <CategoryCard
-                  key={cat.id ?? cat.name}
-                  item={cat}
+                  key={dto.ctgryId ?? `${dto.ctgryNm}-${dto.subjectCode}-${dto.coreCategoryId}`}
+                  dto={dto}
                   onClick={() =>
-                    navigate(`/admin/extracurricular/categories/${encodeURIComponent(cat.id ?? "")}`)
+                    navigate(`/admin/extracurricular/categories/${encodeURIComponent(dto.ctgryId)}`)
                   }
                 />
               ))}
