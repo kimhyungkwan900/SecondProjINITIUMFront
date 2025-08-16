@@ -89,15 +89,16 @@ const ExtracurricularProgramApplyPage = () => {
     }
   }, [user]);
   return (
-    <div className="max-w-5xl mx-auto space-y-0"> {/* Outer container */}
+    <div className="max-w-5xl mx-auto"> {/* Outer container */}
       <PageHeader
-        title="비교과 프로그램 신청 내역"
+        title="신청 비교과 프로그램"
         breadcrumb={[
           { label: "마이페이지(학생)", link: "/mypage" },
-          { label: "비교과 프로그램", active: true }
+          { label: "참여 비교과 프로그램 참여 현황", active: false },
+          { label: "신청 비교과 프로그램", active: true }
         ]}
       />
-      <div className="space-y-0"> {/* Inner container for sections */}
+      <div> {/* Inner container for sections */}
         <ApplyFilter
           filter={filter}
           onFilterChange={handleFilterChange}

@@ -15,6 +15,7 @@ import StudentRadarChart from "../../../component/admin/coreCompetency/result/St
 import ExtracurricularProgramApplyPage from "../../../pages/user/extracurricular/ExtracurricularProgramApplyPage";
 import EmployeeUpdateMyInfo from "../../../pages/user/MyPage/EmployeeUpdateMyInfo";
 import StudentRecommandedProgram from "../../../pages/user/MyPage/StudentRecommandedProgram";
+import EmployeeExtraCategoryPage from "../../../pages/user/MyPage/EmployeeExtraCategoryPage";
 export const myPageRouter = [
   {
     path: "/mypage",
@@ -50,6 +51,7 @@ export const myPageRouter = [
         children: [
           { index: true, element: <EmployeeMyPageHome /> },
           { path: "update-info", element: <EmployeeUpdateMyInfo />},
+          { path: "program", element: <EmployeeExtraCategoryPage />}
         ],
       },
     ],

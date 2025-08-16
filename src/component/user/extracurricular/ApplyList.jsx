@@ -12,7 +12,7 @@ const statusMap = {
 
   if (!programs || programs.length === 0) {
     return (
-      <div className="overflow-x-auto rounded-lg shadow-sm bg-white mt-4">
+      <div className="overflow-x-auto rounded-lg shadow-sm bg-white">
         <table className="w-full table-auto text-sm">
           <thead className="bg-gray-50 text-gray-700 font-semibold border-b">
             <tr>

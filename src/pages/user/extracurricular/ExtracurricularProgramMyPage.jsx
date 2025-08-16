@@ -113,16 +113,17 @@ const ExtracurricularProgramMyPage = () => {
   return (
     <div className="max-w-5xl mx-auto">
       <PageHeader
-        title="비교과 프로그램 신청 내역"
+        title="참여 비교과 프로그램"
         breadcrumb={[
           { label: "마이페이지(학생)", link: "/mypage" },
-          { label: "비교과 프로그램", active: true }
+          { label: "참여 비교과 프로그램 참여 현황", active: false },
+          { label: "참여 비교과 프로그램", active: true }
         ]}
       />
 
       {/* 섹션 1: 검색 */}
-      <section className="bg-white rounded-lg shadow-sm border border-gray-200">
-        <header className="px-5 py-4 bg-[#E0E7E9] border-b border-gray-200">
+      <section className="bg-white shadow-sm">
+        <header className="px-5 py-4 bg-white">
           <h3 className="text-lg font-semibold text-[#354649]">검색</h3>
         </header>
 
@@ -136,8 +137,8 @@ const ExtracurricularProgramMyPage = () => {
       </section>
 
       {/* 섹션 2: 결과 */}
-      <section className="bg-white rounded-lg shadow-sm border border-gray-200">
-        <header className="flex items-center justify-between px-5 py-4 bg-[#E0E7E9] border-b border-gray-200">
+      <section className="bg-white shadow-sm">
+        <header className="flex items-center justify-between px-5 py-4 bg-white">
           <h3 className="text-lg font-semibold text-[#354649]">참여 내역</h3>
           <Button selectedIds={selectedIds} onDelete={handleDeleteSelected} />
         </header>

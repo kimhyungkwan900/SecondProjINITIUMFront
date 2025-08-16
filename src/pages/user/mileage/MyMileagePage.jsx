@@ -27,7 +27,7 @@ const MyMileagePage = () => {
   }, [page, studentNo]);
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
+    <div className="max-w-5xl mx-auto">
       <PageHeader
         title="나의 마일리지"
         breadcrumb={[
@@ -37,14 +37,13 @@ const MyMileagePage = () => {
         ]}
       />
 
-      <section className="bg-white rounded shadow-sm p-6">
+      <section className="content-section">
         <MileageSummary totalScore={totalScore} />
-        <div className="mt-6" />
         <MileageHistoryTable
           history={history.dtoList}
           startIndex={(page - 1) * 10}
         />
-        <div className="mt-4">
+        <div>
           <Pagination
             pageInfo={history}
             onPageChange={(newPage) => setPage(newPage)}
