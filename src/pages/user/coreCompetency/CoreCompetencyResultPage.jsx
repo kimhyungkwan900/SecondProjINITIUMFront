@@ -6,7 +6,6 @@ import UserTopBar from "../../../component/user/mainpage/UserTopBar";
 import { useAuth } from "../../../hooks/useAuth.jsx";
 import CoreCompetencyResultList from "../../../component/user/coreCompetency/result/CoreCompetencyResultList";
 
-
 const CoreCompetencyResultPage = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -18,7 +17,7 @@ const CoreCompetencyResultPage = () => {
   ];
 
   // 권한 플래그 (리스트/결과 열람: 학생번호 or 교직원번호 보유자)
-  const hasStudentNo = user?.loginId;
+  const hasStudentNo = !!user?.loginId;
   const hasEmployeeNo = !!user?.empNo;
   const canViewPage = !!user && (hasStudentNo || hasEmployeeNo);
 
@@ -39,46 +38,53 @@ const CoreCompetencyResultPage = () => {
         </div>
       </div>
 
-      {/* 본문 영역 (사이드바 + 탭 + 내용) */}
-      <div className="flex px-12 py-10 gap-10">
-        {/* 좌측 사이드바 */}
-        <CoreCompetencySideBar navItems={navItems} />
+      {/* 본문: 사이드바/본문 형제 그리드 */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[260px,1fr]">
+          {/* 좌측 사이드바 */}
+          <aside className="lg:sticky lg:top-20 self-start">
+            <CoreCompetencySideBar navItems={navItems} />
+          </aside>
 
-        {/* 우측 본문 */}
-        <div className="flex-1">
-          {/* 탭 버튼 영역 (공통) */}
-          <CoreCompetencyDiagnosisTabButtons />
-
-          {/* ===== 권한 분기 ===== */}
-          {/* 1) 로그인 X: 버튼으로 로그인 이동 */}
-          {!user && (
-            <div className="mt-10 max-w-[1000px] p-6 border rounded-md text-center text-sm text-gray-700">
-              <p className="mb-3">이 화면은 로그인한 사용자만 볼 수 있습니다.</p>
-              <button
-                onClick={() => navigate("/login", { replace: true })}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
-              >
-                로그인 하러가기
-              </button>
+          {/* 우측 본문 */}
+          <section className="min-w-0">
+            {/* 탭 버튼 */}
+            <div className="mb-6">
+              <CoreCompetencyDiagnosisTabButtons />
             </div>
-          )}
 
-          {/* 2) 로그인은 했지만 학번/사번 없음: 접근 불가 메시지 */}
-          {user && !canViewPage && (
-            <div className="mt-10 max-w-[1000px] p-6 border border-gray-200 rounded-md text-center text-sm text-gray-600">
-              <p className="mb-2">접근 권한이 없습니다.</p>
-              <p className="text-gray-500">
-                학생번호 또는 교직원번호가 필요한 화면입니다.
-              </p>
-            </div>
-          )}
+            {/* 권한 분기 */}
+            {!user && (
+              <div className="mt-4 w-full rounded-xl border border-gray-200 bg-white p-8 shadow-sm
+                              flex flex-col items-center text-center">
+                <p className="mb-4 text-sm text-gray-700">
+                  이 화면은 로그인한 사용자만 볼 수 있습니다.
+                </p>
+                <button
+                  onClick={() => navigate("/login", { replace: true })}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+                >
+                  로그인 하러가기
+                </button>
+              </div>
+            )}
 
-          {/* 3) 정상 접근: 결과 영역 렌더 */}
-          {canViewPage && (
-            <div className="mt-10 text-center text-gray-700">
-              <CoreCompetencyResultList/>
-            </div>
-          )}
+            {user && !canViewPage && (
+              <div className="mt-4 w-full rounded-xl border border-gray-200 bg-white p-8 shadow-sm
+                              flex flex-col items-center text-center">
+                <p className="mb-2 text-sm text-gray-700">접근 권한이 없습니다.</p>
+                <p className="text-sm text-gray-500">
+                  학생번호 또는 교직원번호가 필요한 화면입니다.
+                </p>
+              </div>
+            )}
+
+            {canViewPage && (
+              <div className="mt-2">
+                <CoreCompetencyResultList />
+              </div>
+            )}
+          </section>
         </div>
       </div>
     </div>
