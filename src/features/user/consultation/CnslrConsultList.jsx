@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 import ConsultInfoDetail from "../../../features/user/consultation/ConsultInfoDetail";
 import RegisterConsultResult from "../../../features/user/consultation/RegisterConsultResult";
 import { getConsultList, applyCancel, updateStatus, registerResult } from "../../../api/user/consult/ConsultUserApi"
-import PageButton from "../../../component/admin/extracurricular/PagaButton";
+import PageButton from "../../../component/admin/extracurricular/PageButton";
 
 const PAGE_SIZE = 10;
 const CnslrConsultList = ({ searchFilters, current, onPageChange })=>{

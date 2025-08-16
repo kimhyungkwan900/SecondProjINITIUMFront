@@ -10,6 +10,7 @@ import { getSchedules } from '../../../api/user/consult/ConsultUserApi';
 import { fetchStudentByNo } from '../../../api/user/auth/studentsApi';
 
 const ConsultScheduleSelect = ({userInfo, type, onSelect})=>{
+    const slotHeight = 50
     const [schedules, setSchedules] = useState([]);
 
     const isProfessorApply = useMatch("/consult/apply/professor");
@@ -75,6 +76,10 @@ const ConsultScheduleSelect = ({userInfo, type, onSelect})=>{
         // setSelectedProduct(null);
     };
 
+    const slotHeightStyle = {
+        height: typeof slotHeight === 'number' ? `${slotHeight}px` : slotHeight,
+    };
+
     return(
         <div className="w-4/5 max-w-7xl px-20 py-6 mx-auto">
             <div className="flex items-center justify-center mb-8 space-x-0">
@@ -115,7 +120,9 @@ const ConsultScheduleSelect = ({userInfo, type, onSelect})=>{
                 <thead>
                     <tr style={{ width: `${colWidthPercent}%` }}>
                         {/* 반복문 처리, 열 총 14개 행 총 13개 */}
-                        <th className="border bg-gray-200 px-3 py-2 text-center" >시간</th>
+                        <th className="border bg-gray-200 px-3 py-2 text-center" >
+                            <div className="px-3 py-2" style={slotHeightStyle}>시간</div>
+                        </th>
 
                         {dates.map((day, di)=>{
                             const textColor =
@@ -130,17 +137,21 @@ const ConsultScheduleSelect = ({userInfo, type, onSelect})=>{
 
                             return(
                                 <th key={di} className={`border ${bgClass} px-3 py-2 text-center ${textColor}`}>
-                                    {format(day, "MM.dd", {locale: ko})}<br/>{format(day, "EEE", {locale: ko})}
+                                    <div className="px-3 py-1" style={slotHeightStyle}>
+                                        {format(day, "MM.dd", {locale: ko})}<br/>{format(day, "EEE", {locale: ko})}
+                                    </div>
                                 </th>
                             );
                         })}
                     </tr>
                 </thead>
-                <tbody className="text-sm">
+                <tbody className="text-sm align-top">
                     {timeSlots.map((hour, hi)=>(
                         <tr key={hi} style={{ width: `${colWidthPercent}%` }}>
                             <th className="border px-3 py-2 text-center">
-                                {`${hour.toString().padStart(2, '0')}:00`}
+                                <div className="px-3 py-2" style={slotHeightStyle}>
+                                    {`${hour.toString().padStart(2, '0')}:00`}
+                                </div>
                             </th>
                             {dates.map((day, di) => {
                                 const dayStr = format(day, 'yyyyMMdd', { locale: ko });
@@ -151,13 +162,15 @@ const ConsultScheduleSelect = ({userInfo, type, onSelect})=>{
                                 );
 
                                 return (
-                                    <td key={di} className="border p-3">
-                                        {slotItems.length > 0 && (
-                                            <ConsultScheduleBox
-                                                infos={slotItems}
-                                                onSelect={onSelect}
-                                            />
-                                        )}
+                                    <td key={di} className="border p-1 align-top">
+                                        <div className="p-2 relative" style={slotHeightStyle}>
+                                            {slotItems.length > 0 && (
+                                                <ConsultScheduleBox
+                                                    infos={slotItems}
+                                                    onSelect={onSelect}
+                                                />
+                                            )}
+                                        </div>
                                     </td>
                                 );
                             })}
