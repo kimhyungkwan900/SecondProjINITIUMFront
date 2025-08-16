@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import PageButton from "../../../component/admin/extracurricular/PagaButton";
+import PageButton from "../../../component/admin/extracurricular/PageButton.jsx";
 import { getAppliedProgramList } from "../../../api/user/extracurricular/UserProgramApi";
 
 export default function StudentParticipatedProgramList() {

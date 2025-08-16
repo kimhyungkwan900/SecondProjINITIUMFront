@@ -1,5 +1,5 @@
 import axiosInstance from "../../axiosInstance";
-import { unwrap } from "../../../utils/apiUtils";
+import { unwrap, handleApiError } from "../../../utils/apiUtils";
 
 // 로그인
 export const login = async ({ loginId, password }) => {
@@ -7,7 +7,8 @@ export const login = async ({ loginId, password }) => {
     const res = await axiosInstance.post("/auth/login", { loginId, password });
     return res.data; // LoginResponseDto
   } catch (error) {
-    unwrap(error);
+    handleApiError(error);
+    throw error;
   }
 };
 
@@ -16,7 +17,8 @@ export const logout = async () => {
   try {
     await axiosInstance.post("/auth/logout");
   } catch (error) {
-    unwrap(error);
+    handleApiError(error);
+    throw error;
   }
 };
 
@@ -35,7 +37,8 @@ export const changePassword = async ({ currentPassword, newPassword }) => {
   try {
     await axiosInstance.post("/auth/change-password", { currentPassword, newPassword });
   } catch (error) {
-    unwrap(error);
+    handleApiError(error);
+    throw error;
   }
 };
 
@@ -44,6 +47,7 @@ export const verifyPassword = async ({ password }) => {
   try {
     await axiosInstance.post("/auth/verify-password", { password });
   } catch (error) {
-    unwrap(error);
+    handleApiError(error);
+    throw error;
   }
 };

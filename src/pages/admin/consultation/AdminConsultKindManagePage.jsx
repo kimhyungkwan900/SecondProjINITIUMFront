@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import AdminSectionHeader from "../../../component/admin/AdminSectionHeader";
 import ConsultKindSearchFilter from "../../../features/admin/consultation/ConsultKindSearchFilter";
 import ConsultKindListTable from "../../../features/admin/consultation/ConsultKindListTable";
+import PageButton from "../../../component/admin/extracurricular/PageButton.jsx";
 import ConsultKindForm from "../../../features/admin/consultation/ConsultKindForm";
-import PageButton from "../../../component/admin/extracurricular/PagaButton";
 
 import { addDscsnKind, findDscsnKind, updateDscsnKind, deleteDscsnKind } from "../../../api/admin/consult/ConsultAdminApi"
  

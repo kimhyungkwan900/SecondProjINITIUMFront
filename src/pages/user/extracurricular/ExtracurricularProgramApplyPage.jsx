@@ -28,29 +28,29 @@ const ExtracurricularProgramApplyPage = () => {
     }));
   };
 
- const handleSearch = async () => {
-  if (!user?.loginId) {
-    console.log("user가 아직 준비되지 않음");
-    return;
-  }
-  setLoading(true);
-  try {
-    const data = await applyList(
-      user.loginId,
-      filter.status || null,
-      filter.keyword || null,
-      0,
-      10
-    );
-    console.log("API 응답 확인:", data);
-    setPrograms(data.content || []);
-    setSelectedIds(new Set());
-  } catch (error) {
-    console.error("프로그램 조회 실패", error);
-    setPrograms([]);
-  }
-  setLoading(false);
-};
+  const handleSearch = async () => {
+    if (!user?.loginId) {
+      console.log("user가 아직 준비되지 않음");
+      return;
+    }
+    setLoading(true);
+    try {
+      const data = await applyList(
+        user.loginId,
+        filter.status || null,
+        filter.keyword || null,
+        0,
+        10
+      );
+      console.log("API 응답 확인:", data);
+      setPrograms(data.content || []);
+      setSelectedIds(new Set());
+    } catch (error) {
+      console.error("프로그램 조회 실패", error);
+      setPrograms([]);
+    }
+    setLoading(false);
+  };
 
   const handleDeleteSelected = async () => {
     if (selectedIds.size === 0) {
@@ -70,7 +70,7 @@ const ExtracurricularProgramApplyPage = () => {
     }
   };
 
-   const handleCancelApply = async (eduAplyId) => {
+  const handleCancelApply = async (eduAplyId) => {
     if (!window.confirm("정말 신청을 취소하시겠습니까?")) return;
 
     try {
@@ -83,34 +83,37 @@ const ExtracurricularProgramApplyPage = () => {
     }
   };
 
-useEffect(() => {
-  if (user?.loginId) {  // user가 준비된 경우에만 호출
-    handleSearch();
-  }
-}, [user]);
+  useEffect(() => {
+    if (user?.loginId) {  // user가 준비된 경우에만 호출
+      handleSearch();
+    }
+  }, [user]);
   return (
-    <div>
+    <div className="max-w-5xl mx-auto"> {/* Outer container */}
       <PageHeader
-        title="비교과 프로그램 신청 내역"
+        title="신청 비교과 프로그램"
         breadcrumb={[
           { label: "마이페이지(학생)", link: "/mypage" },
-          { label: "비교과 프로그램", active: true },
+          { label: "참여 비교과 프로그램 참여 현황", active: false },
+          { label: "신청 비교과 프로그램", active: true }
         ]}
       />
-      <ApplyFilter
-        filter={filter}
-        onFilterChange={handleFilterChange}
-        onSearch={handleSearch}
-      />
-      <Button selectedIds={selectedIds} onDelete={handleDeleteSelected} />
-     <ApplyList
-            programs={programs}
-            loading={loading}
-            onDataChange={handleSearch}
-            selectedIds={selectedIds}
-            setSelectedIds={setSelectedIds}
-            handleCancelApply={handleCancelApply}
-            />
+      <div> {/* Inner container for sections */}
+        <ApplyFilter
+          filter={filter}
+          onFilterChange={handleFilterChange}
+          onSearch={handleSearch}
+        />
+        <Button selectedIds={selectedIds} onDelete={handleDeleteSelected} />
+        <ApplyList
+          programs={programs}
+          loading={loading}
+          onDataChange={handleSearch}
+          selectedIds={selectedIds}
+          setSelectedIds={setSelectedIds}
+          handleCancelApply={handleCancelApply}
+        />
+      </div>
     </div>
   );
 };

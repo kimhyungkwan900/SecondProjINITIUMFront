@@ -1,4 +1,4 @@
-import PageButton from "../PagaButton";
+import PageButton from "../PageButton.jsx";
 
 const CategoryList = ({ programList = [], currentPage, itemsPerPage, onPageChange, onSelectItem }) => {
   const totalPages = Math.ceil(programList.length / itemsPerPage);

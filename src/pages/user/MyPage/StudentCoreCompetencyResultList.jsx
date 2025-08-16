@@ -52,7 +52,7 @@ const StudentCoreCompetencyResultList = () => {
     // --- 공통 스타일 변수 ---
     const buttonStyle = "bg-[#354649] hover:bg-[#6C7A89] text-white text-sm px-6 py-2 rounded-md shadow-sm transition-colors disabled:opacity-50";
     // 테두리 색상 변경
-    const messageBoxStyle = "p-6 border border-gray-300 rounded-lg text-center text-sm";
+    const messageBoxStyle = "p-6 rounded-lg text-center text-sm";
     const gridHeaderStyle = "grid grid-cols-12 gap-4 bg-[#E0E7E9] text-[#354649] font-semibold p-4 rounded-t-lg border-b border-gray-300";
     const gridRowStyle = "grid grid-cols-12 gap-4 items-center p-4 border-t border-gray-300";
 
@@ -95,7 +95,7 @@ const StudentCoreCompetencyResultList = () => {
 
     return (
         // 테두리 색상 변경
-        <div className="shadow-md rounded-lg border border-gray-300 overflow-hidden">
+        <div className="shadow-md rounded-lg overflow-hidden">
             {/* 목록 헤더 */}
             <div className={gridHeaderStyle}>
                 <div className="col-span-1 text-center">번호</div>

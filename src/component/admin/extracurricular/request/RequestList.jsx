@@ -1,4 +1,4 @@
-import PageButton from "../PagaButton";
+import PageButton from "../PageButton.jsx";
 
 const RequestList = ({ 
   programList, 
