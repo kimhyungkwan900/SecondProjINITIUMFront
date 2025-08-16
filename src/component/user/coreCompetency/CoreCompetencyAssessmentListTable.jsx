@@ -122,8 +122,8 @@ const CoreCompetencyAssessmentListTable = () => {
 
   if (!user) {
     return (
-      <div className="mt-6 max-w-3xl p-6 border rounded-md text-center text-sm text-gray-700">
-        <p className="mb-3">이 화면은 로그인한 사용자만 볼 수 있습니다.</p>
+      <div className="mt-4 w-full rounded-xl border border-gray-200 bg-white p-8 shadow-sm flex flex-col items-center text-center">
+        <p className="mb-4 text-sm text-gray-700">이 화면은 로그인한 사용자만 볼 수 있습니다.</p>
         <button
           onClick={() => navigate("/login", { replace: true })}
           className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
