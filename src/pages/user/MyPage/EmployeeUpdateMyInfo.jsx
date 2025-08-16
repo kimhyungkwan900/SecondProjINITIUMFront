@@ -239,7 +239,7 @@ export default function EmployeeUpdateMyInfo() { // Changed component name
 
     // 비밀번호 확인이 완료되면 기존 정보 수정 화면 표시
     return (
-        <div className="max-w-5xl mx-auto space-y-8">
+        <div className="max-w-5xl mx-auto space-y-0">
             <PageHeader
                 title="개인정보 수정"
                 breadcrumb={[

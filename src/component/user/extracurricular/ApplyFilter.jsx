@@ -1,7 +1,7 @@
 import React from "react";
 const ApplyFilter = ({ filter, onFilterChange, onSearch }) => {
   return (
-    <div className="bg-gray-200 w-full mt-4 rounded p-4 flex items-center gap-6">
+    <div className="bg-white w-full p-4 flex items-center gap-6">
       <div>
         <label className="mr-2 font-semibold">신청 상태</label>
         <select

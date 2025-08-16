@@ -1,10 +1,18 @@
-import { useState } from "react";
+import { useState, useMemo, useContext } from "react";
 import MainLogo from "../../../component/user/mainpage/MainLogo";
 import NavMenuHorizontalDropdown from "../../../component/user/mainpage/NavMenuHorizontalDropdown";
+import { UserContext } from "../../../hooks/useAuth";
 
 export default function MainHeader() {
     const [hoveredIdx, setHoveredIdx] = useState(null);
-    const NAV_ITEMS = [
+
+    const { user } = useContext(UserContext);
+
+
+    const NAV_ITEMS = useMemo(()=>{
+        const isCnslr = user?.userType === "E";
+
+        return [
         {
             label: "진단검사",
             submenu: [
@@ -17,8 +25,8 @@ export default function MainHeader() {
         {
             label: "상담",
             submenu: [
-                { label: "상담신청", to: "/consult" },
-                { label: "상담내역", to: "/consult/list" }
+                { label: !isCnslr? "상담신청":"상담관리", to: !isCnslr? "/consult":"/cnslr/consult" },
+                { label: "상담내역", to: !isCnslr? "/consult/list":"/cnslr/consult/list" }
             ],
         },
         {
@@ -54,6 +62,7 @@ export default function MainHeader() {
             ],
         },
     ];
+    }, [user]);
     return (
         <header className="w-full shadow bg-white">
             <div className="flex items-center justify-between px-8 py-3 max-w-7xl mx-auto">

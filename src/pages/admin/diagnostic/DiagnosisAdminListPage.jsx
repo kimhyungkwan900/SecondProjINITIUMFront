@@ -3,8 +3,8 @@ import { fetchPagedTests } from "../../../api/user/diagnostic/diagnosisApi.jsx";
 import { deleteAdminDiagnosticTest } from "../../../api/user/diagnostic/diagnosisAdminApi.jsx";
 import AdminSectionHeader from "../../../component/admin/AdminSectionHeader.jsx";
 import TextInput from "../../../component/common/TextInput.jsx";
-import PageButton from "../../../component/admin/extracurricular/PagaButton.jsx";
 import { useNavigate } from "react-router-dom";
+import PageButton from "../../../component/admin/extracurricular/PageButton.jsx";
 
 const PAGE_SIZE = 5;
 

@@ -8,7 +8,7 @@ import {
 } from "../../../api/user/auth/studentsApi";
 import AdminSectionHeader from "../../../component/admin/AdminSectionHeader";
 import StudentListTable from "../../../features/admin/students/StudentListTable";
-import PageButton from "../../../component/admin/extracurricular/PagaButton";
+import PageButton from "../../../component/admin/extracurricular/PageButton.jsx";
 import StudentAdminUpdateForm from "../../../component/admin/student/StudentAdminUpdateForm";
 import StudentListSearchFilter from "../../../features/admin/students/StudentListSearchFilter";
 import AdminListToolbar from "../../../component/admin/AdminListToolbar";

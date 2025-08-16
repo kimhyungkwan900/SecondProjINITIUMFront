@@ -1,21 +1,23 @@
 import { useState, useEffect } from "react"
 import ReactModal from "react-modal";
 import ConsultInfoDetail from "../../../features/user/consultation/ConsultInfoDetail";
-import ConsultSatisfaction from "../../../features/user/consultation/ConsultSatisfaction";
-import { getConsultList, applyCancel, } from "../../../api/user/consult/ConsultUserApi"
-import PageButton from "../../../component/admin/extracurricular/PageButton.jsx";
+import RegisterConsultResult from "../../../features/user/consultation/RegisterConsultResult";
+import { getConsultList, applyCancel, updateStatus, registerResult } from "../../../api/user/consult/ConsultUserApi"
+import PageButton from "../../../component/admin/extracurricular/PagaButton";
 
 const PAGE_SIZE = 10;
-
-const ConsultList = ({ searchFilters, current, onPageChange })=>{
+const CnslrConsultList = ({ searchFilters, current, onPageChange })=>{
 
     const [selectedInfo, setSelectedInfo] = useState(null);
-    const [selectedInfoId, setSelectedInfoId] = useState("");
     const [detailModalIsOpen, setDetailModalIsOpen] = useState(false);
-    const [satisModalIsOpen, setSatisModalIsOpen] = useState(false);
+    const [resultModalIsOpen, setResultModalIsOpen] = useState(false);
     const [data, setData] = useState([]);
     const [total, setTotal] = useState(0);
     const [refreshKey, setRefreshKey] = useState(0);
+    const [result, setResult] = useState({
+        release: '',
+        dscsnResultCn: '',
+    });
 
     useEffect(() => {
         (async ()=>{
@@ -30,7 +32,6 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
                 console.log(result);
                 setData(result.data.dscsnInfos?.content || []);
                 setTotal(result.data.dscsnInfos?.totalElements ?? 0);
-                // console.log(total)
             } catch (e) {
                 alert("상담 목록을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
                 setData([]);
@@ -54,6 +55,55 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
         }
     };
 
+    const handleSubmit =async(dscsnInfoId)=>{
+    
+        const payload = {
+            dscsnInfoId: dscsnInfoId,
+            release: result.release,
+            dscsnResultCn: result.dscsnResultCn,
+        };
+
+        if (!payload.release) {
+            alert('공개여부를 선택해 주세요.');
+            return;
+        }
+        if (!payload.dscsnResultCn.trim()) {
+            alert('상담결과 내용을 입력해 주세요.');
+            return;
+        }
+
+        try {
+            await registerResult(payload);
+            alert('상담결과가 등록되었습니다.');
+            setResultModalIsOpen(false);
+        } catch (e) {
+            console.error(e);
+            alert('등록 중 오류가 발생했습니다.');
+        } finally{
+            setRefreshKey((k) => k + 1);
+        }
+    }
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+            setResult((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleUpdate = async (dscsnInfoId) => {
+        try {
+            await updateStatus(dscsnInfoId);
+        } catch (e) {
+            alert("상태 업데이트 중 오류 발생");
+        } finally {
+            setRefreshKey((k) => k + 1);
+        }
+    };
+
+    // const handleResultChange = (e) => {
+    //     const { name, value } = e.target;
+    //         setResult((prev) => ({ ...prev, [name]: value }));
+    // };
+
     const totalPages = Math.ceil(total / PAGE_SIZE);
 
     const openDetailModal = (info) => {
@@ -63,13 +113,13 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
     const closeDetailModal = () => {
         setDetailModalIsOpen(false);
     };
-
-    const openSatisModal = (infoId) => {
-        setSelectedInfoId(infoId)
-        setSatisModalIsOpen(true);
+    
+    const openResultModal = (info) => {
+        setSelectedInfo(info)
+        setResultModalIsOpen(true);
     };
-    const closeSatisModal = () => {
-        setSatisModalIsOpen(false);
+    const closeResultModal = () => {
+        setResultModalIsOpen(false);
     };
 
     return(
@@ -84,8 +134,9 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
                 <th className="border px-3 py-2">상담유형</th>
                 <th className="border px-3 py-2">상태</th>
                 <th className="border px-3 py-2">상세보기</th>
+                <th className="border px-3 py-2">예약완료</th>
                 <th className="border px-3 py-2">예약취소</th>
-                <th className="border px-3 py-2">만족도 설문</th>
+                <th className="border px-3 py-2">상담결과 등록</th>
                 </tr>
             </thead>
             <tbody>
@@ -115,13 +166,16 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
                                     <button onClick={() => openDetailModal(item)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">조회</button>
                                 </td>
                                 <td className="border px-3 py-2">
+                                    <button onClick={() => handleUpdate(item.dscsnInfoId)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">확인</button>
+                                </td>
+                                <td className="border px-3 py-2">
                                     <button onClick={()=> handleCancel(item.dscsnInfoId)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">취소</button>
                                 </td>
                                 <td className="border px-3 py-2">
-                                    {item.dscsnStatus === "Completed"? 
-                                        <button onClick={() => openSatisModal(item)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">참여하기</button>
+                                    {item.dscsnStatus !== "Completed"? 
+                                        <button onClick={() => openResultModal(item)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">상담결과 등록</button>
                                         :
-                                        <button className="bg-gray-500 text-white font-medium px-3 py-1 rounded" disabled>참여하기</button>
+                                        <button className="bg-gray-500 text-white font-medium px-3 py-1 rounded" disabled>상담결과 등록</button>
                                     }
                                 </td>
                             </tr>
@@ -133,8 +187,8 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
             {/* 페이징 처리 */}
             <PageButton totalPages={totalPages} currentPage={current} onPageChange={onPageChange} />
 
-            {/* 모달창 */}
-            <ReactModal
+            {/* 상세정보 모달창 */}
+             <ReactModal
                 isOpen={detailModalIsOpen}
                 onRequestClose={closeDetailModal}
                 overlayClassName="fixed inset-0 bg-black/50 flex items-center justify-center p-0 md:p-4 z-50"
@@ -149,14 +203,13 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
                     }
                 }}
             >
-                {/* <div className="bg-white rounded-2xl shadow-xl w-auto min-w-[20rem] max-w-[120vw] md:max-w-[70rem] max-h-[0vh] overflow-autoinline-block"> */}
                 <div className="bg-white rounded-2xl shadow-xl w-[clamp(24rem,92vw,80rem)] max-h-[96dvh] md:max-h-[92dvh] flex flex-col">
                     <ConsultInfoDetail info={selectedInfo} onClose={closeDetailModal}/>
-                </div>    
+                </div>  
             </ReactModal>
             <ReactModal
-                isOpen={satisModalIsOpen}
-                onRequestClose={closeSatisModal}
+                isOpen={resultModalIsOpen}
+                onRequestClose={closeResultModal}
                 overlayClassName="fixed inset-0 bg-black/50 flex items-center justify-center p-0 md:p-4 z-50"
                 style={{
                     content: {
@@ -170,10 +223,10 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
                 }}
             >
                 <div className="bg-white rounded-2xl shadow-xl w-[clamp(24rem,92vw,80rem)] max-h-[96dvh] md:max-h-[92dvh] flex flex-col">
-                    <ConsultSatisfaction infoId={selectedInfoId} onClose={closeSatisModal} setRefreshKey={setRefreshKey}/>
-                </div>
+                    <RegisterConsultResult info={selectedInfo} onSubmit={handleSubmit} onChange={handleChange} result={result} onClose={closeResultModal} setRefreshKey={setRefreshKey}/>
+                </div>  
             </ReactModal>
         </div>
     );
 }
-export default ConsultList;
+export default CnslrConsultList;
