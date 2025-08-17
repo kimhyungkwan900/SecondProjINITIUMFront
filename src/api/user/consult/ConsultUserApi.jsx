@@ -77,3 +77,12 @@ export const deleteSchedule = async (scheduleIds) => {
     });
     return response.data;
 };
+
+// empNo 기반으로 상담내역 조회
+export const getDscsnInfoByEmp = async (empNo) => {
+    // GET 요청 시 params 옵션을 사용해 쿼리 스트링(?empNo=...)을 추가합니다.
+    const response = await axiosInstance.get('/consult/schedule/by-emp', {
+        params: { empNo },
+    });
+    return response.data;
+};

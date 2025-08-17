@@ -32,6 +32,7 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
                 setTotal(result.data.dscsnInfos?.totalElements ?? 0);
                 // console.log(total)
             } catch (e) {
+                console.error("API Error:", e);
                 alert("상담 목록을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
                 setData([]);
             } 

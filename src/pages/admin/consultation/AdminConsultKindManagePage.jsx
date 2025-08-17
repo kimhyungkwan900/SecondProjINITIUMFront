@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
-
 import AdminSectionHeader from "../../../component/admin/AdminSectionHeader";
 import ConsultKindSearchFilter from "../../../features/admin/consultation/ConsultKindSearchFilter";
 import ConsultKindListTable from "../../../features/admin/consultation/ConsultKindListTable";
 import PageButton from "../../../component/admin/extracurricular/PageButton.jsx";
 import ConsultKindForm from "../../../features/admin/consultation/ConsultKindForm";
-
-import { addDscsnKind, findDscsnKind, updateDscsnKind, deleteDscsnKind } from "../../../api/admin/consult/ConsultAdminApi"
+import { addDscsnKind, deleteDscsnKind, findDscsnKind, updateDscsnKind } from "../../../api/admin/consult/ConsultAdminApi.js";
  
 const PAGE_SIZE = 10;
 
@@ -143,17 +141,17 @@ const AdminConsultKindManagePage = ()=>{
                     <div className="bg-white border border-gray-200 rounded-lg p-3 space-y-3 self-start sticky top-20">
                         <div className="flex justify-start space-x-3">
                             <button
-                                className=" h-8 bg-white hover:bg-gray-500 text-blue-700 border-2 border-blue-700 font-medium px-2 py-1 rounded align-bottom"
+                                className="h-8 border border-[#A3C6C4] text-[#354649] font-semibold px-2 py-1 rounded align-bottom hover:bg-[#E0E7E9] transition-colors"
                                 onClick={() => handleNew()}
                             >신규
                             </button>
                             <button
-                                className=" h-8 bg-blue-700 hover:bg-blue-800 text-white font-medium px-2 py-1 rounded align-bottom"
+                                className="h-8 bg-[#354649] text-white font-semibold px-2 py-1 rounded align-bottom hover:bg-[#6C7A89] transition-colors"
                                 onClick={() => handleSave(mode, newKind)}
                             >저장
                             </button>
                             <button
-                                className=" h-8 bg-blue-700 hover:bg-blue-800 text-white font-medium px-2 py-1 rounded align-bottom"
+                                className="bg-red-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-red-600 disabled:opacity-50"
                                 onClick={() => handleDelete(newKind)}
                             >삭제
                             </button>
@@ -170,12 +168,13 @@ const AdminConsultKindManagePage = ()=>{
 
             <div className="mt-4 flex justify-between items-center">
                 <PageButton
-                    totalPages={totalPages}
-                    currentPage={current}
-                    onPageChange={handlePageChange}
-                    disabled={loading}
-                    maxVisible={5}
-                />
+                totalPages={totalPages}
+                currentPage={current}
+                onPageChange={handlePageChange}
+                disabled={loading}
+                maxVisible={5}
+                className="px-4 py-2 rounded border border-gray-300 text-[#354649] hover:bg-[#E0E7E9] disabled:opacity-50"
+            />
             </div>
         </div>
     );

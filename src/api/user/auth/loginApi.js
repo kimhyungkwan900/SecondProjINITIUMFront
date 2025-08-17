@@ -1,11 +1,13 @@
+import { handleApiError, unwrap } from "../../../utils/apiUtils";
 import axiosInstance from "../../axiosInstance";
-import { unwrap, handleApiError } from "../../../utils/apiUtils";
+
 
 // 로그인
 export const login = async ({ loginId, password }) => {
   try {
+    // 서버가 HttpOnly 쿠키에 RT/AT를 심어주고, (선택) body로 사용자 정보/메시지를 반환한다고 가정
     const res = await axiosInstance.post("/auth/login", { loginId, password });
-    return res.data; // LoginResponseDto
+    return res.data; // { user, ... } 형태면 상위에서 setUser(res.data.user) 가능
   } catch (error) {
     handleApiError(error);
     throw error;
@@ -15,7 +17,7 @@ export const login = async ({ loginId, password }) => {
 // 로그아웃
 export const logout = async () => {
   try {
-    await axiosInstance.post("/auth/logout");
+    await axiosInstance.post("/auth/logout"); // 서버가 쿠키 삭제
   } catch (error) {
     handleApiError(error);
     throw error;
@@ -28,6 +30,7 @@ export const getCurrentUser = async () => {
     const res = await axiosInstance.get("/auth/me");
     return res.data;
   } catch (error) {
+    // unwrap 유틸이 예외를 재던지거나 메시지 라핑을 한다면 그대로 유지
     unwrap(error);
   }
 };

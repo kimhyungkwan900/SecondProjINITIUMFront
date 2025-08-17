@@ -67,8 +67,9 @@ export default function StudentListTable({
           <div
             key={s.studentNo || idx}
             className={
-              "grid border-b border-gray-200 last:border-b-0 hover:bg-gray-50 cursor-pointer " +
-              (isSelected ? "bg-blue-50 ring-1 ring-blue-300" : "")
+              "grid border-b border-gray-300 last:border-b-0 hover:bg-gray-50 cursor-pointer " +
+              (isSelected ? "bg-blue-50 ring-1 ring-blue-300" : "") +
+              (idx % 2 === 1 ? " bg-gray-50/50" : " bg-white")
             }
             style={{ gridTemplateColumns: COLS }}
             onClick={() => onRowClick?.(s.studentNo)}
@@ -94,7 +95,7 @@ export default function StudentListTable({
             <div className="px-3 py-3 text-sm border-r last:border-r-0 border-gray-100 min-w-0">
               <div className="truncate" title={s.email}>{s.email}</div>
             </div>
-            <div className="px-3 py-3 text-sm whitespace-nowrap min-w-0">
+            <div className="px-4 py-2 text-sm whitespace-nowrap min-w-0">
               {s.admissionDate}
             </div>
           </div>

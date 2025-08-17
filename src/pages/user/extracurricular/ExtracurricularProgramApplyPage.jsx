@@ -1,11 +1,6 @@
 import { useState, useEffect } from "react";
-import { deletePrograms } from "../../../api/user/extracurricular/UserSurveyApi";
 import { useAuth } from "../../../hooks/useAuth.jsx";
 import { applyList, cancleApply } from "../../../api/user/extracurricular/UserApplyApi";
-
-
-import Button from "../../../component/user/extracurricular/Button";
-
 import PageHeader from "../../../component/common/PageHeader";
 import ApplyFilter from "../../../component/user/extracurricular/ApplyFilter";
 import ApplyList from "../../../component/user/extracurricular/ApplyList";
@@ -52,24 +47,6 @@ const ExtracurricularProgramApplyPage = () => {
     setLoading(false);
   };
 
-  const handleDeleteSelected = async () => {
-    if (selectedIds.size === 0) {
-      alert("삭제할 프로그램을 선택하세요.");
-      return;
-    }
-    if (!window.confirm("선택한 프로그램을 삭제하시겠습니까?")) {
-      return;
-    }
-    try {
-      await deletePrograms(Array.from(selectedIds));
-      alert("삭제 완료");
-      handleSearch(); // 리스트 재조회
-    } catch (error) {
-      console.error("삭제 실패", error);
-      alert("삭제 중 오류가 발생했습니다.");
-    }
-  };
-
   const handleCancelApply = async (eduAplyId) => {
     if (!window.confirm("정말 신청을 취소하시겠습니까?")) return;
 
@@ -89,7 +66,7 @@ const ExtracurricularProgramApplyPage = () => {
     }
   }, [user]);
   return (
-    <div className="max-w-5xl mx-auto"> {/* Outer container */}
+    <div className="max-w-7xl mx-auto px-6 py-8 space-y-8 bg-white">
       <PageHeader
         title="신청 비교과 프로그램"
         breadcrumb={[
@@ -104,7 +81,6 @@ const ExtracurricularProgramApplyPage = () => {
           onFilterChange={handleFilterChange}
           onSearch={handleSearch}
         />
-        <Button selectedIds={selectedIds} onDelete={handleDeleteSelected} />
         <ApplyList
           programs={programs}
           loading={loading}

@@ -27,7 +27,7 @@ const AdminAssessmentResultListTable = ({
 
   return (
     <div>
-      <div className="overflow-x-auto shadow rounded bg-white">
+      <div className="overflow-x-auto bg-white">
         <table className="w-full border text-sm text-center">
           <thead className="bg-gray-100 text-gray-700 font-semibold">
             <tr>

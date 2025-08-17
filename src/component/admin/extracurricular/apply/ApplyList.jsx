@@ -40,12 +40,12 @@ const ApplyList = ({ applyList, selectedIds, onSelectionChange }) => {
   };
 
   return (
-    <div className="w-full overflow-x-auto mt-6 bg-white border rounded p-4">
-      <h2 className="text-xl font-bold mb-4">신청자 목록</h2>
-      <table className="w-full table-auto border-collapse border" style={{ tableLayout: "fixed" }}>
-        <thead className="bg-gray-100 text-center">
+    <div className="adm-card overflow-x-auto mt-6">
+      <h2 className="text-xl font-bold text-gray-700 mb-4">신청자 목록</h2>
+      <table className="w-full table-auto border-collapse" style={{ tableLayout: "fixed" }}>
+        <thead className="text-center">
           <tr>
-            <th className="border p-2" style={{ width: "5%" }}>
+            <th className="adm-th" style={{ width: "5%" }}>
               <input
                 type="checkbox"
                 checked={
@@ -55,16 +55,16 @@ const ApplyList = ({ applyList, selectedIds, onSelectionChange }) => {
                 onChange={handleSelectAll}
               />
             </th>
-            <th className="border p-2" style={{ width: "10%" }}>
+            <th className="adm-th" style={{ width: "10%" }}>
               신청 ID
             </th>
-            <th className="border p-2" style={{ width: "20%" }}>
+            <th className="adm-th" style={{ width: "20%" }}>
               신청일자
             </th>
-            <th className="border p-2" style={{ width: "20%" }}>
+            <th className="adm-th" style={{ width: "20%" }}>
               신청 상태
             </th>
-            <th className="border p-2" style={{ width: "45%" }}>
+            <th className="adm-th" style={{ width: "45%" }}>
               신청 내용
             </th>
           </tr>
@@ -72,38 +72,35 @@ const ApplyList = ({ applyList, selectedIds, onSelectionChange }) => {
         <tbody>
           {currentItems.length === 0 ? (
             <tr>
-              <td colSpan="5" className="border p-4 h-[205px] text-center text-gray-500">
+              <td colSpan="5" className="adm-td p-4 h-[205px] text-center text-gray-500">
                 신청한 사람이 없습니다.
               </td>
             </tr>
           ) : (
             <>
               {currentItems.map((apply) => (
-                <tr
-                  key={apply.eduAplyId}
-                  className="text-center border-t hover:bg-gray-50"
-                >
-                  <td className="border p-2">
+                <tr className="adm-row">
+                  <td className="adm-td">
                     <input
                       type="checkbox"
                       checked={selectedIds.includes(apply.eduAplyId)}
                       onChange={() => handleCheckboxChange(apply.eduAplyId)}
                     />
                   </td>
-                  <td className="border p-2">{apply.eduAplyId}</td>
-                  <td className="border p-2">{apply.eduAplyDt?.replace("T", " ")}</td>
-                  <td className="border p-2">{statusMap[apply.aprySttsNm] || apply.aprySttsNm}</td>
-                  <td className="border p-2 text-left">{apply.eduAplyCn || "-"}</td>
+                  <td className="adm-td">{apply.eduAplyId}</td>
+                  <td className="adm-td">{apply.eduAplyDt?.replace("T", " ")}</td>
+                  <td className="adm-td">{statusMap[apply.aprySttsNm] || apply.aprySttsNm}</td>
+                  <td className="adm-td text-left">{apply.eduAplyCn || "-"}</td>
                 </tr>
               ))}
               {/* 빈 행 채우기 */}
               {Array.from({ length: itemsPerPage - currentItems.length }).map((_, idx) => (
                 <tr key={`empty-${idx}`} className="text-center border-t h-[40px]">
-                  <td className="border p-2">&nbsp;</td>
-                  <td className="border p-2"></td>
-                  <td className="border p-2"></td>
-                  <td className="border p-2"></td>
-                  <td className="border p-2"></td>
+                  <td className="adm-td">&nbsp;</td>
+                  <td className="adm-td"></td>
+                  <td className="adm-td"></td>
+                  <td className="adm-td"></td>
+                  <td className="adm-td"></td>
                 </tr>
               ))}
             </>

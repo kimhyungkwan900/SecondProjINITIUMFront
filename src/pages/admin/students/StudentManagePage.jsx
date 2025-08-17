@@ -12,6 +12,7 @@ import PageButton from "../../../component/admin/extracurricular/PageButton.jsx"
 import StudentAdminUpdateForm from "../../../component/admin/student/StudentAdminUpdateForm";
 import StudentListSearchFilter from "../../../features/admin/students/StudentListSearchFilter";
 import AdminListToolbar from "../../../component/admin/AdminListToolbar";
+import { formatDate } from "../../../utils/dateUtils.js";
 
 const emptyDetail = {
   studentNo: "",
@@ -149,14 +150,12 @@ export default function StudentManagePage() {
     setDetail(emptyDetail);
     setError("");
   };
-  // 공통: 날짜 공백 → null
-  const normalizeDate = (s) => (s && String(s).trim().length ? s : null);
 
   const buildStudentPayload = (d) => ({
     name: (d.name ?? "").trim(),
     email: (d.email ?? "").trim(),
-    birthDate: normalizeDate(d.birthDate),         // "YYYY-MM-DD" 문자열
-    admissionDate: normalizeDate(d.admissionDate), // "YYYY-MM-DD" 문자열
+    birthDate: formatDate(d.birthDate),         // "YYYY-MM-DD" 문자열
+    admissionDate: formatDate(d.admissionDate), // "YYYY-MM-DD" 문자열
 
     gender: (d.gender ?? d.genderCode ?? "").trim(),
 
@@ -294,7 +293,7 @@ export default function StudentManagePage() {
               <div className="flex items-center gap-3">
                 <span className="text-sm">표시개수</span>
                 <select
-                  className="w-auto rounded border border-gray-300 px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="border border-gray-300 rounded-md px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#6C7A89]"
                   value={size}
                   onChange={handleSizeChange}
                   disabled={loading}

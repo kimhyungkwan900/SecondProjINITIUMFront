@@ -60,6 +60,18 @@ export const updateMyInfo = async (empNo, dto, { signal } = {}) => {
   }
 };
 
+/**
+ * 특정 교직원이 담당하는 모든 비교과 프로그램 목록을 조회합니다.
+ * @param {string} empNo - 교직원 번호
+ * @returns {Promise<any[]>} 담당 프로그램 목록
+ */
+export const fetchMyProgramsByEmp = async (empNo) => {
+  const { data } = await axiosInstance.get(`/employees/program/my-programs`, {
+    params: { empNo },
+  });
+  return data;
+};
+
 // ---------- 상태 변경 ----------
 export const changeEmployeeStatus = async (empNo, statusCode, { signal } = {}) => {
   try {
@@ -143,3 +155,4 @@ export const validateEmployeeSearchParams = (params = {}) => {
   }
   return { isValid: Object.keys(errors).length === 0, errors };
 };
+

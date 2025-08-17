@@ -9,10 +9,9 @@ const CategorySideContent = ({ onSelectCategory }) => {
     const fetchCompetencies = async () => {
       try {
         const data = await getCoreCateogry();
-        // children은 기본 빈 배열로 세팅
-        const formatted = data.map(item => ({
+        const formatted = (data || []).map((item) => ({
           ...item,
-          children: []
+          children: [],
         }));
         setCompetencyOptions(formatted);
       } catch (error) {
@@ -23,58 +22,55 @@ const CategorySideContent = ({ onSelectCategory }) => {
   }, []);
 
   const toggle = async (id) => {
-    // 이미 열려있으면 닫기
     if (openId === id) {
       setOpenId(null);
       return;
     }
-
-    // 하위 역량 불러오기
     try {
       const subData = await getSubCateogry(id);
-      setCompetencyOptions(prev =>
-        prev.map(item =>
-          item.id === id ? { ...item, children: subData } : item
-        )
+      setCompetencyOptions((prev) =>
+        prev.map((item) => (item.id === id ? { ...item, children: subData || [] } : item))
       );
-      setOpenId(id); // 해당 항목 열기
+      setOpenId(id);
     } catch (error) {
       console.error("하위 역량 조회 실패", error);
     }
   };
 
   return (
-    <div className="w-[33%] border p-2 rounded bg-white text-sm">
-      <h1 className="text-center text-xl font-bold">프로그램분류</h1>
-      <div className="mt-3 bg-gray-100 p-3 rounded space-y-1 h-[425px] overflow-y-auto">
-        {competencyOptions.map((item) => {
+    <div className="w-full h-full text-sm">
+      <h2 className="px-2 text-base font-semibold text-gray-700">프로그램분류</h2>
+
+      {/* 스크롤 영역 */}
+      <div className="mt-2 bg-gray-50 rounded px-2 py-2 h-[600px] overflow-y-auto">
+        {(competencyOptions || []).map((item) => {
           const isOpen = openId === item.id;
           return (
-            <div key={item.id}>
-              {/* 상위 항목 */}
-              <div
+            <div key={item.id} className="mb-1">
+              {/* 상위역량 행 - 폭 전체 사용 */}
+              <button
+                type="button"
                 onClick={() => toggle(item.id)}
-                className={`p-1 cursor-pointer rounded flex items-center font-semibold hover:bg-blue-100  text-sm${
-                  isOpen ? "bg-blue-200" : ""
+                className={`w-full text-left px-3 py-2 rounded flex items-center ${
+                  isOpen ? "bg-blue-100 text-blue-800" : "hover:bg-gray-100"
                 }`}
               >
-                📂{item.name}
-              </div>
+                <span className="mr-2">📂</span>
+                <span className="truncate">{item.name}</span>
+              </button>
 
-              {/* 하위 항목 */}
-              <div
-                className={`ml-5 overflow-hidden transition-all duration-300 ease-in-out ${
-                  isOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
-                }`}
-              >
-                {item.children.map((child) => (
-                  <div
+              {/* 하위역량 - 폭 전체 사용 */}
+              <div className={`ml-4 transition-all ${isOpen ? "mt-1" : "hidden"}`}>
+                {(item.children || []).map((child) => (
+                  <button
                     key={child.id}
-                    className="p-1 hover:bg-gray-200 rounded cursor-pointer flex items-center"
-                    onClick={() => onSelectCategory(child.id)}
+                    type="button"
+                    onClick={() => onSelectCategory?.(child.id)}
+                    className="w-full text-left px-3 py-2 rounded hover:bg-gray-100 flex items-center"
                   >
-                    📋{child.name}
-                  </div>
+                    <span className="mr-2">📋</span>
+                    <span className="truncate">{child.name}</span>
+                  </button>
                 ))}
               </div>
             </div>

@@ -34,7 +34,7 @@ function toIsoDate(dateInput) {
 
 function LoadingSkeleton() {
   return (
-    <div className="flex gap-4 overflow-x-auto pb-2">
+    <div className="max-w-7xl mx-auto px-6 py-8 space-y-8 bg-white">
       {Array.from({ length: 3 }).map((_, i) => (
         <div
           key={i}
@@ -91,8 +91,8 @@ export default function StudentRecommendedProgram({
       const content = Array.isArray(pageData?.content)
         ? pageData.content
         : Array.isArray(pageData)
-        ? pageData
-        : [];
+          ? pageData
+          : [];
       setItems(content);
     } catch (e) {
       console.error(e);
@@ -118,12 +118,12 @@ export default function StudentRecommendedProgram({
         ]}
       />
 
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mt-4 mb-4">
         <h3 className="text-2xl font-semibold text-[#354649]">맞춤 추천 비교과</h3>
 
         <button
           type="button"
-          className="bg-[#354649] text-white font-semibold py-2 px-4 rounded-md hover:bg-[#6C7A89] transition-colors text-sm"
+          className="bg-[#354649] text-white font-semibold py-2 px-4 rounded-md hover:bg-[#6C7A89] transition-colors text-sm disabled:opacity-50"
           onClick={() =>
             navigate(
               `/programs/recommended?assessmentNo=${encodeURIComponent(

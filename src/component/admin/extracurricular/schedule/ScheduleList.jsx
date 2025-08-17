@@ -1,18 +1,18 @@
 const ScheduleList = ({ scheduleList, onSelectSchedule }) => {
   if (!scheduleList || scheduleList.length === 0) {
-    return <div className="mt-4 overflow-auto ">
-            <table className="min-w-full border-collapse border border-gray-300 bg-white">
+    return <div className="adm-card mt-4 overflow-auto">
+            <table className="min-w-full border-collapse">
                 <thead>
                 <tr>
-                    <th className="border border-gray-300 px-4 py-2">일정 ID</th>
-                    <th className="border border-gray-300 px-4 py-2">프로그램 ID</th>
-                    <th className="border border-gray-300 px-4 py-2">일정 날짜 시간</th>
-                    <th className="border border-gray-300 px-4 py-2">종료 시간</th>
+                    <th className="adm-th">일정 ID</th>
+                    <th className="adm-th">프로그램 ID</th>
+                    <th className="adm-th">일정 날짜 시간</th>
+                    <th className="adm-th">종료 시간</th>
                 </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td className="border border-gray-300 px-4 py-2 text-center" colSpan={4}>
+                        <td className="adm-td text-center text-gray-500" colSpan={4}>
                         등록된 일정이 없습니다.
                         </td>
                     </tr>
@@ -22,14 +22,14 @@ const ScheduleList = ({ scheduleList, onSelectSchedule }) => {
   }
 
   return (
-    <div className="mt-4 overflow-auto ">
-      <table className="min-w-full border-collapse border border-gray-300 bg-white">
+    <div className="adm-card mt-4 overflow-auto">
+      <table className="min-w-full border-collapse">
         <thead>
           <tr>
-            <th className="border border-gray-300 px-4 py-2">일정 ID</th>
-            <th className="border border-gray-300 px-4 py-2">프로그램 ID</th>
-            <th className="border border-gray-300 px-4 py-2">일정 날짜 시간</th>
-            <th className="border border-gray-300 px-4 py-2">종료 시간</th>
+            <th className="adm-th">일정 ID</th>
+            <th className="adm-th">프로그램 ID</th>
+            <th className="adm-th">일정 날짜 시간</th>
+            <th className="adm-th">종료 시간</th>
           </tr>
         </thead>
         <tbody>
@@ -37,14 +37,14 @@ const ScheduleList = ({ scheduleList, onSelectSchedule }) => {
             <tr
               key={schedule.eduShdlId}
               onClick={() => onSelectSchedule(schedule.eduShdlId)}
-              className="cursor-pointer hover:bg-gray-100"
+              className="cursor-pointer adm-row"
             >
-              <td className="border border-gray-300 px-4 py-2">{schedule.eduShdlId}</td>
-              <td className="border border-gray-300 px-4 py-2">{schedule.eduMngId}</td>
-              <td className="border border-gray-300 px-4 py-2">
+              <td className="adm-td">{schedule.eduShdlId}</td>
+              <td className="adm-td">{schedule.eduMngId}</td>
+              <td className="adm-td">
                   {schedule.eduDt?.replace("T", " ") || "-"}
               </td>
-              <td className="border border-gray-300 px-4 py-2">{schedule.eduEndTm}</td>
+              <td className="adm-td">{schedule.eduEndTm}</td>
             </tr>
           ))}
         </tbody>

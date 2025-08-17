@@ -100,6 +100,7 @@ const AdminConsultListPage = ()=>{
                     onPageChange={handlePageChange}
                     disabled={loading}
                     maxVisible={5}
+                    className="px-4 py-2 rounded border border-gray-300 text-[#354649] hover:bg-[#E0E7E9] disabled:opacity-50"
                 />
             </div>
         </div>

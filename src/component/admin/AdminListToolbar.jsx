@@ -8,11 +8,11 @@ export default function AdminListToolbar({
   resetButtonText = "초기화",
 }) {
   return (
-    <div className="flex items-center justify-between mb-3">
+    <div className="flex items-center justify-between my-3">
       <div className="flex items-center gap-2">
         {/* 조회 버튼 */}
         <button
-          className="bg-[#222E8D] text-white px-3 py-1 rounded text-sm font-semibold hover:bg-blue-800 transition disabled:opacity-50"
+          className="bg-[#222E8D] text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-800 disabled:opacity-50 text-sm"
           onClick={onSearch}
           disabled={loading}
         >

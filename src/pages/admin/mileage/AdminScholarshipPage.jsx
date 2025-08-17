@@ -5,6 +5,7 @@ import {
   updateScholarshipRejectReason,
   processScholarshipPayment,
 } from "../../../api/admin/mileage/AdminScholarshipApi";
+import AdminSectionHeader from "../../../component/admin/AdminSectionHeader";
 
 // 상태 코드 상수
 const STATE = {
@@ -136,141 +137,132 @@ export default function AdminScholarshipPage() {
   return (
     <div className="p-6 space-y-6">
       {/* 헤더 */}
-      <div>
-        <h1 className="text-2xl font-bold">장학금 관리</h1>
-        <p className="text-sm text-gray-500 mt-1">신청/승인/반려/지급을 한 화면에서 관리합니다.</p>
-      </div>
+      <AdminSectionHeader title="장학금 관리" />
 
       {/* 검색 */}
-      <div className="bg-white rounded-xl shadow-sm ring-1 ring-gray-200/70 p-5">
-        <div className="grid md:grid-cols-5 gap-3">
-          <input
-            name="studentNo"
-            placeholder="학번"
-            value={filters.studentNo}
-            onChange={handleChange}
-            className="border rounded px-3 py-2"
-          />
-          <input
-            name="studentName"
-            placeholder="이름"
-            value={filters.studentName}
-            onChange={handleChange}
-            className="border rounded px-3 py-2"
-          />
-          <input
-            name="subjectName"
-            placeholder="학과명"
-            value={filters.subjectName}
-            onChange={handleChange}
-            className="border rounded px-3 py-2"
-          />
-          <select
-            name="stateCode"
-            value={filters.stateCode}
-            onChange={handleChange}
-            className="border rounded px-3 py-2 bg-white"
-          >
-            {STATE_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-          <button onClick={handleSearch} className="bg-blue-600 text-white rounded px-3 py-2">
-            검색
-          </button>
-        </div>
+      <div className="grid md:grid-cols-5 gap-3 p-4 border border-gray-200 rounded-md">
+        <input
+          name="studentNo"
+          placeholder="학번"
+          value={filters.studentNo}
+          onChange={handleChange}
+          className="border border-[#A3C6C4] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6C7A89]"
+        />
+        <input
+          name="studentName"
+          placeholder="이름"
+          value={filters.studentName}
+          onChange={handleChange}
+          className="border border-[#A3C6C4] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6C7A89]"
+        />
+        <input
+          name="subjectName"
+          placeholder="학과명"
+          value={filters.subjectName}
+          onChange={handleChange}
+          className="border border-[#A3C6C4] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6C7A89]"
+        />
+        <select
+          name="stateCode"
+          value={filters.stateCode}
+          onChange={handleChange}
+          className="border border-[#A3C6C4] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#354649] bg-white"
+        >
+          {STATE_OPTIONS.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+        <button
+          onClick={handleSearch}
+          className="bg-[#354649] text-white font-semibold px-3 py-2 rounded-md hover:bg-[#6C7A89] transition-colors"
+        >
+          검색
+        </button>
       </div>
 
       {/* 목록 */}
       <div className="bg-white rounded-xl shadow-sm ring-1 ring-gray-200/70">
         <div className="px-5 py-4 border-b flex items-center justify-between">
           <div className="font-semibold">신청 목록</div>
-          <div className="text-sm text-gray-500">총 {total.toLocaleString()}건</div>
+          <div className="text-sm text-[#6C7A89]">총 {total.toLocaleString()}건</div>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full table-auto text-sm">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="p-2 border">ID</th>
-                <th className="p-2 border">학번/이름</th>
-                <th className="p-2 border">학과</th>
-                <th className="p-2 border">상태</th>
-                <th className="p-2 border">지급금액</th>
-                <th className="p-2 border">계좌</th>
-                <th className="p-2 border">일시</th>
-                <th className="p-2 border w-56">동작</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading ? (
-                <tr>
-                  <td colSpan={8} className="p-6 text-center text-gray-500">
-                    로딩 중...
-                  </td>
-                </tr>
-              ) : scholarships.length === 0 ? (
-                <tr>
-                  <td colSpan={8} className="p-6 text-center text-gray-500">
-                    데이터 없음
-                  </td>
-                </tr>
-              ) : (
-                scholarships.map((s) => (
-                  <tr key={s.id} className="border-t">
-                    <td className="p-2 border">{s.id}</td>
-                    <td className="p-2 border">
-                      <div className="font-medium">{s.studentNo}</div>
-                      <div className="text-gray-600">{s.studentName}</div>
-                    </td>
-                    <td className="p-2 border">{s.schoolSubjectName}</td>
-                    <td className="p-2 border">{stateBadge(s.stateCode, s.stateName)}</td>
-                    <td className="p-2 border text-right">
-                      {s.paymentAmount != null ? Number(s.paymentAmount).toLocaleString() : "-"}
-                    </td>
-                    <td className="p-2 border">
-                      {s.bankName ? `${s.bankName} / ${s.accountNo}` : "-"}
-                    </td>
-                    <td className="p-2 border">
-                      <div>신청 {fmt(s.applyDate)}</div>
-                      {s.approveDate && <div>승인/지급 {fmt(s.approveDate)}</div>}
-                      {s.rejectDate && <div>반려 {fmt(s.rejectDate)}</div>}
-                    </td>
-                    <td className="p-2 border">
-                      <div className="flex items-center justify-center gap-2">
-                        <button
-                          className="px-3 py-1.5 rounded border hover:bg-gray-50 disabled:opacity-40"
-                          disabled={s.stateCode !== STATE.APPLY}
-                          onClick={() => handleStatusUpdate(s.id, STATE.APPROVE)}
-                        >
-                          승인
-                        </button>
-                        <button
-                          className="px-3 py-1.5 rounded border hover:bg-gray-50 disabled:opacity-40"
-                          disabled={s.stateCode === STATE.PAYMENT}
-                          onClick={() => handleReject(s.id)}
-                        >
-                          반려
-                        </button>
-                        <button
-                          className="px-3 py-1.5 rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-40"
-                          disabled={s.stateCode !== STATE.APPROVE}
-                          onClick={() => handlePayment(s.id)}
-                        >
-                          지급
-                        </button>
-                      </div>
-                      {s.rejectReason && (
-                        <div className="mt-2 text-xs text-rose-600 text-left">사유: {s.rejectReason}</div>
-                      )}
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+          <div className="grid grid-cols-8 text-sm font-semibold text-center text-[#354649] bg-[#E0E7E9]">
+            <div className="px-4 py-2 border-b border-gray-300">ID</div>
+            <div className="px-4 py-2 border-b border-gray-300">학번/이름</div>
+            <div className="px-4 py-2 border-b border-gray-300">학과</div>
+            <div className="px-4 py-2 border-b border-gray-300">상태</div>
+            <div className="px-4 py-2 border-b border-gray-300">지급금액</div>
+            <div className="px-4 py-2 border-b border-gray-300">계좌</div>
+            <div className="px-4 py-2 border-b border-gray-300">일시</div>
+            <div className="px-4 py-2 border-b border-gray-300">동작</div>
+          </div>
+          <div>
+            {loading ? (
+              <div className="p-6 text-center text-gray-500">로딩 중...</div>
+            ) : scholarships.length === 0 ? (
+              <div className="p-6 text-center text-gray-500">데이터 없음</div>
+            ) : (
+              scholarships.map((s, idx) => (
+                <div
+                  key={s.id}
+                  className={`grid grid-cols-8 text-sm text-center border-t border-gray-200 hover:bg-gray-50 ${
+                    idx % 2 === 1 ? "bg-gray-50/50" : "bg-white"
+                  }`}
+                >
+                  <div className="p-2">{s.id}</div>
+                  <div className="p-2">
+                    <div className="font-medium">{s.studentNo}</div>
+                    <div className="text-gray-600">{s.studentName}</div>
+                  </div>
+                  <div className="p-2">{s.schoolSubjectName}</div>
+                  <div className="p-2">{stateBadge(s.stateCode, s.stateName)}</div>
+                  <div className="p-2 text-right">
+                    {s.paymentAmount != null ? Number(s.paymentAmount).toLocaleString() : "-"}
+                  </div>
+                  <div className="p-2">
+                    {s.bankName ? `${s.bankName} / ${s.accountNo}` : "-"}
+                  </div>
+                  <div className="p-2">
+                    <div>신청 {fmt(s.applyDate)}</div>
+                    {s.approveDate && <div>승인/지급 {fmt(s.approveDate)}</div>}
+                    {s.rejectDate && <div>반려 {fmt(s.rejectDate)}</div>}
+                  </div>
+                  <div className="p-2">
+                    <div className="flex items-center justify-center gap-2">
+                      <button
+                        className="px-4 py-2 rounded border border-gray-300 text-[#354649] hover:bg-[#E0E7E9] disabled:opacity-50"
+                        disabled={s.stateCode !== STATE.APPLY}
+                        onClick={() => handleStatusUpdate(s.id, STATE.APPROVE)}
+                      >
+                        승인
+                      </button>
+                      <button
+                        className="px-4 py-2 rounded border border-gray-300 text-[#354649] hover:bg-[#E0E7E9] disabled:opacity-50"
+                        disabled={s.stateCode === STATE.PAYMENT}
+                        onClick={() => handleReject(s.id)}
+                      >
+                        반려
+                      </button>
+                      <button
+                        className="bg-[#222E8D] text-white px-4 py-2 rounded-md hover:bg-blue-800 disabled:opacity-50"
+                        disabled={s.stateCode !== STATE.APPROVE}
+                        onClick={() => handlePayment(s.id)}
+                      >
+                        지급
+                      </button>
+                    </div>
+                    {s.rejectReason && (
+                      <div className="mt-2 text-xs text-rose-600 text-left">사유: {s.rejectReason}</div>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
         </div>
 
         {/* 페이지네이션 */}
@@ -278,7 +270,7 @@ export default function AdminScholarshipPage() {
           <button
             disabled={page <= 0}
             onClick={() => setPage((p) => Math.max(0, p - 1))}
-            className="px-3 py-2 rounded border disabled:opacity-50"
+            className="px-4 py-2 rounded border border-gray-300 text-[#354649] hover:bg-[#E0E7E9] disabled:opacity-50"
           >
             이전
           </button>
@@ -288,7 +280,7 @@ export default function AdminScholarshipPage() {
           <button
             disabled={(page + 1) * size >= total}
             onClick={() => setPage((p) => p + 1)}
-            className="px-3 py-2 rounded border disabled:opacity-50"
+            className="px-4 py-2 rounded border border-gray-300 text-[#354649] hover:bg-[#E0E7E9] disabled:opacity-50"
           >
             다음
           </button>
@@ -298,7 +290,7 @@ export default function AdminScholarshipPage() {
               setSize(+e.target.value);
               setPage(0);
             }}
-            className="ml-2 border rounded px-2 py-2"
+            className="ml-2 border border-gray-300 rounded-md px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#6C7A89]"
           >
             {[10, 20, 50].map((n) => (
               <option key={n} value={n}>
@@ -320,10 +312,16 @@ export default function AdminScholarshipPage() {
               onChange={(e) => setRejectReason(e.target.value)}
             />
             <div className="flex justify-end gap-2">
-              <button className="px-4 py-2 rounded border" onClick={() => setRejectTargetId(null)}>
+              <button
+                className="px-4 py-2 rounded border border-gray-300 text-[#354649] hover:bg-[#E0E7E9]"
+                onClick={() => setRejectTargetId(null)}
+              >
                 취소
               </button>
-              <button className="px-4 py-2 rounded bg-rose-600 text-white hover:bg-rose-700" onClick={submitReject}>
+              <button
+                className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600"
+                onClick={submitReject}
+              >
                 반려 처리
               </button>
             </div>

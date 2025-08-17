@@ -28,7 +28,7 @@ const ScholarshipStatusPage = () => {
   }, [page, studentNo]);
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-7xl mx-auto px-6 py-8 space-y-8 bg-white">
       {/* 상단 헤더 */}
       <PageHeader
         title="마일리지 장학금 신청 현황"
@@ -41,44 +41,41 @@ const ScholarshipStatusPage = () => {
 
       {/* 본문 카드 */}
       <section className="content-section">
-        {/* 테이블: 전체 기본 정렬을 없애고, 칼럼별로 지정 */}
-        <table className="w-full border border-gray-200 table-fixed">
-          <thead>
-            <tr className="bg-[#E0E7E9] text-[#354649]">
-              <th className="px-4 py-3 text-left font-semibold align-middle">번호</th>
-              <th className="px-4 py-3 text-left font-semibold align-middle">신청일</th>
-              <th className="px-4 py-3 text-left font-semibold align-middle">상태</th>
-              <th className="px-4 py-3 text-left font-semibold align-middle">신청 마일리지</th>
-              <th className="px-4 py-3 text-left font-semibold align-middle">환산 금액</th>
-            </tr>
-          </thead>
+        <div className="border border-gray-300 rounded-md overflow-hidden">
+          {/* 테이블 헤더 */}
+          <div className="grid grid-cols-5 gap-4 bg-[#E0E7E9] text-[#354649] px-4 py-3 text-left font-semibold">
+            <div className="text-center">번호</div>
+            <div>신청일</div>
+            <div>상태</div>
+            <div>신청 마일리지</div>
+            <div className="text-right">환산 금액</div>
+          </div>
 
-          <tbody className="text-sm">
+          {/* 테이블 본문 */}
+          <div className="text-sm">
             {loading ? (
-              <tr>
-                <td colSpan="5" className="p-6 text-[#6C7A89] text-center">불러오는 중...</td>
-              </tr>
+              <div className="p-6 text-[#6C7A89] text-center">불러오는 중...</div>
             ) : pageInfo.dtoList.length === 0 ? (
-              <tr>
-                <td colSpan="5" className="p-6 text-[#6C7A89] text-center">신청 내역이 없습니다.</td>
-              </tr>
+              <div className="p-6 text-[#6C7A89] text-center">신청 내역이 없습니다.</div>
             ) : (
               pageInfo.dtoList.map((row, idx) => (
-                <tr key={idx} className="border-t border-gray-200">
-                  <td className="px-4 py-3 align-middle text-center">
+                <div key={idx} className={`grid grid-cols-5 gap-4 items-center px-4 py-3 border-t border-gray-200 hover:bg-gray-50 ${
+                  idx % 2 === 1 ? "bg-gray-50/50" : "bg-white"
+                }`}>
+                  <div className="text-center">
                     {(page - 1) * (pageInfo.pageRequestDto?.size || 10) + idx + 1}
-                  </td>
-                  <td className="px-4 py-3 align-middle">{String(row.applyDate).substring(0, 10)}</td>
-                  <td className="px-4 py-3 align-middle">{row.state}</td>
-                  <td className="px-4 py-3 align-middle">{row.accumulatedMileage}</td>
-                  <td className="px-4 py-3 align-middle text-right">
+                  </div>
+                  <div>{String(row.applyDate).substring(0, 10)}</div>
+                  <div>{row.state}</div>
+                  <div>{row.accumulatedMileage}</div>
+                  <div className="text-right">
                     {Number(row.calculatedAmount ?? 0).toLocaleString()}원
-                  </td>
-                </tr>
+                  </div>
+                </div>
               ))
             )}
-          </tbody>
-        </table>
+          </div>
+        </div>
 
         <div className="mt-4">
           <Pagination pageInfo={pageInfo} onPageChange={(newPage) => setPage(newPage)} />

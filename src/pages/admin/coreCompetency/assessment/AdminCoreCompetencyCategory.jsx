@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import * as api from '../../../../api/admin/coreCompetency/CoreCompetencyApi';
+import * as api from "../../../../api/admin/coreCompetency/CoreCompetencyApi";
 import AdminCategoryEditModal from "../../../../component/admin/coreCompetency/assessment/AdminCategoryEditModal";
 
 /**
@@ -15,15 +15,21 @@ const AdminCoreCompetencyCategory = ({ assessmentId }) => {
   const [currentPageSub, setCurrentPageSub] = useState(1);
   const itemsPerPage = 5;
 
-  const selectedCore = coreList.find(c => c.id === selectedCoreId);
+  const selectedCore = coreList.find((c) => c.id === selectedCoreId);
   const subListToDisplay = selectedCore ? selectedCore.subCompetencyCategories : [];
 
   // --- 페이징 계산 ---
   const totalPagesCore = Math.ceil(coreList.length / itemsPerPage) || 1;
-  const currentCoreList = coreList.slice((currentPageCore - 1) * itemsPerPage, currentPageCore * itemsPerPage);
+  const currentCoreList = coreList.slice(
+    (currentPageCore - 1) * itemsPerPage,
+    currentPageCore * itemsPerPage
+  );
 
   const totalPagesSub = Math.ceil(subListToDisplay.length / itemsPerPage) || 1;
-  const currentSubList = subListToDisplay.slice((currentPageSub - 1) * itemsPerPage, currentPageSub * itemsPerPage);
+  const currentSubList = subListToDisplay.slice(
+    (currentPageSub - 1) * itemsPerPage,
+    currentPageSub * itemsPerPage
+  );
 
   const fetchData = async () => {
     if (!assessmentId) return;
@@ -45,13 +51,14 @@ const AdminCoreCompetencyCategory = ({ assessmentId }) => {
     setCurrentPageSub(1);
   }, [selectedCoreId]);
 
-  const handleOpenModal = (type, item = null, parent = null) => setEditingItem({ type, item, parent });
+  const handleOpenModal = (type, item = null, parent = null) =>
+    setEditingItem({ type, item, parent });
   const handleCloseModal = () => setEditingItem(null);
 
   // 필수입력 검증
   const validateForm = (formData) => {
     const { type, name, idealTalentProfileId, parent } = formData || {};
-    const isCore = type?.includes('core');
+    const isCore = type?.includes("core");
     const errs = [];
 
     // 공통 필수
@@ -63,7 +70,11 @@ const AdminCoreCompetencyCategory = ({ assessmentId }) => {
       if (!assessmentId) {
         errs.push("assessmentId가 없습니다. 화면을 새로고침하거나 다시 시도해주세요.");
       }
-      if (idealTalentProfileId === null || idealTalentProfileId === undefined || String(idealTalentProfileId).trim() === "") {
+      if (
+        idealTalentProfileId === null ||
+        idealTalentProfileId === undefined ||
+        String(idealTalentProfileId).trim() === ""
+      ) {
         errs.push("이상적 인재상(idealTalentProfile)을 선택해주세요.");
       }
     } else {
@@ -76,8 +87,9 @@ const AdminCoreCompetencyCategory = ({ assessmentId }) => {
   };
 
   const handleSave = async (formData) => {
-    const { type, item, parent, name, description, idealTalentProfileId } = formData || {};
-    const isCore = type?.includes('core');
+    const { type, item, parent, name, description, idealTalentProfileId } =
+      formData || {};
+    const isCore = type?.includes("core");
 
     // 필수입력 검증
     const errors = validateForm(formData);
@@ -90,7 +102,7 @@ const AdminCoreCompetencyCategory = ({ assessmentId }) => {
     const dto = {
       name,
       description,
-      competencyCategory: { codeName: isCore ? '핵심역량' : '하위역량' },
+      competencyCategory: { codeName: isCore ? "핵심역량" : "하위역량" },
       parentId: isCore ? null : parent?.id,
       idealTalentProfileId: isCore ? idealTalentProfileId : null,
       assessmentId: isCore ? assessmentId : null,
@@ -111,31 +123,41 @@ const AdminCoreCompetencyCategory = ({ assessmentId }) => {
     }
   };
 
-const handleDelete = async (item, type) => {
-  // '핵심역량'을 삭제할 경우, 하위역량이 있는지 먼저 확인
-  if (type.includes('core') && item.subCompetencyCategories && item.subCompetencyCategories.length > 0) {
-    alert('하위역량이 등록된 핵심역량은 삭제할 수 없습니다.\n먼저 하위역량을 모두 삭제해주세요.');
-    return; // 삭제 절차 중단
-  }
-
-  // 기존 삭제 확인 로직
-  const itemName = item.name || item.coreCategoryName || item.subCategoryName;
-  if (window.confirm(`'${itemName}'을(를) 정말 삭제하시겠습니까?`)) {
-    const dto = { competencyCategory: { codeName: type.includes('core') ? '핵심역량' : '하위역량' } };
-    try {
-      await api.deleteCategory(item.id, dto);
-      alert("삭제되었습니다.");
-      if (type.includes('core') && item.id === selectedCoreId) {
-        setSelectedCoreId(null);
-      }
-      await fetchData();
-    } catch (err) {
-      alert(err.response?.data?.message || "삭제에 실패했습니다.");
+  const handleDelete = async (item, type) => {
+    if (
+      type.includes("core") &&
+      item.subCompetencyCategories &&
+      item.subCompetencyCategories.length > 0
+    ) {
+      alert(
+        "하위역량이 등록된 핵심역량은 삭제할 수 없습니다.\n먼저 하위역량을 모두 삭제해주세요."
+      );
+      return; // 삭제 절차 중단
     }
-  }
-};
+
+    // 기존 삭제 확인 로직
+    const itemName = item.name || item.coreCategoryName || item.subCategoryName;
+    if (window.confirm(`'${itemName}'을(를) 정말 삭제하시겠습니까?`)) {
+      const dto = {
+        competencyCategory: {
+          codeName: type.includes("core") ? "핵심역량" : "하위역량",
+        },
+      };
+      try {
+        await api.deleteCategory(item.id, dto);
+        alert("삭제되었습니다.");
+        if (type.includes("core") && item.id === selectedCoreId) {
+          setSelectedCoreId(null);
+        }
+        await fetchData();
+      } catch (err) {
+        alert(err.response?.data?.message || "삭제에 실패했습니다.");
+      }
+    }
+  };
+
   return (
-    <div className="mt-6 px-6 py-6 bg-white rounded-xl shadow-md border border-gray-300">
+    <div className="space-y-4">
       {/* 생성/수정 모달 */}
       {editingItem && (
         <AdminCategoryEditModal
@@ -143,159 +165,239 @@ const handleDelete = async (item, type) => {
           onClose={handleCloseModal}
           onSave={handleSave}
           existingItems={
-            editingItem.type.includes('core')
-                ? (coreList || []).map(c => ({ id: c.id, name: c.name || c.coreCategoryName || '' }))
-                : ((editingItem.parent?.subCompetencyCategories || []).map(s => ({ id: s.id, name: s.name || s.subCategoryName || '' })))
-            }
+            editingItem.type.includes("core")
+              ? (coreList || []).map((c) => ({
+                id: c.id,
+                name: c.name || c.coreCategoryName || "",
+              }))
+              : (editingItem.parent?.subCompetencyCategories || []).map((s) => ({
+                id: s.id,
+                name: s.name || s.subCategoryName || "",
+              }))
+          }
           requiredHints={{
             name: true,
-            idealTalentProfileId: editingItem?.type?.includes('core') || false
+            idealTalentProfileId: editingItem?.type?.includes("core") || false,
           }}
         />
       )}
 
-      <div className="flex gap-4">
+      <div className="grid grid-cols-12 gap-4">
         {/* 왼쪽: 핵심역량 */}
-        <div className="w-1/3">
-          <div className="flex justify-between items-center mb-3">
-            <span className="text-xl text-black font-bold">▐ 핵심역량</span>
-            <button
-              onClick={() => handleOpenModal('create-core')}
-              className="bg-blue-500 text-white px-3 py-1 text-sm rounded"
-            >
-              + 추가
-            </button>
-          </div>
-          <table className="w-full text-sm border">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="border p-2 w-1/4">번호</th>
-                <th className="border p-2">핵심역량명</th>
-                <th className="border p-2 w-24">관리</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentCoreList.map((core,idx) => (
-                <tr
-                  key={core.id}
-                  onClick={() => setSelectedCoreId(core.id)}
-                  className={`cursor-pointer hover:bg-blue-50 ${selectedCoreId === core.id ? "bg-blue-100 font-semibold" : ""}`}
-                >
-                  <td className="border p-2 text-center">{idx+1}</td>
-                  <td className="border p-2 text-center">{core.name || core.coreCategoryName}</td>
-                  <td className="border p-2 text-center">
-                    <button
-                      onClick={(e) => { e.stopPropagation(); handleOpenModal('edit-core', core); }}
-                      className="text-xs text-blue-600 mr-1"
-                    >
-                      수정
-                    </button>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); handleDelete(core, 'core'); }}
-                      className="text-xs text-red-600"
-                    >
-                      삭제
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          {/* 핵심역량 페이징 */}
-          {totalPagesCore > 0 && (
-            <div className="mt-3 flex justify-center gap-2 text-sm">
+        <div className="col-span-12 lg:col-span-4 space-y-3">
+          <div className="adm-card overflow-hidden">
+            <div className="p-4 flex items-center justify-between">
+              <h3 className="text-base font-semibold text-gray-800">핵심역량</h3>
               <button
-                onClick={() => setCurrentPageCore(prev => Math.max(prev - 1, 1))}
-                disabled={currentPageCore === 1}
-                className="px-3 py-1 border rounded disabled:opacity-40"
+                onClick={() => handleOpenModal("create-core")}
+                className="adm-btn adm-btn--primary"
               >
-                이전
-              </button>
-              <span>{currentPageCore} / {totalPagesCore}</span>
-              <button
-                onClick={() => setCurrentPageCore(prev => Math.min(prev + 1, totalPagesCore))}
-                disabled={currentPageCore === totalPagesCore}
-                className="px-3 py-1 border rounded disabled:opacity-40"
-              >
-                다음
+                + 추가
               </button>
             </div>
-          )}
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr>
+                    <th className="adm-th w-20">번호</th>
+                    <th className="adm-th">핵심역량명</th>
+                    <th className="adm-th w-28">관리</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentCoreList.length > 0 ? (
+                    currentCoreList.map((core, idx) => {
+                      const selected = selectedCoreId === core.id;
+                      return (
+                        <tr
+                          key={core.id}
+                          onClick={() => setSelectedCoreId(core.id)}
+                          aria-selected={selected ? "true" : "false"}
+                          className={`cursor-pointer transition-colors hover:bg-gray-50 even:bg-[#F9FAFB] ${selected
+                              ? "bg-indigo-50 ring-1 ring-inset ring-indigo-200 font-semibold"
+                              : "bg-white"
+                            }`}
+                        >
+                          <td className="adm-td text-center">{idx + 1}</td>
+                          <td className="adm-td">
+                            {core.name || core.coreCategoryName}
+                          </td>
+                          <td className="adm-td">
+                            <div className="flex items-center justify-center gap-2">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleOpenModal("edit-core", core);
+                                }}
+                                className="adm-btn adm-btn--secondary h-8 text-xs px-2"
+                              >
+                                수정
+                              </button>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDelete(core, "core");
+                                }}
+                                className="adm-btn adm-btn--dangerOutline h-8 text-xs px-2"
+                              >
+                                삭제
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td colSpan={3} className="adm-empty">
+                        핵심역량이 없습니다.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            {/* 핵심역량 페이징 */}
+            {totalPagesCore > 0 && (
+              <div className="px-4 py-3 flex justify-center items-center gap-3 border-t border-gray-200">
+                <button
+                  onClick={() =>
+                    setCurrentPageCore((prev) => Math.max(prev - 1, 1))
+                  }
+                  disabled={currentPageCore === 1}
+                  className="adm-btn adm-btn--secondary h-9 text-xs px-3 disabled:opacity-50"
+                >
+                  이전
+                </button>
+                <span className="text-sm text-gray-700">
+                  <b>{currentPageCore}</b> / {totalPagesCore}
+                </span>
+                <button
+                  onClick={() =>
+                    setCurrentPageCore((prev) =>
+                      Math.min(prev + 1, totalPagesCore)
+                    )
+                  }
+                  disabled={currentPageCore === totalPagesCore}
+                  className="adm-btn adm-btn--secondary h-9 text-xs px-3 disabled:opacity-50"
+                >
+                  다음
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* 오른쪽: 하위역량 */}
-        <div className="w-2/3">
-          <div className="flex justify-between items-center mb-3">
-            <span className="text-xl text-black font-bold">▐ 하위역량</span>
-            <button
-              onClick={() => handleOpenModal('create-sub', null, coreList.find(c => c.id === selectedCoreId))}
-              disabled={!selectedCoreId}
-              className="bg-green-500 text-white px-3 py-1 text-sm rounded disabled:bg-gray-300"
-            >
-              + 추가
-            </button>
-          </div>
-          <table className="w-full text-sm border">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="border p-2 w-28">번호</th>
-                <th className="border p-2 w-1/4">하위역량명</th>
-                <th className="border p-2">정의</th>
-                <th className="border p-2 w-24">관리</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentSubList.length > 0 ? currentSubList.map((sub,idx) => (
-                <tr key={sub.id} className="hover:bg-gray-50">
-                  <td className="border p-2 text-center">{idx+1}</td>
-                  <td className="border p-2 text-center">{sub.name || sub.subCategoryName}</td>
-                  <td className="border p-2">{sub.description || sub.subCategoryNote || "-"}</td>
-                  <td className="border p-2 text-center">
-                    <button
-                      onClick={() => handleOpenModal('edit-sub', sub, coreList.find(c => c.id === selectedCoreId))}
-                      className="text-xs text-blue-600 mr-1"
-                    >
-                      수정
-                    </button>
-                    <button
-                      onClick={() => handleDelete(sub, 'sub')}
-                      className="text-xs text-red-600"
-                    >
-                      삭제
-                    </button>
-                  </td>
-                </tr>
-              )) : (
-                <tr>
-                  <td colSpan="4" className="text-center text-gray-500 py-4">
-                    선택된 핵심역량이 없거나 하위역량이 없습니다.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-
-          {/* 하위역량 페이징 */}
-          {totalPagesSub > 0 && (
-            <div className="mt-3 flex justify-center gap-2 text-sm">
+        <div className="col-span-12 lg:col-span-8 space-y-3">
+          <div className="adm-card overflow-hidden">
+            <div className="p-4 flex items-center justify-between">
+              <h3 className="text-base font-semibold text-gray-800">하위역량</h3>
               <button
-                onClick={() => setCurrentPageSub(prev => Math.max(prev - 1, 1))}
-                disabled={currentPageSub === 1}
-                className="px-3 py-1 border rounded disabled:opacity-40"
+                onClick={() =>
+                  handleOpenModal(
+                    "create-sub",
+                    null,
+                    coreList.find((c) => c.id === selectedCoreId)
+                  )
+                }
+                disabled={!selectedCoreId}
+                className="adm-btn adm-btn--primary disabled:opacity-50"
               >
-                이전
-              </button>
-              <span>{currentPageSub} / {totalPagesSub}</span>
-              <button
-                onClick={() => setCurrentPageSub(prev => Math.min(prev + 1, totalPagesSub))}
-                disabled={currentPageSub === totalPagesSub}
-                className="px-3 py-1 border rounded disabled:opacity-40"
-              >
-                다음
+                + 추가
               </button>
             </div>
-          )}
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr>
+                    <th className="adm-th w-20">번호</th>
+                    <th className="adm-th">하위역량명</th>
+                    <th className="adm-th">정의</th>
+                    <th className="adm-th w-28">관리</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentSubList.length > 0 ? (
+                    currentSubList.map((sub, idx) => (
+                      <tr
+                        key={sub.id}
+                        className="transition-colors hover:bg-gray-50 even:bg-[#F9FAFB]"
+                      >
+                        <td className="adm-td text-center">{idx + 1}</td>
+                        <td className="adm-td">
+                          {sub.name || sub.subCategoryName}
+                        </td>
+                        <td className="adm-td">
+                          {sub.description || sub.subCategoryNote || "-"}
+                        </td>
+                        <td className="adm-td">
+                          <div className="flex items-center justify-center gap-2">
+                            <button
+                              onClick={() =>
+                                handleOpenModal(
+                                  "edit-sub",
+                                  sub,
+                                  coreList.find((c) => c.id === selectedCoreId)
+                                )
+                              }
+                              className="adm-btn adm-btn--secondary h-8 text-xs px-2"
+                            >
+                              수정
+                            </button>
+                            <button
+                              onClick={() => handleDelete(sub, "sub")}
+                              className="adm-btn adm-btn--dangerOutline h-8 text-xs px-2"
+                            >
+                              삭제
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={4} className="adm-empty">
+                        선택된 핵심역량이 없거나 하위역량이 없습니다.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            {/* 하위역량 페이징 */}
+            {totalPagesSub > 0 && (
+              <div className="px-4 py-3 flex justify-center items-center gap-3 border-t border-gray-200">
+                <button
+                  onClick={() =>
+                    setCurrentPageSub((prev) => Math.max(prev - 1, 1))
+                  }
+                  disabled={currentPageSub === 1}
+                  className="adm-btn adm-btn--secondary h-9 text-xs px-3 disabled:opacity-50"
+                >
+                  이전
+                </button>
+                <span className="text-sm text-gray-700">
+                  <b>{currentPageSub}</b> / {totalPagesSub}
+                </span>
+                <button
+                  onClick={() =>
+                    setCurrentPageSub((prev) =>
+                      Math.min(prev + 1, totalPagesSub)
+                    )
+                  }
+                  disabled={currentPageSub === totalPagesSub}
+                  className="adm-btn adm-btn--secondary h-9 text-xs px-3 disabled:opacity-50"
+                >
+                  다음
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

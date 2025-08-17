@@ -28,7 +28,7 @@ export const filterProgramList = async ({
     );
     return response.data;
   } catch (error) {
-    console.error("🔥 필터 프로그램 목록 요청 실패", error);
+    console.error(" 필터 프로그램 목록 요청 실패", error);
     throw error;
   }
 };

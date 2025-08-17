@@ -8,13 +8,12 @@ const AdminCoreCompetencyMapping = ({ assessmentId }) => {
 
   // 페이징 관련
   const itemsPerPage = 5;
-
-  const [currentPageLeft, setCurrentPageLeft] = useState(1); // 왼쪽 테이블
-  const [currentPageRight, setCurrentPageRight] = useState(1); // 오른쪽 테이블
+  const [currentPageLeft, setCurrentPageLeft] = useState(1);
+  const [currentPageRight, setCurrentPageRight] = useState(1);
 
   // 페이징 계산
-  const totalPagesLeft = Math.ceil(subList.length / itemsPerPage);
-  const totalPagesRight = Math.ceil(questionList.length / itemsPerPage);
+  const totalPagesLeft = Math.ceil(subList.length / itemsPerPage) || 1;
+  const totalPagesRight = Math.ceil(questionList.length / itemsPerPage) || 1;
 
   const currentSubList = subList.slice(
     (currentPageLeft - 1) * itemsPerPage,
@@ -31,9 +30,8 @@ const AdminCoreCompetencyMapping = ({ assessmentId }) => {
     axios
       .get(`/api/admin/${assessmentId}/subcategories`)
       .then((res) => {
-        console.log(res.data)
-        setSubList(res.data);
-        setCurrentPageLeft(1); // 새로 로딩 시 페이지 초기화
+        setSubList(res.data || []);
+        setCurrentPageLeft(1);
       })
       .catch((err) => console.error("하위역량 불러오기 실패", err));
   }, [assessmentId]);
@@ -44,133 +42,142 @@ const AdminCoreCompetencyMapping = ({ assessmentId }) => {
       axios
         .get(`/api/admin/${assessmentId}/${selectedSubId}/questions`)
         .then((res) => {
-          setQuestionList(res.data.questions);
-          console.log('정상적으로 API 호출:', selectedSubId);
-          setCurrentPageRight(1); // 문항 클릭 시 초기화
+          setQuestionList(res.data?.questions || []);
+          setCurrentPageRight(1);
         })
         .catch((err) => console.error("문항 불러오기 실패", err));
     } else {
       setQuestionList([]);
     }
-  }, [selectedSubId]);
+  }, [selectedSubId, assessmentId]);
 
   return (
-    <div className="mt-3 px-6 py-6 bg-white rounded-xl shadow-md border border-gray-300">
-      <div className="flex gap-4">
-        {/* 왼쪽: 하위역량 목록 테이블 */}
-        <div className="w-1/3">
-          <span className="text-xl text-black font-bold">▐ 분석정보</span>
-          <table className="w-full mt-3 text-[16px] border border-gray-300 rounded-md overflow-hidden">
-            <thead className="bg-gray-100 text-gray-700 text-center">
-              <tr>
-                <th className="border p-2 w-1/4 text-center">분석번호</th>
-                <th className="border p-2">분석기준명</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentSubList.map((sub,idx) => (
-                <tr
-                  key={sub.id}
-                  onClick={() => setSelectedSubId(sub.id)}
-                  className={`cursor-pointer hover:bg-blue-50 ${
-                    selectedSubId === sub.id ? "bg-blue-100 font-semibold" : ""
-                  }`}
-                >
-                  <td className="border p-2 text-center">{idx+1}</td>
-                  <td className="border p-2 text-center">{sub.name}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          {/* 왼쪽 페이징 */}
-          {subList.length > itemsPerPage && (
-            <div className="mt-3 flex justify-center gap-2 items-center text-sm">
-              <button
-                onClick={() =>
-                  setCurrentPageLeft((prev) => Math.max(prev - 1, 1))
-                }
-                disabled={currentPageLeft === 1}
-                className="mr-2 px-3 py-2 border rounded disabled:opacity-40"
-              >
-                이전
-              </button>
-              <span>
-                {currentPageLeft} / {totalPagesLeft}
-              </span>
-              <button
-                onClick={() =>
-                  setCurrentPageLeft((prev) =>
-                    Math.min(prev + 1, totalPagesLeft)
-                  )
-                }
-                disabled={currentPageLeft === totalPagesLeft}
-                className="ml-2 px-3 py-2 border rounded disabled:opacity-40"
-              >
-                다음
-              </button>
+    <div className="space-y-4">
+      <div className="grid grid-cols-12 gap-4">
+        {/* 왼쪽: 하위역량 목록 */}
+        <div className="col-span-12 lg:col-span-4 space-y-3">
+          <div className="adm-card overflow-hidden">
+            <div className="p-4">
+              <h3 className="text-base font-semibold text-gray-800">분석정보</h3>
             </div>
-          )}
+            <div className="border-t border-gray-200" />
+
+            {/* 헤더 */}
+            <div className="grid grid-cols-2">
+              <div className="adm-th">분석번호</div>
+              <div className="adm-th">분석기준명</div>
+            </div>
+
+            {/* 본문 */}
+            <div>
+              {currentSubList.length > 0 ? (
+                currentSubList.map((sub, idx) => {
+                  const selected = selectedSubId === sub.id;
+                  return (
+                    <div
+                      key={sub.id}
+                      role="row"
+                      aria-selected={selected ? "true" : "false"}
+                      onClick={() => setSelectedSubId(sub.id)}
+                      className={`grid grid-cols-2 border-t hover:bg-gray-50 cursor-pointer transition-colors
+                        ${idx % 2 === 1 ? "bg-[#F9FAFB]" : "bg-white"}
+                        ${selected ? "bg-indigo-50 ring-1 ring-inset ring-indigo-200 font-semibold" : ""}`}
+                    >
+                      <div className="adm-td text-center">{(currentPageLeft - 1) * itemsPerPage + idx + 1}</div>
+                      <div className="adm-td">{sub.name}</div>
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="adm-empty">하위역량이 없습니다.</div>
+              )}
+            </div>
+
+            {/* 페이징 */}
+            {subList.length > itemsPerPage && (
+              <div className="px-4 py-3 flex justify-center items-center gap-3 border-t border-gray-200">
+                <button
+                  onClick={() => setCurrentPageLeft((prev) => Math.max(prev - 1, 1))}
+                  disabled={currentPageLeft === 1}
+                  className="adm-btn adm-btn--secondary h-9 text-xs px-3 disabled:opacity-50"
+                >
+                  이전
+                </button>
+                <span className="text-sm text-gray-700">
+                  <b>{currentPageLeft}</b> / {totalPagesLeft}
+                </span>
+                <button
+                  onClick={() => setCurrentPageLeft((prev) => Math.min(prev + 1, totalPagesLeft))}
+                  disabled={currentPageLeft === totalPagesLeft}
+                  className="adm-btn adm-btn--secondary h-9 text-xs px-3 disabled:opacity-50"
+                >
+                  다음
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* 오른쪽: 문항 테이블 */}
-        <div className="w-2/3">
-          <span className="text-xl text-black font-bold">▐ 문항정보</span>
-          <table className="w-full text-[16px] border border-gray-300 rounded-md overflow-hidden mt-3">
-            <thead className="bg-gray-100 text-gray-700 text-center">
-              <tr>
-                <th className="border p-2 w-28 text-center">문항번호</th>
-                <th className="border p-2">문항명</th>
-                <th className="border p-2 w-32 text-center">답변문항개수</th>
-              </tr>
-            </thead>
-            <tbody>
+        {/* 오른쪽: 문항 목록 */}
+        <div className="col-span-12 lg:col-span-8 space-y-3">
+          <div className="adm-card overflow-hidden">
+            <div className="p-4">
+              <h3 className="text-base font-semibold text-gray-800">문항정보</h3>
+            </div>
+            <div className="border-t border-gray-200" />
+
+            {/* 헤더 */}
+            <div className="grid grid-cols-3">
+              <div className="adm-th">문항번호</div>
+              <div className="adm-th">문항명</div>
+              <div className="adm-th">답변문항개수</div>
+            </div>
+
+            {/* 본문 */}
+            <div>
               {currentQuestionList.length === 0 ? (
-                <tr>
-                  <td colSpan="3" className="p-4 text-center text-gray-500">
-                    문항이 없습니다.
-                  </td>
-                </tr>
+                <div className="adm-empty">문항이 없습니다.</div>
               ) : (
-                currentQuestionList.map((q) => (
-                  <tr key={q.id} className="hover:bg-gray-50">
-                    <td className="border p-2 text-center">{q.questionNo}</td>
-                    <td className="border p-2">{q.questionName}</td>
-                    <td className="border p-2 text-center">{q.choiceCount}</td>
-                  </tr>
+                currentQuestionList.map((q, idx) => (
+                  <div
+                    key={q.id}
+                    className={`grid grid-cols-3 border-t hover:bg-gray-50 transition-colors ${
+                      idx % 2 === 1 ? "bg-[#F9FAFB]" : "bg-white"
+                    }`}
+                  >
+                    <div className="adm-td text-center">{q.questionNo}</div>
+                    <div className="adm-td">{q.questionName}</div>
+                    <div className="adm-td text-center">{q.choiceCount}</div>
+                  </div>
                 ))
               )}
-            </tbody>
-          </table>
-
-          {/* 오른쪽 페이징 */}
-          {questionList.length > itemsPerPage && (
-            <div className="mt-3 flex justify-center gap-2 items-center text-sm">
-              <button
-                onClick={() =>
-                  setCurrentPageRight((prev) => Math.max(prev - 1, 1))
-                }
-                disabled={currentPageRight === 1}
-                className="mr-2 px-3 py-2 border rounded disabled:opacity-40"
-              >
-                이전
-              </button>
-              <span>
-                {currentPageRight} / {totalPagesRight}
-              </span>
-              <button
-                onClick={() =>
-                  setCurrentPageRight((prev) =>
-                    Math.min(prev + 1, totalPagesRight)
-                  )
-                }
-                disabled={currentPageRight === totalPagesRight}
-                className="ml-2 px-3 py-2 border rounded disabled:opacity-40"
-              >
-                다음
-              </button>
             </div>
-          )}
+
+            {/* 페이징 */}
+            {questionList.length > itemsPerPage && (
+              <div className="px-4 py-3 flex justify-center items-center gap-3 border-t border-gray-200">
+                <button
+                  onClick={() => setCurrentPageRight((prev) => Math.max(prev - 1, 1))}
+                  disabled={currentPageRight === 1}
+                  className="adm-btn adm-btn--secondary h-9 text-xs px-3 disabled:opacity-50"
+                >
+                  이전
+                </button>
+                <span className="text-sm text-gray-700">
+                  <b>{currentPageRight}</b> / {totalPagesRight}
+                </span>
+                <button
+                  onClick={() =>
+                    setCurrentPageRight((prev) => Math.min(prev + 1, totalPagesRight))
+                  }
+                  disabled={currentPageRight === totalPagesRight}
+                  className="adm-btn adm-btn--secondary h-9 text-xs px-3 disabled:opacity-50"
+                >
+                  다음
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

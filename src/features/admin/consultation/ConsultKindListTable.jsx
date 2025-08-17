@@ -83,7 +83,7 @@ export default function ConsultKindListTable({
   if (variant === "bare") return <div className="w-full">{Inner}</div>;
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+    <div className="bg-white rounded-lg border border-gray-300 overflow-hidden">
       {Inner}
     </div>
   );

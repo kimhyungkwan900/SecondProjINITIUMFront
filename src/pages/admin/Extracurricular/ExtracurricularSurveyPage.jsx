@@ -1,58 +1,61 @@
-
-import {useState, useEffect} from "react"
+import { useState, useEffect } from "react";
 import { fetchPrograms } from "../../../api/admin/extracurricular/program/ProgramApi";
 import { fetchSurveyByProgram } from "../../../api/admin/extracurricular/survey/SurveyApi";
 
-import ProgramList from "../../../component/admin/extracurricular/schedule/ProgramList";
 import Filter from "../../../component/admin/extracurricular/apply/Filter";
 import SurveyList from "../../../component/admin/extracurricular/survey/SurveyList";
 import SurveyProgramList from "../../../component/admin/extracurricular/survey/SurveyProgramList";
+import AdminSectionHeader from "../../../component/admin/AdminSectionHeader";
 
 const ExtracurricularSurveyPage = () => {
-    const [filter, setFilter] = useState({ keyword: "", eduType: "", status: "APPROVED" });
-    const [tempFilter, setTempFilter] = useState({ keyword: "", eduType: "", status: "APPROVED" });
-    const [programs, setPrograms] = useState([]);
-    const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
-    const [selectedProgram, setSelectedProgram] = useState(null);
-    const [surveyData, setSurveyData] = useState([]);
+  const [filter, setFilter] = useState({ keyword: "", eduType: "", status: "APPROVED" });
+  const [tempFilter, setTempFilter] = useState({ keyword: "", eduType: "", status: "APPROVED" });
 
-    const fetchData = async () => {
+  const [programs, setPrograms] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const [selectedProgram, setSelectedProgram] = useState(null);
+  const [surveyData, setSurveyData] = useState([]);
+
+  const fetchData = async () => {
     const data = await fetchPrograms(filter, page - 1, 5);
-    if (data) {
-      setPrograms(data.content || []);
-      setTotalPages(data.totalPages || 0);
+    if (!data) return;
 
-      if (selectedProgram) {
-        const updatedProgram = data.content?.find(p => p.eduMngId === selectedProgram.eduMngId);
-        setSelectedProgram(updatedProgram || null);
-      }
+    setPrograms(data.content || []);
+    setTotalPages(data.totalPages || 0);
+
+    if (selectedProgram) {
+      const updated = data.content?.find((p) => p.eduMngId === selectedProgram.eduMngId);
+      setSelectedProgram(updated || null);
     }
   };
+
   const fetchSurvey = async (programId) => {
     if (!programId) {
       setSurveyData([]);
       return;
     }
     const data = await fetchSurveyByProgram(programId);
-    setSurveyData(data?.content || []); // Page 객체의 content 사용
+    setSurveyData(data?.content || []);
   };
 
   const handleSearch = () => {
-    setPage(1); // 페이지 초기화
+    setPage(1);
     setFilter(tempFilter);
   };
 
   useEffect(() => {
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, filter]);
 
-   useEffect(() => {
+  useEffect(() => {
     fetchSurvey(selectedProgram?.eduMngId);
   }, [selectedProgram]);
 
   const handleTempFilterChange = (field, value) => {
-    setTempFilter(prev => ({ ...prev, [field]: value }));
+    setTempFilter((prev) => ({ ...prev, [field]: value }));
   };
 
   const handlePageChange = (newPage) => {
@@ -65,23 +68,22 @@ const ExtracurricularSurveyPage = () => {
     setSelectedProgram(program);
   };
 
+  return (
+    <div className="max-w-7xl mx-auto px-6 pb-10">
+      {/* 페이지 타이틀 */}
+      <AdminSectionHeader title="프로그램 만족도" />
 
-
-    return(
-        <div className="w-full p-4">
-      <div className="sticky top-0 z-10 py-2">
-        <h1 className="font-extrabold text-2xl text-gray-700">
-          <span className="bg-rose-400 w-1 text-rose-400 select-none">1</span>
-          <span className="ml-3">프로그램 만족도 페이지</span>
-        </h1>
-        <hr className="border" />
-         <Filter
+      {/* 1) 검색/필터 */}
+      <section className="adm-card p-4 mt-8">
+        <Filter
           filter={tempFilter}
           onFilterChange={handleTempFilterChange}
           onSearch={handleSearch}
         />
+      </section>
 
-
+      {/* 2) 프로그램 목록 (위 카드와 맞닿게) */}
+      <section className="-mt-6">
         <SurveyProgramList
           programs={programs}
           currentPage={page}
@@ -89,19 +91,23 @@ const ExtracurricularSurveyPage = () => {
           onPageChange={handlePageChange}
           onSelectProgram={handleSelectProgram}
         />
+      </section>
 
-        {selectedProgram && (
-          <div className="mt-6 ">
-            <h2 className="font-bold text-lg mb-2">
+      {/* 3) 설문 결과 (선택 시 표시, 위 섹션과 맞닿게) */}
+      {selectedProgram && (
+        <section className="adm-card p-6 -mt-px">
+          <div className="flex items-center mb-3">
+            <span className="text-2xl text-[#354649] select-none">|</span>
+            <h2 className="ml-2 text-lg font-semibold text-[#354649]">
               {selectedProgram.eduNm} 설문조사 결과
             </h2>
-            <SurveyList surveyData={surveyData} />
           </div>
-        )}
-
-      </div>
-      </div>
-    )
-}
+          <hr className="border-gray-200 mb-4" />
+          <SurveyList surveyData={surveyData} />
+        </section>
+      )}
+    </div>
+  );
+};
 
 export default ExtracurricularSurveyPage;

@@ -108,7 +108,7 @@ const AdminQuestionDetail = ({ question, subCategories, onSave, onDelete, existi
     onSave({ ...form, questionName: String(form.questionName).trim() });
   };
 
-  const fieldClass = (name, base = "w-full p-2 border rounded") =>
+  const fieldClass = (name, base = "w-full border border-[#A3C6C4] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#354649]") =>
     `${base} ${(errors[name] || (name === "questionName" && isDuplicateQuestionName)) ? "border-red-500" : ""}`;
 
   const saveDisabled =
@@ -117,12 +117,12 @@ const AdminQuestionDetail = ({ question, subCategories, onSave, onDelete, existi
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md w-full space-y-6">
-      <span className="text-xl text-black font-bold">▐ 문항 상세정보</span>
+      <span className="text-xl text-[#354649] font-bold">▐ 문항 상세정보</span>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm mb-1">
-            하위역량 <span className="text-red-600 text-xs ml-1">*</span>
+            하위역량 <span className="text-red-500 text-xs ml-1">*</span>
           </label>
           <select
             value={form.subCategoryId ?? ""}
@@ -136,7 +136,7 @@ const AdminQuestionDetail = ({ question, subCategories, onSave, onDelete, existi
             ))}
           </select>
           {errors.subCategoryId && (
-            <p className="text-red-600 text-xs mt-1">{errors.subCategoryId}</p>
+            <p className="text-red-500 text-xs mt-1">{errors.subCategoryId}</p>
           )}
         </div>
 
@@ -147,13 +147,13 @@ const AdminQuestionDetail = ({ question, subCategories, onSave, onDelete, existi
             name="questionNo"
             readOnly
             value={form.questionNo ?? ""}
-            className="w-full p-2 border rounded bg-gray-100"
+            className="w-full p-2 border rounded bg-[#E0E7E9]"
           />
         </div>
 
         <div>
           <label className="block text-sm mb-1">
-            표시 순서 <span className="text-red-600 text-xs ml-1">*</span>
+            표시 순서 <span className="text-red-500 text-xs ml-1">*</span>
           </label>
           <input
             type="number"
@@ -166,13 +166,13 @@ const AdminQuestionDetail = ({ question, subCategories, onSave, onDelete, existi
             placeholder="예) 1"
           />
           {errors.displayOrder && (
-            <p className="text-red-600 text-xs mt-1">{errors.displayOrder}</p>
+            <p className="text-red-500 text-xs mt-1">{errors.displayOrder}</p>
           )}
         </div>
 
         <div className="md:col-span-2">
           <label className="block text-sm mb-1">
-            문항명 <span className="text-red-600 text-xs ml-1">*</span>
+            문항명 <span className="text-red-500 text-xs ml-1">*</span>
           </label>
           <input
             type="text"
@@ -185,10 +185,10 @@ const AdminQuestionDetail = ({ question, subCategories, onSave, onDelete, existi
           />
           {/* 중복 즉시 표시 */}
           {isDuplicateQuestionName && !errors.questionName && (
-            <p className="text-red-600 text-xs mt-1">이미 존재하는 문항명입니다.</p>
+            <p className="text-red-500 text-xs mt-1">이미 존재하는 문항명입니다.</p>
           )}
           {errors.questionName && (
-            <p className="text-red-600 text-xs mt-1">{errors.questionName}</p>
+            <p className="text-red-500 text-xs mt-1">{errors.questionName}</p>
           )}
         </div>
 
@@ -199,7 +199,7 @@ const AdminQuestionDetail = ({ question, subCategories, onSave, onDelete, existi
             value={form.questionContent ?? ""}
             onChange={handleChange}
             rows={3}
-            className="w-full p-2 border rounded"
+            className="w-full border border-[#A3C6C4] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#354649]"
             placeholder="문항 설명을 입력하세요"
           />
         </div>
@@ -217,7 +217,7 @@ const AdminQuestionDetail = ({ question, subCategories, onSave, onDelete, existi
             ))}
           </select>
           {errors.optionCount && (
-            <p className="text-red-600 text-xs mt-1">{errors.optionCount}</p>
+            <p className="text-red-500 text-xs mt-1">{errors.optionCount}</p>
           )}
         </div>
 
@@ -229,7 +229,7 @@ const AdminQuestionDetail = ({ question, subCategories, onSave, onDelete, existi
             value={form.selectAllowCount ?? 1}
             min={1}
             readOnly
-            className="w-full p-2 border rounded bg-gray-100"
+            className="w-full p-2 border rounded bg-[#E0E7E9]"
           />
         </div>
       </div>
@@ -242,7 +242,7 @@ const AdminQuestionDetail = ({ question, subCategories, onSave, onDelete, existi
       <div className="flex justify-end gap-2">
         <button
           onClick={handleSave}
-          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 disabled:opacity-50"
+          className="bg-[#354649] text-white font-semibold px-4 py-2 rounded-md hover:bg-[#6C7A89] transition-colors disabled:opacity-50"
           disabled={saveDisabled}
           title={isDuplicateQuestionName ? "중복된 문항명은 저장할 수 없습니다." : undefined}
         >
@@ -252,7 +252,7 @@ const AdminQuestionDetail = ({ question, subCategories, onSave, onDelete, existi
           <button
             type="button"
             onClick={() => onDelete(form.id)}
-            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+            className="bg-red-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-red-600 transition-colors"
           >
             삭제
           </button>

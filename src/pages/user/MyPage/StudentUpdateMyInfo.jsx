@@ -133,16 +133,16 @@ export default function StudentUpdateMyInfo() {
         e.preventDefault();
         if (!emailValid) return alert("올바른 이메일을 입력하세요.");
         if (!studentNo) return alert("사용자 정보가 없습니다. 다시 로그인해주세요.");
-        
+
         setSaving((s) => ({ ...s, email: true }));
         setFeedback(f => ({ ...f, email: null }));
         try {
             await updateMyInfo(studentNo, { email: emailForm.email });
-            setFeedback(f => ({ ...f, email: { type: 'success', message: "이메일이 수정되었습니다." }}));
+            setFeedback(f => ({ ...f, email: { type: 'success', message: "이메일이 수정되었습니다." } }));
         } catch (err) {
             console.error(err);
             const message = err?.response?.data?.message ?? "이메일 수정 실패";
-            setFeedback(f => ({ ...f, email: { type: 'error', message }}));
+            setFeedback(f => ({ ...f, email: { type: 'error', message } }));
         } finally {
             setSaving((s) => ({ ...s, email: false }));
         }
@@ -151,7 +151,7 @@ export default function StudentUpdateMyInfo() {
     const submitPassword = async (e) => {
         e.preventDefault();
         if (pwdError) return alert(pwdError);
-        
+
         setSaving((s) => ({ ...s, pwd: true }));
         setFeedback(f => ({ ...f, pwd: null }));
         try {
@@ -159,12 +159,12 @@ export default function StudentUpdateMyInfo() {
                 currentPassword: pwdForm.currentPassword,
                 newPassword: pwdForm.newPassword,
             });
-            setFeedback(f => ({ ...f, pwd: { type: 'success', message: "비밀번호가 변경되었습니다." }}));
+            setFeedback(f => ({ ...f, pwd: { type: 'success', message: "비밀번호가 변경되었습니다." } }));
             setPwdForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
         } catch (err) {
             console.error(err);
             const message = err?.response?.data?.message ?? "비밀번호 변경 실패";
-            setFeedback(f => ({ ...f, pwd: { type: 'error', message }}));
+            setFeedback(f => ({ ...f, pwd: { type: 'error', message } }));
         } finally {
             setSaving((s) => ({ ...s, pwd: false }));
         }
@@ -183,16 +183,16 @@ export default function StudentUpdateMyInfo() {
                 bankCd: acctForm.bankCd,
                 accountHolder: acctForm.accountHolder,
             });
-            setFeedback(f => ({ ...f, acct: { type: 'success', message: "계좌정보가 수정되었습니다." }}));
+            setFeedback(f => ({ ...f, acct: { type: 'success', message: "계좌정보가 수정되었습니다." } }));
         } catch (err) {
             console.error(err);
             const message = err?.response?.data?.message ?? "계좌정보 변경 실패";
-            setFeedback(f => ({ ...f, acct: { type: 'error', message }}));
+            setFeedback(f => ({ ...f, acct: { type: 'error', message } }));
         } finally {
             setSaving((s) => ({ ...s, acct: false }));
         }
     };
-    
+
     const FeedbackMessage = ({ feedback }) => {
         if (!feedback) return null;
         const color = feedback.type === 'success' ? 'text-[#354649]' : 'text-red-500';
@@ -215,7 +215,7 @@ export default function StudentUpdateMyInfo() {
 
     // 비밀번호 확인이 완료되면 기존 정보 수정 화면 표시
     return (
-        <div className="max-w-5xl mx-auto space-y-0">
+        <div className="max-w-7xl mx-auto px-6 py-8 space-y-8 bg-white">
             <PageHeader
                 title="개인정보 수정"
                 breadcrumb={[

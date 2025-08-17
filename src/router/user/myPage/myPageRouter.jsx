@@ -2,7 +2,6 @@ import { employeeMyPageMenus } from "../../../constants/user/employeeMyPageMenus
 import { studentMyPageMenus } from "../../../constants/user/studentMyPageMenus";
 import MyPageLayout from "../../../layouts/user/myPage/MyPageLayout";
 import StudentMyPageHome from "../../../pages/user/MyPage/StudentMyPageHome";
-import NavigatorPage from "../../../pages/user/MyPage/NavigatorPage";
 import StudentConsultListFullPage from "../../../pages/user/MyPage/StudentConsultListFullPage";
 import EmployeeMyPageHome from "../../../pages/user/MyPage/EmployeeMyPageHome";
 import StudentUpdateMyInfo from "../../../pages/user/MyPage/StudentUpdateMyInfo";
@@ -15,7 +14,10 @@ import StudentRadarChart from "../../../component/admin/coreCompetency/result/St
 import ExtracurricularProgramApplyPage from "../../../pages/user/extracurricular/ExtracurricularProgramApplyPage";
 import EmployeeUpdateMyInfo from "../../../pages/user/MyPage/EmployeeUpdateMyInfo";
 import StudentRecommandedProgram from "../../../pages/user/MyPage/StudentRecommandedProgram";
-import EmployeeExtraCategoryPage from "../../../pages/user/MyPage/EmployeeExtraCategoryPage";
+import EmployeeExtraSurveyDashBoard from "../../../pages/user/MyPage/EmployeeExtraSurveyDashBoard";
+import EmployeeExtraListPage from "../../../pages/user/MyPage/EmployeeExtraListPage";
+import EmployeeConsultListPage from "../../../pages/user/MyPage/EmployeeConsultListPage";
+
 export const myPageRouter = [
   {
     path: "/mypage",
@@ -26,7 +28,6 @@ export const myPageRouter = [
         children: [
           { index: true, element: <StudentMyPageHome /> },   
           { path: "update-info", element: <StudentUpdateMyInfo /> },  
-          { path: "navigator", element: <NavigatorPage /> },      
 
           { path: "consult", element: <StudentConsultListFullPage /> },
           { path: "consult", element: <StudentRadarChart /> },
@@ -51,7 +52,11 @@ export const myPageRouter = [
         children: [
           { index: true, element: <EmployeeMyPageHome /> },
           { path: "update-info", element: <EmployeeUpdateMyInfo />},
-          { path: "program", element: <EmployeeExtraCategoryPage />}
+
+          {path: "consult", element: <EmployeeConsultListPage />},
+
+          { path: "program", element: <EmployeeExtraListPage />},
+          { path: "program/satisfaction", element: <EmployeeExtraSurveyDashBoard />},
         ],
       },
     ],
