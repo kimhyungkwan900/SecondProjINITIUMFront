@@ -153,6 +153,7 @@ const HeaderContent = ({...program}) => {
             <ApplyModal
               programName={program.eduNm}
               programId={program.eduMngId}
+              onClose={closeModal}
             />
 
             <button
