@@ -1,75 +1,74 @@
-import axiosInstance from '../../axiosInstance'; // 공통 axios 인스턴스 임포트
+import axios from 'axios';
 
-// 이 모듈에서 사용할 API의 기본 경로를 상수로 정의합니다.
-const ASSESSMENT_PATH = '/admin/assessment';
-const RESPONSE_PATH = '/response';
+// API base URL을 admin assessment 컨트롤러에 맞게 설정합니다.
+const API_BASE_URL = '/api/admin/assessment';
 
 /**
- * API 요청을 위해 평가 데이터를 준비합니다. (주로 날짜 형식 변환)
- * 'yyyy-MM-dd' 형식의 날짜를 'yyyyMMdd'로 변경합니다.
- * @param {object} data - 프론트엔드에서 사용하는 평가 데이터
+ * 날짜를 'yyyy-MM-dd' 형식에서 API가 요구하는 'yyyyMMdd' 형식으로 변환합니다.
+ * @param {string} dateString - 'yyyy-MM-dd' 형식의 날짜 문자열
+ * @returns {string} 'yyyyMMdd' 형식의 날짜 문자열
+ */
+const formatDateForApi = (dateString) => {
+  if (!dateString) return '';
+  return dateString.replace(/-/g, '');
+};
+
+/**
+ * API에 전송하기 전에 DTO 객체를 준비합니다. (특히 날짜 형식 변환)
+ * @param {object} formData - 프론트엔드 폼 데이터
  * @returns {object} API DTO 형식에 맞는 데이터
  */
-const prepareAssessmentData = (data) => {
-  const formatDate = (dateString) => (dateString ? dateString.replace(/-/g, '') : undefined);
-
+const prepareDataForApi = (formData) => {
   return {
-    ...data,
-    startDate: formatDate(data.startDate),
-    endDate: formatDate(data.endDate),
-    registerDate: formatDate(data.registerDate),
+    ...formData,
+    startDate: formatDateForApi(formData.startDate),
+    endDate: formatDateForApi(formData.endDate),
+    registerDate: formatDateForApi(formData.registerDate),
   };
 };
 
 /**
  * 모든 진단 평가 목록을 조회합니다.
- * @returns {Promise<any>} 진단 평가 목록 데이터
  */
 export const getAllAssessments = async () => {
-  const { data } = await axiosInstance.get(`${ASSESSMENT_PATH}/all`);
-  return data;
+  const response = await axios.get(`${API_BASE_URL}/all`);
+  return response.data;
 };
 
 /**
  * 새로운 진단 평가를 생성합니다.
- * @param {object} assessmentData - 생성할 평가 데이터
- * @returns {Promise<any>} 생성된 평가 데이터
+ * @param {object} assessmentData - CoreCompetencyAssessmentDto에 해당하는 데이터
  */
 export const createAssessment = async (assessmentData) => {
-  const payload = prepareAssessmentData(assessmentData);
-  const { data } = await axiosInstance.post(`${ASSESSMENT_PATH}/create`, payload);
-  return data;
+  const payload = prepareDataForApi(assessmentData);
+  const response = await axios.post(`${API_BASE_URL}/create`, payload);
+  return response.data;
 };
 
 /**
- * ID로 기존 진단 평가를 수정합니다.
- * @param {number | string} id - 수정할 평가의 ID
- * @param {object} assessmentData - 수정할 평가 데이터
- * @returns {Promise<any>} 수정된 평가 데이터
+ * 기존 진단 평가를 수정합니다.
+ * @param {number} id - 수정할 평가의 ID
+ * @param {object} assessmentData - CoreCompetencyAssessmentDto에 해당하는 데이터
  */
 export const updateAssessment = async (id, assessmentData) => {
-  const payload = prepareAssessmentData(assessmentData);
-  const { data } = await axiosInstance.put(`${ASSESSMENT_PATH}/update/${id}`, payload);
-  return data;
+  const payload = prepareDataForApi(assessmentData);
+  const response = await axios.put(`${API_BASE_URL}/update/${id}`, payload);
+  return response.data;
 };
 
 /**
- * ID로 진단 평가를 삭제합니다.
- * @param {number | string} id - 삭제할 평가의 ID
- * @returns {Promise<any>} 삭제 성공 메시지
+ * 진단 평가를 삭제합니다.
+ * @param {number} id - 삭제할 평가의 ID
  */
 export const deleteAssessment = async (id) => {
-  const { data } = await axiosInstance.delete(`${ASSESSMENT_PATH}/delete/${id}`);
-  return data;
+  const response = await axios.delete(`${API_BASE_URL}/delete/${id}`);
+  return response.data; // "삭제 완료" 메시지 반환
 };
 
 /**
- * 특정 진단에 학생의 응답이 이미 존재하는지 확인합니다.
- * @param {number | string} id - 진단 평가 ID
- * @param {string} studentNo - 학생 번호
- * @returns {Promise<boolean>} 응답 존재 여부
+ * 진단에 학생의 응답이 존재하는지 조회합니다.
  */
-export const checkDuplicate = async (id, studentNo) => {
-  const { data } = await axiosInstance.get(`${RESPONSE_PATH}/check/${id}/${studentNo}`);
-  return data;
+export const checkDuplicate = async (id,studentNo) => {
+  const response = await axios.get(`/api/response/check/${id}/${studentNo}`);
+  return response.data;
 };

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { fetchConsultsByEmp } from "../../../api/user/consult/ConsultUserApi";
 import { formatDate } from "../../../utils/dateUtils";
+import { getDscsnInfoByEmp } from "../../../api/user/consult/ConsultUserApi";
 
 const ynLabel = (v) => (String(v ?? "").toUpperCase() === "Y" ? "공개" : "비공개");
 const summarize = (text, len = 120) => {
@@ -23,7 +23,7 @@ export default function useMyConsults(empNo) {
     setLoading(true);
     setError(null);
     try {
-      const data = await fetchConsultsByEmp(empNo);
+      const data = await getDscsnInfoByEmp(empNo);
       const list = Array.isArray(data) ? data : [];
 
       const view = list.map((c) => {

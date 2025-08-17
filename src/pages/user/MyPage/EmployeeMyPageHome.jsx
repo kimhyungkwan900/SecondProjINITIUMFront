@@ -1,14 +1,23 @@
+import { useState } from "react";
 import PageHeader from "../../../component/common/PageHeader";
 import EmployeeBasicInfo from "../../../features/user/employees/EmployeeBasicInfo";
 import ConsultHistorySection from "../../../features/user/employees/MyConsultHistorySection";
 import MyProgramsSection from "../../../features/user/employees/MyProgramsSection";
 import { useAuth } from "../../../hooks/useAuth";
 import useEmployeeInfo from "../../../hooks/useEmployeeInfo";
+import CounselorConsultList from "../../../component/admin/consult/CounselorConsultList";
 
 export default function EmployeeMyPageHome() {
   const { user } = useAuth();
   const empNo = user?.loginId;
-  const { employee } = useEmployeeInfo(empNo);
+  const { employee, loading } = useEmployeeInfo(empNo);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  if (loading || !employee) {
+    return <div>로딩 중...</div>; // 또는 다른 로딩 스피너 컴포넌트를 사용해도 됩니다.
+  }
+
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8 space-y-8 bg-white">
@@ -32,7 +41,12 @@ export default function EmployeeMyPageHome() {
       </section>
       {/* 상담 내역 */}
       <section className="content-section">
-        <ConsultHistorySection empNo={empNo} />
+        <CounselorConsultList
+          counselorName={employee.name}
+          current={currentPage}
+          onPageChange={setCurrentPage}
+          searchFilters={{}}
+        />
       </section>
     </div>
   );
