@@ -26,14 +26,10 @@ export default function PageButton({
     if (next !== cp) onPageChange(next); // 1-based 그대로 콜백
   };
 
-  const btnBase =
-    "min-w-9 h-9 px-3 inline-flex items-center justify-center rounded border text-sm transition";
-  const btnGhost =
-    "border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none";
-  const btnActive =
-    "border-blue-600 bg-blue-50 text-blue-700 font-medium hover:bg-blue-100";
-  const iconBtn =
-    "min-w-9 h-9 px-2 inline-flex items-center justify-center rounded border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none";
+  const btnBase = "adm-btn-page-base";
+  const btnGhost = "adm-btn-page-ghost";
+  const btnActive = "adm-btn-page-active";
+  const iconBtn = "adm-btn-page-icon";
 
   return (
     <nav className={`flex items-center gap-1 select-none ${className}`} aria-label="Pagination">

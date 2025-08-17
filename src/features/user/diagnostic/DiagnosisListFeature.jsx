@@ -1,14 +1,14 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DiagnosisTestList from '../../../component/user/diagnostic/DiagnosisTestList.jsx';
 import DiagnosisQuestions from '../../../component/user/diagnostic/DiagnosisQuestions.jsx';
 import DiagnosisResult from '../../../component/user/diagnostic/DiagnosisResult.jsx';
 import { submitDiagnosis } from '../../../api/user/diagnostic/diagnosisApi.jsx';
 import SectionTitle from '../../../component/common/SectionTitle.jsx';
-import { UserContext } from '../../../App.jsx';
+import { useAuth } from '../../../hooks/useAuth.jsx';
 
 const DiagnosisListFeature = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const [selectedTest, setSelectedTest] = useState(null);

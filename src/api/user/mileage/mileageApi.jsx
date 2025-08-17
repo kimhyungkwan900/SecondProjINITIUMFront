@@ -1,9 +1,9 @@
 import axiosInstance from "../../axiosInstance";
 
 // 나의 마일리지
-export const getMileageSummary = async (studentNo, page=1, size=10) => {
-  const res = await axiosInstance.get("/user/mileage/summary", {  
-    params: { studentNo, page: page - 1, size },
+export const getMileageSummary = async (studentNo, page = 1, size = 10) => {
+  const res = await axiosInstance.get("/user/mileage/summary", {
+    params: { studentNo, page, size },
   });
   return res.data;
 };
@@ -26,7 +26,7 @@ export const applyScholarship = async (payload) => {
 
 export const getScholarshipStatus = async (studentNo, page = 1, size = 10) => {
   const res = await axiosInstance.get(`/user/scholarship/status/${studentNo}`, {
-    params: { page: page - 1, size }, 
+    params: { page, size },
   });
   return res.data;
-  };     
+};   

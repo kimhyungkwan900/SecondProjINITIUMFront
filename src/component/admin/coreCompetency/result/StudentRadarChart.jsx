@@ -69,7 +69,7 @@ const StudentRadarChart = ({ assessmentNo, student }) => {
       pointBackgroundColor: "#43a047",
       pointBorderColor: "#43a047",
       fill: false,
-      borderWidth: 6,
+      borderWidth: 2,
       pointRadius: 2.5,
       pointHoverRadius: 3.5,
     },
@@ -123,7 +123,7 @@ const StudentRadarChart = ({ assessmentNo, student }) => {
 
   return (
     <div className="flex-1 min-h-0">
-      <div className="h-[600px]">
+      <div className="h-[500px]">
         <Radar data={radarData} options={radarOptions} />
       </div>
     </div>

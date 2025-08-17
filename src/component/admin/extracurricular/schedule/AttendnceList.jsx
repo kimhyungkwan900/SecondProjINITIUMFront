@@ -33,18 +33,18 @@ const AttendanceList = ({ attendanceList, onSave }) => {
   };
 
   if (!Array.isArray(attendanceList) || attendanceList.length === 0) {
-    return <div className="mt-4 text-center text-gray-500 ">
-        <table className="bg-white">
+    return <div className="adm-card mt-4 text-center text-gray-500">
+        <table className="w-full table-auto border-collapse">
             <thead>
             <tr>
-                <th className="border border-gray-300 px-4 py-2">출석</th>
-                <th className="border border-gray-300 px-4 py-2">학생 번호</th>
-                <th className="border border-gray-300 px-4 py-2">학생 이름</th>
+                <th className="adm-th">출석</th>
+                <th className="adm-th">학생 번호</th>
+                <th className="adm-th">학생 이름</th>
             </tr>
             </thead>
 
             <tbody>
-                <td className="border border-gray-300 px-4 py-2 text-center" colSpan={3}>
+                <td className="adm-td text-center text-gray-500" colSpan={3}>
               등록된 출결이 없습니다.
             </td>
             </tbody>
@@ -53,7 +53,7 @@ const AttendanceList = ({ attendanceList, onSave }) => {
         <div className="mt-4 text-right">
             <button
             onClick={handleSaveClick}
-            className="px-4 py-2 bg-rose-600 text-white rounded hover:bg-rose-700"
+            className="adm-btn adm-btn--primary"
             >
             출석 상태 저장
             </button>
@@ -64,27 +64,27 @@ const AttendanceList = ({ attendanceList, onSave }) => {
   
   
   return (
-    <div className="mt-4 overflow-auto ">
-      <table className="min-w-full border-collapse border border-gray-300 bg-white">
+    <div className="adm-card mt-4 overflow-auto">
+      <table className="min-w-full border-collapse">
         <thead>
           <tr>
-            <th className="border border-gray-300 px-4 py-2">출석</th>
-            <th className="border border-gray-300 px-4 py-2">학생 번호</th>
-            <th className="border border-gray-300 px-4 py-2">학생 이름</th>
+            <th className="adm-th">출석</th>
+            <th className="adm-th">학생 번호</th>
+            <th className="adm-th">학생 이름</th>
           </tr>
         </thead>
         <tbody>
           {attendanceList.map((att) => (
             <tr key={att.studentNo}>
-              <td className="border border-gray-300 px-4 py-2 text-center">
+              <td className="adm-td text-center">
                 <input
                   type="checkbox"
                   checked={!!checkedMap[att.studentNo]}
                   onChange={() => toggleCheck(att.studentNo)}
                 />
               </td>
-              <td className="border border-gray-300 px-4 py-2">{att.studentNo}</td>
-              <td className="border border-gray-300 px-4 py-2">{att.studentName}</td>
+              <td className="adm-td">{att.studentNo}</td>
+              <td className="adm-td">{att.studentName}</td>
             </tr>
           ))}
         </tbody>
@@ -93,7 +93,7 @@ const AttendanceList = ({ attendanceList, onSave }) => {
       <div className="mt-4 text-right">
         <button
           onClick={handleSaveClick}
-          className="px-4 py-2 bg-rose-600 text-white rounded hover:bg-rose-700"
+          className="adm-btn adm-btn--primary"
         >
           출석 상태 저장
         </button>

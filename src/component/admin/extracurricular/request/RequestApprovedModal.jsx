@@ -1,125 +1,121 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const RequestApprovedModal = ({ programName, programEndDate, onSave, onClose }) => {
   const [eduMlg, setEduMlg] = useState("");
   const [srvyTtl, setSrvyTtl] = useState("");
   const [srvyQitemCn, setSrvyQitemCn] = useState("");
-  const [srvyBgngDt, setSrvyBgngDt] = useState(""); // 설문 시작일 (프로그램 종료일로 고정)
+  const [srvyBgngDt, setSrvyBgngDt] = useState(""); // 설문 시작일(프로그램 종료일 고정)
   const [srvyEndDt, setSrvyEndDt] = useState("");
 
-  // 프로그램 종료일이 props로 들어오면 설문 시작일로 자동 설정
+  // 프로그램 종료일 → 설문 시작일 자동 세팅
   useEffect(() => {
-    if (programEndDate) {
-      setSrvyBgngDt(programEndDate);
-    }
+    if (programEndDate) setSrvyBgngDt(programEndDate);
   }, [programEndDate]);
 
   const handleSave = () => {
-    if (eduMlg === "") {
-      alert("마일리지를 입력해주세요.");
-      return;
-    }
-    if (!srvyTtl.trim()) {
-      alert("설문 제목을 입력해주세요.");
-      return;
-    }
-    if (!srvyQitemCn.trim()) {
-      alert("설문 내용을 입력해주세요.");
-      return;
-    }
-    if (!srvyEndDt) {
-      alert("설문 종료일을 선택해주세요.");
-      return;
-    }
-    if (srvyEndDt < srvyBgngDt) {
-      alert("설문 종료일은 시작일 이후여야 합니다.");
-      return;
-    }
+    if (eduMlg === "") return alert("마일리지를 입력해주세요.");
+    if (!srvyTtl.trim()) return alert("설문 제목을 입력해주세요.");
+    if (!srvyQitemCn.trim()) return alert("설문 내용을 입력해주세요.");
+    if (!srvyEndDt) return alert("설문 종료일을 선택해주세요.");
+    if (srvyEndDt < srvyBgngDt) return alert("설문 종료일은 시작일 이후여야 합니다.");
 
-    const surveyData = {
-      eduMlg,
-      srvyTtl,
-      srvyQitemCn,
-      srvyBgngDt,
-      srvyEndDt,
-    };
-
-    onSave(surveyData);
+    onSave({ eduMlg, srvyTtl, srvyQitemCn, srvyBgngDt, srvyEndDt });
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-400 bg-opacity-40 flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-md overflow-auto max-h-[90vh]">
-        <h2 className="text-xl font-bold mb-4 text-center">{programName} 승인</h2>
-
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">마일리지</label>
-          <input
-            type="number"
-            value={eduMlg}
-            onChange={(e) => setEduMlg(e.target.value)}
-            className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="마일리지를 입력하세요"
-            min="0"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">설문 제목</label>
-          <input
-            type="text"
-            value={srvyTtl}
-            onChange={(e) => setSrvyTtl(e.target.value)}
-            className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="설문 제목을 입력하세요"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">설문 내용</label>
-          <textarea
-            value={srvyQitemCn}
-            onChange={(e) => setSrvyQitemCn(e.target.value)}
-            className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="설문 내용을 입력하세요"
-            rows={4}
-          />
-        </div>
-
-        <div className="mb-4 grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">설문 시작일</label>
-            <input
-              type="date"
-              value={srvyBgngDt}
-              disabled
-              className="w-full border border-gray-300 rounded-md p-2 bg-gray-100 cursor-not-allowed"
-            />
+    <div
+      className="fixed inset-0 z-[999] bg-black/40 flex items-center justify-center px-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="approve-modal-title"
+    >
+      <div className="adm-card w-full max-w-lg p-6 shadow-xl">
+        {/* 헤더 */}
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center">
+            <span className="text-2xl text-[#354649] select-none">|</span>
+            <h2 id="approve-modal-title" className="ml-2 text-xl font-semibold text-[#354649]">
+              승인 설정 — {programName || "-"}
+            </h2>
           </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">설문 종료일</label>
-            <input
-              type="date"
-              value={srvyEndDt}
-              onChange={(e) => setSrvyEndDt(e.target.value)}
-              className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              min={srvyBgngDt}
-            />
-          </div>
-        </div>
-
-        <div className="flex justify-end space-x-2">
           <button
+            type="button"
+            aria-label="닫기"
             onClick={onClose}
-            className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-md"
+            className="adm-btn adm-btn--secondary h-8 px-3"
           >
+            닫기
+          </button>
+        </div>
+
+        <hr className="border-gray-200 mb-4" />
+
+        {/* 폼 */}
+        <div className="space-y-4">
+          <div>
+            <label className="adm-label">마일리지</label>
+            <input
+              type="number"
+              min="0"
+              step="1"
+              value={eduMlg}
+              onChange={(e) => setEduMlg(e.target.value)}
+              className="adm-control w-full"
+              placeholder="마일리지를 입력하세요"
+            />
+          </div>
+
+          <div>
+            <label className="adm-label">설문 제목</label>
+            <input
+              type="text"
+              value={srvyTtl}
+              onChange={(e) => setSrvyTtl(e.target.value)}
+              className="adm-control w-full"
+              placeholder="설문 제목을 입력하세요"
+            />
+          </div>
+
+          <div>
+            <label className="adm-label">설문 내용</label>
+            <textarea
+              rows={4}
+              value={srvyQitemCn}
+              onChange={(e) => setSrvyQitemCn(e.target.value)}
+              className="adm-control w-full"
+              placeholder="설문 내용을 입력하세요"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="adm-label">설문 시작일</label>
+              <input
+                type="date"
+                value={srvyBgngDt}
+                disabled
+                className="adm-control w-full bg-gray-100 cursor-not-allowed"
+              />
+            </div>
+            <div>
+              <label className="adm-label">설문 종료일</label>
+              <input
+                type="date"
+                value={srvyEndDt}
+                min={srvyBgngDt || undefined}
+                onChange={(e) => setSrvyEndDt(e.target.value)}
+                className="adm-control w-full"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* 푸터 */}
+        <div className="mt-6 pt-4 border-t border-gray-200 flex justify-end gap-2">
+          <button type="button" onClick={onClose} className="adm-btn adm-btn--secondary">
             취소
           </button>
-          <button
-            onClick={handleSave}
-            className="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 rounded-md"
-          >
+          <button type="button" onClick={handleSave} className="adm-btn adm-btn--primary">
             저장
           </button>
         </div>

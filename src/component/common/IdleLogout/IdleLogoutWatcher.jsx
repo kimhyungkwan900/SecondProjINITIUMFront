@@ -1,7 +1,7 @@
-import { useRef, useEffect, useState, useCallback, useMemo, useContext } from "react";
+import { useRef, useEffect, useState, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { IdleLogoutContext } from "./IdleLogoutContext.js";
-import { UserContext } from "../../../App";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 import { logout } from "../../../api/user/auth/loginApi";
 
 const AUTO_LOGOUT_TIME = 60 * 60 * 1000; // 1시간(ms)
@@ -11,7 +11,7 @@ export default function IdleLogoutWatcher({ children}) {
   const timerRef = useRef(null);
   const tickRef = useRef(null);
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext);
+  const { setUser } = useAuth();
 
   const [expiresAt, setExpiresAt] = useState(() => Date.now() + AUTO_LOGOUT_TIME);
   const [remainingMs, setRemainingMs] = useState(() => AUTO_LOGOUT_TIME);

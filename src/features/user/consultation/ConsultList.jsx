@@ -3,16 +3,9 @@ import ReactModal from "react-modal";
 import ConsultInfoDetail from "../../../features/user/consultation/ConsultInfoDetail";
 import ConsultSatisfaction from "../../../features/user/consultation/ConsultSatisfaction";
 import { getConsultList, applyCancel, } from "../../../api/user/consult/ConsultUserApi"
-import PageButton from "../../../component/admin/extracurricular/PagaButton";
+import PageButton from "../../../component/admin/extracurricular/PageButton.jsx";
 
 const PAGE_SIZE = 10;
-
-const labelById = {
-    "Waiting": "예약대기",
-    "Confirmed": "예약완료",
-    "Canceled": "예약취소",
-    "Completed": "상담완료",
-};
 
 const ConsultList = ({ searchFilters, current, onPageChange })=>{
 
@@ -39,6 +32,7 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
                 setTotal(result.data.dscsnInfos?.totalElements ?? 0);
                 // console.log(total)
             } catch (e) {
+                console.error("API Error:", e);
                 alert("상담 목록을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
                 setData([]);
             } 
@@ -109,7 +103,6 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
                             const startTime = item.dscsnApplyDto.dscsnScheduleDto.startTime;
                             const empName = item.dscsnApplyDto.dscsnScheduleDto.empName;
                             const dscsnTypeName = item.dscsnApplyDto.dscsnKindDto.dscsnTypeName;
-                            const statName = labelById[item.dscsnStatus];
 
                             return(
                             <tr key={item.dscsnInfoId}>
@@ -118,7 +111,7 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
                                 <td className="border px-3 py-2">{`${startTime.slice(0,2)}:${startTime.slice(2)}`}</td>
                                 <td className="border px-3 py-2">{empName}</td>
                                 <td className="border px-3 py-2">{dscsnTypeName}</td>
-                                <td className="border px-3 py-2">{statName}</td>
+                                <td className="border px-3 py-2">{item.dscsnStatus}</td>
                                 <td className="border px-3 py-2">
                                     <button onClick={() => openDetailModal(item)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">조회</button>
                                 </td>
@@ -126,12 +119,11 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
                                     <button onClick={()=> handleCancel(item.dscsnInfoId)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">취소</button>
                                 </td>
                                 <td className="border px-3 py-2">
-                                    {item.dscsnStatus === "Completed"? 
+                                    {item.dscsnStatus === "상담완료"? 
                                         <button onClick={() => openSatisModal(item)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">참여하기</button>
                                         :
                                         <button className="bg-gray-500 text-white font-medium px-3 py-1 rounded" disabled>참여하기</button>
                                     }
-                                    {/* <button onClick={() => openSatisModal(item)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">참여하기</button> */}
                                 </td>
                             </tr>
                         )})

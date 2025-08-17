@@ -1,5 +1,4 @@
-import { useState, useContext } from "react"
-import { UserContext } from "../../../App";
+import { useState } from "react"
 
 import UserTopBar from "../../../component/user/mainpage/UserTopBar";
 import MainHeader from "../../../features/user/mainpage/MainHeader";
@@ -8,13 +7,14 @@ import ConsultApplyForm from "../../../features/user/consultation/ConsultApplyFo
 import ConsultComplete from "../../../features/user/consultation/ConsultComplete";
 
 import { getScheduleById, applyConsult } from "../../../api/user/consult/ConsultUserApi";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 // import useRequireAuth from "../../../hooks/user/consult/useRequireAuth";
 
 const ApplyConsultPage = ({type})=>{
     // const stnt = useRequireAuth("/login");
     // if (!stnt) return null;
 
-    const { user } = useContext(UserContext);   //로그인 인원 정보 가져오기
+    const { user } = useAuth();   //로그인 인원 정보 가져오기
     // const { student, loading, error } = useStudentInfo(user?.loginId);
     
     const [step, setStep] = useState(0);

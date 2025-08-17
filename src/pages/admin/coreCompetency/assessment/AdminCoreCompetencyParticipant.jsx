@@ -1,15 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const AdminCoreCompetencyParticipant = ({assessmentNo}) =>{
-
+const AdminCoreCompetencyParticipant = ({ assessmentNo }) => {
   const [studentList, setStudentList] = useState([]);
   const [selectedStudentNo, setSelectedStudentNo] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
   const fetchStudents = async () => {
-    if (!assessmentNo) { setStudentList([]); return; }
+    if (!assessmentNo) {
+      setStudentList([]);
+      return;
+    }
     try {
       const url = `/api/admin/core-competency/result/assessments/${assessmentNo}/response/students`;
       const res = await axios.get(url);
@@ -22,61 +24,91 @@ const AdminCoreCompetencyParticipant = ({assessmentNo}) =>{
     }
   };
 
-  useEffect(() => { fetchStudents(); }, [assessmentNo]);
+  useEffect(() => {
+    fetchStudents();
+  }, [assessmentNo]);
 
   const totalPages = Math.ceil(studentList.length / itemsPerPage) || 1;
-  const currentStudentList = studentList.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const currentStudentList = studentList.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
-    <div className="mt-3 px-6 py-6 bg-white rounded-xl shadow-md border border-gray-300">
-      <span className="text-xl text-black font-bold">▐ 학생정보</span>
-      <table className="w-full mt-3 text-[16px] border border-gray-300 rounded-md overflow-hidden">
-        <thead className="bg-gray-100 text-gray-700 text-center">
-          <tr>
-            <th className="border p-2 text-center">학번</th>
-            <th className="border p-2 text-center">성명</th>
-            <th className="border p-2 text-center">성별</th>
-            <th className="border p-2 text-center">학과</th>
-            <th className="border p-2 text-center">학년</th>
-            <th className="border p-2 text-center">학적상태</th>
-            <th className="border p-2 text-center">핵심역량완료일</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentStudentList.length === 0 ? (
-            <tr>
-              <td colSpan="7" className="p-4 text-center text-gray-500">
-                {assessmentNo ? "학생이 없습니다." : "진단을 먼저 선택하세요."}
-              </td>
-            </tr>
-          ) : (
-            currentStudentList.map((s) => {
-              const isSelected = selectedStudentNo === s.studentNo;
-              return (
-                <tr
-                  key={s.studentNo}
-                  onClick={() => setSelectedStudentNo(isSelected ? null : s.studentNo)}
-                  className={`cursor-pointer hover:bg-blue-50 ${isSelected ? "bg-blue-100 font-semibold" : ""}`}
-                >
-                  <td className="border p-2 text-center">{s.studentNo}</td>
-                  <td className="border p-2 text-center">{s.name}</td>
-                  <td className="border p-2 text-center">{s.gender}</td>
-                  <td className="border p-2 text-center">{s.subjectCode}</td>
-                  <td className="border p-2 text-center">{s.schoolYear}</td>
-                  <td className="border p-2 text-center">{s.status}</td>
-                  <td className="border p-2 text-center">{s.completeDate}</td>
-                </tr>
-              );
-            })
-          )}
-        </tbody>
-      </table>
+    <div className="adm-card">
+      {/* 헤더 영역 */}
+      <div className="p-4">
+        <h3 className="text-base font-semibold text-gray-800">학생정보</h3>
+      </div>
+      <div className="border-t border-gray-200" />
 
+      {/* 테이블: 헤더 */}
+      <div className="grid grid-cols-7">
+        <div className="adm-th">학번</div>
+        <div className="adm-th">성명</div>
+        <div className="adm-th">성별</div>
+        <div className="adm-th">학과</div>
+        <div className="adm-th">학년</div>
+        <div className="adm-th">학적상태</div>
+        <div className="adm-th">핵심역량완료일</div>
+      </div>
+
+      {/* 테이블: 본문 */}
+      <div>
+        {currentStudentList.length === 0 ? (
+          <div className="adm-empty">
+            {assessmentNo ? "학생이 없습니다." : "진단을 먼저 선택하세요."}
+          </div>
+        ) : (
+          currentStudentList.map((s, idx) => {
+            const isSelected = selectedStudentNo === s.studentNo;
+            return (
+              <div
+                key={s.studentNo}
+                role="row"
+                aria-selected={isSelected ? "true" : "false"}
+                onClick={() =>
+                  setSelectedStudentNo(isSelected ? null : s.studentNo)
+                }
+                className={`grid grid-cols-7 border-t hover:bg-gray-50 cursor-pointer transition-colors
+                  ${idx % 2 === 1 ? "bg-[#F9FAFB]" : "bg-white"}
+                  ${isSelected ? "bg-indigo-50 ring-1 ring-inset ring-indigo-200 font-semibold" : ""}`}
+              >
+                <div className="adm-td text-center">{s.studentNo}</div>
+                <div className="adm-td">{s.name}</div>
+                <div className="adm-td text-center">{s.gender}</div>
+                <div className="adm-td">{s.subjectCode}</div>
+                <div className="adm-td text-center">{s.schoolYear}</div>
+                <div className="adm-td">{s.status}</div>
+                <div className="adm-td">{s.completeDate}</div>
+              </div>
+            );
+          })
+        )}
+      </div>
+
+      {/* 페이징 바 */}
       {studentList.length > itemsPerPage && (
-        <div className="mt-3 flex justify-center gap-2 items-center text-sm">
-          <button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1} className="mr-2 px-3 py-2 border rounded disabled:opacity-40">이전</button>
-          <span>{currentPage} / {totalPages}</span>
-          <button onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))} disabled={currentPage === totalPages} className="ml-2 px-3 py-2 border rounded disabled:opacity-40">다음</button>
+        <div className="px-4 py-3 flex justify-center items-center gap-3 border-t border-gray-200">
+          <button
+            onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+            disabled={currentPage === 1}
+            className="adm-btn adm-btn--secondary h-9 text-xs px-3 disabled:opacity-50"
+          >
+            이전
+          </button>
+          <span className="text-sm text-gray-700">
+            <b>{currentPage}</b> / {totalPages}
+          </span>
+          <button
+            onClick={() =>
+              setCurrentPage((p) => Math.min(p + 1, totalPages))
+            }
+            disabled={currentPage === totalPages}
+            className="adm-btn adm-btn--secondary h-9 text-xs px-3 disabled:opacity-50"
+          >
+            다음
+          </button>
         </div>
       )}
     </div>
@@ -84,4 +116,3 @@ const AdminCoreCompetencyParticipant = ({assessmentNo}) =>{
 };
 
 export default AdminCoreCompetencyParticipant;
-

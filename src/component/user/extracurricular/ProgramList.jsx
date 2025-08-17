@@ -1,13 +1,13 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import SurveyModal from "./SurveyModal";
 import { generateCertificatePDF } from "./CertificateUtils";
-import { UserContext } from "../../../App";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 
 const ProgramList = ({ programs, loading, onDataChange, selectedIds, setSelectedIds }) => {
   const [isSurveyOpen, setIsSurveyOpen] = useState(false);
   const [selectedProgram, setSelectedProgram] = useState(null);
 
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
   const name = user?.name || ""; 
   const studentNo = user?.studentNo || ""; 
   const schoolSubject = user?.schoolSubject || "";
@@ -70,70 +70,65 @@ const ProgramList = ({ programs, loading, onDataChange, selectedIds, setSelected
   };
 
   return (
-    <div className="overflow-x-auto rounded-lg shadow-sm bg-white mt-4">
-      <table className="w-full table-auto text-sm">
-        <thead className="bg-gray-50 text-gray-700 font-semibold border-b">
-          <tr>
-            <th className="px-3 py-2 border-b border-gray-200 text-center">
-              <input
-                type="checkbox"
-                onChange={handleSelectAll}
-                checked={selectedIds.size === programs.length && programs.length > 0}
-                aria-label="전체 선택"
-              />
-            </th>
-            <th className="px-3 py-2 border-b border-gray-200 text-center">프로그램 이름</th>
-            <th className="px-3 py-2 border-b border-gray-200 text-center">수료 조건</th>
-            <th className="px-3 py-2 border-b border-gray-200 text-center">현재 출석률</th>
-            <th className="px-3 py-2 border-b border-gray-200 text-center">교육 마지막일</th>
-            <th className="px-3 py-2 border-b border-gray-200 text-center">수료 여부</th>
-            <th className="px-3 py-2 border-b border-gray-200 text-center">설문 여부</th>
-            <th className="px-3 py-2 border-b border-gray-200 text-center">수료증발급</th>
-          </tr>
-        </thead>
-        <tbody>
-          {programs.map((program) => {
+    <div className="border border-gray-300 rounded-md overflow-hidden mt-4">
+      {/* 테이블 헤더 */}
+      <div className="grid grid-cols-8 gap-4 bg-[#E0E7E9] text-[#354649] px-4 py-3 text-center font-semibold text-sm">
+        <div className="flex items-center justify-center">
+          <input
+            type="checkbox"
+            onChange={handleSelectAll}
+            checked={selectedIds.size === programs.length && programs.length > 0}
+            aria-label="전체 선택"
+          />
+        </div>
+        <div>프로그램 이름</div>
+        <div>수료 조건</div>
+        <div>현재 출석률</div>
+        <div>교육 마지막일</div>
+        <div>수료 여부</div>
+        <div>설문 여부</div>
+        <div>수료증발급</div>
+      </div>
+
+      {/* 테이블 본문 */}
+      <div className="text-sm">
+        {!programs || programs.length === 0 ? (
+          <div className="p-6 text-[#6C7A89] text-center">조회된 프로그램이 없습니다.</div>
+        ) : (
+          programs.map((program, idx) => {
             const eduEndDate = new Date(program.eduEndYmd);
-            const showSurveyButton =
-              program.surveyYn === false && now >= eduEndDate;
+            const showSurveyButton = program.surveyYn === false && new Date() >= eduEndDate;
 
             return (
-              <tr key={program.eduMngId} className="hover:bg-gray-100 cursor-pointer">
-                <td className="px-3 py-2 border-b border-gray-200 text-center">
+              <div
+                key={program.eduMngId}
+                className={`grid grid-cols-8 gap-4 items-center px-4 py-3 border-t border-gray-200 text-center ${
+                  idx % 2 === 1 ? "bg-gray-50/50" : "bg-white"
+                } hover:bg-gray-50`}
+              >
+                <div className="flex items-center justify-center">
                   <input
                     type="checkbox"
                     checked={selectedIds.has(program.eduAplyId)}
                     onChange={() => handleCheckboxChange(program.eduAplyId)}
                     aria-label={`선택 ${program.eduNm}`}
                   />
-                </td>
-                <td className="px-3 py-2 border-b border-gray-200 text-center">
-                  {program.eduNm}
-                </td>
-                <td className="px-3 py-2 border-b border-gray-200 text-center">
-                  출석 {program.cndCn}
-                </td>
-                <td className="px-3 py-2 border-b border-gray-200 text-center">
-                  {program.attendance}%
-                </td>
-                <td className="px-3 py-2 border-b border-gray-200 text-center">
-                  {program.eduEndYmd}
-                </td>
-               <td className="px-3 py-2 border-b border-gray-200 text-center">
-                {program.eduFnshYn === "Y" ? (
-                  <div
-                    className="px-2 py-1 text-green-600 rounded font-bold"
-                  >
-                    수료
-                  </div>
-                ) : (
-                  <span className="text-red-500 font-semibold">미수료</span>
-                )}
-              </td>
-                <td className="px-3 py-2 border-b border-gray-200 text-center">
+                </div>
+                <div>{program.eduNm}</div>
+                <div>출석 {program.cndCn}</div>
+                <div>{program.attendance}%</div>
+                <div>{program.eduEndYmd}</div>
+                <div>
+                  {program.eduFnshYn === "Y" ? (
+                    <div className="font-bold text-green-600">수료</div>
+                  ) : (
+                    <span className="font-semibold text-red-500">미수료</span>
+                  )}
+                </div>
+                <div>
                   {showSurveyButton ? (
                     <button
-                      className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                      className="py-2 px-4 rounded-md bg-[#354649] text-white font-semibold text-sm hover:bg-[#6C7A89] transition-colors"
                       onClick={() => {
                         setSelectedProgram(program);
                         setIsSurveyOpen(true);
@@ -146,27 +141,26 @@ const ProgramList = ({ programs, loading, onDataChange, selectedIds, setSelected
                   ) : (
                     "미등록"
                   )}
-                </td>
-
-                <td className="px-3 py-2 border-b border-gray-200 text-center">
-                {program.eduFnshYn === "Y" ? (
-                  <button
-                    className="px-2 py-1 text-white font-bold rounded bg-green-600 hover:bg-green-700"
-                    onClick={() => {
-                      generateCertificatePDF(name,program.eduNm , studentNo, schoolSubject);
-                    }}
-                  >
-                    발급
-                  </button>
-                ) : (
-                  <span className="text-red-500 font-semibold">발급불가</span>
-                )}
-              </td>
-              </tr>
+                </div>
+                <div>
+                  {program.eduFnshYn === "Y" ? (
+                    <button
+                      className="py-2 px-4 rounded-md bg-green-600 text-white font-semibold text-sm hover:bg-green-700 transition-colors"
+                      onClick={() => {
+                        generateCertificatePDF(name, program.eduNm, studentNo, schoolSubject);
+                      }}
+                    >
+                      발급
+                    </button>
+                  ) : (
+                    <span className="font-semibold text-red-500">발급불가</span>
+                  )}
+                </div>
+              </div>
             );
-          })}
-        </tbody>
-      </table>
+          })
+        )}
+      </div>
 
       {/* 설문 모달 */}
       <SurveyModal

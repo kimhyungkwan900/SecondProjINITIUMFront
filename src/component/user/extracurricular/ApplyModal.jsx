@@ -1,6 +1,6 @@
-import { useState,useContext } from "react";
+import { useState } from "react";
 import { programApply } from "../../../api/user/extracurricular/UserApplyApi";
-import { UserContext } from "../../../App";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 
 const ApplyModal = ({programId, onClose}) => {
   const [checked, setChecked] = useState(false);
@@ -10,7 +10,7 @@ const ApplyModal = ({programId, onClose}) => {
     setChecked(e.target.checked);
   };
 
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
    const logNo = user?.loginId || ""; 
 
   const handleSubmit = async() => {

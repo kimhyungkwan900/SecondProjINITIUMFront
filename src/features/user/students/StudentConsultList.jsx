@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { getConsultList } from "../../../api/user/consult/ConsultUserApi";
-import PageButton from "../../../component/admin/extracurricular/PagaButton";
+import PageButton from "../../../component/admin/extracurricular/PageButton.jsx";
 
 const PAGE_SIZE = 5;
 

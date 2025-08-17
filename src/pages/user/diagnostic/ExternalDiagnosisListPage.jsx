@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import ExternalTestListFeature from '../../../features/user/diagnostic/ExternalTestListFeature.jsx';
 import MainHeader from '../../../features/user/mainpage/MainHeader.jsx';
 import UserTopBar from '../../../component/user/mainpage/UserTopBar.jsx';
-import { UserContext } from '../../../App.jsx';
+import { useAuth } from '../../../hooks/useAuth.jsx';
 import UserSideBar from '../../../features/user/UserSideBar.jsx';
 
 const ExternalDiagnosisListPage = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
   const studentNo = user?.loginId;
 
   const diagnosisMenu = [

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import FindAccountModal from "../../../features/user/auth/FindAccountModal";
+import FindAccountModal from "../../../modal/auth/FindAccountModal";
 
 export default function FindAccountLink() {
   const [showModal, setShowModal] = useState(false);

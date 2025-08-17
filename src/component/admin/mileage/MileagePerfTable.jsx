@@ -5,8 +5,10 @@ const MileagePerfTable = ({ performances, selectedIds, setSelectedIds, onDelete 
     );
   };
 
+  const allChecked = performances.length > 0 && selectedIds.length === performances.length;
+
   const toggleAll = () => {
-    if (selectedIds.length === performances.length) setSelectedIds([]);
+    if (allChecked) setSelectedIds([]);
     else setSelectedIds(performances.map((p) => p.id));
   };
 
@@ -15,7 +17,9 @@ const MileagePerfTable = ({ performances, selectedIds, setSelectedIds, onDelete 
       <table className="min-w-full text-sm">
         <thead className="bg-gray-100">
           <tr>
-            <th className="p-2 text-center"><input type="checkbox" onChange={toggleAll} checked={selectedIds.length === performances.length} /></th>
+            <th className="p-2 text-center">
+              <input type="checkbox" onChange={toggleAll} checked={allChecked} />
+            </th>
             <th className="p-2">학번</th>
             <th className="p-2">이름</th>
             <th className="p-2">학과</th>
@@ -27,19 +31,30 @@ const MileagePerfTable = ({ performances, selectedIds, setSelectedIds, onDelete 
         <tbody>
           {performances.map((perf) => (
             <tr key={perf.id} className="border-t">
-              <td className="p-2 text-center"><input type="checkbox" checked={selectedIds.includes(perf.id)} onChange={() => toggle(perf.id)} /></td>
+              <td className="p-2 text-center">
+                <input
+                  type="checkbox"
+                  checked={selectedIds.includes(perf.id)}
+                  onChange={() => toggle(perf.id)}
+                />
+              </td>
               <td className="p-2">{perf.studentNo}</td>
               <td className="p-2">{perf.name}</td>
               <td className="p-2">{perf.schoolSubjectName}</td>
               <td className="p-2">{perf.accMlg}</td>
               <td className="p-2">{perf.eduNm}</td>
-              <td className="p-2">{new Date(perf.createdAt).toLocaleString()}</td>
+              <td className="p-2">{perf.createdAt ? new Date(perf.createdAt).toLocaleString() : ""}</td>
             </tr>
           ))}
         </tbody>
       </table>
+
       <div className="p-4 text-right">
-        <button className="bg-red-600 text-white px-4 py-2 rounded" onClick={onDelete} disabled={selectedIds.length === 0}>
+        <button
+          className="bg-red-600 text-white px-4 py-2 rounded disabled:opacity-50"
+          onClick={onDelete}
+          disabled={selectedIds.length === 0}
+        >
           선택 삭제
         </button>
       </div>

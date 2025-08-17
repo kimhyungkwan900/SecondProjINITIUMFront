@@ -20,8 +20,10 @@ export const getConsultList = async (params) => {
 };
 
 // 상담상태 변경
-export const updateStatus = async (dscsnInfoId, status) => {
-    const response = await axiosInstance.put(`/consult/dscsnInfo/list/${dscsnInfoId}`, { status });
+export const updateStatus = async (dscsnInfoId) => {
+    const response = await axiosInstance.put(`/consult/dscsnInfo/list/${dscsnInfoId}`, "예약완료",{
+        headers: { "Content-Type": "text/plain; charset=UTF-8" },
+    });
     return response.data;
 };
 
@@ -69,6 +71,18 @@ export const registerSchedule = async (scheduleInfos) => {
 
 // 일정 삭제
 export const deleteSchedule = async (scheduleIds) => {
-    const response = await axiosInstance.delete(`/consult/schedule/delete`, scheduleIds);
+    const response = await axiosInstance.delete(`/consult/schedule/delete`, {
+        data: scheduleIds,
+        headers: { 'Content-Type': 'application/json' },
+    });
+    return response.data;
+};
+
+// empNo 기반으로 상담내역 조회
+export const getDscsnInfoByEmp = async (empNo) => {
+    // GET 요청 시 params 옵션을 사용해 쿼리 스트링(?empNo=...)을 추가합니다.
+    const response = await axiosInstance.get('/consult/schedule/by-emp', {
+        params: { empNo },
+    });
     return response.data;
 };

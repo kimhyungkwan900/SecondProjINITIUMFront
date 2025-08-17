@@ -1,0 +1,28 @@
+export const mockCategories = [
+  {
+    ctgryId: 1,
+    stgrId: 10,
+    ctgryNm: "창의융합",
+    dataCrtDt: "2025-08-14T09:30:00",
+    ctgryUseYn: "Y",
+    ctgryDtl: "창의적 문제해결 중심",
+    subjectCode: "CS",
+    subjectName: "컴퓨터공학과",
+    subCategory: "문제해결",
+    coreCategory: "창의",
+    coreCategoryId: 1001,
+  },
+  {
+    ctgryId: 2,
+    stgrId: 11,
+    ctgryNm: "의사소통",
+    dataCrtDt: "2025-08-13T12:00:00",
+    ctgryUseYn: "N",
+    ctgryDtl: "프레젠테이션/토의",
+    subjectCode: "ENG",
+    subjectName: "영어영문학과",
+    subCategory: "발표",
+    coreCategory: "소통",
+    coreCategoryId: 1002,
+  },
+];

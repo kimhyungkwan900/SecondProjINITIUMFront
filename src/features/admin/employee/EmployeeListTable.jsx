@@ -19,7 +19,6 @@ export default function EmployeeListTable({
     onSortChange(`${field},${nextDir}`);
   };
 
-  // 헤더/바디 동일 열 정의(분수단위 고정) — StudentListTable 기준
   const COLS = "7fr 7fr 9fr 7fr 7fr 10fr"; // empNo, name, subjectCode, employeeStatus, gender, email
 
   const Header = (
@@ -64,8 +63,9 @@ export default function EmployeeListTable({
           <div
             key={r.empNo || idx}
             className={
-              "grid border-b border-gray-200 last:border-b-0 hover:bg-gray-50 cursor-pointer " +
-              (isSelected ? "bg-blue-50 ring-1 ring-blue-300" : "")
+              "grid border-b border-gray-300 last:border-b-0 hover:bg-gray-50 cursor-pointer " +
+              (isSelected ? "bg-blue-50 ring-1 ring-blue-300" : "") +
+              (idx % 2 === 1 ? " bg-gray-50/50" : " bg-white")
             }
             style={{ gridTemplateColumns: COLS }}
             onClick={() => onRowClick?.(r.empNo)}

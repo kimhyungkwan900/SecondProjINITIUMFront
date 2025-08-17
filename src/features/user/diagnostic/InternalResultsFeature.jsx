@@ -3,9 +3,6 @@ import { fetchPagedResultsByStudent, downloadResultPdf } from '../../../api/user
 import { Link } from 'react-router-dom';
 import SectionTitle from '../../../component/common/SectionTitle.jsx';
 
-/**
- * 날짜 포맷터: YYYY-MM-DD HH:mm:ss
- */
 const formatDate = (value) => {
   if (!value) return '-';
   const d = new Date(value);
@@ -19,15 +16,10 @@ const formatDate = (value) => {
   return `${yy}-${mm}-${dd} ${hh}:${mi}:${ss}`;
 };
 
-/**
- * InternalResultsFeature
- * - 내부 진단검사 결과(서버 페이징)
- * - 부모 페이지가 레이아웃/카드를 감싸고, 본 컴포넌트는 콘텐츠만 렌더
- */
 const InternalResultsFeature = ({ studentNo }) => {
   const [pageData, setPageData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(0); // 0-based
+  const [page, setPage] = useState(0);
   const [size, setSize] = useState(3);
 
   useEffect(() => {
@@ -66,15 +58,14 @@ const InternalResultsFeature = ({ studentNo }) => {
 
   return (
     <section className="space-y-6">
-      {/* 섹션 헤더 (파란 막대 + 제목) */}
       <SectionTitle size={22} showDivider>
         심리 진단검사 결과
         <span className="text-gray-500 text-base font-normal">(총 {totalElements}건)</span>
       </SectionTitle>
       <hr className="my-2 border-gray-200" />
 
-      {/* 리스트 카드 (가이드: bg-gray-50 + border + rounded + shadow-sm) */}
-      <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 shadow-sm">
+      {/* 리스트 카드: 흰색 배경으로 변경 */}
+      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
         {content.length > 0 ? (
           <ul className="divide-y">
             {content.map((result) => (
@@ -108,7 +99,7 @@ const InternalResultsFeature = ({ studentNo }) => {
         )}
       </div>
 
-      {/* 페이징 바 (가이드 톤) */}
+      {/* 페이징 바 */}
       <div className="mt-2 flex justify-between items-center">
         <div className="text-sm text-gray-600">페이지 {number + 1} / {Math.max(totalPages, 1)}</div>
         <div className="flex gap-2 items-center">

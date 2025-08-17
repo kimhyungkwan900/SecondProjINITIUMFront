@@ -42,9 +42,9 @@ const CoreCompetecnyCategoryScore = ({
     if (!Number.isFinite(v)) {
       return { text: "미정", cls: "bg-gray-100 text-gray-500" };
     }
-    if (v > 3.5) return { text: "우수", cls: "bg-emerald-100 text-emerald-700" };
-    if (v < 2.0) return { text: "미흡", cls: "bg-rose-100 text-rose-700" };
-    return { text: "보통", cls: "bg-blue-100 text-blue-700" };
+    if (v > 3.5) return { text: "우수", cls: "text-emerald-700" };
+    if (v < 2.0) return { text: "미흡", cls: "text-rose-700" };
+    return { text: "보통", cls: "text-blue-700" };
   };
 
   useEffect(() => {
@@ -150,7 +150,7 @@ const CoreCompetecnyCategoryScore = ({
 
   return (
     <div className="overflow-x-auto border rounded-xl">
-      <table className="min-w-full text-sm text-center">
+      <table className="min-w-full text-sm text-center score-table">
         <thead className="bg-gray-100 text-gray-700">
           <tr>
             <th className="px-4 py-3 border">핵심역량</th>
@@ -172,11 +172,11 @@ const CoreCompetecnyCategoryScore = ({
                   </td>
                 )}
 
-                <td className="px-4 py-3 border text-left">{r.subCategoryName}</td>
+                <td className="px-4 py-3 border text-center">{r.subCategoryName}</td>
                 <td className="px-4 py-3 border">{r.myAvg.toFixed(2)}</td>
                 <td className="px-4 py-3 border">{r.cohortAvg.toFixed(2)}</td>
                 <td className="px-4 py-3 border">
-                  <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${level.cls}`}>
+                  <span className={`inline-block px-3 py-1 rounded-full text-[16px] font-medium ${level.cls}`}>
                     {level.text}
                   </span>
                 </td>

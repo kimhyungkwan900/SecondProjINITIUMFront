@@ -1,15 +1,15 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InternalResultsFeature from '../../../features/user/diagnostic/InternalResultsFeature.jsx';
 import ExternalResultsFeature from '../../../features/user/diagnostic/ExternalResultsFeature.jsx';
 import MainHeader from '../../../features/user/mainpage/MainHeader.jsx';
 import UserTopBar from '../../../component/user/mainpage/UserTopBar.jsx';
-import { UserContext } from '../../../App.jsx';
+import { useAuth } from '../../../hooks/useAuth.jsx';
 import UserSideBar from '../../../features/user/UserSideBar.jsx';
 import SectionTitle from '../../../component/common/SectionTitle.jsx';
 
 const AllResultsPage = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useAuth();
   const navigate = useNavigate();
   const studentNo = user?.loginId;
 

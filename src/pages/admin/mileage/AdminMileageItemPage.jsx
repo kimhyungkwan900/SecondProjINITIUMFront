@@ -1,32 +1,24 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   fetchMileageItems,
-  fetchMileageItemById,
   createMileageItem,
   deleteMileageItems,
 } from "../../../api/admin/mileage/AdminMileageItemApi";
 
 export default function AdminMileageItemPage() {
-  // table
   const [rows, setRows] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
   const [loading, setLoading] = useState(false);
 
-  // filters
   const [itemCode, setItemCode] = useState("");
   const [eduNm, setEduNm] = useState("");
 
-  // selection
   const [checked, setChecked] = useState(new Set());
 
-  // modals
   const [showCreate, setShowCreate] = useState(false);
   const [createForm, setCreateForm] = useState({ itemCode: "", eduMngId: "" });
-
-  const [showDetail, setShowDetail] = useState(false);
-  const [detail, setDetail] = useState(null);
 
   const load = async (opt = {}) => {
     setLoading(true);
@@ -76,17 +68,6 @@ export default function AdminMileageItemPage() {
     load({ page: 1, itemCode: undefined, eduNm: undefined });
   };
 
-  const openDetail = async (id) => {
-    try {
-      const data = await fetchMileageItemById(id);
-      setDetail(data);
-      setShowDetail(true);
-    } catch (e) {
-      console.error(e);
-      alert("상세 조회 실패");
-    }
-  };
-
   const onCreate = async () => {
     if (!createForm.itemCode.trim()) return alert("항목 코드를 입력하세요.");
     if (!createForm.eduMngId) return alert("비교과 프로그램 ID를 입력하세요.");
@@ -120,23 +101,23 @@ export default function AdminMileageItemPage() {
 
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-6">
-      <h1 className="text-2xl font-bold">마일리지 항목 관리</h1>
+      <h1 className="text-2xl font-semibold">마일리지 항목 관리</h1>
 
       {/* Filters */}
-      <div className="bg-white rounded-lg shadow p-4 grid md:grid-cols-5 gap-3 items-end">
+      <div className="bg-white rounded-lg shadow-sm p-4 grid md:grid-cols-5 gap-3 items-end border border-gray-200">
         <div>
-          <label className="block text-sm text-gray-600 mb-1">항목 코드</label>
+          <label className="block text-sm text-[#354649] mb-1">항목 코드</label>
           <input
-            className="w-full border rounded px-3 py-2"
+            className="w-full border border-[#A3C6C4] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6C7A89]"
             placeholder="예) MLG001"
             value={itemCode}
             onChange={(e) => setItemCode(e.target.value)}
           />
         </div>
         <div className="md:col-span-2">
-          <label className="block text-sm text-gray-600 mb-1">비교과 프로그램명</label>
+          <label className="block text-sm text-[#354649] mb-1">비교과 프로그램명</label>
           <input
-            className="w-full border rounded px-3 py-2"
+            className="w-full border border-[#A3C6C4] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6C7A89]"
             placeholder="프로그램명으로 검색"
             value={eduNm}
             onChange={(e) => setEduNm(e.target.value)}
@@ -145,13 +126,13 @@ export default function AdminMileageItemPage() {
         <div className="flex gap-2 md:col-span-2">
           <button
             onClick={onSearch}
-            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white rounded px-3 py-2"
+            className="flex-1 bg-[#354649] text-white font-semibold px-3 py-2 rounded-md hover:bg-[#6C7A89] transition-colors"
           >
             조회
           </button>
           <button
             onClick={onReset}
-            className="flex-1 bg-gray-200 hover:bg-gray-300 rounded px-3 py-2"
+            className="flex-1 border border-[#A3C6C4] text-[#354649] font-semibold px-3 py-2 rounded-md hover:bg-[#E0E7E9] transition-colors"
           >
             초기화
           </button>
@@ -162,71 +143,60 @@ export default function AdminMileageItemPage() {
       <div className="flex items-center gap-2">
         <button
           onClick={() => setShowCreate(true)}
-          className="bg-emerald-600 hover:bg-emerald-700 text-white rounded px-3 py-2"
+          className="bg-[#354649] text-white font-semibold px-3 py-2 rounded-md hover:bg-[#6C7A89] transition-colors"
         >
           항목 등록
         </button>
         <button
           onClick={onDelete}
-          className="bg-rose-600 hover:bg-rose-700 text-white rounded px-3 py-2"
+                    className="bg-red-500 text-white font-semibold px-3 py-2 rounded-md hover:bg-red-600 transition-colors"
         >
           선택 삭제
         </button>
         <div className="flex-1" />
-        <div className="text-sm text-gray-600">총 {total.toLocaleString()}건</div>
+        <div className="text-sm text-[#354649]">총 {total.toLocaleString()}건</div>
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-lg shadow overflow-x-auto">
-        <table className="min-w-full text-sm">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="p-3 w-10">
-                <input type="checkbox" checked={allChecked} onChange={toggleAll} />
-              </th>
-              <th className="p-3 text-left">ID</th>
-              <th className="p-3 text-left">항목 코드</th>
-              <th className="p-3 text-left">프로그램명</th>
-              <th className="p-3 text-left">마일리지</th>
-              <th className="p-3 text-left">생성일</th>
-              <th className="p-3 text-left">수정일</th>
-              <th className="p-3 text-center w-28">상세</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <tr><td colSpan={8} className="p-6 text-center text-gray-500">로딩 중...</td></tr>
-            ) : rows.length === 0 ? (
-              <tr><td colSpan={8} className="p-6 text-center text-gray-500">데이터 없음</td></tr>
-            ) : (
-              rows.map((r) => (
-                <tr key={r.id} className="border-t">
-                  <td className="p-3 text-center">
-                    <input
-                      type="checkbox"
-                      checked={checked.has(r.id)}
-                      onChange={() => toggleOne(r.id)}
-                    />
-                  </td>
-                  <td className="p-3">{r.id}</td>
-                  <td className="p-3">{r.itemCode}</td>
-                  <td className="p-3">{r.eduNm}</td>
-                  <td className="p-3">{r.eduMlg}</td>
-                  <td className="p-3">{fmt(r.createdAt)}</td>
-                  <td className="p-3">{fmt(r.modifiedAt)}</td>
-                  <td className="p-3 text-center">
-                    <button
-                      className="px-3 py-1 rounded border hover:bg-gray-50"
-                      onClick={() => openDetail(r.id)}
-                    >
-                      보기
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+      <div className="bg-white rounded-lg shadow border border-gray-300 overflow-hidden">
+        {/* Table Header */}
+        <div className="grid grid-cols-6 text-sm font-semibold text-center text-[#354649] bg-[#E0E7E9]">
+          <div className="px-4 py-2 border-b border-gray-300">
+            <input type="checkbox" checked={allChecked} onChange={toggleAll} />
+          </div>
+          <div className="px-4 py-2 border-b border-gray-300">ID</div>
+          <div className="px-4 py-2 border-b border-gray-300">항목 코드</div>
+          <div className="px-4 py-2 border-b border-gray-300">프로그램명</div>
+          <div className="px-4 py-2 border-b border-gray-300">마일리지</div>
+          <div className="px-4 py-2 border-b border-gray-300">생성일</div>
+        </div>
+        {/* Table Body */}
+        <div>
+          {loading ? (
+            <div className="p-6 text-center text-gray-500">로딩 중...</div>
+          ) : rows.length === 0 ? (
+            <div className="p-6 text-center text-gray-500">데이터 없음</div>
+          ) : (
+            rows.map((r, idx) => (
+              <div key={r.id} className={`grid grid-cols-6 text-sm text-center border-t border-gray-200 hover:bg-gray-50 ${
+                idx % 2 === 1 ? "bg-gray-50/50" : "bg-white"
+              }`}>
+                <div className="p-3">
+                  <input
+                    type="checkbox"
+                    checked={checked.has(r.id)}
+                    onChange={() => toggleOne(r.id)}
+                  />
+                </div>
+                <div className="p-3">{r.id}</div>
+                <div className="p-3">{r.itemCode}</div>
+                <div className="p-3">{r.eduNm}</div>
+                <div className="p-3">{r.eduMlg}</div>
+                <div className="p-3">{fmt(r.createdAt)}</div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
 
       {/* Pagination */}
@@ -234,7 +204,7 @@ export default function AdminMileageItemPage() {
         <button
           disabled={page <= 1}
           onClick={() => setPage((p) => Math.max(1, p - 1))}
-          className="px-3 py-2 rounded border disabled:opacity-50"
+          className="px-4 py-2 rounded border border-gray-300 text-[#354649] hover:bg-[#E0E7E9] disabled:opacity-50"
         >
           이전
         </button>
@@ -242,14 +212,14 @@ export default function AdminMileageItemPage() {
         <button
           disabled={page * size >= total}
           onClick={() => setPage((p) => p + 1)}
-          className="px-3 py-2 rounded border disabled:opacity-50"
+          className="px-4 py-2 rounded border border-gray-300 text-[#354649] hover:bg-[#E0E7E9] disabled:opacity-50"
         >
           다음
         </button>
         <select
           value={size}
           onChange={(e) => { setSize(+e.target.value); setPage(1); }}
-          className="ml-2 border rounded px-2 py-2"
+          className="ml-2 border border-gray-300 rounded-md px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#6C7A89]"
         >
           {[10, 20, 50].map((n) => (
             <option key={n} value={n}>{n}/페이지</option>
@@ -291,7 +261,7 @@ export default function AdminMileageItemPage() {
                 취소
               </button>
               <button
-                className="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white"
+                          className="bg-[#222E8D] text-white font-semibold px-4 py-2 rounded-md hover:bg-blue-800 transition-colors"
                 onClick={onCreate}
               >
                 등록
@@ -300,57 +270,6 @@ export default function AdminMileageItemPage() {
           </div>
         </Modal>
       )}
-
-      {/* Detail Modal */}
-      {showDetail && detail && (
-        <Modal onClose={() => setShowDetail(false)} title="항목 상세">
-          <div className="space-y-3 text-sm">
-            <Row k="ID" v={detail.id} />
-            <Row k="항목 코드" v={detail.itemCode} />
-            <Row k="프로그램명" v={detail.eduNm} />
-            <Row k="비교과 ID" v={detail.eduMngId} />
-            <Row k="마일리지" v={detail.eduMlg} />
-            <Row k="생성일" v={fmt(detail.createdAt)} />
-            <Row k="수정일" v={fmt(detail.modifiedAt)} />
-            <div>
-              <div className="text-gray-600">배점 정책</div>
-              <div className="mt-2 border rounded">
-                {(detail.scorePolicies?.length ?? 0) === 0 ? (
-                  <div className="p-3 text-gray-500">정책 없음</div>
-                ) : (
-                  <table className="min-w-full">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        {Object.keys(detail.scorePolicies[0]).map((k) => (
-                          <th key={k} className="p-2 text-left text-xs text-gray-600">{k}</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {detail.scorePolicies.map((p, i) => (
-                        <tr key={i} className="border-t">
-                          {Object.entries(p).map(([k, v]) => (
-                            <td key={k} className="p-2">{String(v ?? "")}</td>
-                          ))}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
-              </div>
-            </div>
-          </div>
-        </Modal>
-      )}
-    </div>
-  );
-}
-
-function Row({ k, v }) {
-  return (
-    <div className="grid grid-cols-3 gap-2">
-      <div className="col-span-1 text-gray-600">{k}</div>
-      <div className="col-span-2 font-medium">{String(v ?? "")}</div>
     </div>
   );
 }

@@ -4,7 +4,6 @@ import CoreCompetencyMainPage from "../../../pages/user/coreCompetency/CoreCompe
 import CoreCompetencyAssessmentPage from "../../../pages/user/coreCompetency/CoreCompetencyAssessmentPage";
 import CoreCompetencyTestPage from "../../../pages/user/coreCompetency/CoreCompetencyTestPage";
 import CoreCompetencyResultView from "../../../component/user/coreCompetency/result/CoreCompetencyResultView";
-import AdminCoreCompetencyResultPdf from "../../../pages/admin/coreCompetency/result/AdminCoreCompetencyResultPdf";
 
 const coreCompetencyRouter = [
     {
@@ -18,10 +17,6 @@ const coreCompetencyRouter = [
     {
         path : "/competency/coreCompetency/result",
         element : <CoreCompetencyResultPage/>
-    },
-    {
-        path : `/competency/coreCompetency/result/student`,
-        element : <AdminCoreCompetencyResultPdf/>
     },
     {
         path : "/competency/coreCompetency/list",

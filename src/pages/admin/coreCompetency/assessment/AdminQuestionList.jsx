@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {
-  getQuestionsByAssessment,
-  setAnswerOptionCount,
-  createCoreCompetencyQuestion,
-  updateCoreCompetencyQuestion,
-  getSubCategoriesByAssessment,
-  deleteCoreCompetencyQuestion,
-} from '../../../../api/admin/coreCompetency/AdminQuestionApi';
 import AdminQuestionDetail from './AdminQuestionDetail';
+import { createCoreCompetencyQuestion, deleteCoreCompetencyQuestion, getQuestionsByAssessment, getSubCategoriesByAssessment, setAnswerOptionCount, updateCoreCompetencyQuestion } from '../../../../api/admin/coreCompetency/AdminQuestionApi';
 
 const AdminQuestionList = ({ assessmentId }) => {
   const [questions, setQuestions] = useState([]);
@@ -15,6 +8,7 @@ const AdminQuestionList = ({ assessmentId }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
@@ -31,7 +25,7 @@ const AdminQuestionList = ({ assessmentId }) => {
         getSubCategoriesByAssessment(assessmentId),
       ]);
 
-      // <<< 문항 번호(questionNo) 기준으로 오름차순 정렬
+      // 문항번호 오름차순
       q.sort((a, b) => a.questionNo - b.questionNo);
 
       setQuestions(q);
@@ -48,6 +42,7 @@ const AdminQuestionList = ({ assessmentId }) => {
     fetchQuestions();
     setCurrentPage(1);
     setSelectedQuestion(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assessmentId]);
 
   const handleOptionCountChange = async (questionId, newCount) => {
@@ -72,6 +67,8 @@ const AdminQuestionList = ({ assessmentId }) => {
       await fetchQuestions();
       setSelectedQuestion(null);
       alert('삭제 완료');
+
+      // 현재 페이지 보정
       const after = Math.ceil((questions.length - 1) / itemsPerPage);
       if (currentPage > after) setCurrentPage(Math.max(after, 1));
     } catch (e) {
@@ -116,23 +113,23 @@ const AdminQuestionList = ({ assessmentId }) => {
     currentPage * itemsPerPage
   );
 
-  if (loading) return <div className="p-4 text-center">문항 정보를 불러오는 중...</div>;
-  if (error) return <div className="p-4 text-center text-red-500">{error}</div>;
+  if (loading) return <div className="adm-loading">문항 정보를 불러오는 중...</div>;
+  if (error) return <div className="adm-empty text-red-600">{error}</div>;
 
   return (
-    <div className="space-y-8">
-      <div className="bg-white p-6 rounded-lg shadow-md w-full">
+    <div className="space-y-4">
+      {/* 목록 카드 */}
+      <div className="adm-card p-4 w-full">
+        {/* 상단 타이틀 & 액션 */}
         <div className="flex items-center justify-between">
-          <span className="text-xl text-black font-bold">▐ 문항 목록</span>
+          <h2 className="text-base font-semibold text-gray-800">문항 목록</h2>
           <button
             onClick={() => {
               const defaultSub = subCategories[0]?.id ?? null;
-
               if (defaultSub === null) {
-              alert('역량 카테고리를 등록해주세요.');
-              return; // 함수 실행 중단
-            }
-
+                alert('역량 카테고리를 등록해주세요.');
+                return;
+              }
               setSelectedQuestion({
                 id: null,
                 questionNo: questions.length + 1,
@@ -145,55 +142,72 @@ const AdminQuestionList = ({ assessmentId }) => {
                 subCategoryId: defaultSub,
               });
             }}
-            className="bg-green-500 text-white px-4 py-2 rounded"
+            className="adm-btn adm-btn--primary"
           >
             새 문항 추가
           </button>
         </div>
 
-        <table className="w-full text-sm border-collapse mt-4">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="border p-2 w-20">문항번호</th>
-              <th className="border p-2 text-left">문항명</th>
-              <th className="border p-2 w-24">표시순서</th>
-              <th className="border p-2 w-28">답변허용개수</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentQuestions.map((question) => (
-              <tr
-                key={question.id}
-                onClick={() => setSelectedQuestion(question)}
-                className={`cursor-pointer hover:bg-blue-50 ${
-                  selectedQuestion?.id === question.id ? 'bg-blue-100 font-bold' : ''
-                }`}
-              >
-                <td className="border p-2 text-center">{question.questionNo}</td>
-                <td className="border p-2">{question.questionName}</td>
-                <td className="border p-2 text-center">{question.displayOrder}</td>
-                <td className="border p-2 text-center">{question.selectAllowCount}</td>
+        {/* 표 */}
+        <div className="overflow-x-auto mt-4">
+          <table className="w-full text-sm">
+            <thead>
+              <tr>
+                <th className="adm-th w-20">문항번호</th>
+                <th className="adm-th text-left">문항명</th>
+                <th className="adm-th w-24">표시순서</th>
+                <th className="adm-th w-28">답변허용개수</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {currentQuestions.length > 0 ? (
+                currentQuestions.map((question) => {
+                  const selected = selectedQuestion?.id === question.id;
+                  return (
+                    <tr
+                      key={question.id}
+                      onClick={() => setSelectedQuestion(question)}
+                      aria-selected={selected ? 'true' : 'false'}
+                      className={`cursor-pointer transition-colors hover:bg-gray-50 even:bg-gray-50/50 ${selected
+                          ? 'bg-indigo-50 ring-1 ring-inset ring-indigo-200 font-semibold'
+                          : 'bg-white'
+                        }`}
+                    >
+                      <td className="adm-td text-center">{question.questionNo}</td>
+                      <td className="adm-td">{question.questionName}</td>
+                      <td className="adm-td text-center">{question.displayOrder}</td>
+                      <td className="adm-td text-center">{question.selectAllowCount}</td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan={4} className="adm-empty">
+                    조회된 문항이 없습니다.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
 
+        {/* 페이지네이션 */}
         {totalPages > 1 && (
-          <div className="mt-4 flex justify-center items-center gap-4">
+          <div className="flex justify-center items-center gap-3 pt-3">
             <button
               onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
               disabled={currentPage === 1}
-              className="px-3 py-1 border rounded disabled:opacity-50"
+              className="adm-btn adm-btn--secondary h-9 text-xs px-3 disabled:opacity-50"
             >
               이전
             </button>
-            <span className="font-semibold">
-              {currentPage} / {totalPages}
+            <span className="text-sm text-gray-700">
+              <b>{currentPage}</b> / {totalPages}
             </span>
             <button
               onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
               disabled={currentPage === totalPages}
-              className="px-3 py-1 border rounded disabled:opacity-50"
+              className="adm-btn adm-btn--secondary h-9 text-xs px-3 disabled:opacity-50"
             >
               다음
             </button>
@@ -201,6 +215,7 @@ const AdminQuestionList = ({ assessmentId }) => {
         )}
       </div>
 
+      {/* 상세 패널 */}
       {selectedQuestion && (
         <AdminQuestionDetail
           key={selectedQuestion.id ?? 'new'}
@@ -209,10 +224,10 @@ const AdminQuestionList = ({ assessmentId }) => {
           onOptionCountChange={handleOptionCountChange}
           onSave={handleSave}
           onDelete={handleDelete}
-          existingQuestions={(questions || []).map(q => ({
-          id: q.id,
-          questionName: q.questionName || q.name || ""
-        }))}
+          existingQuestions={(questions || []).map((q) => ({
+            id: q.id,
+            questionName: q.questionName || q.name || '',
+          }))}
         />
       )}
     </div>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   adminUpdateStudentInfo,
   enrollStudent,
@@ -8,10 +8,11 @@ import {
 } from "../../../api/user/auth/studentsApi";
 import AdminSectionHeader from "../../../component/admin/AdminSectionHeader";
 import StudentListTable from "../../../features/admin/students/StudentListTable";
-import PageButton from "../../../component/admin/extracurricular/PagaButton";
+import PageButton from "../../../component/admin/extracurricular/PageButton.jsx";
 import StudentAdminUpdateForm from "../../../component/admin/student/StudentAdminUpdateForm";
 import StudentListSearchFilter from "../../../features/admin/students/StudentListSearchFilter";
-import StudentListToolbar from "../../../component/admin/student/StudentListToolbar";
+import AdminListToolbar from "../../../component/admin/AdminListToolbar";
+import { formatDate } from "../../../utils/dateUtils.js";
 
 const emptyDetail = {
   studentNo: "",
@@ -149,14 +150,12 @@ export default function StudentManagePage() {
     setDetail(emptyDetail);
     setError("");
   };
-  // 공통: 날짜 공백 → null
-  const normalizeDate = (s) => (s && String(s).trim().length ? s : null);
 
   const buildStudentPayload = (d) => ({
     name: (d.name ?? "").trim(),
     email: (d.email ?? "").trim(),
-    birthDate: normalizeDate(d.birthDate),         // "YYYY-MM-DD" 문자열
-    admissionDate: normalizeDate(d.admissionDate), // "YYYY-MM-DD" 문자열
+    birthDate: formatDate(d.birthDate),         // "YYYY-MM-DD" 문자열
+    admissionDate: formatDate(d.admissionDate), // "YYYY-MM-DD" 문자열
 
     gender: (d.gender ?? d.genderCode ?? "").trim(),
 
@@ -251,14 +250,13 @@ export default function StudentManagePage() {
     <div className="space-y-3">
       <AdminSectionHeader title="학생관리" />
 
-      {/* 상단 액션 */}
-      <StudentListToolbar
+      <AdminListToolbar
         onSearch={handleSearch}
         loading={loading}
         onReset={handleResetFilters}
         onCreate={handleCreateMode}
+        createButtonText="입학(등록)"
       />
-
 
       {/* 메인 레이아웃: 좌(검색+목록) / 우(학생 폼) */}
       <div className="grid grid-cols-12 gap-3">
@@ -269,9 +267,6 @@ export default function StudentManagePage() {
             <StudentListSearchFilter
               filters={filters}
               setFilters={setFilters}
-              handleSearch={handleSearch}
-              size={size}
-              handleSizeChange={handleSizeChange}
               loading={loading}
             />
           </div>
@@ -298,7 +293,7 @@ export default function StudentManagePage() {
               <div className="flex items-center gap-3">
                 <span className="text-sm">표시개수</span>
                 <select
-                  className="w-auto rounded border border-gray-300 px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="border border-gray-300 rounded-md px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#6C7A89]"
                   value={size}
                   onChange={handleSizeChange}
                   disabled={loading}
@@ -307,13 +302,12 @@ export default function StudentManagePage() {
                     <option key={n} value={n}>{n}</option>
                   ))}
                 </select>
-
                 <PageButton
                   totalPages={totalPages}
-                  currentPage={page + 1}     // 내부는 0-based, 버튼은 1-based
+                  currentPage={page + 1}
                   onPageChange={handlePageChange}
                   disabled={loading}
-                  maxVisible={5}            // 최대 10개만 노출
+                  maxVisible={5}
                 />
               </div>
             </div>
@@ -328,13 +322,9 @@ export default function StudentManagePage() {
                 {mode === "create" ? "입학정보 입력" : selectedNo ? "기존 정보 수정" : "학생 정보"}
               </div>
             </div>
-
-            {/* 선택된 학번 표시 */}
             <div className="text-sm text-gray-700 bg-gray-50 border rounded px-3 py-2">
               선택된 학번: <b>{selectedNo || "-"}</b>
             </div>
-
-            {/* 폼 */}
             <StudentAdminUpdateForm
               value={detail}
               onChange={setDetail}

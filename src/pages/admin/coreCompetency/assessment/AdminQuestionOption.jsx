@@ -15,8 +15,11 @@ const AdminQuestionOption = ({ options, onOptionChange, onValidityChange }) => {
       const nextErrors = list.map((opt) => {
         const e = {};
         const label = String(opt?.label ?? "").trim();
+
+        // score: 공백이면 오류, 숫자면 허용(0 포함)
         const scoreStr = String(opt?.score ?? "").trim();
         const scoreNum = Number(scoreStr);
+
         if (!label) e.label = "라벨을 입력해주세요.";
         if (scoreStr === "" || Number.isNaN(scoreNum)) e.score = "점수를 입력해주세요.";
         return e;
@@ -47,52 +50,52 @@ const AdminQuestionOption = ({ options, onOptionChange, onValidityChange }) => {
 
   return (
     <div className="space-y-4 pt-4 border-t">
-      <span className="text-xl text-black font-bold">▐ 답변 선택지</span>
+      <span className="text-xl text-[#354649] font-bold">▐ 답변 선택지</span>
 
       <div className="space-y-3">
         {options.map((option, index) => {
           const e = errors[index] || {};
           return (
             <div key={index} className="grid grid-cols-12 gap-2 items-start">
-              <span className="col-span-1 text-center font-medium text-gray-600 pt-2">
+              <span className="col-span-1 text-center font-medium text-[#354649] pt-2">
                 {index + 1}.
               </span>
 
               {/* 라벨 입력 */}
               <div className="col-span-8">
                 <label className="block text-sm mb-1">
-                  라벨 <span className="text-red-600 text-xs ml-1">*</span>
+                  라벨 <span className="text-red-500 text-xs ml-1">*</span>
                 </label>
                 <input
                   type="text"
                   placeholder={`선택지 ${index + 1} 내용`}
                   value={option.label ?? ""}
                   onChange={(e) => handleChange(index, "label", e.target.value)}
-                  className={`w-full p-2 border rounded ${e.label ? "border-red-500" : ""}`}
+                  className={`w-full border border-[#A3C6C4] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#354649] ${e.label ? "border-red-500" : ""}`}
                   aria-invalid={!!e.label}
                   required
                 />
                 {e.label && (
-                  <p className="text-red-600 text-xs mt-1">{e.label}</p>
+                  <p className="text-red-500 text-xs mt-1">{e.label}</p>
                 )}
               </div>
 
               {/* 점수 입력 */}
               <div className="col-span-3">
                 <label className="block text-sm mb-1">
-                  점수 <span className="text-red-600 text-xs ml-1">*</span>
+                  점수 <span className="text-red-500 text-xs ml-1">*</span>
                 </label>
                 <input
                   type="number"
                   placeholder="점수"
                   value={option.score ?? ""}
                   onChange={(e) => handleChange(index, "score", e.target.value)}
-                  className={`w-full p-2 border rounded ${e.score ? "border-red-500" : ""}`}
+                  className={`w-full border border-[#A3C6C4] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6C7A89] ${e.score ? "border-red-500" : ""}`}
                   aria-invalid={!!e.score}
                   required
                 />
                 {e.score && (
-                  <p className="text-red-600 text-xs mt-1">{e.score}</p>
+                  <p className="text-red-500 text-xs mt-1">{e.score}</p>
                 )}
               </div>
             </div>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getEmployees } from "../../../../api/admin/extracurricular/category/CategoryApi";
 
 import { getCoreCateogry, getSubCateogry } from "../../../../api/admin/extracurricular/category/CategoryApi";
+import TextInput from "../../../common/TextInput";
 
 const CategoryInputBox = ({ inputValues, setInputValues }) => {
   const [departments, setDepartments] = useState([]);
@@ -66,15 +67,15 @@ const onChange = (e) => {
 };
 
   return (
-    <div className="grid grid-cols-2 gap-4 p-4 border rounded bg-white w-full">
+    <div className="adm-card grid grid-cols-2 gap-4 w-full">
       {/* 핵심역량 */}
       <div className="flex items-center">
-        <label className="w-32 font-semibold">핵심역량</label>
+        <label className="w-32 adm-label">핵심역량</label>
         <select
           name="competency"
           value={inputValues.competency}
           onChange={onChange}
-          className="flex-1 border rounded p-1 outline-none"
+          className="flex-1 adm-control"
         >
           <option value="">선택</option>
           {coreCategories.map((item) => (
@@ -85,12 +86,12 @@ const onChange = (e) => {
 
       {/* 상위분류 */}
       <div className="flex items-center">
-        <label className="w-32 font-semibold">상위분류</label>
+        <label className="w-32 adm-label">상위분류</label>
         <select
           name="stgrId"
           value={inputValues.stgrId}
           onChange={onChange}
-          className="flex-1 border rounded p-1 outline-none"
+          className="flex-1 adm-control"
           disabled={!inputValues.competency || subCategories.length === 0}
         >
           <option value="">선택</option>
@@ -102,12 +103,12 @@ const onChange = (e) => {
 
       {/* 주관부서 */}
       <div className="flex items-center">
-        <label className="w-32 font-semibold">주관부서</label>
+        <label className="w-32 adm-label">주관부서</label>
         <select
           name="subjectCode"
           value={inputValues.subjectCode}
           onChange={onChange}
-          className="flex-1 border rounded p-1 outline-none"
+          className="flex-1 adm-control"
         >
           <option value="">선택</option>
           {departments.map((dept) => (
@@ -120,30 +121,30 @@ const onChange = (e) => {
 
       {/* 프로그램분류명 */}
       <div className="flex items-center">
-        <label className="w-32 font-semibold">프로그램 분류 명</label>
+        <label className="w-32 adm-label">프로그램 분류 명</label>
         <input
           name="ctgryNm"
           type="text"
           value={inputValues.ctgryNm}
           onChange={onChange}
-          className="flex-1 border rounded p-1 outline-none"
+          className="flex-1 adm-control"
           placeholder="분류 명을 입력하세요"
         />
       </div>
 
       {/* 프로그램 주요 내용 */}
       <div className="col-span-2 flex items-start">
-        <label className="w-32 font-semibold pt-1">주요내용</label>
+        <label className="w-32 adm-label pt-1">주요내용</label>
         <textarea
           name="ctgryDtl"
           value={inputValues.ctgryDtl}
           onChange={onChange}
-          className="flex-1 border rounded p-1 h-24 outline-none resize-none"
+          className="flex-1 adm-control h-24 resize-none"
           placeholder="프로그램 내용을 입력하세요"
         ></textarea>
       </div>
       <div className="flex items-center">
-        <label className="w-32 font-semibold">사용 여부</label>
+        <label className="w-32 adm-label">사용 여부</label>
         <input
           type="checkbox"
           checked={inputValues.ctgryUseYn === "Y"}

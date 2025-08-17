@@ -1,6 +1,5 @@
 import RequireRole from "../../component/common/Require/RequireRole";
 import AdminLayout from "../../layouts/admin/AdminLayout";
-import AdminMainPage from "../../pages/admin/adminMainPage";
 import AdminCoreCompetencyAssessment from "../../pages/admin/coreCompetency/assessment/AdminCoreCompetencyAssessment";
 import AdminCoreCompetencyResult from "../../pages/admin/coreCompetency/result/AdminCoreCompetencyResult";
 import DiagnosisAdminCreatePage from "../../pages/admin/diagnostic/DiagnosisAdminCreatePage";
@@ -17,15 +16,12 @@ import ExtracurricularSchedulePage from "../../pages/admin/Extracurricular/Extra
 import ExtracurricularSurveyPage from "../../pages/admin/Extracurricular/ExtracurricularSurveyPage";
 
 import AdminMileageItemPage from "../../pages/admin/mileage/AdminMileageItemPage";
-import AdminScorePolicyPage from"../../pages/admin/mileage/AdminScorePolicyPage";
-import AdminMileagePerfPage from "../../pages/admin/mileage/AdminMileagePerfPage";
 import AdminScholarshipPage from "../../pages/admin/mileage/AdminScholarshipPage";
+import AdminPerfQuickGrant from "../../component/admin/mileage/AdminPerfQuickGrant";
 
-import AdminCoreCompetencyResultPdf from "../../pages/admin/coreCompetency/result/AdminCoreCompetencyResultPdf";
-
-import AdminConsultManagePage from "../../pages/admin/consultation/AdminConsultManagePage.jsx"
-import AdminConsultListPage from "../../pages/admin/consultation/AdminConsultListPage.jsx"
-import AdminConsultKindManagePage from "../../pages/admin/consultation/AdminConsultKindManagePage.jsx"
+import AdminConsultManagePage from "../../pages/admin/consultation/AdminConsultManagePage.jsx";
+import AdminConsultListPage from "../../pages/admin/consultation/AdminConsultListPage.jsx";
+import AdminConsultKindManagePage from "../../pages/admin/consultation/AdminConsultKindManagePage.jsx";
 import EmployeeManagePage from "../../pages/admin/employee/EmployeeManagePage.jsx";
 import EmployeeListPage from "../../pages/admin/employee/EmployeeListPage.jsx";
 
@@ -40,7 +36,6 @@ const adminMainRouter = [
         element: <AdminLayout />,
         children: [
           // 학생
-          { path: "", element: <AdminMainPage /> },
           { path: "students/student-list", element: <StudentListPage /> },
           { path: "students/student-manage", element: <StudentManagePage />},
           { path: "employee/employee-list", element: <EmployeeListPage />},
@@ -65,8 +60,7 @@ const adminMainRouter = [
 
           //마일리지
           { path: "mileage/items", element: <AdminMileageItemPage /> },
-          { path: "mileage/scorepolicy", element: <AdminScorePolicyPage /> },
-          { path: "mileage/perf", element: <AdminMileagePerfPage /> },
+          { path: "mileage/perf/quick", element: <AdminPerfQuickGrant /> },
           { path: "mileage/scholarship", element: <AdminScholarshipPage /> },
 
 

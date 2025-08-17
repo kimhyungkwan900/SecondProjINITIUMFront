@@ -55,11 +55,6 @@ const AdminStudentRadarResult = ({ assessmentNo }) => {
         <div className="rounded-2xl shadow p-4 border bg-white h-[680px] flex flex-col">
           <div className="mb-3 text-lg font-semibold">하위역량별 평균 점수</div>
           <StudentRadarChart assessmentNo={assessmentNo} student={selected} />
-          {selected && (
-            <div className="mt-4 text-sm text-gray-600">
-              <span className="font-medium">{selected.name}</span> / {selected.studentNo} · {selected.subjectCode} · {selected.schoolYear}
-            </div>
-          )}
         </div>
       </div>
     </div>

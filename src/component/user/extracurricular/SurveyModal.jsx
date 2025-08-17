@@ -1,6 +1,6 @@
-import React, { useState, useEffect ,useContext} from "react";
+import React, { useState, useEffect } from "react";
 import { programSurvey, surveyResponse } from "../../../api/user/extracurricular/UserSurveyApi";
-import { UserContext } from "../../../App";
+import { useAuth } from "../../../hooks/useAuth.jsx";
 
 const ratingsText = {
   5: "매우만족",
@@ -17,7 +17,7 @@ const SurveyModal = ({ isOpen, onClose, program, onSubmitSuccess }) => {
   const [comment, setComment] = useState("");
 
 
- const { user } = useContext(UserContext);
+ const { user } = useAuth();
  const logNo = user?.loginId || ""; 
 
   useEffect(() => {

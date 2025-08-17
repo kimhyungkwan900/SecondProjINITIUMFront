@@ -1,115 +1,127 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-const CoreCompetencyTable = () => {
-  // 핵심역량 트리 데이터 저장용 state
+const CoreCompetencyShowcase = () => {
   const [data, setData] = useState([]);
+  const [openIdx, setOpenIdx] = useState(0);
+  const [q, setQ] = useState("");
 
-  // 컴포넌트 마운트 시 트리 데이터 불러오기
   useEffect(() => {
     axios
       .get("/api/user/ideal-talent-profile/tree", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // 토큰 인증
-        },
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       })
-      .then((res) => {
-        // 응답이 배열인지 확인
-        if (Array.isArray(res.data)) {
-          setData(res.data); // 정상 데이터 저장
-        } else {
-          console.error("응답 데이터가 배열이 아닙니다:", res.data);
-          setData([]); // 오류 시 빈 배열로 초기화
-        }
-      })
-      .catch((err) => console.log(err)); // 에러 로그 출력
+      .then((res) => (Array.isArray(res.data) ? setData(res.data) : setData([])))
+      .catch(console.error);
   }, []);
 
+  const filtered = useMemo(() => {
+    if (!q.trim()) return data;
+    const keyword = q.trim().toLowerCase();
+    const hit = (s) => String(s || "").toLowerCase().includes(keyword);
+    return data
+      .map((it) => ({
+        ...it,
+        coreCompetencyCategories: (it.coreCompetencyCategories || [])
+          .map((c) => ({
+            ...c,
+            subCompetencyCategories: (c.subCompetencyCategories || []).filter(
+              (s) => hit(s.subName) || hit(s.subDefinition)
+            ),
+          }))
+          .filter(
+            (c) =>
+              hit(c.coreName) ||
+              hit(c.coreDefinition) ||
+              (c.subCompetencyCategories || []).length > 0
+          ),
+      }))
+      .filter(
+        (it) => hit(it.idealTalent) || (it.coreCompetencyCategories || []).length > 0
+      );
+  }, [data, q]);
+
   return (
-      <div className="overflow-x-auto rounded-lg shadow-md border border-gray-200">
-        <table className="min-w-full text-gray-800">
-          {/* 테이블 헤더 */}
-          <thead className="bg-blue-100 text-blue-900 text-lg font-semibold">
-            <tr>
-              <th className="px-6 py-4 border border-gray-300 text-center">인재상</th>
-              <th className="px-6 py-4 border border-gray-300 text-center">핵심역량</th>
-              <th className="px-6 py-4 border border-gray-300 text-center">핵심역량 정의</th>
-              <th className="px-6 py-4 border border-gray-300 text-center">하위역량</th>
-              <th className="px-6 py-4 border border-gray-300 text-center">하위역량 정의</th>
-            </tr>
-          </thead>
-
-          {/* 테이블 바디 */}
-          <tbody>
-            {data.map((item, i) =>
-              item.coreCompetencyCategories.map((core, j) =>
-                core.subCompetencyCategories.map((sub, k) => {
-                  // 하나의 핵심역량이 가진 하위역량 수 → core 역량에 rowspan 적용할 수 있도록
-                  const coreRowSpan = core.subCompetencyCategories.length;
-
-                  // 하나의 인재상이 가진 모든 하위역량 수 → idealTalent에 rowspan 적용할 수 있도록
-                  const idealTalentRowSpan = item.coreCompetencyCategories.reduce(
-                    (acc, curr) => acc + curr.subCompetencyCategories.length,
-                    0
-                  );
-
-                  // 인재상은 처음 한 번만 표시 (j=0, k=0일 때)
-                  const showIdealTalent = j === 0 && k === 0;
-
-                  // 핵심역량은 하위역량 시작마다 한 번만 표시 (k=0일 때)
-                  const showCore = k === 0;
-
-                  return (
-                    <tr
-                      key={`${i}-${j}-${k}`}
-                      className="hover:bg-blue-50 transition-all duration-200"
-                    >
-                      {/* 인재상 셀 (rowspan 적용) */}
-                      {showIdealTalent && (
-                        <td
-                          className="px-4 py-4 border border-gray-300 align-middle text-center font-bold text-base bg-white whitespace-pre-line"
-                          rowSpan={idealTalentRowSpan}
-                        >
-                          {item.idealTalent}
-                        </td>
-                      )}
-
-                      {/* 핵심역량명, 정의 셀 (rowspan 적용) */}
-                      {showCore && (
-                        <>
-                          <td
-                            className="px-4 py-4 border border-gray-300 align-middle text-center font-semibold text-base whitespace-pre-line"
-                            rowSpan={coreRowSpan}
-                          >
-                            {core.coreName}
-                          </td>
-                          <td
-                            className="px-4 py-4 border border-gray-300 align-middle text-center text-sm leading-relaxed whitespace-pre-line"
-                            rowSpan={coreRowSpan}
-                          >
-                            {core.coreDefinition}
-                          </td>
-                        </>
-                      )}
-
-                      {/* 하위역량명 */}
-                      <td className="px-4 py-4 border border-gray-300 text-center text-sm font-medium">
-                        {sub.subName}
-                      </td>
-
-                      {/* 하위역량 정의 */}
-                      <td className="px-4 py-4 border border-gray-300 text-left text-sm leading-relaxed">
-                        {sub.subDefinition}
-                      </td>
-                    </tr>
-                  );
-                })
-              )
-            )}
-          </tbody>
-        </table>
+    <div className="space-y-6 w-full max-w-screen-xl mx-auto">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h2 className="text-3xl font-bold tracking-tight">💡 핵심역량 맵</h2>
+        <input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder="역량/정의/하위역량 검색"
+          className="w-full sm:w-80 rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
       </div>
+
+      <div className="space-y-5">
+        {filtered.map((item, idx) => {
+          const opened = openIdx === idx;
+          return (
+            <section
+              key={idx}
+              className="w-full rounded-2xl border border-gray-200 bg-white shadow-sm"
+            >
+              <button
+                type="button"
+                onClick={() => setOpenIdx(opened ? -1 : idx)}
+                className={`flex w-full items-center justify-between rounded-2xl px-6 py-5 transition
+                           ${opened ? "bg-gray-50" : "hover:bg-gray-50"}`}
+              >
+                <div className="flex items-center gap-3">
+                  <span className="inline-block h-5 w-1.5 rounded-full bg-blue-500" />
+                  <span className="text-xl font-semibold">{item.idealTalent}</span>
+                </div>
+                <span className={`text-gray-500 transition-transform ${opened ? "rotate-180" : ""}`}>▾</span>
+              </button>
+
+              {opened && (
+                <div className="px-6 pb-6">
+                  <div className="grid gap-6">
+                    {(item.coreCompetencyCategories || []).map((core, j) => (
+                      <article
+                        key={j}
+                        className="w-full h-full rounded-2xl border border-gray-200 p-6 shadow-sm transition hover:shadow-md flex flex-col"
+                      >
+                        <header className="mb-4">
+                          <h3 className="text-lg font-bold">{core.coreName}</h3>
+                          <p className="mt-2 text-sm text-gray-700 whitespace-pre-line leading-relaxed">
+                            {core.coreDefinition}
+                          </p>
+                        </header>
+
+                        <div className="mt-auto space-y-2">
+                          {(core.subCompetencyCategories || []).map((sub, k) => (
+                            <details
+                              key={k}
+                              className="group w-full overflow-hidden rounded-xl border border-gray-200 open:border-blue-300 open:bg-blue-50/40"
+                            >
+                              <summary className="w-full flex items-center justify-between cursor-pointer list-none px-3 py-2 text-sm font-medium rounded-xl bg-white group-open:bg-blue-50/60">
+                                <span className="truncate">{sub.subName}</span>
+                                <span className="text-gray-500 transition-transform group-open:rotate-180">▾</span>
+                              </summary>
+                              <div className="px-3 pb-3 pt-1 text-sm text-gray-700 leading-relaxed">
+                                {sub.subDefinition}
+                              </div>
+                            </details>
+                          ))}
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </section>
+          );
+        })}
+
+        {filtered.length === 0 && (
+          <div className="rounded-xl border border-gray-200 bg-white p-8 text-center text-sm text-gray-600">
+            검색 결과가 없습니다.
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
-export default CoreCompetencyTable;
+export default CoreCompetencyShowcase;
