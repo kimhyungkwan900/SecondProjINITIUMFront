@@ -15,7 +15,7 @@ export default function EmployeeMyPageHome() {
   const [currentPage, setCurrentPage] = useState(1);
 
   if (loading || !employee) {
-    return <div>로딩 중...</div>; // 또는 다른 로딩 스피너 컴포넌트를 사용해도 됩니다.
+    return <div>로딩 중...</div>;
   }
 
 

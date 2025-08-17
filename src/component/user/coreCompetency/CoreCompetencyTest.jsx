@@ -9,7 +9,15 @@ const CoreCompetencyTest = () => {
     const studentNo = user?.loginId;
 
     const isEmployee = !!user?.empNo;
-    const isStudent  = !!user?.loginId && !isEmployee; // 직원이 아니면서 학번이 있는 경우만 학생
+    const [isStudent, setIsStudent] = useState(false);
+
+    useEffect(() => {
+        if (user) {
+            const emp = !!user.empNo;
+            const stud = !!user.loginId && !emp;
+            setIsStudent(stud);
+        }
+    }, [user]);
 
     // 상태 정의
     const [questions, setQuestions] = useState([]);      // 전체 문항 리스트
@@ -46,9 +54,9 @@ const CoreCompetencyTest = () => {
     // 닫기 버튼 클릭 시
     const handleClose = () => {
         if (isEmployee) {
-            navigate("/competency/coreCompetency/list"); 
+            navigate("/competency/coreCompetency/list");
         }
-        else{
+        else {
             const res = window.confirm("작성 중인 응답이 모두 삭제됩니다.\n정말 나가시겠습니까?");
             if (res) navigate("/competency/coreCompetency/list");
         }
@@ -85,8 +93,8 @@ const CoreCompetencyTest = () => {
 
 
     // --- 렌더링 직전에 동적으로 colSpan 계산 ---
-    const maxOptionsCount = questions.length > 0 
-        ? Math.max(...questions.map(q => q.responseChoiceOptions.length)) 
+    const maxOptionsCount = questions.length > 0
+        ? Math.max(...questions.map(q => q.responseChoiceOptions.length))
         : 5; // 기본값 5로 설정
 
     return (
@@ -103,14 +111,14 @@ const CoreCompetencyTest = () => {
             </div>
 
             {/* 문항 테이블 */}
-           <div className="overflow-x-auto">
+            <div className="overflow-x-auto">
                 <table className="w-full border border-gray-300 text-center text-sm">
                     <thead className="bg-gray-100 text-gray-700">
                         <tr>
                             <th className="border px-4 py-3 w-20 text-[14px]">문항번호</th>
                             <th className="border px-6 py-4 w-[400px] text-[15px]">문항 내용</th>
-                            <th 
-                                className="border px-4 py-2 text-[15px]" 
+                            <th
+                                className="border px-4 py-2 text-[15px]"
                                 colSpan={maxOptionsCount}
                             >
                                 선택지
@@ -119,11 +127,11 @@ const CoreCompetencyTest = () => {
                     </thead>
                     <tbody>
                         {questions.length > 0 ? (
-                            questions.map((q,idx) => (
+                            questions.map((q, idx) => (
                                 <tr key={q.questionId} className="hover:bg-blue-50 transition">
-                                    <td className="border px-6 py-4">{idx+1}</td>
+                                    <td className="border px-6 py-4">{idx + 1}</td>
                                     <td className="border px-6 py-4 text-left text-[17px]">{q.questionName}</td>
-                                    
+
                                     {/* <<< [수정] 최대 선택지 개수만큼 반복하며, 빈 칸을 채우는 로직 */}
                                     {Array.from({ length: maxOptionsCount }).map((_, index) => {
                                         const opt = q.responseChoiceOptions[index];
@@ -151,7 +159,7 @@ const CoreCompetencyTest = () => {
                                 </tr>
                             ))
                         ) : (
-                             <tr>
+                            <tr>
                                 <td colSpan={2 + maxOptionsCount} className="text-center py-8 text-gray-500">
                                     문항이 없습니다.
                                 </td>
@@ -160,15 +168,15 @@ const CoreCompetencyTest = () => {
                     </tbody>
                 </table>
             </div>
-            
+
             {/* 제출 버튼 */}
             {isStudent && (
                 <div className="mt-8 flex justify-end">
                     <button
-                    onClick={handleSubmit}
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded shadow-md"
+                        onClick={handleSubmit}
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded shadow-md"
                     >
-                    제출하기
+                        제출하기
                     </button>
                 </div>
             )}

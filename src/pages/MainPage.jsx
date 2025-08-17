@@ -12,7 +12,7 @@ export default function MainPage() {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    if (user && (user.passwordChangeRequired || user.RequiredPasswordChange === 'Y' || user.RequiredPasswordChange === true)) {
+    if (user && user.passwordChangeRequired === true) {
       
       // 개발용: 세션마다 확인 (브라우저 닫으면 초기화)
       const deferTimestamp = sessionStorage.getItem('passwordChangePopupDefer');

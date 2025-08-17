@@ -69,12 +69,12 @@ const ExtracurricularSurveyPage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-6 pb-10">
+    <div className="max-w-7xl mx-auto px-6 pb-10 space-y-6">
       {/* 페이지 타이틀 */}
       <AdminSectionHeader title="프로그램 만족도" />
 
       {/* 1) 검색/필터 */}
-      <section className="adm-card p-4 mt-8">
+      <section className="adm-card p-4">
         <Filter
           filter={tempFilter}
           onFilterChange={handleTempFilterChange}
@@ -82,8 +82,8 @@ const ExtracurricularSurveyPage = () => {
         />
       </section>
 
-      {/* 2) 프로그램 목록 (위 카드와 맞닿게) */}
-      <section className="-mt-6">
+      {/* 2) 프로그램 목록 */}
+      <section>
         <SurveyProgramList
           programs={programs}
           currentPage={page}
@@ -93,9 +93,9 @@ const ExtracurricularSurveyPage = () => {
         />
       </section>
 
-      {/* 3) 설문 결과 (선택 시 표시, 위 섹션과 맞닿게) */}
+      {/* 3) 설문 결과 (선택 시 표시) */}
       {selectedProgram && (
-        <section className="adm-card p-6 -mt-px">
+        <section className="adm-card p-6">
           <div className="flex items-center mb-3">
             <span className="text-2xl text-[#354649] select-none">|</span>
             <h2 className="ml-2 text-lg font-semibold text-[#354649]">
