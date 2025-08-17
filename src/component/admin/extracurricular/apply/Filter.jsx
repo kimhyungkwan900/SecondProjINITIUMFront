@@ -1,41 +1,44 @@
 const Filter = ({ filter, onFilterChange, onSearch }) => {
   return (
-    <div className="bg-gray-200 w-full mt-4 rounded p-4 flex justify-between">
-      <div className="flex justify-center text-xl gap-20 px-5">
-        {/* 타입 필터 */}
-        <div>
-          <span>타입 </span>
+    // 부모에서 카드(adm-card)를 감싸고 있으므로 여기선 콘텐츠만 출력
+    <div className="w-full">
+      <div className="grid grid-cols-12 items-end">
+        {/* 타입 */}
+        <label className="col-span-12 md:col-span-1 adm-label md:text-right pr-2 mb-2 md:mb-0">
+          타입
+        </label>
+        <div className="col-span-12 md:col-span-3 mb-3 md:mb-0">
           <select
-            className="focus:outline-none rounded w-60 py-1"
+            className="adm-control w-full"
             value={filter.eduType}
             onChange={(e) => onFilterChange("eduType", e.target.value)}
           >
-            <option value={""}>전체</option>
-            <option value={"TEAM"}>팀</option>
-            <option value={"PERSONAL"}>개인</option>
+            <option value="">전체</option>
+            <option value="TEAM">팀</option>
+            <option value="PERSONAL">개인</option>
           </select>
         </div>
 
-        {/* 프로그램명 검색 */}
-        <div className="flex items-center">
-          <span>프로그램 명</span>
+        {/* 프로그램 명 */}
+        <label className="col-span-12 md:col-span-2 adm-label md:text-right pr-2 mb-2 md:mb-0">
+          프로그램 명
+        </label>
+        <div className="col-span-12 md:col-span-4 mb-3 md:mb-0">
           <input
             type="text"
-            className="ml-3 px-4 py-1 w-80 rounded-md text-lg focus:outline-none"
+            className="adm-control w-full"
             value={filter.keyword}
             onChange={(e) => onFilterChange("keyword", e.target.value)}
+            placeholder="검색어를 입력하세요"
           />
         </div>
-      </div>
 
-      {/* 조회 버튼 */}
-      <div>
-        <button
-          className="px-5 py-2 items-center bg-slate-100 rounded hover:bg-slate-600 hover:text-white font-bold"
-          onClick={onSearch}
-        >
-          조회
-        </button>
+        {/* 조회 버튼 */}
+        <div className="col-span-12 md:col-span-2 flex md:justify-end">
+          <button className="adm-btn adm-btn--primary w-full md:w-auto" onClick={onSearch}>
+            조회
+          </button>
+        </div>
       </div>
     </div>
   );

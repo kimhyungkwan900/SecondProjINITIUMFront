@@ -1,17 +1,33 @@
+import { buildParamsWithSort, cleanParams, unwrap } from "../../../../utils/apiUtils";
 import axiosInstance from "../../../axiosInstance";
 
-export const fetchSurveyByProgram = async (eduMngId, page = 0, size = 5) => {
+export async function fetchSurveyByProgram(eduMngId, page = 0, size = 5, options = {}) {
   try {
-    const response = await axiosInstance.get("/extracurricular/survey/list", {
-      params: {
-        eduMngId,
-        page,
-        size
-      }
+    const { sort } = options;
+    const { cleaned, serializer } = buildParamsWithSort({
+      eduMngId,
+      page,
+      size,
+      sort,
     });
-    return response.data; // Page<DTO> 형태
-  } catch (error) {
-    console.error("설문 응답 조회 실패:", error);
-    return null;
+
+    const res = await axiosInstance.get("/extracurricular/survey/list", {
+      params: cleaned,
+      paramsSerializer: serializer,
+    });
+    return res.data;
+  } catch (err) {
+    throw unwrap(err);
   }
-};
+}
+
+export async function getSurveyParticipationStatus(eduMngId) {
+  try {
+    const res = await axiosInstance.get("/extracurricular/survey/participation-status", {
+      params: cleanParams({ eduMngId }),
+    });
+    return res.data;
+  } catch (err) {
+    throw unwrap(err);
+  }
+}

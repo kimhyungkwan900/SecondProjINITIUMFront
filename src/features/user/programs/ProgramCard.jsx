@@ -3,8 +3,8 @@ import ProgramProgressBar from "../../../component/user/ProgramCard/ProgramProgr
 import { Link } from "react-router-dom";
 
 export default function ProgramCard({
-    id, title, imageUrl, daysLeft, mileage, category, isFavorite, hits, pick,
-    tag, description, applicationPeriod, operatingPeriod, participants, capacity, onToggleFavorite
+    id, title, imageUrl, daysLeft, mileage, category, hits, pick,
+    tag, description, applicationPeriod, operatingPeriod, accept, capacity,
 }) {
 
     return (
@@ -19,16 +19,10 @@ export default function ProgramCard({
                             <span className="bg-[#41a5ff] text-white text-xs font-bold rounded px-2 py-1 mb-1 shadow">D-{daysLeft}</span> 
                                 : <span className="bg-[#48545e] text-white text-xs font-bold rounded px-2 py-1 mb-1 shadow">{daysLeft}</span> }
                         <span className="bg-white text-[#28B8B2] border border-[#28B8B2] text-xs font-bold rounded px-2 py-0.5 flex items-center gap-1">
-                            <img src="/mileage-icon.png" alt="마일리지" className="w-4 h-4" />
+                            <img src="/MileCoin.png" alt="마일리지" className="w-4 h-4" />
                             {mileage}
                         </span>
                     </div>
-                    <button
-                        className="absolute top-2 right-2 text-red-400 hover:scale-110 transition"
-                        onClick={onToggleFavorite}
-                    >
-                        {isFavorite ? <FaStar size={20} /> : <FaRegStar size={20} />}
-                    </button>
                     
                     <span className="absolute bottom-2 right-2 text-xs bg-white/80 px-2 py-0.5 rounded text-gray-600">
                         {pick}{hits}
@@ -53,7 +47,7 @@ export default function ProgramCard({
                         </div>
                     </div>
                     <div className="mt-2">
-                        <ProgramProgressBar current={participants} max={capacity} />
+                        <ProgramProgressBar current={accept} max={capacity} />
                     </div>
                 </div>
             </Link>

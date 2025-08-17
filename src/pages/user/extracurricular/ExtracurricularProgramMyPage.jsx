@@ -111,7 +111,7 @@ const ExtracurricularProgramMyPage = () => {
   );
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-7xl mx-auto px-6 py-8 space-y-8 bg-white">
       <PageHeader
         title="참여 비교과 프로그램"
         breadcrumb={[
@@ -122,52 +122,45 @@ const ExtracurricularProgramMyPage = () => {
       />
 
       {/* 섹션 1: 검색 */}
-      <section className="bg-white shadow-sm">
-        <header className="px-5 py-4 bg-white">
-          <h3 className="text-lg font-semibold text-[#354649]">검색</h3>
-        </header>
-
-        <div className="p-5">
-          <Filter
-            filter={filter}
-            onFilterChange={handleFilterChange}
-            onSearch={() => handleSearch(1)}
-          />
-        </div>
+      <section className="content-section">
+        <h3 className="text-lg font-semibold text-[#354649] mb-4">검색</h3>
+        <Filter
+          filter={filter}
+          onFilterChange={handleFilterChange}
+          onSearch={() => handleSearch(1)}
+        />
       </section>
 
       {/* 섹션 2: 결과 */}
-      <section className="bg-white shadow-sm">
-        <header className="flex items-center justify-between px-5 py-4 bg-white">
+      <section className="content-section mt-6">
+        <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-[#354649]">참여 내역</h3>
           <Button selectedIds={selectedIds} onDelete={handleDeleteSelected} />
-        </header>
-
-        <div className="p-5">
-          {loading ? (
-            <div className="p-4 text-sm text-[#6C7A89]">로딩중…</div>
-          ) : error ? (
-            <div className="p-4 text-sm text-red-500">{error}</div>
-          ) : (
-            <>
-              <ProgramList
-                programs={programs}
-                loading={loading}
-                selectedIds={selectedIds}
-                setSelectedIds={setSelectedIds}
-                onDataChange={() => handleSearch(page)}
-              />
-
-              <div className="mt-4 flex justify-end">
-                <PageButton
-                  totalPages={totalPages}
-                  currentPage={page}
-                  onPageChange={handlePageChange}
-                />
-              </div>
-            </>
-          )}
         </div>
+
+        {loading ? (
+          <div className="p-4 text-sm text-[#6C7A89]">로딩중…</div>
+        ) : error ? (
+          <div className="p-4 text-sm text-red-500">{error}</div>
+        ) : (
+          <>
+            <ProgramList
+              programs={programs}
+              loading={loading}
+              selectedIds={selectedIds}
+              setSelectedIds={setSelectedIds}
+              onDataChange={() => handleSearch(page)}
+            />
+
+            <div className="mt-4 flex justify-end">
+              <PageButton
+                totalPages={totalPages}
+                currentPage={page}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          </>
+        )}
       </section>
     </div>
   );

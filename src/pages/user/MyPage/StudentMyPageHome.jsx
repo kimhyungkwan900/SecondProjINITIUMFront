@@ -15,7 +15,7 @@ const StudentMyPageHome = () => {
     const contentStyle = "text-[#6C7A89]";
 
     return (
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-7xl mx-auto px-6 py-8 space-y-8 bg-white">
             <PageHeader
                 title="마이홈"
                 breadcrumb={[
@@ -28,12 +28,6 @@ const StudentMyPageHome = () => {
                 <section className="content-section">
                     <h3 className="section-title">학생 정보</h3>
                     <StudentBasicInfo student={student} />
-                </section>
-
-                {/* 보유 마일리지 정보 */}
-                <section className="content-section">
-                    <h3 className="section-title">보유 마일리지 정보</h3>
-                    <div className={contentStyle}>보유 마일리지: 1200점</div>
                 </section>
 
                 {/* 상담이력 */}

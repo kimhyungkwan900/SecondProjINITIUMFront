@@ -10,19 +10,19 @@ const SurveyList = ({ surveyData }) => {
 
   if (!surveyData || surveyData.length === 0) {
     return (
-       <div className="overflow-x-auto mt-4 bg-white p-4 rounded border">
+       <div className="adm-card overflow-x-auto mt-4">
         <table className="w-full table-auto border-collapse">
-            <thead className="bg-gray-100 text-center">
+            <thead className="text-center">
             <tr>
-                <th className="border p-2">만족도</th>
-                <th className="border p-2">학번</th>
-                <th className="border p-2">이름</th>
-                <th className="border p-2">응답내용</th>
+                <th className="adm-th">만족도</th>
+                <th className="adm-th">학번</th>
+                <th className="adm-th">이름</th>
+                <th className="adm-th">응답내용</th>
             </tr>
             </thead>
             <tbody>
                 <tr className="text-center border">
-                    <td className="border py-4" colSpan={4}>선택된 프로그램에 등록된 설문이 없습니다.</td>
+                    <td className="adm-td py-4 text-gray-500" colSpan={4}>선택된 프로그램에 등록된 설문이 없습니다.</td>
                 </tr>
             </tbody>
         </table>
@@ -31,23 +31,23 @@ const SurveyList = ({ surveyData }) => {
   }
 
   return (
-    <div className="overflow-x-auto mt-4 bg-white p-4 rounded border">
-      <table className="w-full table-auto border-collapse border">
-        <thead className="bg-gray-100 text-center">
+    <div className="adm-card overflow-x-auto mt-4">
+      <table className="w-full table-auto border-collapse">
+        <thead className="text-center">
           <tr>
-            <th className="border p-2">만족도</th>
-            <th className="border p-2">학번</th>
-            <th className="border p-2">이름</th>
-            <th className="border p-2">응답내용</th>
+            <th className="adm-th">만족도</th>
+            <th className="adm-th">학번</th>
+            <th className="adm-th">이름</th>
+            <th className="adm-th">응답내용</th>
           </tr>
         </thead>
         <tbody>
           {surveyData.map((item) => (
-            <tr key={item.studentNo} className="text-center border-t">
-              <td className="border p-2">{satisfactionMap[item.srvyDgstfnScr] || item.srvyDgstfnScr}</td>
-              <td className="border p-2">{item.studentNo}</td>
-              <td className="border p-2">{item.name}</td>
-              <td className="border p-2 text-left">{item.surveyResponseContent}</td>
+            <tr key={item.studentNo} className="adm-row">
+              <td className="adm-td">{satisfactionMap[item.srvyDgstfnScr] || item.srvyDgstfnScr}</td>
+              <td className="adm-td">{item.studentNo}</td>
+              <td className="adm-td">{item.name}</td>
+              <td className="adm-td text-left">{item.surveyResponseContent}</td>
             </tr>
           ))}
         </tbody>

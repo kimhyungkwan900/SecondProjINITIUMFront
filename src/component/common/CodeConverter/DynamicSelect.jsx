@@ -6,7 +6,6 @@ const DynamicSelect = ({
   placeholder,
   fetchOptions,
   allowEmpty,
-  filterByDeptCode, // Added filterByDeptCode
   ...props
 }) => {
   const [options, setOptions] = useState([]);

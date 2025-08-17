@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { getEmployees , getCoreCateogry} from "../../../../api/admin/extracurricular/category/CategoryApi";
+import { getEmployees, getCoreCateogry } from "../../../../api/admin/extracurricular/category/CategoryApi";
+import TextInput from "../../../common/TextInput";
 
 const CategoryFilter = ({
   filterText,
@@ -38,29 +39,31 @@ const CategoryFilter = ({
   }, []);
 
   return (
-    <div className="bg-gray-200 w-full mt-4 rounded p-4">
-      <div className="flex justify-between text-xl px-5">
-        {/* 프로그램 분류명 검색 필드 */}
-        <div className="flex items-center">
-          <span>프로그램 분류 명</span>
-          <input
+    <div className="adm-card adm-toolbar mt-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-gray-700 text-sm">
+
+        {/* 프로그램 분류명 */}
+        <div>
+          <label className="adm-label">프로그램 분류 명</label>
+          <TextInput
             type="text"
-            className="ml-3 px-4 py-1 w-60 rounded focus:outline-none"
+            className="adm-control w-full md:w-68 mx-2"
             value={filterText}
             onChange={(e) => onChangeFilterText(e.target.value)}
           />
         </div>
 
-        {/* 핵심역량 선택 */}
-        <div className="flex items-center">
-          <span>핵심역량</span>
+        {/* 핵심역량 */}
+        <div>
+          <label className="adm-label">핵심역량</label>
           <select
-              onChange={(e) => {
-                const value = e.target.value;
-                const id = value ? Number(value) : null; // 숫자로 변환
-                if (onChangeCompetency) onChangeCompetency(id);
-              }}
-            >
+            onChange={(e) => {
+              const value = e.target.value;
+              const id = value ? Number(value) : null;
+              if (onChangeCompetency) onChangeCompetency(id);
+            }}
+            className="adm-control w-full md:w-68 mx-2"
+          >
             <option value="">전체</option>
             {competencyOptions.map((opt) => (
               <option key={opt.id} value={opt.id}>
@@ -70,15 +73,15 @@ const CategoryFilter = ({
           </select>
         </div>
 
-        {/* 주관부서 선택 */}
-        <div className="flex items-center">
-          <span>주관부서</span>
+        {/* 주관부서 */}
+        <div>
+          <label className="adm-label">주관부서</label>
           <select
-            className="ml-3 px-4 py-1 w-60 rounded focus:outline-none"
             onChange={(e) => {
               const value = e.target.value;
               if (onChangeDepartment) onChangeDepartment(value);
             }}
+            className="adm-control w-full md:w-68 mx-2"
           >
             <option value="">전체</option>
             {departments.map((data) => (
@@ -88,6 +91,7 @@ const CategoryFilter = ({
             ))}
           </select>
         </div>
+
       </div>
     </div>
   );

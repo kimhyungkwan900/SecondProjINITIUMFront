@@ -1,16 +1,16 @@
-import React,{ useState} from "react";
+import React, { useState } from "react";
 import { useAuth } from "../../../hooks/useAuth.jsx";
 import AplicationButton from "../../../component/admin/extracurricular/aplication/AplicationButton";
 import ApplicationInput from "../../../component/admin/extracurricular/aplication/AplicationInput";
 import { aplicationProgram } from "../../../api/admin/extracurricular/program/ProgramApi";
-
+import AdminSectionHeader from "../../../component/admin/AdminSectionHeader.jsx";
 
 const ExtracurricularProgramAplicationPage = () => {
   const [programName, setProgramName] = useState("");
   const [programType, setProgramType] = useState("");
   const [programTarget, setProgramTarget] = useState("");
   const [genderLimit, setGenderLimit] = useState("ALL");
- const [category, setCategory] = useState(null);
+  const [category, setCategory] = useState(null);
   const [selectionType, setSelectionType] = useState("");
   const [participantCount, setParticipantCount] = useState(0);
   const [purpose, setPurpose] = useState("");
@@ -26,65 +26,55 @@ const ExtracurricularProgramAplicationPage = () => {
   const [imageFile, setImageFile] = useState(null);
   const [selectedDays, setSelectedDays] = useState([]);
 
-  
+  const { user } = useAuth();
+  const empNo = user?.empNo || "";
 
-const { user } = useAuth(); // user가 로그인 사용자 정보 객체라고 가정
-const empNo = user?.empNo || ""; // 없으면 빈 문자열
-
-const dayToEnum = (day) => {
-  switch (day) {
-    case "월요일":
-      return "MONDAY";
-    case "화요일":
-      return "TUESDAY";
-    case "수요일":
-      return "WEDNESDAY";
-    case "목요일":
-      return "THURSDAY";
-    case "금요일":
-      return "FRIDAY";
-    case "토요일":
-      return "SATURDAY";
-    case "일요일":
-      return "SUNDAY";
-    default:
-      return null;
-  }
-};
-
-const handleInsert = async () => {
-  const formDTO = {
-    eduNm: programName,
-    eduType: programType,
-    eduTrgtLmt: programTarget,
-    eduGndrLmt: genderLimit,
-    ctgryId: Number(category),
-    eduSlctnType: selectionType,
-    eduPtcpNope: participantCount,
-    eduPrps: purpose,
-    eduAplyBgngDt: startApply,
-    eduAplyEndDt: endApply,
-    eduBgngYmd: startDate,
-    eduEndYmd: endDate,
-    eduStartTime: startTime,
-    eduEndTime: endTime,
-    eduPlcNm: place,
-    cndCn: cndCn,
-    eduDtlCn: detail,
-    eduDays: selectedDays.map(dayToEnum).filter(Boolean),
+  const dayToEnum = (day) => {
+    switch (day) {
+      case "월요일": return "MONDAY";
+      case "화요일": return "TUESDAY";
+      case "수요일": return "WEDNESDAY";
+      case "목요일": return "THURSDAY";
+      case "금요일": return "FRIDAY";
+      case "토요일": return "SATURDAY";
+      case "일요일": return "SUNDAY";
+      default: return null;
+    }
   };
 
-  try {
-    console.log(imageFile)
-    const result = await aplicationProgram(formDTO, empNo, imageFile);
-    alert("저장 성공: " + result);
-    handleDelete
-  } catch (error) {
-    alert("저장 실패: " + error.message);
-  }
-};
+  const handleInsert = async () => {
+    const formDTO = {
+      eduNm: programName,
+      eduType: programType,
+      eduTrgtLmt: programTarget,
+      eduGndrLmt: genderLimit,
+      ctgryId: Number(category),
+      eduSlctnType: selectionType,
+      eduPtcpNope: participantCount,
+      eduPrps: purpose,
+      eduAplyBgngDt: startApply,
+      eduAplyEndDt: endApply,
+      eduBgngYmd: startDate,
+      eduEndYmd: endDate,
+      eduStartTime: startTime,
+      eduEndTime: endTime,
+      eduPlcNm: place,
+      cndCn: cndCn,
+      eduDtlCn: detail,
+      eduDays: selectedDays.map(dayToEnum).filter(Boolean),
+    };
+
+    try {
+      const result = await aplicationProgram(formDTO, empNo, imageFile);
+      alert("저장 성공: " + result);
+      // NOTE: 기능 변경 없이 유지 (성공 후 초기화는 아래 onDelete 사용)
+      // handleDelete();
+    } catch (error) {
+      alert("저장 실패: " + error.message);
+    }
+  };
+
   const handleDelete = () => {
-    // 초기화 함수 예시
     setProgramName("");
     setProgramType("");
     setProgramTarget("");
@@ -106,15 +96,15 @@ const handleInsert = async () => {
   };
 
   return (
-    <div className="w-full p-4">
-      <div className="sticky top-0 z-10 py-2">
-        <h1 className="font-extrabold text-2xl text-gray-700">
-          <span className="bg-cyan-700 w-1 text-cyan-700 select-none">1</span>
-          <span className="ml-3">프로그램 등록 신청 페이지</span>
-        </h1>
-        <hr className="border" />
+    <div className="max-w-7xl mx-auto px-6 pb-10">
 
-        {/* 상태 + 변경함수들을 ApplicationInput에 props로 전달 */}
+      {/* 섹션 헤더 라인 */}
+      <div className="py-4">
+      <AdminSectionHeader title="프로그램 등록 신청" />
+      </div>
+
+      <section className="adm-card p-6 mt-4">
+        {/* 폼 본문 */}
         <ApplicationInput
           programName={programName}
           setProgramName={setProgramName}
@@ -157,11 +147,15 @@ const handleInsert = async () => {
           empNo={empNo}
         />
 
-        {/* 저장, 취소 버튼에 함수 전달 */}
-        <AplicationButton onInsert={handleInsert} onDelete={handleDelete} />
-      </div>
+        {/* 액션 바 */}
+        <div className="pt-6 mt-6 border-t border-gray-200">
+          <div className="flex items-center justify-end">
+            <AplicationButton onInsert={handleInsert} onDelete={handleDelete} />
+          </div>
+        </div>
+      </section>
     </div>
   );
-};           
+};
 
-export default ExtracurricularProgramAplicationPage; 
+export default ExtracurricularProgramAplicationPage;

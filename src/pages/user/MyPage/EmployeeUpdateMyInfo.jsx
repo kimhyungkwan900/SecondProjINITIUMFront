@@ -239,7 +239,7 @@ export default function EmployeeUpdateMyInfo() { // Changed component name
 
     // 비밀번호 확인이 완료되면 기존 정보 수정 화면 표시
     return (
-        <div className="max-w-5xl mx-auto space-y-0">
+    <div className="max-w-7xl mx-auto px-6 py-8 space-y-8 bg-white">
             <PageHeader
                 title="개인정보 수정"
                 breadcrumb={[
@@ -252,7 +252,7 @@ export default function EmployeeUpdateMyInfo() { // Changed component name
             ) : (
                 <>
                     {/* 이메일 섹션 */}
-                    <section className="bg-white rounded-lg shadow-sm p-6">
+                    <section>
                         <h3 className="text-lg font-semibold mb-4 text-[#354649]">개인메일주소</h3>
                         <form onSubmit={submitEmail} className="space-y-3">
                             <div className="flex gap-3 items-start">
@@ -269,7 +269,7 @@ export default function EmployeeUpdateMyInfo() { // Changed component name
                     </section>
 
                     {/* 전화번호 섹션 */}
-                    <section className="bg-white rounded-lg shadow-sm p-6">
+                    <section>
                         <h3 className="text-lg font-semibold mb-4 text-[#354649]">전화번호</h3>
                         <form onSubmit={submitPhone} className="space-y-3">
                             <div className="flex gap-3 items-start">
@@ -286,7 +286,7 @@ export default function EmployeeUpdateMyInfo() { // Changed component name
                     </section>
 
                     {/* 비밀번호 섹션 */}
-                    <section className="bg-white rounded-lg shadow-sm p-6">
+                    <section>
                         <h3 className="text-lg font-semibold mb-4 text-[#354649]">비밀번호 변경</h3>
                         <form onSubmit={submitPassword} className="space-y-3">
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -306,7 +306,7 @@ export default function EmployeeUpdateMyInfo() { // Changed component name
                     </section>
 
                     {/* 계좌 섹션 */}
-                    <section className="bg-white rounded-lg shadow-sm p-6">
+                    <section>
                         <h3 className="text-lg font-semibold mb-4 text-[#354649]">계좌정보</h3>
                         <form onSubmit={submitAccount} className="space-y-3">
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">

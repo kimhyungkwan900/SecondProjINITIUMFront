@@ -27,7 +27,7 @@ const MyMileagePage = () => {
   }, [page, studentNo]);
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-7xl mx-auto px-6 py-8 space-y-8 bg-white">
       <PageHeader
         title="나의 마일리지"
         breadcrumb={[

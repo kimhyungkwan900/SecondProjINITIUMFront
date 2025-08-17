@@ -34,13 +34,11 @@ const DiagnosisAdminEditPage = () => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
-  // 간단 유효성 검사 + payload 정리
   const validateAndBuildPayload = () => {
     if (!form.name?.trim()) {
       alert("검사명을 입력하세요.");
       return null;
     }
-    // 문항/보기 검증
     for (let i = 0; i < (form.questions || []).length; i++) {
       const q = form.questions[i];
       if (!q.content?.trim()) {
@@ -59,7 +57,12 @@ const DiagnosisAdminEditPage = () => {
       const setVals = new Set();
       for (let j = 0; j < answers.length; j++) {
         const a = answers[j];
-        if (a.selectValue === undefined || a.selectValue === null || a.selectValue === "" || isNaN(Number(a.selectValue))) {
+        if (
+          a.selectValue === undefined ||
+          a.selectValue === null ||
+          a.selectValue === "" ||
+          isNaN(Number(a.selectValue))
+        ) {
           alert(`문항 #${i + 1} 보기 #${j + 1}의 선택값을 입력하세요.`);
           return null;
         }
@@ -71,7 +74,6 @@ const DiagnosisAdminEditPage = () => {
         setVals.add(sv);
       }
     }
-    // 점수구간 검증: min<=max
     for (let i = 0; i < (form.scoreLevels || []).length; i++) {
       const s = form.scoreLevels[i];
       const min = Number(s.minScore);
@@ -86,7 +88,6 @@ const DiagnosisAdminEditPage = () => {
       }
     }
 
-    // order 재부여(1..n)
     const questions = (form.questions || []).map((q, idx) => ({
       content: q.content,
       order: idx + 1,
@@ -134,58 +135,52 @@ const DiagnosisAdminEditPage = () => {
     }
   };
 
-  if (loading)
+  if (loading) {
     return (
-      <div className="min-h-screen bg-[#f6f9fc] flex items-center justify-center">
-        <div className="text-center text-gray-400 py-8">로딩 중...</div>
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="adm-loading">로딩 중...</div>
       </div>
     );
+  }
 
   return (
-    <div className="min-h-screen bg-[#f6f9fc]">
-      <main className="max-w-7xl mx-auto px-6 pb-10">
-        {/* 헤더 */}
-        <div className="pt-6">
-          <AdminSectionHeader title="진단평가 수정" />
-        </div>
+    <div className="min-h-screen bg-gray-50">
+      <main className="max-w-7xl mx-auto px-6 py-8 space-y-4">
+        <AdminSectionHeader title="진단평가 수정" />
 
         {/* 카드 컨테이너 */}
-        <section className="overflow-x-auto rounded-lg shadow-sm bg-white p-8 mt-6">
-          {/* 제목 줄 */}
-          <div className="flex items-center gap-2">
-            <span className="text-[26px] text-blue-600">|</span>
-            <h2 className="text-[26px] font-semibold">검사 기본 정보</h2>
-          </div>
-          <hr className="my-4 border-gray-200" />
+        <section className="adm-card p-6">
+          {/* 제목 */}
+          <h2 className="text-base font-semibold text-gray-700">검사 기본 정보</h2>
+          <div className="my-3 border-t border-gray-200" />
 
           {/* 기본 정보 폼 */}
-          <div className="grid grid-cols-12 gap-3 items-center">
-            <label className="col-span-2 font-medium text-gray-700">검사명</label>
+          <div className="grid grid-cols-12 gap-4">
+            <label className="col-span-12 md:col-span-2 adm-label self-center">검사명</label>
             <TextInput
-              className="col-span-10 w-auto rounded border border-gray-300 px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="col-span-12 md:col-span-10 adm-control w-full !md:w-full"
               value={form.name}
               onChange={(e) => handleChange("name", e.target.value)}
               placeholder="검사명을 입력하세요"
+              type="text"
             />
           </div>
 
-          <div className="grid grid-cols-12 gap-3 items-start mt-3">
-            <label className="col-span-2 font-medium text-gray-700">설명</label>
+          <div className="grid grid-cols-12 gap-4 items-start mt-4">
+            <label className="col-span-12 md:col-span-2 adm-label self-start">설명</label>
             <textarea
-              className="col-span-10 w-auto rounded border border-gray-300 px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 min-h-[120px]"
+              className="col-span-12 md:col-span-10 adm-control w-full !md:w-full min-h-[140px]"
               value={form.description || ""}
               onChange={(e) => handleChange("description", e.target.value)}
               placeholder="검사 설명을 입력하세요"
+              aria-label="검사 설명"
             />
           </div>
 
           {/* 문항 편집기 */}
           <div className="mt-8">
-            <div className="flex items-center gap-2">
-              <span className="text-[26px] text-blue-600">|</span>
-              <h3 className="text-[26px] font-semibold">문항 관리</h3>
-            </div>
-            <hr className="my-4 border-gray-200" />
+            <h3 className="text-base font-semibold text-gray-700">문항 관리</h3>
+            <div className="my-3 border-t border-gray-200" />
             <QuestionEditor
               questions={form.questions || []}
               onChange={(qs) => handleChange("questions", qs)}
@@ -194,29 +189,26 @@ const DiagnosisAdminEditPage = () => {
 
           {/* 점수 구간 편집기 */}
           <div className="mt-8">
-            <div className="flex items-center gap-2">
-              <span className="text-[26px] text-blue-600">|</span>
-              <h3 className="text-[26px] font-semibold">점수 구간 관리</h3>
-            </div>
-            <hr className="my-4 border-gray-200" />
+            <h3 className="text-base font-semibold text-gray-700">점수 구간 관리</h3>
+            <div className="my-3 border-t border-gray-200" />
             <ScoreLevelEditor
               scoreLevels={form.scoreLevels || []}
               onChange={(ls) => handleChange("scoreLevels", ls)}
             />
           </div>
 
-          {/* 액션 버튼 영역: 가이드 버튼 스타일 */}
-          <div className="flex items-center justify-end gap-2 pt-4">
+          {/* 액션 버튼 영역 */}
+          <div className="flex items-center justify-end gap-2 pt-6">
             <button
               onClick={() => navigate("/admin/diagnosis/list")}
-              className="w-auto rounded border border-gray-300 px-3 py-1 text-sm hover:bg-gray-50 transition"
+              className="adm-btn adm-btn--secondary"
             >
               취소
             </button>
             <button
               onClick={handleSubmit}
               disabled={saving}
-              className="bg-[#222E8D] text-white px-3 py-1 rounded text-sm font-semibold hover:bg-blue-800 transition disabled:opacity-60"
+              className="adm-btn adm-btn--primary"
             >
               {saving ? "저장 중..." : "저장"}
             </button>

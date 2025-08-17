@@ -1,8 +1,8 @@
 import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllAssessmentList } from "../../../api/user/coreCompetency/UserAssessmentApi";
-import { checkDuplicate } from "../../../api/admin/coreCompetency/AdminAssessmentApi";
 import { useAuth } from "../../../hooks/useAuth.jsx";
+import { getAllAssessmentList } from "../../../api/user/coreCompetency/UserAssessmentApi.jsx";
+import { checkDuplicate } from "../../../api/admin/coreCompetency/AdminAssessmentApi.js";
 
 const CoreCompetencyAssessmentListTable = () => {
   const navigate = useNavigate();

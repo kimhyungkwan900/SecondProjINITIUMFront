@@ -50,11 +50,9 @@ const StudentCoreCompetencyResultList = () => {
     };
 
     // --- 공통 스타일 변수 ---
-    const buttonStyle = "bg-[#354649] hover:bg-[#6C7A89] text-white text-sm px-6 py-2 rounded-md shadow-sm transition-colors disabled:opacity-50";
+    const buttonStyle = "py-2 px-4 rounded-md bg-[#354649] text-white font-semibold text-sm hover:bg-[#6C7A89] transition-colors disabled:opacity-50";
     // 테두리 색상 변경
     const messageBoxStyle = "p-6 rounded-lg text-center text-sm";
-    const gridHeaderStyle = "grid grid-cols-12 gap-4 bg-[#E0E7E9] text-[#354649] font-semibold p-4 rounded-t-lg border-b border-gray-300";
-    const gridRowStyle = "grid grid-cols-12 gap-4 items-center p-4 border-t border-gray-300";
 
     // --- 조건부 렌더링 ---
     if (!user) {
@@ -94,38 +92,35 @@ const StudentCoreCompetencyResultList = () => {
     };
 
     return (
-        // 테두리 색상 변경
-        <div className="shadow-md rounded-lg overflow-hidden">
-            {/* 목록 헤더 */}
-            <div className={gridHeaderStyle}>
-                <div className="col-span-1 text-center">번호</div>
-                <div className="col-span-6">진단명</div>
-                <div className="col-span-3 text-center">진단기간</div>
-                <div className="col-span-2 text-center">결과보기</div>
-            </div>
+        <div className="max-w-7xl mx-auto px-6 py-8 space-y-8 bg-white">
+            <div className="border border-gray-300 rounded-md overflow-hidden">
+                {/* 목록 헤더 */}
+                <div className="grid grid-cols-4 gap-4 bg-[#E0E7E9] text-[#354649] font-semibold p-4 text-center">
+                    <div className="col-span-2">진단명</div>
+                    <div>진단기간</div>
+                    <div>결과보기</div>
+                </div>
 
-            {/* 목록 본문 */}
-            <div>
-                {loading ? (
-                    <div className="py-10 text-center text-[#6C7A89]">
-                        불러오는 중입니다…
-                    </div>
-                ) : sortedAssessments.length > 0 ? (
-                    sortedAssessments.map((a, idx) => (
-                        <div key={a.assessmentNo} className={`${gridRowStyle} hover:bg-[#E0E7E9]/50`}>
-                            <div className="col-span-1 text-center text-[#6C7A89]">{idx + 1}</div>
-                            <div className="col-span-6 text-[#354649] font-medium">{a.assessmentName}</div>
-                            <div className="col-span-3 text-center text-[#6C7A89]">
-                                {formatDateForDisplay(a.startDate)} ~ {formatDateForDisplay(a.endDate)}
+                {/* 목록 본문 */}
+                <div>
+                    {loading ? (
+                        <div className="py-10 text-center text-[#6C7A89]">불러오는 중입니다…</div>
+                    ) : sortedAssessments.length > 0 ? (
+                        sortedAssessments.map((a, idx) => (
+                            <div key={a.assessmentNo} className={`grid grid-cols-4 gap-4 items-center p-4 border-t border-gray-200 hover:bg-gray-50 ${
+                                idx % 2 === 1 ? "bg-gray-50/50" : "bg-white"
+                            }`}>
+                                <div className="col-span-2 text-[#354649] font-medium text-left">{a.assessmentName}</div>
+                                <div className="text-center text-[#6C7A89]">
+                                    {formatDateForDisplay(a.startDate)} ~ {formatDateForDisplay(a.endDate)}
+                                </div>
+                                <div className="text-center">{renderAction(a.assessmentNo)}</div>
                             </div>
-                            <div className="col-span-2 text-center">{renderAction(a.assessmentNo)}</div>
-                        </div>
-                    ))
-                ) : (
-                    <div className="py-10 text-center text-[#6C7A89]">
-                        현재 등록된 진단 결과가 없습니다.
-                    </div>
-                )}
+                        ))
+                    ) : (
+                        <div className="py-10 text-center text-[#6C7A89]">현재 등록된 진단 결과가 없습니다.</div>
+                    )}
+                </div>
             </div>
         </div>
     );

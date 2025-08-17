@@ -3,7 +3,52 @@
 @tailwind utilities;
 
 @layer components {
-  .page-container {
+  /* 카드/툴바 */
+  .adm-card { @apply bg-white p-4; }
+  .adm-toolbar { @apply p-4 flex flex-wrap items-end gap-4; }
+
+  /* 폼 */
+  .adm-label { @apply block text-xs font-medium text-gray-700 mb-1 truncate; }
+  .adm-control {
+    @apply h-10 w-full md:w-60 rounded-md px-3 text-sm border border-gray-300 focus:outline-none;
+  }
+  .adm-control:focus {
+    @apply ring-2;
+    --tw-ring-color: #222E8D;
+    border-color: #222E8D;
+  }
+
+  /* 버튼 */
+  .adm-btn { @apply inline-flex items-center justify-center rounded-md px-4 h-10 text-sm font-semibold disabled:opacity-50 disabled:pointer-events-none; }
+  .adm-btn--primary { @apply text-white; background:#222E8D; }
+  .adm-btn--secondary { @apply border border-gray-300 hover:bg-gray-50; }
+  .adm-btn--dangerOutline { @apply border; border-color:#fecaca; color:#b91c1c; }
+  .adm-btn--dangerOutline:hover { background:#fef2f2; }
+
+  /* 배지 */
+  .adm-badge { @apply inline-flex items-center rounded-full px-2.5 h-6 text-xs font-medium border; }
+  .adm-badge--blue  { @apply text-blue-700;  background:#eff6ff; border-color:#bfdbfe; }
+  .adm-badge--green { @apply text-green-700; background:#ecfdf5; border-color:#a7f3d0; }
+  .adm-badge--red   { @apply text-red-700;   background:#fef2f2; border-color:#fecaca; }
+  .adm-badge--gray  { @apply text-gray-700;  background:#f9fafb; border-color:#e5e7eb; }
+
+  /* DataGrid (6열 예시) */
+  .adm-grid-6 { @apply grid grid-cols-6 items-center; }
+  .adm-th { @apply px-4 py-3 text-sm font-semibold text-center border-b bg-[#E0E7E9] text-[#354649] border-[#E0E7E9]; }
+  .adm-td { @apply px-4 py-3 text-sm text-center border-b border-gray-200 text-gray-700; }
+
+  /* 페이지네이션 버튼 */
+  .adm-btn-page-base { @apply min-w-9 h-9 px-3 inline-flex items-center justify-center rounded border text-sm transition; }
+  .adm-btn-page-ghost { @apply border-gray-300 text-[#354649] hover:bg-[#E0E7E9] disabled:opacity-50 disabled:pointer-events-none; }
+  .adm-btn-page-active { @apply border-[#354649] bg-[#E0E7E9] text-[#354649] font-medium hover:bg-[#A3C6C4]; }
+  .adm-btn-page-icon { @apply min-w-9 h-9 px-2 inline-flex items-center justify-center rounded border border-gray-500 text-[#354649] hover:bg-[#E0E7E9] disabled:opacity-50 disabled:pointer-events-none; }
+  .adm-row { @apply adm-grid-6 border-t hover:bg-gray-50; }
+  .adm-row--striped:nth-child(even) { background:#F9FAFB; }
+
+  /* 상태 */
+  .adm-empty { @apply px-4 py-8 text-center text-sm text-gray-500; }
+  .adm-loading { @apply py-10 text-center text-sm text-gray-500; }
+   .page-container {
     @apply flex w-full max-w-screen-xl mx-auto my-8 min-h-[80vh];
   }
 
@@ -12,7 +57,7 @@
   }
 
   .content-section {
-    @apply bg-white shadow-md p-6;
+    @apply bg-white p-6;
   }
 
   .section-title {

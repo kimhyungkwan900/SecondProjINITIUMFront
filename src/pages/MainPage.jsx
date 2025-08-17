@@ -74,7 +74,7 @@ export default function MainPage() {
       <div className="min-h-screen bg-[#f6f9fc] flex flex-col items-center">
         <UserTopBar />
         <MainHeader />
-        <main className="w-full max-w-5xl px-4">
+        <main className="w-full max-w-7xl px-4">
           <section className="my-12">
             <h2 className="text-xl font-bold mb-4 text-gray-800">추천 비교과 프로그램</h2>
             <ProgramCategorySliderSection />

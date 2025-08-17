@@ -16,66 +16,88 @@ const ProgramList = ({ programs, currentPage, totalPages, onPageChange, onSelect
   };
 
   return (
-    <div className="w-full overflow-x-auto mt-6 bg-white border rounded p-4">
-      <table className="w-full table-auto border-collapse border" style={{ tableLayout: 'fixed' }}>
-        <thead className="bg-gray-100 text-center">
+    <div className="adm-card overflow-x-auto mt-6 p-0">
+      <table className="w-full table-fixed border-collapse">
+        {/* 고정 폭 지정 */}
+        <colgroup>
+          <col className="w-[5%]" />
+          <col className="w-[40%]" />
+          <col className="w-[5%]" />
+          <col className="w-[10%]" />
+          <col className="w-[15%]" />
+          <col className="w-[25%]" />
+        </colgroup>
+
+        <thead className="text-center">
           <tr>
-            <th className="border p-2" style={{ width: "5%" }}>ID</th>
-            <th className="border p-2 text-left" style={{ width: "40%" }}>프로그램 명</th>
-            <th className="border p-2" style={{ width: "5%" }}>타입</th>
-            <th className="border p-2" style={{ width: "10%" }}>부서</th>
-            <th className="border p-2" style={{ width: "15%" }}>마감 시간</th>
-            <th className="border p-2" style={{ width: "5%" }}>인원</th>
+            <th className="adm-th">ID</th>
+            <th className="adm-th text-left">프로그램 명</th>
+            <th className="adm-th">타입</th>
+            <th className="adm-th">부서</th>
+            <th className="adm-th">마감 시간</th>
+            <th className="adm-th">인원</th>
           </tr>
         </thead>
         <tbody>
-          {programs.length === 0 ? (
-            <tr style={{ height: '240px' }}>
-              <td colSpan="6" className="border p-4 text-center text-gray-500 align-middle">
+          {(programs?.length || 0) === 0 ? (
+            <tr style={{ height: "240px" }}>
+              <td colSpan={6} className="adm-td align-middle text-center text-gray-500">
                 등록된 프로그램이 없습니다.
               </td>
             </tr>
           ) : (
             <>
-              {programs.map((program) => (
-                <tr
-                  key={program.eduMngId}
-                  className={`cursor-pointer border-t text-center ${
-                    selectedId === program.eduMngId
-                      ? " t font-bold"
-                      : "hover:bg-gray-200 text-gray-700"
-                  }`}
-                  style={{ height: `${rowHeight}px` }}
-                  onClick={() => handleRowClick(program)}
-                >
-                  <td className="border p-2">{program.eduMngId}</td>
-                  <td className="border p-2 text-left">{program.eduNm}</td>
-                  <td className="border p-2">{eduTypeMap[program.eduType] || program.eduType}</td>
-                  <td className="border p-2">{program.subjectName}</td>
-                  <td className="border p-2">{program.eduAplyEndDt?.replace("T", " ") || "-"}</td>
-                  <td className="border">{program.accept}/{program.eduPtcpNope}</td>
-                </tr>
-              ))}
-              {/* 빈 행 추가로 높이 맞추기 */}
-              {Array.from({ length: 5 - programs.length }).map((_, idx) => (
+              {programs.map((program) => {
+                const isSelected = selectedId === program.eduMngId;
+                return (
+                  <tr
+                    key={program.eduMngId}
+                    onClick={() => handleRowClick(program)}
+                    aria-selected={isSelected}
+                    className={`cursor-pointer border-t border-gray-200 hover:bg-gray-50 text-gray-700 even:bg-gray-50/50 ${isSelected ? "bg-[#E0E7E9] font-semibold" : ""
+                      }`}
+                    style={{ height: `${rowHeight}px` }}
+                  >
+                    <td className="adm-td align-middle">{program.eduMngId}</td>
+                    <td className="adm-td align-middle text-left">{program.eduNm}</td>
+                    <td className="adm-td align-middle">
+                      {eduTypeMap[program.eduType] || program.eduType}
+                    </td>
+                    <td className="adm-td align-middle">{program.subjectName}</td>
+                    <td className="adm-td align-middle">
+                      {program.eduAplyEndDt ? String(program.eduAplyEndDt).replace("T", " ") : "-"}
+                    </td>
+                    <td className="adm-td align-middle">
+                      {program.accept}/{program.eduPtcpNope}
+                    </td>
+                  </tr>
+                );
+              })}
+
+              {/* 빈 행으로 240px 높이 유지 */}
+              {Array.from({ length: Math.max(0, 5 - (programs?.length || 0)) }).map((_, idx) => (
                 <tr key={`empty-${idx}`} style={{ height: `${rowHeight}px` }}>
-                  <td className="border p-2">&nbsp;</td>
-                  <td className="border p-2"></td>
-                  <td className="border p-2"></td>
-                  <td className="border p-2"></td>
-                  <td className="border p-2"></td>
-                  <td className="border p-2"></td>
+                  <td className="adm-td">&nbsp;</td>
+                  <td className="adm-td" />
+                  <td className="adm-td" />
+                  <td className="adm-td" />
+                  <td className="adm-td" />
+                  <td className="adm-td" />
                 </tr>
               ))}
             </>
           )}
         </tbody>
       </table>
-      <PageButton
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={onPageChange}
-      />
+
+      {/* 하단 컨트롤 바 */}
+      <div className="px-4 py-3 flex justify-end items-center border-t border-gray-200">
+        <PageButton
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+        />
+      </div>
     </div>
   );
 };

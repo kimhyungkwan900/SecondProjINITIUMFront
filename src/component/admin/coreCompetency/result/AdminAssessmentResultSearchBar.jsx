@@ -24,7 +24,7 @@ const AdminAssessmentResultSearchBar = ({ setAssessmentList }) => {
   };
 
   return (
-    <div className="px-6 py-4 bg-white shadow rounded mb-6">
+    <div className="px-6">
       <div className="flex flex-wrap gap-4 items-center">
         <label className="font-medium">학년도/학기</label>
         <input
@@ -64,7 +64,7 @@ const AdminAssessmentResultSearchBar = ({ setAssessmentList }) => {
 
         <button
           onClick={fetchAssessments}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-1.5 rounded transition"
+          className="bg-[#222E8D] text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-800 disabled:opacity-50"
         >
           검색
         </button>

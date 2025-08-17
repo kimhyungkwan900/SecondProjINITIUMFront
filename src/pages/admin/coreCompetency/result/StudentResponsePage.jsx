@@ -13,13 +13,16 @@ const StudentResponsePage = ({ assessmentId, studentNo, pageSize = 5 }) => {
     }
     setLoading(true);
     try {
-      const url = `/api/admin/core-competency/result/assessments/${assessmentId}/response/students/${encodeURIComponent(String(studentNo).trim())}`;
+      const url = `/api/admin/core-competency/result/assessments/${assessmentId}/response/students/${encodeURIComponent(
+        String(studentNo).trim()
+      )}`;
       const res = await axios.get(url);
 
       const list = Array.isArray(res.data) ? res.data : [];
-      list.sort((a, b) => (Number(a.questionNo) || 0) - (Number(b.questionNo) || 0));
+      list.sort(
+        (a, b) => (Number(a.questionNo) || 0) - (Number(b.questionNo) || 0)
+      );
       setResponses(list);
-      // page는 아래 리셋 useEffect에서 처리함
     } catch (e) {
       console.error("응답 로딩 실패", e);
       setResponses([]);
@@ -28,18 +31,21 @@ const StudentResponsePage = ({ assessmentId, studentNo, pageSize = 5 }) => {
     }
   };
 
-  useEffect(() => { fetchResponses(); }, [assessmentId, studentNo]);
+  useEffect(() => {
+    fetchResponses();
+  }, [assessmentId, studentNo]);
 
-  // ① 진단/학생/페이지크기 변경 시 1페이지로 리셋
-  useEffect(() => { setPage(1); }, [assessmentId, studentNo, pageSize]);
+  // 진단/학생/페이지크기 변경 시 1페이지로 리셋
+  useEffect(() => {
+    setPage(1);
+  }, [assessmentId, studentNo, pageSize]);
 
-  // totalPages를 메모이제이션
   const totalPages = useMemo(() => {
     const t = Math.ceil((responses?.length || 0) / pageSize);
     return t > 0 ? t : 1;
   }, [responses, pageSize]);
 
-  // ② 전체 페이지 수가 변할 때 현재 page를 안전 범위로 보정
+  // 전체 페이지 수가 변할 때 현재 page 보정
   useEffect(() => {
     setPage((p) => {
       if (p < 1) return 1;
@@ -55,47 +61,56 @@ const StudentResponsePage = ({ assessmentId, studentNo, pageSize = 5 }) => {
 
   return (
     <div className="px-0">
-      <span className="text-xl text-black font-bold">▐ 응답정보</span>
-      <table className="w-full text-[16px] border border-gray-300 rounded-md overflow-hidden mt-3">
-        <thead className="bg-gray-100 text-gray-700 text-center">
-          <tr>
-            <th className="border p-2 w-45 text-center">문항번호</th>
-            <th className="border p-2">선택지</th>
-          </tr>
-        </thead>
-        <tbody>
+      <span className="text-xl text-[#354649] font-bold">▐ 응답정보</span>
+
+      {/* 카드 + DataGrid 규격 */}
+      <div className="adm-card overflow-hidden mt-3">
+        {/* 헤더 */}
+        <div className="grid grid-cols-2">
+          <div className="adm-th">문항번호</div>
+          <div className="adm-th">선택지</div>
+        </div>
+
+        {/* 본문 */}
+        <div>
           {!studentNo ? (
-            <tr><td colSpan="2" className="p-4 text-center text-gray-500">학생을 선택하세요.</td></tr>
+            <div className="adm-empty">학생을 선택하세요.</div>
           ) : loading ? (
-            <tr><td colSpan="2" className="p-4 text-center text-gray-500">불러오는 중…</td></tr>
+            <div className="adm-loading">불러오는 중…</div>
           ) : current.length === 0 ? (
-            <tr><td colSpan="2" className="p-4 text-center text-gray-500">응답이 없습니다.</td></tr>
+            <div className="adm-empty">응답이 없습니다.</div>
           ) : (
             current.map((r, idx) => (
-              <tr key={`${r.questionNo}-${idx}`} className="hover:bg-gray-50">
-                <td className="border p-2 text-center">{r.questionNo}</td>
-                <td className="border p-2 text-center">{r.label}</td>
-              </tr>
+              <div
+                key={`${r.questionNo}-${idx}`}
+                className={`grid grid-cols-2 items-center border-t hover:bg-gray-50 ${idx % 2 === 1 ? "bg-[#F9FAFB]" : "bg-white"
+                  }`}
+              >
+                <div className="adm-td">{r.questionNo}</div>
+                <div className="adm-td">{r.label}</div>
+              </div>
             ))
           )}
-        </tbody>
-      </table>
+        </div>
+      </div>
 
-      {/* 페이지가 2페이지 이상일 때만 페이지네이션 표시 */}
+      {/* 페이지네이션 (하단 컨트롤 바 규격과 톤 맞춤) */}
       {studentNo && totalPages > 1 && (
         <div className="mt-3 flex justify-center gap-2 items-center text-sm">
           <button
             onClick={() => setPage((p) => Math.max(p - 1, 1))}
             disabled={page === 1}
-            className="mr-2 px-3 py-2 border rounded disabled:opacity-40"
+            className="min-w-9 h-9 px-3 inline-flex items-center justify-center rounded border text-sm transition border-gray-300 text-[#354649] hover:bg-[#E0E7E9] disabled:opacity-50 disabled:pointer-events-none"
           >
             이전
           </button>
-          <span>{page} / {totalPages}</span>
+          <span className="font-semibold">
+            {page} / {totalPages}
+          </span>
           <button
             onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
             disabled={page === totalPages}
-            className="ml-2 px-3 py-2 border rounded disabled:opacity-40"
+            className="min-w-9 h-9 px-3 inline-flex items-center justify-center rounded border text-sm transition border-gray-300 text-[#354649] hover:bg-[#E0E7E9] disabled:opacity-50 disabled:pointer-events-none"
           >
             다음
           </button>

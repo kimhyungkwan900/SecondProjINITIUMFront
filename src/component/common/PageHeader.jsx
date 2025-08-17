@@ -1,12 +1,11 @@
 import { FaHome } from "react-icons/fa";
-import { Link } from "react-router-dom"; // Use Link for internal navigation
+import { Link } from "react-router-dom"; 
 
 const PageHeader = ({
     title = "페이지 제목",
     breadcrumb = [],
     className = "",
 }) => {
-    // --- 공통 스타일 변수 정의 ---
     const titleStyle = "text-3xl font-bold text-[#354649]";
     const breadcrumbContainerStyle = "text-[#6C7A89] text-base whitespace-nowrap flex items-center gap-1 ml-auto";
     const iconStyle = "mr-1 text-[#A3C6C4]";

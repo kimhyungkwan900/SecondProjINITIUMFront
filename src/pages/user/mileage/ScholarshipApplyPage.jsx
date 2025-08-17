@@ -96,7 +96,7 @@ const ScholarshipApplyPage = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-7xl mx-auto px-6 py-8 space-y-8 bg-white">
       <PageHeader
         title="마일리지 장학금 신청"
         breadcrumb={[
@@ -138,7 +138,7 @@ const ScholarshipApplyPage = () => {
               <div>
                 <div className="text-gray-500 mb-1">은행명</div>
                 <select
-                  className="w-full border rounded-md px-4 py-3 text-lg"
+                  className="w-full border border-[#A3C6C4] rounded-md px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-[#6C7A89]"
                   value={selectedBank}
                   onChange={(e) => setSelectedBank(e.target.value)}
                   disabled={!banks.length}
@@ -156,7 +156,7 @@ const ScholarshipApplyPage = () => {
               <div className="col-span-2">
                 <div className="text-gray-500 mb-1">계좌번호</div>
                 <input
-                  className="w-full border rounded-md px-4 py-3 text-lg"
+                  className="w-full border border-[#A3C6C4] rounded-md px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-[#6C7A89]"
                   placeholder="숫자만 입력"
                   value={accountNo}
                   onChange={(e) => setAccountNo(e.target.value)}
@@ -172,9 +172,7 @@ const ScholarshipApplyPage = () => {
               <button
                 onClick={handleApply}
                 disabled={userInfo.totalScore < 50}
-                                className={`bg-[#354649] text-white font-semibold py-2 px-4 rounded-md hover:bg-[#6C7A89] transition-colors ${
-                  userInfo.totalScore < 50 ? "opacity-50 cursor-not-allowed" : ""
-                }`}
+                                className="py-2 px-4 rounded-md bg-[#354649] text-white font-semibold hover:bg-[#6C7A89] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 신청하기
               </button>

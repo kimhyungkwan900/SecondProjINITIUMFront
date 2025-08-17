@@ -6,30 +6,37 @@ import AdminAssessmentResultSearchBar from "../../../../component/admin/coreComp
 import AdminAssessmentResultListTable from "../../../../component/admin/coreCompetency/result/AdminAssessmentResultListTable";
 import AdminSectionHeader from "../../../../component/admin/AdminSectionHeader";
 
-// 핵심역량 진단결과 페이지 (관리자용)
+// 핵심역량 진단결과 페이지 (관리자용) — CSS만 정리
 const AdminCoreCompetencyResult = () => {
-  // 진단 목록 상태 (검색결과 리스트)
   const [assessmentList, setAssessmentList] = useState([]);
-
-  // 선택된 진단 평가 항목 (하단 상세 탭에서 활용됨)
   const [selectedAssessment, setSelectedAssessment] = useState(null);
 
   return (
-    <div>
-      <AdminSectionHeader title="핵심 역량 결과" />
-      {/* 검색 바 컴포넌트: setAssessmentList를 통해 검색 결과 상태 업데이트 */}
-      <AdminAssessmentResultSearchBar setAssessmentList={setAssessmentList} />
+    <div className="max-w-7xl mx-auto px-6">
+      {/* 상단 헤더 */}
+      <div className="pt-6">
+        <AdminSectionHeader title="핵심 역량 결과" />
+      </div>
 
-      {/* 진단 목록 테이블: 클릭 시 setSelectedAssessment 호출 */}
-      <AdminAssessmentResultListTable
-        assessmentList={assessmentList}
-        selectedAssessment={selectedAssessment}
-        setSelectedAssessment={setSelectedAssessment}
-      />
+      {/* 검색바 카드 */}
+      <section className="adm-card p-4 mt-4">
+        <AdminAssessmentResultSearchBar setAssessmentList={setAssessmentList} />
+      </section>
 
-      {/* 상세 정보 탭: 진단 선택되면 하단에 탭 렌더링 */}
+      {/* 목록 카드 */}
+      <section className="adm-card">
+        <AdminAssessmentResultListTable
+          assessmentList={assessmentList}
+          selectedAssessment={selectedAssessment}
+          setSelectedAssessment={setSelectedAssessment}
+        />
+      </section>
+
+      {/* 상세 탭 카드 (선택 시 표시) */}
       {selectedAssessment && (
-        <AdminAssessmentResultTab selectedAssessment={selectedAssessment} />
+        <section className="adm-card p-6">
+          <AdminAssessmentResultTab selectedAssessment={selectedAssessment} />
+        </section>
       )}
     </div>
   );

@@ -5,7 +5,7 @@ import TextInput from "../../../component/common/TextInput";
 import { fetchEmployeeByNo } from "../../../api/user/auth/employeesApi";
 
 const AdminConsultManagePage = ()=>{
-    const labelCls = "block text-xs font-medium text-gray-700 mb-1 truncate";
+    const labelCls = "block text-xs font-medium text-[#354649] mb-1 truncate";
 
     const [empNo, setEmpNo] = useState("");
     const [empInfo, setEmpInfo] = useState();
@@ -26,7 +26,7 @@ const AdminConsultManagePage = ()=>{
                     <div className="col-span-1 min-w-0">
                         <label className={labelCls}>사번</label>
                         <input
-                            className = "w-full rounded-md border border-blue-200 px-2 py-1 text-base focus:outline-none focus:ring-2 focus:ring-blue-300"
+                            className = "w-full rounded-md border border-[#A3C6C4] px-2 py-1 text-base focus:outline-none focus:ring-2 focus:ring-[#6C7A89]"
                             placeholder="사번 입력"
                             value={empNo}
                             onChange={(e) => setEmpNo(e.target.value)}
@@ -35,7 +35,7 @@ const AdminConsultManagePage = ()=>{
                     <div className="col-span-1 min-w-0">
                         <label className={labelCls}>이름</label>
                         <input
-                            className = "w-full rounded-md border border-blue-200 px-2 py-1 text-base focus:outline-none focus:ring-2 focus:ring-blue-300"
+                            className = "w-full rounded-md border border-[#A3C6C4] px-2 py-1 text-base focus:outline-none focus:ring-2 focus:ring-[#6C7A89]"
                             value={empInfo?.name??""}
                             disabled
                         />
@@ -43,7 +43,7 @@ const AdminConsultManagePage = ()=>{
                     <div className="col-span-1 min-w-0">
                         <label className={labelCls}>직원상태</label>
                         <input
-                            className = "w-full rounded-md border border-blue-200 px-2 py-1 text-base focus:outline-none focus:ring-2 focus:ring-blue-300"
+                            className = "w-full rounded-md border border-[#A3C6C4] px-2 py-1 text-base focus:outline-none focus:ring-2 focus:ring-[#6C7A89]"
                             value={empInfo?.employeeStatusCode === '10'
                                     ? '재직'
                                     : empInfo?.StatusCode === '20'
@@ -55,7 +55,7 @@ const AdminConsultManagePage = ()=>{
                     </div>
                     <div className="col-span-1 min-w-0">
                         <label className={labelCls}>상담 구분</label>
-                        <select className = "w-full rounded-md border border-blue-200 px-2 py-1 text-base focus:outline-none focus:ring-2 focus:ring-blue-300">
+                        <select className = "w-full rounded-md border border-[#A3C6C4] px-2 py-1 text-base focus:outline-none focus:ring-2 focus:ring-[#6C7A89]">
                             <option value="A">지도교수 상담</option>
                             <option value="C">진로취업 상담</option>
                             <option value="P">심리상담</option>
@@ -65,7 +65,7 @@ const AdminConsultManagePage = ()=>{
                     <div className="col-span-2 min-w-0">
                         <label className={`${labelCls} text-white`}>.</label>
                         <button
-                            className=" h-10 bg-blue-700 hover:bg-blue-800 text-white font-medium px-4 py-1 rounded align-bottom"
+                            className="bg-[#222E8D] text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-800 disabled:opacity-50"
                             value={type}
                             onChange={(e) => setType(e.target.value)}
                             onClick={handleSearch}

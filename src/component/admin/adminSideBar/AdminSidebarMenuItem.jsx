@@ -75,7 +75,7 @@ export default function SidebarMenuItem({ item, level = 0, filter = "", onNaviga
             end={false}
             data-nav
             className={({ isActive }) =>
-                `${baseItem} ${isActive ? "bg-grey-100 text-[#222E8D] font-semibold" : ""}`
+                `${baseItem} ${isActive ? "bg-[#d1d9e6] text-[#222E8D] font-semibold" : ""}`
             }
             style={{ paddingLeft: `${indent}px`, fontWeight: level === 0 ? 700 : 500 }}
             onClick={onNavigate}

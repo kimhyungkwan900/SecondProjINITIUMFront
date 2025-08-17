@@ -323,7 +323,7 @@ export const CODEBOOK = {
     "001": { label: "기획본부", isAcademic: false },
     "002": { label: "전략본부", isAcademic: false },
     "003": { label: "관리본부", isAcademic: false },
-    
+
     // 처, 실, 센터
     "104": { label: "학사지원처", isAcademic: false },
     "107": { label: "학생복지처", isAcademic: false },
@@ -333,7 +333,7 @@ export const CODEBOOK = {
     "141": { label: "핵심역량센터", isAcademic: false },
     "155": { label: "입학처", isAcademic: false },
     "166": { label: "산학협력실", isAcademic: false },
-    
+
     // 행정부서
     "205": { label: "총무행정부서", isAcademic: false },
     "212": { label: "재무행정부서", isAcademic: false },
@@ -341,7 +341,7 @@ export const CODEBOOK = {
     "235": { label: "시설행정부서", isAcademic: false },
     "249": { label: "비서실행정부서", isAcademic: false },
     "256": { label: "안전관리행정부서", isAcademic: false },
-    
+
     // 학과
     "108": { label: "컴퓨터공학과", isAcademic: true },
     "110": { label: "전자공학과", isAcademic: true },
@@ -352,7 +352,7 @@ export const CODEBOOK = {
     "161": { label: "국어국문학과", isAcademic: true },
     "174": { label: "수학과", isAcademic: true },
     "182": { label: "간호학과", isAcademic: true },
-    
+
     // 부속기관
     "004": { label: "중앙도서관", isAcademic: false },
     "016": { label: "공동실험학습관", isAcademic: false },
@@ -469,6 +469,39 @@ export const CODEBOOK = {
     "00000068": "한동대학교",
     "00000069": "한라대학교",
     "0000006A": "한서대학교",
+  },
+  // 프로그램 상태
+  PROGRAM_STATUS: {
+    REQUESTED: "요청",
+    APPROVED: "승인",
+    REJECTED: "반려",
+    IN_PROGRESS: "운영중",
+    ENDED: "운영종료",
+  },
+  // 프로그램 유형
+  EDU_TYPE: {
+    PERSONAL: "개인",
+    TEAM: "단체",
+  },
+
+  // 참여 대상 제한 현재 ENUM STUDENT,FACULTY,ALL 만 사용
+  EDU_TRGT_LMT: {
+    ALL: "전체",
+    STUDENT: "학생(전체)",
+    UNDERGRADUATE: "학부생",
+    GRADUATE: "대학원생",
+    FRESHMAN: "신입생",
+    FACULTY: "교원",
+    STAFF: "직원",
+    ALUMNI: "졸업생",
+    EXTERNAL: "외부인",
+  },
+
+  // 성별 제한
+  EDU_GNDR_LMT: {
+    ALL: "무관",
+    MALE: "남성",
+    FEMALE: "여성",
   },
 };
 

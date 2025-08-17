@@ -1,10 +1,7 @@
 import { useState } from "react"
-import ReactModal from "react-modal";
 import CoreCompetencySideBar from "../../../features/user/UserSideBar";
 import UserTopBar from "../../../component/user/mainpage/UserTopBar";
 import MainHeader from "../../../features/user/mainpage/MainHeader";
-import ConsultInfoDetail from "../../../features/user/consultation/ConsultInfoDetail";
-import ConsultSatisfaction from "../../../features/user/consultation/ConsultSatisfaction";
 import ConsultList from "../../../features/user/consultation/ConsultList";
 
 const ConsultListPage = ()=>{

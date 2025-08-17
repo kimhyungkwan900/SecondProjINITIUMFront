@@ -281,7 +281,7 @@ export default function EmployeeManagePage() {
               <div className="flex items-center gap-3">
                 <span className="text-sm">표시개수</span>
                 <select
-                  className="w-auto rounded border border-gray-300 px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="border border-gray-300 rounded-md px-2 py-1.5 text-sm"
                   value={size}
                   onChange={handleSizeChange}
                   disabled={loading}
@@ -311,7 +311,7 @@ export default function EmployeeManagePage() {
                 {mode === "create" ? "임용 정보 입력" : selectedNo ? "기존 정보 수정" : "직원 정보"}
               </div>
               <button
-                className="px-3 py-1 rounded bg-[#222E8D] text-white disabled:opacity-50"
+                className="bg-[#222E8D] text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-800 disabled:opacity-50"
                 onClick={handleSave}
                 disabled={saving || (mode === "edit" && !selectedNo)}
               >
@@ -323,7 +323,7 @@ export default function EmployeeManagePage() {
               <div className="flex items-center gap-2 text-sm">
                 <span className="text-gray-700">임용구분</span>
                 <select
-                  className="w-auto rounded border border-gray-300 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="border border-gray-300 rounded-md px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#6C7A89]"
                   value={appointType}
                   onChange={(e) => setAppointType(e.target.value)}
                 >

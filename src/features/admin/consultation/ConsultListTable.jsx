@@ -86,7 +86,8 @@ export default function ConsultListTable({
             <div
                 key={s.dscsnInfoId || idx}
                 className={
-                "grid border-b border-gray-200 last:border-b-0 hover:bg-gray-50 cursor-pointer "
+                "grid border-b border-gray-300 last:border-b-0 hover:bg-gray-50 cursor-pointer " +
+                (idx % 2 === 1 ? " bg-gray-50/50" : " bg-white")
                 }
                 style={{ gridTemplateColumns: COLS }}
             >
