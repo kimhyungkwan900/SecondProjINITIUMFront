@@ -16,7 +16,6 @@ const ExtracurricularCategoryPage = () => {
   const [programList, setProgramList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-  const [selectedCategoryIdForDelete ,setSelectedCategoryIdForDelete] = useState(null);
 
   // 신규 입력 상태 (CategoryInputBox에서 입력받을 값들)
   const [inputValues, setInputValues] = useState({
