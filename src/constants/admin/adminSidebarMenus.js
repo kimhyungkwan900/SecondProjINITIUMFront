@@ -46,7 +46,7 @@ export const sidebarMenus = {
       label: "마일리지",
       children: [
         { label: "항목 관리", to: `${baseUrl}/mileage/items` },
-        { label: "실적 간편 등록", to: `${baseUrl}/mileage/perf/quick` },
+        { label: "실적 등록", to: `${baseUrl}/mileage/perf/quick` },
         { label: "장학금 관리", to: `${baseUrl}/mileage/scholarship`},
         
       ]
