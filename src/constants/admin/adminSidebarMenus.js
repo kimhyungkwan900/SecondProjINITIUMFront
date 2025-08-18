@@ -60,32 +60,32 @@ export const sidebarMenus = {
       ]
      }
   ],
-  "운영정보": [
-    {
-      label: "공통관리",
-      children: [
-        { label: "코드관리", to: `${baseUrl}/common/code` },
-        { label: "공통항목관리", to: `${baseUrl}/common/items` },
-      ],
-    },
-    {
-      label: "권한관리",
-      children: [
-        { label: "역할 관리", to: `${baseUrl}/auth/roles` },
-        { label: "사용자 권한", to: `${baseUrl}/auth/users` },
-      ],
-    },
-    {
-      label: "부서정보관리",
-      children: [
-        { label: "부서 목록", to: `${baseUrl}/dept/list` },
-        { label: "부서 등록", to: `${baseUrl}/dept/create` },
-      ],
-    },
-  ]
+  // "운영정보": [
+  //   {
+  //     label: "공통관리",
+  //     children: [
+  //       { label: "코드관리", to: `${baseUrl}/common/code` },
+  //       { label: "공통항목관리", to: `${baseUrl}/common/items` },
+  //     ],
+  //   },
+  //   {
+  //     label: "권한관리",
+  //     children: [
+  //       { label: "역할 관리", to: `${baseUrl}/auth/roles` },
+  //       { label: "사용자 권한", to: `${baseUrl}/auth/users` },
+  //     ],
+  //   },
+  //   {
+  //     label: "부서정보관리",
+  //     children: [
+  //       { label: "부서 목록", to: `${baseUrl}/dept/list` },
+  //       { label: "부서 등록", to: `${baseUrl}/dept/create` },
+  //     ],
+  //   },
+  // ]
 };
 
 sidebarMenus["전체업무"] = [
   ...sidebarMenus["학사정보"],
-  ...sidebarMenus["운영정보"],
+  // ...sidebarMenus["운영정보"],
 ];
