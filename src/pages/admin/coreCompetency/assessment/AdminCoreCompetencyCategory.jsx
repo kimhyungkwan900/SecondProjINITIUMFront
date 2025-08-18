@@ -151,7 +151,7 @@ const AdminCoreCompetencyCategory = ({ assessmentId }) => {
         }
         await fetchData();
       } catch (err) {
-        alert(err.response?.data?.message || "삭제에 실패했습니다.");
+        alert(err.response?.data?.message || "문항이 등록된 하위역량은 삭제하실 수 없습니다.");
       }
     }
   };
