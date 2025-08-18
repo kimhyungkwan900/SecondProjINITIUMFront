@@ -1,7 +1,6 @@
 import { useState } from "react";
 import PageHeader from "../../../component/common/PageHeader";
 import EmployeeBasicInfo from "../../../features/user/employees/EmployeeBasicInfo";
-import ConsultHistorySection from "../../../features/user/employees/MyConsultHistorySection";
 import MyProgramsSection from "../../../features/user/employees/MyProgramsSection";
 import { useAuth } from "../../../hooks/useAuth";
 import useEmployeeInfo from "../../../hooks/useEmployeeInfo";
@@ -20,7 +19,7 @@ export default function EmployeeMyPageHome() {
 
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8 space-y-8 bg-white">
+    <div className="max-w-5xl mx-auto px-6 py-8 space-y-8 bg-white">
       <PageHeader
         title="마이홈"
         breadcrumb={[

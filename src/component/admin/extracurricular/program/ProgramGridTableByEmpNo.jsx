@@ -105,9 +105,8 @@ export default function ProgramGridTableByEmpNo({
       <div className="w-full overflow-x-auto">
         {/* Header */}
         <div
-          className={`grid text-[#354649] text-sm font-semibold ${headerClassName} ${gridCols || ""} ${
-            stickyHeader ? "sticky top-0 z-10" : ""
-          }`}
+          className={`grid text-[#354649] text-sm font-semibold ${headerClassName} ${gridCols || ""} ${stickyHeader ? "sticky top-0 z-10" : ""
+            }`}
           style={
             gridCols ? undefined : { gridTemplateColumns: template, minWidth: "720px" }
           }
@@ -169,9 +168,8 @@ export default function ProgramGridTableByEmpNo({
             return (
               <div
                 key={key}
-                className={`grid border-t border-gray-200 text-sm text-[#354649] ${
-                  striped && idx % 2 === 1 ? "bg-gray-50/50" : "bg-white"
-                } hover:bg-gray-50 ${rowClassName} ${gridCols || ""}`}
+                className={`grid border-t border-gray-200 text-sm text-[#354649] ${striped && idx % 2 === 1 ? "bg-gray-50/50" : "bg-white"
+                  } hover:bg-gray-50 ${rowClassName} ${gridCols || ""}`}
                 style={
                   gridCols ? undefined : { gridTemplateColumns: template, minWidth: "720px" }
                 }
@@ -190,10 +188,10 @@ export default function ProgramGridTableByEmpNo({
                     col.tooltip === false
                       ? undefined
                       : typeof col.tooltip === "function"
-                      ? col.tooltip(row)
-                      : needEllipsis
-                      ? String(rawVal ?? content ?? "")
-                      : undefined;
+                        ? col.tooltip(row)
+                        : needEllipsis
+                          ? String(rawVal ?? content ?? "")
+                          : undefined;
 
                   return (
                     <div

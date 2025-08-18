@@ -1,4 +1,3 @@
-// ProgramCategorySliderSection.jsx
 import { useEffect, useState } from "react";
 import ProgramCard from "./ProgramCard";
 import { filterProgramList } from "../../../api/user/extracurricular/UserProgramApi";
@@ -86,7 +85,7 @@ export default function ProgramCategorySliderSection() {
                                                     )} ~ ${formatDate(program.eduEndYmd)}`}
                                                     accept={program.accept}
                                                     capacity={program.eduPtcpNope}
-                                                    pick={program.eduSlctnType === "FIRSTCOME" ? "선착순" : "선발식"}   
+                                                    pick={program.eduSlctnType === "FIRSTCOME" ? "선착순" : "선발식"}
                                                     tag={program.eduType === "TEAM" ? "팀 프로그램" : "개인 프로그램"}
                                                 />
                                             </li>
