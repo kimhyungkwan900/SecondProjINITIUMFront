@@ -23,7 +23,7 @@
 
 - **규정:** 모든 Admin 페이지 최상단 컨테이너는 다음 클래스를 사용한다.
   ```html
-  <div class="max-w-7xl mx-auto px-6 py-8 space-y-4"> ... </div>
+  <div class="max-w-7xl mx-auto px-6 py-8"> ... </div>
   ```
 
 ---

@@ -11,7 +11,7 @@ export default function EmployeeListPage() {
   const [filters, setFilters] = useState({
     empNo: "",
     name: "",
-    employeeStatus: "",
+    employeeStatusCode: "",
     subjectCode: "",
     gender: "",
     email: "",
@@ -33,7 +33,7 @@ export default function EmployeeListPage() {
 
   // 목록 조회
   const fetchEmployees = useCallback(
-    async (newPage = page, newSize = size, f = filters, sort = currentSort) => {
+    async (newPage, newSize, f, sort) => {
       setLoading(true);
       try {
         const data = await fetchEmployeesApi({
@@ -55,14 +55,13 @@ export default function EmployeeListPage() {
         setLoading(false);
       }
     },
-    [page, size, filters, currentSort]
+    []
   );
 
   // 최초 및 의존값 변경 시 조회
   useEffect(() => {
     fetchEmployees(page, size, filters, currentSort);
-    // eslint-disable-next-line
-  }, [page, size, filters, currentSort, fetchEmployees]);
+  }, [page, size, filters, currentSort]);
 
   // 핸들러들
   const handleSearch = () => {
@@ -80,7 +79,7 @@ export default function EmployeeListPage() {
     setFilters({
       empNo: "",
       name: "",
-      employeeStatus: "",
+      employeeStatusCode: "",
       subjectCode: "",
       gender: "",
       email: "",

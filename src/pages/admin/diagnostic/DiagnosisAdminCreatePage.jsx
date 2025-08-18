@@ -19,8 +19,8 @@ const DiagnosisAdminCreatePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <main className="max-w-7xl mx-auto px-6 py-8 space-y-4">
+    <div className="min-h-screen">
+      <main className="max-w-full mx-auto px-6 py-8">
         {/* 헤더 (제공 컴포넌트 사용) */}
         <AdminSectionHeader title="진단평가 생성" />
 
@@ -48,7 +48,7 @@ const DiagnosisAdminCreatePage = () => {
           </div>
 
           {/* 폼 */}
-          <div className="max-w-4xl w-full mx-auto">
+          <div className="max-w-7xl w-full mx-auto">
             <DiagnosisForm key={resetKey} onSubmit={handleCreate} />
           </div>
         </section>

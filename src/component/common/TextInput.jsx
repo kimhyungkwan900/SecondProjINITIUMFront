@@ -1,5 +1,5 @@
 
-export default function TextInput({ type, placeholder, value, onChange, className }) {
+export default function TextInput({ type, placeholder, value, onChange, className, ...rest }) {
   const defaultClassName = "w-full rounded-md border border-blue-200 px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-300";
   const finalClassName = className !== undefined ? className : defaultClassName;
 
@@ -11,6 +11,7 @@ export default function TextInput({ type, placeholder, value, onChange, classNam
       value={value}
       onChange={onChange}
       autoComplete="off"
+      {...rest}
     />
   );
 }

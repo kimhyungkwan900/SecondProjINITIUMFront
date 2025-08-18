@@ -169,14 +169,14 @@ const DiagnosisAdminEditPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="adm-loading">로딩 중...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <main className="max-w-7xl mx-auto px-6 py-8 space-y-4">
         <AdminSectionHeader title="진단평가 수정" />
 

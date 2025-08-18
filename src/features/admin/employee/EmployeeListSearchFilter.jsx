@@ -5,7 +5,6 @@ import TextInput from "../../../component/common/TextInput";
 export default function EmployeeListSearchFilter({
   filters,
   setFilters,
-  loading = false,
 }) {
   const update = (key) => (e) =>
     setFilters((prev) => ({ ...prev, [key]: e.target?.value ?? e }));
@@ -17,7 +16,7 @@ export default function EmployeeListSearchFilter({
     "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 " +
     "disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed";
 
-  const inputCls  = controlBase + " py-2";
+  const inputCls = controlBase + " py-2";
   const selectCls =
     controlBase +
     " pr-8 appearance-none bg-no-repeat bg-[right_0.65rem_center] " +
@@ -35,7 +34,6 @@ export default function EmployeeListSearchFilter({
             placeholder="사번 입력"
             value={filters.empNo ?? ""}
             onChange={update("empNo")}
-            disabled={loading}
             className={inputCls}
           />
         </div>
@@ -46,7 +44,6 @@ export default function EmployeeListSearchFilter({
             placeholder="이름 입력"
             value={filters.name ?? ""}
             onChange={update("name")}
-            disabled={loading}
             className={inputCls}
           />
         </div>
@@ -55,9 +52,8 @@ export default function EmployeeListSearchFilter({
           <label className={labelCls}>직원상태</label>
           <CodeSelect
             category="EMPLOYEE_STATUS" // AM0120
-            value={filters.employeeStatus ?? ""}
-            onChange={update("employeeStatus")}
-            disabled={loading}
+            value={filters.employeeStatusCode ?? ""}
+            onChange={update("employeeStatusCode")}
             className={selectCls}
             placeholder="직원상태 선택"
             allowEmpty
@@ -69,7 +65,6 @@ export default function EmployeeListSearchFilter({
           <GenderSelect
             value={filters.gender ?? ""}
             onChange={update("gender")}
-            disabled={loading}
             className={selectCls}
             placeholder="성별 선택"
             allowEmpty
@@ -81,7 +76,6 @@ export default function EmployeeListSearchFilter({
           <SchoolSubjectSelect
             value={filters.subjectCode ?? ""}
             onChange={update("subjectCode")}
-            disabled={loading}
             className={selectCls}
             placeholder="학과/부서 선택"
             allowEmpty
@@ -95,7 +89,6 @@ export default function EmployeeListSearchFilter({
             placeholder="이메일 입력"
             value={filters.email ?? ""}
             onChange={update("email")}
-            disabled={loading}
             className={inputCls}
           />
         </div>
