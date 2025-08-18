@@ -13,6 +13,7 @@ const AdminAssessmentResultListTable = ({
   useEffect(() => {
     setCurrentPage(1);
   }, [assessmentList]);
+  
 
   const totalPages = Math.ceil((assessmentList?.length ?? 0) / itemsPage) || 1;
   const startIndex = (currentPage - 1) * itemsPage;
@@ -65,7 +66,7 @@ const AdminAssessmentResultListTable = ({
               })
             ) : (
               <tr>
-                <td colSpan="9" className="text-center text-gray-500 py-6">
+                <td colSpan="6" className="text-center text-gray-500 py-6">
                   조회된 진단이 없습니다.
                 </td>
               </tr>

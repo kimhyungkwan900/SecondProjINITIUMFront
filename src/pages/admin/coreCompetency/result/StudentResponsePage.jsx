@@ -60,11 +60,15 @@ const StudentResponsePage = ({ assessmentId, studentNo, pageSize = 5 }) => {
   }, [responses, page, pageSize]);
 
   return (
-    <div className="px-0">
-      <span className="text-xl text-[#354649] font-bold">▐ 응답정보</span>
+    <div className="adm-card">
+      {/* 카드 헤더 */}
+      <div className="p-2">
+        <h3 className="text-base font-semibold text-gray-800">응답정보</h3>
+      </div>
+
 
       {/* 카드 + DataGrid 규격 */}
-      <div className="adm-card overflow-hidden mt-3">
+      <div className="adm-card overflow-hidden">
         {/* 헤더 */}
         <div className="grid grid-cols-2">
           <div className="adm-th">문항번호</div>

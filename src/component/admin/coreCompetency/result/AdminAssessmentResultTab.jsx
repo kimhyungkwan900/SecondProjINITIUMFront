@@ -23,13 +23,13 @@ const AdminAssessmentResultTab = ({selectedAssessment}) => {
       {/* 탭 버튼 */}
       <div className="flex gap-4 mb-4 border-b pb-2">
         <button 
-          className={`px-4 py-2 rounded-md text-sm font-semibold ${activeTab === "result" ? "bg-[#222E8D] text-white" : "text-[#354649] hover:bg-gray-100"}`}
+          className={`px-4 py-2 rounded-md text-sm font-semibold ${activeTab === "result" ?  "font-bold border-b-2" : ""}`}
           onClick={() => setActiveTab("result")}
         >
           결과분석
         </button>
         <button 
-          className={`px-4 py-2 rounded-md text-sm font-semibold ${activeTab === "getResult" ? "bg-[#222E8D] text-white" : "text-[#354649] hover:bg-gray-100"}`}
+          className={`px-4 py-2 rounded-md text-sm font-semibold ${activeTab === "getResult" ?  "font-bold border-b-2" : ""}`}
           onClick={() => setActiveTab("getResult")}
         >
           결과조회

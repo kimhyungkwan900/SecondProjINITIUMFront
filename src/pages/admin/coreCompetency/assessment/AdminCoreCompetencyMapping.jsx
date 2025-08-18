@@ -126,32 +126,36 @@ const AdminCoreCompetencyMapping = ({ assessmentId }) => {
             </div>
             <div className="border-t border-gray-200" />
 
-            {/* 헤더 */}
-            <div className="grid grid-cols-3">
-              <div className="adm-th">문항번호</div>
-              <div className="adm-th">문항명</div>
-              <div className="adm-th">답변문항개수</div>
-            </div>
+        {/* 헤더 */}
+        <div className="grid grid-cols-[80px_minmax(0,1fr)_120px] w-full">
+          <div className="adm-th text-center">번호</div>
+          <div className="adm-th">문항명</div>
+          <div className="adm-th text-center">답변문항개수</div>
+        </div>
 
-            {/* 본문 */}
-            <div>
-              {currentQuestionList.length === 0 ? (
-                <div className="adm-empty">문항이 없습니다.</div>
-              ) : (
-                currentQuestionList.map((q, idx) => (
-                  <div
-                    key={q.id}
-                    className={`grid grid-cols-3 border-t hover:bg-gray-50 transition-colors ${
-                      idx % 2 === 1 ? "bg-[#F9FAFB]" : "bg-white"
-                    }`}
-                  >
-                    <div className="adm-td text-center">{q.questionNo}</div>
-                    <div className="adm-td">{q.questionName}</div>
-                    <div className="adm-td text-center">{q.choiceCount}</div>
-                  </div>
-                ))
-              )}
-            </div>
+        {/* 본문 */}
+        <div>
+          {currentQuestionList.length === 0 ? (
+            <div className="adm-empty">문항이 없습니다.</div>
+          ) : (
+            currentQuestionList.map((q, idx) => (
+              <div
+                key={q.id}
+                className={`grid grid-cols-[80px_minmax(0,1fr)_120px] border-t hover:bg-gray-50 transition-colors ${
+                  idx % 2 === 1 ? "bg-[#F9FAFB]" : "bg-white"
+                }`}
+              >
+                <div className="adm-td text-center">{q.questionNo}</div>
+
+                <div className="adm-td min-w-0">
+                  {/* line-clamp 플러그인 쓰면, 위 span 대신 아래 사용(2줄까지) */}
+                  <span className="line-clamp-2 text-left" title={q.questionName}>{q.questionName}</span>
+                </div>
+                <div className="adm-td text-center">{q.choiceCount}</div>
+              </div>
+            ))
+          )}
+        </div>
 
             {/* 페이징 */}
             {questionList.length > itemsPerPage && (

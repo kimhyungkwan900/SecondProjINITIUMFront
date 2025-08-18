@@ -54,30 +54,26 @@ const AdminAssessmentSearchBar = ({ setAssessmentList }) => {
         <option value="2학기">2학기</option>
       </select>
 
-      {/* 진단번호 */}
-      <label className="col-span-12 md:col-span-2 adm-label self-center">
-        진단번호
-      </label>
-
-      <TextInput
-        type="text"
-        placeholder="예: ASMT2025-01"
-        value={assessmentNo}
-        onChange={(e) => {
-          setAssessmentNo(e.target.value);
-          setAssessmentList([]); // 이전 결과 초기화
-        }}
-        className="col-span-12 md:col-span-6 lg:col-span-5 adm-control w-full"
-      />
-
       {/* 검색 버튼 */}
-      <div className="col-span-12 md:col-span-6 lg:col-span-3 flex justify-end">
+      <div className="col-span-12 md:col-span-6 lg:col-span-3 flex justify-left">
         <button
           onClick={fetchAssessments}
           className="adm-btn adm-btn--primary"
         >
           검색
         </button>
+      </div>
+
+      {/* 진단번호 */}
+      <div className="col-span-12 grid grid-cols-12 gap-4 items-end">
+        <label className="col-span-12 md:col-span-2 adm-label self-center">진단번호</label>
+          <TextInput
+            type="text"
+            placeholder="예: ASMT2025-01"
+            value={assessmentNo}
+            onChange={(e) => { setAssessmentNo(e.target.value); setAssessmentList([]); }}
+            className="col-span-12 md:col-span-4 adm-control w-full"
+          />
       </div>
     </div>
   );
