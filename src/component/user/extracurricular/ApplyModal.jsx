@@ -25,7 +25,7 @@ const ApplyModal = ({programId, onClose}) => {
       console.log(result)
       onClose();
         } catch (err) {
-      alert(err.message);
+      alert("에러 : " + err.message);
     }
   };
 
