@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth.jsx";
+import CoreCompetencyPrivacy from "./CoreCompetencyPrivacy.jsx";
 
 const CoreCompetencyTest = () => {
 
@@ -10,6 +11,7 @@ const CoreCompetencyTest = () => {
 
     const isEmployee = !!user?.empNo;
     const [isStudent, setIsStudent] = useState(false);
+    const [consent, setConsent] = useState({ required: false, optional: false });
 
     useEffect(() => {
         if (user) {
@@ -71,6 +73,11 @@ const CoreCompetencyTest = () => {
             return;
         }
 
+        if(!consent.required){
+            alert("개인정보 수집·이용(필수)에 동의해 주세요.");
+            return;
+        }
+
         const formatted = {
             assessmentId: assessmentId,
             responses: Object.entries(responses).map(([questionId, { label, score }]) => ({
@@ -108,6 +115,9 @@ const CoreCompetencyTest = () => {
                 >
                     닫기 ✕
                 </button>
+            </div>
+            <div className="my-3">
+                <CoreCompetencyPrivacy  onChange={setConsent}/>
             </div>
 
             {/* 문항 테이블 */}
