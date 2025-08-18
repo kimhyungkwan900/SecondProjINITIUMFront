@@ -47,8 +47,6 @@ const ProgramList = ({ programs, loading, onDataChange, selectedIds, setSelected
     );
   }
 
-  const now = new Date();
-
   const handleCheckboxChange = (eduAplyId) => {
     setSelectedIds(prev => {
       const newSet = new Set(prev);

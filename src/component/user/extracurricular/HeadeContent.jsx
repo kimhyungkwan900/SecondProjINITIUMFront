@@ -10,7 +10,6 @@ const HeaderContent = ({...program}) => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-   console.log(program.eduSlctnType);
   const applyStart = program.eduAplyBgngDt ? new Date(program.eduAplyBgngDt) : null;
   const applyEnd = program.eduAplyEndDt ? new Date(program.eduAplyEndDt) : null;
   const now = new Date();

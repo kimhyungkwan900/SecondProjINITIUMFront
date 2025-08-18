@@ -43,7 +43,7 @@ const SurveyList = ({ surveyData }) => {
         </thead>
         <tbody>
           {surveyData.map((item) => (
-            <tr key={item.studentNo} className="adm-row">
+            <tr key={item.studentNo} className="">
               <td className="adm-td">{satisfactionMap[item.srvyDgstfnScr] || item.srvyDgstfnScr}</td>
               <td className="adm-td">{item.studentNo}</td>
               <td className="adm-td">{item.name}</td>
