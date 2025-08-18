@@ -16,16 +16,25 @@ const DiagnosisAdminEditPage = () => {
   const [saving, setSaving] = useState(false);
 
   const [form, setForm] = useState({
+    id: undefined,          // 서버에서 온 id를 보존
     name: "",
     description: "",
     questions: [],
     scoreLevels: [],
   });
 
+  // 초기 로드: 서버 데이터 그대로 state에 넣되, 정렬 안정화
   useEffect(() => {
     setLoading(true);
     fetchAdminDiagnosticTestById(id)
-      .then((data) => setForm(data))
+      .then((data) => {
+        // 정렬(옵션) — 백엔드 정렬이 보장되지 않을 때 UI 일관성 확보
+        data.questions?.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+        data.questions?.forEach((q) =>
+          q.answers?.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+        );
+        setForm(data);
+      })
       .catch((e) => console.error(e))
       .finally(() => setLoading(false));
   }, [id]);
@@ -34,11 +43,55 @@ const DiagnosisAdminEditPage = () => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
+  // === 핵심 보정: id 보존 + 신규는 null ===
+  const normalizeForUpdate = (f) => {
+    const questions = (f.questions || []).map((q, idx) => ({
+      id: q.id ?? null, // 기존이면 유지, 신규면 null
+      content: q.content,
+      order: Number.isFinite(q.order) ? q.order : idx + 1,
+      answerType: q.answerType,
+      answers: (q.answers || []).map((a, aidx) => ({
+        id: a.id ?? null, // 기존이면 유지, 신규면 null
+        content: a.content,
+        score: Number(a.score ?? 0),
+        selectValue: Number(a.selectValue ?? 0),
+        order: Number.isFinite(a.order) ? a.order : aidx + 1,
+      })),
+    }));
+
+    const scoreLevels = (f.scoreLevels || [])
+      .slice()
+      .sort((a, b) => Number(a.minScore ?? 0) - Number(b.minScore ?? 0))
+      .map((s) => ({
+        id: s.id ?? null, // 기존이면 유지, 신규면 null
+        minScore: Number(s.minScore ?? 0),
+        maxScore: Number(s.maxScore ?? 0),
+        levelName: s.levelName,
+        description: s.description,
+      }));
+
+    // DTO가 test id를 페이로드로도 받는다면 포함하도록 유지
+    const payload = {
+      id: f.id ?? (Number.isFinite(+f?.id) ? +f.id : undefined),
+      name: f.name,
+      description: f.description,
+      questions,
+      scoreLevels,
+    };
+
+    // undefined 필드는 제거(선택)
+    if (payload.id === undefined) delete payload.id;
+
+    return payload;
+  };
+
   const validateAndBuildPayload = () => {
     if (!form.name?.trim()) {
       alert("검사명을 입력하세요.");
       return null;
     }
+
+    // 문항/보기 유효성
     for (let i = 0; i < (form.questions || []).length; i++) {
       const q = form.questions[i];
       if (!q.content?.trim()) {
@@ -68,12 +121,16 @@ const DiagnosisAdminEditPage = () => {
         }
         const sv = Number(a.selectValue);
         if (setVals.has(sv)) {
-          alert(`문항 #${i + 1}의 선택값(selectValue)이 중복되었습니다: ${a.selectValue}`);
+          alert(
+            `문항 #${i + 1}의 선택값(selectValue)이 중복되었습니다: ${a.selectValue}`
+          );
           return null;
         }
         setVals.add(sv);
       }
     }
+
+    // 점수구간 유효성
     for (let i = 0; i < (form.scoreLevels || []).length; i++) {
       const s = form.scoreLevels[i];
       const min = Number(s.minScore);
@@ -88,33 +145,8 @@ const DiagnosisAdminEditPage = () => {
       }
     }
 
-    const questions = (form.questions || []).map((q, idx) => ({
-      content: q.content,
-      order: idx + 1,
-      answerType: q.answerType,
-      answers: (q.answers || []).map((a) => ({
-        content: a.content,
-        score: Number(a.score ?? 0),
-        selectValue: Number(a.selectValue ?? 0),
-      })),
-    }));
-
-    const scoreLevels = (form.scoreLevels || [])
-      .slice()
-      .sort((a, b) => Number(a.minScore ?? 0) - Number(b.minScore ?? 0))
-      .map((s) => ({
-        minScore: Number(s.minScore ?? 0),
-        maxScore: Number(s.maxScore ?? 0),
-        levelName: s.levelName,
-        description: s.description,
-      }));
-
-    return {
-      name: form.name,
-      description: form.description,
-      questions,
-      scoreLevels,
-    };
+    // ✅ 여기서 id 보존한 페이로드로 변환
+    return normalizeForUpdate(form);
   };
 
   const handleSubmit = async () => {

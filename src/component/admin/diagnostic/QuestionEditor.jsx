@@ -57,15 +57,16 @@ const QuestionEditor = ({ questions, onChange }) => {
     const next = [
       ...(questions || []),
       {
+        id: null, // ✅ 신규 문항
         content: "",
         order: (questions?.length || 0) + 1,
         answerType: "SCALE_5",
         answers: [
-          { content: "1", score: 1, selectValue: 1 },
-          { content: "2", score: 2, selectValue: 2 },
-          { content: "3", score: 3, selectValue: 3 },
-          { content: "4", score: 4, selectValue: 4 },
-          { content: "5", score: 5, selectValue: 5 },
+          { id: null, content: "1", score: 1, selectValue: 1 },
+          { id: null, content: "2", score: 2, selectValue: 2 },
+          { id: null, content: "3", score: 3, selectValue: 3 },
+          { id: null, content: "4", score: 4, selectValue: 4 },
+          { id: null, content: "5", score: 5, selectValue: 5 },
         ],
       },
     ];
@@ -97,7 +98,7 @@ const QuestionEditor = ({ questions, onChange }) => {
       ...q,
       answers: [
         ...(q.answers || []),
-        { content: "", score: "", selectValue: nextSelect },
+        { id: null, content: "", score: "", selectValue: nextSelect }, // ✅ 신규 보기
       ],
     };
     onChange(next);
@@ -107,7 +108,7 @@ const QuestionEditor = ({ questions, onChange }) => {
     const q = questions[qIdx] || {};
     const ans = q.answers || [];
     const nextAns = [...ans];
-    nextAns[aIdx] = { ...nextAns[aIdx], ...patch };
+    nextAns[aIdx] = { ...nextAns[aIdx], ...patch, id: nextAns[aIdx]?.id ?? null }; // ✅ 기존 id 보존
     const next = [...questions];
     next[qIdx] = { ...q, answers: nextAns };
     onChange(next);
@@ -165,10 +166,17 @@ const QuestionEditor = ({ questions, onChange }) => {
                 value={q.answerType || "SCALE_5"}
                 onChange={(e) => {
                   const nextType = e.target.value;
-                  updateQuestion(idx, {
-                    answerType: nextType,
-                    answers: PRESETS[nextType] ? [...PRESETS[nextType]] : (q.answers || []),
-                  });
+                  // 프리셋 생성
+                  const preset = PRESETS[nextType] ? [...PRESETS[nextType]] : (q.answers || []);
+                  const prev = q.answers || [];
+                  // 인덱스 기준으로 기존 id 보존
+                  const rebuilt = preset.map((p, i) => ({
+                    id: prev[i]?.id ?? null,
+                    content: p.content,
+                    score: p.score,
+                    selectValue: p.selectValue,
+                  }));
+                  updateQuestion(idx, { answerType: nextType, answers: rebuilt });
                 }}
               >
                 {ANSWER_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
@@ -192,6 +200,11 @@ const QuestionEditor = ({ questions, onChange }) => {
               >
                 삭제
               </button>
+            </div>
+
+            {/* 디버그용 ID 표시(선택) */}
+            <div className="text-[11px] text-gray-500">
+              문항ID: {q.id ?? "(신규)"}
             </div>
 
             {/* 보기(answers) */}
@@ -242,6 +255,9 @@ const QuestionEditor = ({ questions, onChange }) => {
                     </div>
 
                     <div className="col-span-2 flex justify-end items-center gap-2">
+                      <span className="text-[11px] text-gray-500">
+                        보기ID: {a.id ?? "(신규)"}
+                      </span>
                       {(isMissing || isDup) && (
                         <span className="text-xs text-red-600">
                           {isMissing ? "필수" : isDup ? "중복" : ""}
