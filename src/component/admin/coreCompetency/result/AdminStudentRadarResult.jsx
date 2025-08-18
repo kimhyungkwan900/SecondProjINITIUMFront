@@ -35,29 +35,29 @@ const AdminStudentRadarResult = ({ assessmentNo }) => {
   }, [assessmentNo]);
 
   return (
-    <div className="w-full grid grid-cols-12 gap-6">
-      {/* 왼쪽: 학생 목록 */}
-      <div className="col-span-5">
-        <div className="rounded-2xl shadow p-4 border bg-white h-[680px] flex flex-col">
-          <div className="mb-3 text-lg font-semibold">학생 목록</div>
-          <StudentListTable
-            students={students}
-            selected={selected}
-            onSelect={(s) => setSelected((prev) => (prev?.studentNo === s?.studentNo ? null : s))}
-            loading={loadingList}
-            error={error}
-          />
-        </div>
-      </div>
-
-      {/* 오른쪽: 레이더 차트 */}
-      <div className="col-span-7">
-        <div className="rounded-2xl shadow p-4 border bg-white h-[680px] flex flex-col">
-          <div className="mb-3 text-lg font-semibold">하위역량별 평균 점수</div>
-          <StudentRadarChart assessmentNo={assessmentNo} student={selected} />
-        </div>
+    <div className="w-full flex gap-6">
+    {/* 왼쪽: 고정폭 */}
+    <div className="w-[530px] flex-none">
+      <div className="rounded-2xl shadow p-4 border bg-white h-[680px] flex flex-col break-keep">
+        <div className="mb-3 text-lg font-semibold">학생 목록</div>
+        <StudentListTable
+          students={students}
+          selected={selected}
+          onSelect={(s) => setSelected((prev) => (prev?.studentNo === s?.studentNo ? null : s))}
+          loading={loadingList}
+          error={error}
+        />
       </div>
     </div>
+
+    {/* 오른쪽: 남은 공간 전부 */}
+    <div className="flex-1 min-w-0">
+      <div className="rounded-2xl shadow p-4 border bg-white h-[680px] flex flex-col">
+        <div className="mb-3 text-lg font-semibold">하위역량별 평균 점수</div>
+        <StudentRadarChart assessmentNo={assessmentNo} student={selected} />
+      </div>
+    </div>
+  </div>
   );
 };
 

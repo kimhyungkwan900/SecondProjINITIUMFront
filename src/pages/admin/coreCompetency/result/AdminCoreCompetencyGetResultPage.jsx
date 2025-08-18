@@ -44,7 +44,6 @@ const AdminCoreCompetencyGetResultPage = ({ assessmentNo }) => {
       <div className="p-4">
         <h3 className="text-base font-semibold text-gray-800">학생정보</h3>
       </div>
-      <div className="border-t border-gray-200" />
 
       {/* 테이블 헤더 */}
       <div className="grid grid-cols-7">
@@ -113,7 +112,7 @@ const AdminCoreCompetencyGetResultPage = ({ assessmentNo }) => {
       )}
 
       {/* 하단: 학생 응답 상세 */}
-      <div className="p-4">
+      <div>
         <StudentResponsePage
           assessmentId={assessmentNo}
           studentNo={selectedStudentNo}

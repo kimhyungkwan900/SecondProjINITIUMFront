@@ -153,10 +153,10 @@ const AdminQuestionList = ({ assessmentId }) => {
           <table className="w-full text-sm">
             <thead>
               <tr>
-                <th className="adm-th w-20">문항번호</th>
-                <th className="adm-th text-left">문항명</th>
-                <th className="adm-th w-24">표시순서</th>
-                <th className="adm-th w-28">답변허용개수</th>
+                <th className="adm-th w-20">번호</th>
+                <th className="adm-th text-center">문항명</th>
+                <th className="adm-th w-23">표시순서</th>
+                <th className="adm-th w-29">답변허용개수</th>
               </tr>
             </thead>
             <tbody>
@@ -174,7 +174,7 @@ const AdminQuestionList = ({ assessmentId }) => {
                         }`}
                     >
                       <td className="adm-td text-center">{question.questionNo}</td>
-                      <td className="adm-td">{question.questionName}</td>
+                      <td className="adm-td text-left">{question.questionName}</td>
                       <td className="adm-td text-center">{question.displayOrder}</td>
                       <td className="adm-td text-center">{question.selectAllowCount}</td>
                     </tr>

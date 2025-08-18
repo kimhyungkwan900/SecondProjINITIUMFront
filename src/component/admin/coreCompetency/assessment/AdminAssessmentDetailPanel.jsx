@@ -247,7 +247,7 @@ const AdminAssessmentDetailPanel = ({
           <textarea
             value={form.guideContent || ""}
             onChange={(e) => handleChange("guideContent", e.target.value)}
-            className="adm-control w-full min-h-32"
+            className="adm-control w-full min-h-32 pt-2"
           />
         </div>
       </div>

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { formatDate } from "../../../../utils/dateUtils";
 
 const AdminAssessmentListTable = ({
   assessmentList,
@@ -12,6 +11,14 @@ const AdminAssessmentListTable = ({
   const totalPages = Math.ceil(assessmentList.length / itemsPage);
   const startIndex = (currentPage - 1) * itemsPage;
   const currentItems = assessmentList.slice(startIndex, startIndex + itemsPage);
+
+  // 날짜 포맷: yyyymmdd → yyyy-MM-dd
+  const formatDate = (yyyymmdd) => {
+    if (!yyyymmdd || String(yyyymmdd).length !== 8) return "";
+    const s = String(yyyymmdd);
+    return `${s.slice(0, 4)}-${s.slice(4, 6)}-${s.slice(6, 8)}`;
+  };
+
 
   return (
     <div className="w-full">

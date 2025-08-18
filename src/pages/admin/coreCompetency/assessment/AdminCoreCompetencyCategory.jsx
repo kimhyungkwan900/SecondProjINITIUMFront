@@ -187,7 +187,7 @@ const AdminCoreCompetencyCategory = ({ assessmentId }) => {
         <div className="col-span-12 lg:col-span-4 space-y-3">
           <div className="adm-card overflow-hidden">
             <div className="p-4 flex items-center justify-between">
-              <h3 className="text-base font-semibold text-gray-800">핵심역량</h3>
+              <h3 className="text-lg font-semibold text-gray-800">핵심역량</h3>
               <button
                 onClick={() => handleOpenModal("create-core")}
                 className="adm-btn adm-btn--primary"
@@ -230,7 +230,7 @@ const AdminCoreCompetencyCategory = ({ assessmentId }) => {
                                   e.stopPropagation();
                                   handleOpenModal("edit-core", core);
                                 }}
-                                className="adm-btn adm-btn--secondary h-8 text-xs px-2"
+                                className="adm-btn adm-btn--secondary h-10 text-xs px-2"
                               >
                                 수정
                               </button>
@@ -239,7 +239,7 @@ const AdminCoreCompetencyCategory = ({ assessmentId }) => {
                                   e.stopPropagation();
                                   handleDelete(core, "core");
                                 }}
-                                className="adm-btn adm-btn--dangerOutline h-8 text-xs px-2"
+                                className="adm-btn adm-btn--dangerOutline h-10 text-xs px-2"
                               >
                                 삭제
                               </button>
@@ -291,10 +291,10 @@ const AdminCoreCompetencyCategory = ({ assessmentId }) => {
         </div>
 
         {/* 오른쪽: 하위역량 */}
-        <div className="col-span-12 lg:col-span-8 space-y-3">
+        <div className="col-span-12 lg:col-span-8 space-y-2">
           <div className="adm-card overflow-hidden">
             <div className="p-4 flex items-center justify-between">
-              <h3 className="text-base font-semibold text-gray-800">하위역량</h3>
+              <h3 className="text-lg font-semibold text-gray-800">하위역량</h3>
               <button
                 onClick={() =>
                   handleOpenModal(
@@ -315,8 +315,8 @@ const AdminCoreCompetencyCategory = ({ assessmentId }) => {
                 <thead>
                   <tr>
                     <th className="adm-th w-20">번호</th>
-                    <th className="adm-th">하위역량명</th>
-                    <th className="adm-th">정의</th>
+                    <th className="adm-th w-25">하위역량명</th>
+                    <th className="adm-th w-60">정의</th>
                     <th className="adm-th w-28">관리</th>
                   </tr>
                 </thead>
@@ -344,13 +344,13 @@ const AdminCoreCompetencyCategory = ({ assessmentId }) => {
                                   coreList.find((c) => c.id === selectedCoreId)
                                 )
                               }
-                              className="adm-btn adm-btn--secondary h-8 text-xs px-2"
+                              className="adm-btn adm-btn--secondary h-10 text-xs px-2"
                             >
                               수정
                             </button>
                             <button
                               onClick={() => handleDelete(sub, "sub")}
-                              className="adm-btn adm-btn--dangerOutline h-8 text-xs px-2"
+                              className="adm-btn adm-btn--dangerOutline h-10 text-xs px-2"
                             >
                               삭제
                             </button>
