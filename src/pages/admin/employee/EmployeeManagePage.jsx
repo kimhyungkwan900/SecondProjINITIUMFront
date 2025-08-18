@@ -7,7 +7,6 @@ import PageButton from "../../../component/admin/extracurricular/PageButton.jsx"
 import EmployeeAdminUpdateForm from "../../../component/admin/employee/EmployeeAdminUpdateForm";
 import EmployeeListToolBar from "../../../component/admin/employee/EmployeeListToolbar";
 
-
 const emptyDetail = {
   empNo: "",
   loginId: "",
@@ -17,18 +16,28 @@ const emptyDetail = {
   tel: "",
   gender: "",
   subjectCode: "",         // ← 통일 포인트
-  employeeStatus: "10",
+  employeeStatusCode: "10",
   bankCode: "",
   bankAccountNo: "",
 };
 
 export default function EmployeeManagePage() {
-  // 검색 조건
+  // 검색 조건(입력 바인딩)
   const [filters, setFilters] = useState({
     empNo: "",
     name: "",
     subjectCode: "",
-    employeeStatus: "",
+    employeeStatusCode: "",
+    gender: "",
+    email: "",
+  });
+
+  // ★ 실제 조회에 사용하는 확정 필터(조회 버튼 누를 때만 갱신)
+  const [appliedFilters, setAppliedFilters] = useState({
+    empNo: "",
+    name: "",
+    subjectCode: "",
+    employeeStatusCode: "",
     gender: "",
     email: "",
   });
@@ -58,7 +67,7 @@ export default function EmployeeManagePage() {
 
   // 목록 조회
   const fetchEmployees = useCallback(
-    async (newPage = page, newSize = size, newSort = sort, f = filters) => {
+    async (newPage, newSize, newSort, f) => {
       setLoading(true);
       setError("");
       try {
@@ -91,31 +100,36 @@ export default function EmployeeManagePage() {
         setLoading(false);
       }
     },
-    [page, size, sort, filters]
+    [setLoading, setError, setValidationErrors, setRows, setTotalElements, setTotalPages, setPage, setSize, setSort]
   );
 
+  // ★ 최초 1회만 로딩 (자동 조회)
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      fetchEmployees(0, size, sort, filters);
-    }, 300);
-    return () => clearTimeout(timeoutId);
-  }, [filters, size, sort, fetchEmployees]);
+    fetchEmployees(0, size, sort, appliedFilters);
+    setPage(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // 마운트 1회
 
   const handleSearch = () => {
+    // ★ 조회 버튼을 눌러야만 확정된 필터 갱신 및 조회
+    setAppliedFilters(filters);
     fetchEmployees(0, size, sort, filters);
     setPage(0);
   };
 
   const handleResetFilters = () => {
-    setFilters({
+    const reset = {
       empNo: "",
       name: "",
       subjectCode: "",
-      employeeStatus: "",
+      employeeStatusCode: "",
       gender: "",
       email: "",
-    });
+    };
+    setFilters(reset);
     setValidationErrors({});
+    // ★ 확정 필터도 리셋
+    setAppliedFilters(reset);
   };
 
   const handleCreateMode = () => {
@@ -138,23 +152,23 @@ export default function EmployeeManagePage() {
     gender: compact(d.gender),
     email: compact(d.email),
     tel: compact(d.tel),
-    subjectCode: compact(d.subjectCode), // ← 핵심 변경
+    subjectCode: compact(d.subjectCode), // ← 핵심 유지
     bankCode: compact(d.bankCode),       // DTO에 존재
     bankAccountNo: compact(d.bankAccountNo),
-    employeeStatus: compact(d.employeeStatus ?? "10"),
+    employeeStatusCode: compact(d.employeeStatusCode ?? "10"),
   });
 
-  // 관리자 수정 DTO — 프로젝트 스펙에 맞춰 subjectCode 사용(백엔드 DTO와 일치 필요)
+  // 관리자 수정 DTO — 프로젝트 스펙에 맞춰 subjectCode 사용
   const buildAdminUpdatePayload = (d) => ({
     name: compact(d.name),
     birthDate: compact(d.birthDate),
     gender: compact(d.gender),
     email: compact(d.email),
     tel: compact(d.tel),
-    subjectCode: compact(d.subjectCode),     // ← 통일
-    employeeStatus: compact(d.employeeStatus ?? "10"), // 백엔드가 empStatus를 요구하면 여기만 empStatus로 교체
-    bankCode: compact(d.bankCode),           // 백엔드 미지원 시 제거
-    bankAccountNo: compact(d.bankAccountNo), // 백엔드 미지원 시 제거
+    subjectCode: compact(d.subjectCode),
+    employeeStatusCode: compact(d.employeeStatusCode ?? "10"),
+    bankCode: compact(d.bankCode),
+    bankAccountNo: compact(d.bankAccountNo),
   });
 
   // 저장
@@ -178,23 +192,24 @@ export default function EmployeeManagePage() {
         else if (appointType === "instructor") await appointInstructor(payload);
         else await appointStaff(payload);
 
-        await fetchEmployees(0, size, sort, filters);
+        await fetchEmployees(0, size, sort, appliedFilters);
         setPage(0);
         alert("임용되었습니다.");
         setMode("view");
         setDetail(emptyDetail);
       } else if (mode === "edit" && selectedNo) {
         const payload = buildAdminUpdatePayload(detail);
+        console.log("Sending payload for adminUpdateEmployeeInfo:", payload);
         const updated = await adminUpdateEmployeeInfo(selectedNo, payload);
         setDetail((prev) => ({ ...prev, ...updated }));
-        await fetchEmployees(page, size, sort, filters);
+        await fetchEmployees(page, size, sort, appliedFilters);
         alert("수정되었습니다.");
       } else {
         alert("저장할 모드가 없습니다.");
       }
     } catch (e) {
       console.error("저장 실패:", e);
-      setError("저장 중 오류가 발생했습니다: " + (e.message || ""));      
+      setError("저장 중 오류가 발생했습니다: " + (e.message || ""));
     } finally {
       setSaving(false);
     }
@@ -203,19 +218,19 @@ export default function EmployeeManagePage() {
   // 행 클릭 → 상세 채우고 수정모드
   const handleRowClick = async (empNo) => {
     try {
-      const e = await fetchEmployeeByNo(empNo);
+      const emp = await fetchEmployeeByNo(empNo);
       setDetail({
-        empNo: e.empNo || "",
-        loginId: e.loginId || "",
-        name: e.name || "",
-        email: e.email || "",
-        birthDate: e.birthDate || "",
-        tel: e.tel || "",
-        gender: e.gender ?? e.genderCode ?? "",
-        subjectCode: e.subjectCode ?? e.schoolSubjectNo ?? "", // ← 양쪽 키 수용
-        employeeStatus: e.employeeStatus ?? e.employeeStatusCode ?? "10",
-        bankCode: e.bankCode || "",
-        bankAccountNo: e.bankAccountNo || "",
+        empNo: emp.empNo || "",
+        loginId: emp.loginId || "",
+        name: emp.name || "",
+        email: emp.email || "",
+        birthDate: emp.birthDate || "",
+        tel: emp.tel || "",
+        gender: emp.genderCode ?? "",
+        subjectCode: emp.schoolSubjectNo ?? "",
+        employeeStatusCode: emp.employeeStatusCode ?? "10",
+        bankCode: emp.bankCode || "",
+        bankAccountNo: emp.bankAccountNo || "",
       });
       setSelectedNo(empNo);
       setMode("edit");
@@ -227,17 +242,20 @@ export default function EmployeeManagePage() {
   };
 
   const handlePageChange = (newPage) => {
-    fetchEmployees(newPage - 1, size, sort, filters);
+    // ★ 확정된 필터로만 페이지 이동 조회
+    fetchEmployees(newPage - 1, size, sort, appliedFilters);
   };
 
   const handleSizeChange = (e) => {
     const newSize = parseInt(e.target.value, 10);
-    fetchEmployees(0, newSize, sort, filters);
+    // ★ 확정된 필터로만 사이즈 변경 조회
+    fetchEmployees(0, newSize, sort, appliedFilters);
     setPage(0);
   };
 
   const handleSortChange = (newSort) => {
-    fetchEmployees(0, size, newSort, filters);
+    // ★ 확정된 필터로만 정렬 변경 조회
+    fetchEmployees(0, size, newSort, appliedFilters);
     setPage(0);
   };
 
@@ -338,7 +356,6 @@ export default function EmployeeManagePage() {
               선택된 사번: <b>{selectedNo || "-"}</b>
             </div>
 
-            {/* 현재 사용 폼에 맞춰 유지 (공용 폼 사용 시 subjectCode로 바인딩) */}
             <EmployeeAdminUpdateForm
               value={detail}
               onChange={setDetail}

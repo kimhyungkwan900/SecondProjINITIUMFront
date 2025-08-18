@@ -132,7 +132,7 @@ const DiagnosisForm = ({ onSubmit }) => {
             value={testName}
             onChange={(e) => setTestName(e.target.value)}
             placeholder="검사명을 입력하세요"
-            className="col-span-12 md:col-span-10 adm-control !md:w-full"
+            className="col-span-12 md:col-span-10 min-w-0 w-[28ch] md:!w-full rounded-md border px-3 py-2"
           />
 
           <label className="col-span-12 md:col-span-2 adm-label self-start mt-2 md:mt-0">
@@ -141,7 +141,7 @@ const DiagnosisForm = ({ onSubmit }) => {
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="col-span-12 md:col-span-10 adm-control !md:w-full min-h-[120px]"
+            className="col-span-12 md:col-span-10 adm-control w-full max-w-lg md:max-w-none md:!w-full min-h-[120px]"
             placeholder="검사 설명을 입력하세요"
             aria-label="검사 설명"
           />
