@@ -97,6 +97,7 @@ const ExtracurricularProgramListPage = () => {
                 );
 
                 return (
+                  console.log(program),
                   <div key={program.eduMngId}>
                     <ProgramCard
                       id={program.eduMngId}
@@ -116,6 +117,7 @@ const ExtracurricularProgramListPage = () => {
                       mileage={program.eduMlg}
 
                       pick={program.eduSlctnType === "FIRSTCOME" ? "선착순" : "선발식"}
+                      accept={program.accept}
                     />
                   </div>
                 );

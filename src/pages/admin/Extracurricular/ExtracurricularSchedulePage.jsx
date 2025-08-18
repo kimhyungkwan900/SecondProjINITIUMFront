@@ -88,17 +88,25 @@ const ExtracurricularSchedulePage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-6 pb-10">
+    <div className="max-w-7xl mx-auto px-6 pb-10 space-y-6">
       {/* 페이지 타이틀 */}
-      <AdminSectionHeader title="비교과 출석 관리" />
+      <div className="pt-6 pb-2">
+              <AdminSectionHeader title="프로그램 등록 관리" />
+      </div>
 
+      
       {/* 검색/필터 (카드) */}
+
       <section className="adm-card p-4 mt-8">
+        <div className="flex items-center mb-4">
+          <span className="text-2xl text-[#354649] select-none">|</span>
+          <h2 className="ml-2 text-xl font-semibold text-[#354649]">검색 조건</h2>
+        </div>
         <Filter
           filter={tempFilter}
           onFilterChange={handleTempFilterChange}
           onSearch={handleSearch}
-        />
+          />
       </section>
 
       {/* 프로그램 목록 (섹션 붙이기: 위 카드 경계와 맞닿도록 -1px 보정) */}
@@ -109,7 +117,7 @@ const ExtracurricularSchedulePage = () => {
           totalPages={totalPages}
           onPageChange={handlePageChange}
           onSelectProgram={handleSelectProgram}
-        />
+          />
       </section>
 
       {/* 일정/출석 (두 카드가 위 섹션과 맞닿도록 -1px, 좌우 카드의 윗모서리/테두리 정리) */}
@@ -124,7 +132,7 @@ const ExtracurricularSchedulePage = () => {
           <ScheduleList
             scheduleList={selectedProgram?.scheduleList || []}
             onSelectSchedule={handleSelectSchedule}
-          />
+            />
         </div>
 
         {/* 출석 리스트 */}
