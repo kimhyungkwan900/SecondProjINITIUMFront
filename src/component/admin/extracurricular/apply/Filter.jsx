@@ -2,9 +2,10 @@ const Filter = ({ filter, onFilterChange, onSearch }) => {
   return (
     // 부모에서 카드(adm-card)를 감싸고 있으므로 여기선 콘텐츠만 출력
     <div className="w-full">
-      <div className="grid grid-cols-12 items-end">
+      <div className="grid grid-cols-12 gap-3">
+        
         {/* 타입 */}
-        <label className="col-span-12 md:col-span-1 adm-label md:text-right pr-2 mb-2 md:mb-0">
+        <label className="col-span-12 md:col-span-1 adm-label md:text-right pr-2 mb-2 md:mb-0 mt-2">
           타입
         </label>
         <div className="col-span-12 md:col-span-3 mb-3 md:mb-0">
@@ -20,7 +21,7 @@ const Filter = ({ filter, onFilterChange, onSearch }) => {
         </div>
 
         {/* 프로그램 명 */}
-        <label className="col-span-12 md:col-span-2 adm-label md:text-right pr-2 mb-2 md:mb-0">
+        <label className="col-span-12 md:col-span-2 adm-label md:text-right pr-2 mb-2 md:mb-0 mt-2">
           프로그램 명
         </label>
         <div className="col-span-12 md:col-span-4 mb-3 md:mb-0">

@@ -71,10 +71,16 @@ const ExtracurricularSurveyPage = () => {
   return (
     <div className="max-w-7xl mx-auto px-6 pb-10 space-y-6">
       {/* 페이지 타이틀 */}
-      <AdminSectionHeader title="프로그램 만족도" />
+     <div className="pt-6 pb-2">
+             <AdminSectionHeader title="프로그램 등록 관리" />
+      </div>
 
       {/* 1) 검색/필터 */}
       <section className="adm-card p-4">
+        <div className="flex items-center mb-4">
+          <span className="text-2xl text-[#354649] select-none">|</span>
+          <h2 className="ml-2 text-xl font-semibold text-[#354649]">검색 조건</h2>
+        </div>
         <Filter
           filter={tempFilter}
           onFilterChange={handleTempFilterChange}
