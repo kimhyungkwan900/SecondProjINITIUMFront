@@ -33,33 +33,37 @@ const AttendanceList = ({ attendanceList, onSave }) => {
   };
 
   if (!Array.isArray(attendanceList) || attendanceList.length === 0) {
-    return <div className="adm-card mt-4 text-center text-gray-500">
-        <table className="w-full table-auto border-collapse">
-            <thead>
-            <tr>
-                <th className="adm-th">출석</th>
-                <th className="adm-th">학생 번호</th>
-                <th className="adm-th">학생 이름</th>
-            </tr>
-            </thead>
+  return (
+    <div className="adm-card mt-4 text-center text-gray-500">
+      <table className="w-full table-auto border-collapse">
+        <thead>
+          <tr>
+            <th className="adm-th">출석</th>
+            <th className="adm-th">학생 번호</th>
+            <th className="adm-th">학생 이름</th>
+          </tr>
+        </thead>
 
-            <tbody>
-                <td className="adm-td text-center text-gray-500" colSpan={3}>
+        <tbody>
+          <tr>
+            <td className="adm-td text-center text-gray-500" colSpan={3}>
               등록된 출결이 없습니다.
             </td>
-            </tbody>
-            
-        </table>
-        <div className="mt-4 text-right">
-            <button
-            onClick={handleSaveClick}
-            className="adm-btn adm-btn--primary"
-            >
-            출석 상태 저장
-            </button>
-            </div>
-        </div>;
-  }
+          </tr>
+        </tbody>
+      </table>
+
+      <div className="mt-4 text-right">
+        <button
+          onClick={handleSaveClick}
+          className="adm-btn adm-btn--primary"
+        >
+          출석 상태 저장
+        </button>
+      </div>
+    </div>
+  );
+}
 
   
   

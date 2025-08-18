@@ -1,11 +1,11 @@
 import React from "react";
 const ApplyFilter = ({ filter, onFilterChange, onSearch }) => {
   return (
-    <div className="bg-white w-full p-4 flex items-center gap-6">
+    <div className="bg-white w-full p-4 flex items-center gap-6 mt-8">
       <div>
         <label className="mr-2 font-semibold">신청 상태</label>
         <select
-          className="rounded border border-[#A3C6C4] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6C7A89]"
+          className="rounded border border-[#A3C6C4] px-3 py-1 focus:outline-none focus:ring-2 focus:ring-[#6C7A89]"
           value={filter.status}
           onChange={(e) => onFilterChange("status", e.target.value)}
         >
@@ -20,7 +20,7 @@ const ApplyFilter = ({ filter, onFilterChange, onSearch }) => {
         <label className="mr-2 font-semibold">프로그램 이름</label>
         <input
           type="text"
-          className="rounded border border-[#A3C6C4] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6C7A89]"
+          className="rounded border border-[#A3C6C4] px-3 py-1 focus:outline-none focus:ring-2 focus:ring-[#6C7A89]"
           value={filter.keyword}
           onChange={(e) => onFilterChange("keyword", e.target.value)}
           placeholder="프로그램 이름 입력"
