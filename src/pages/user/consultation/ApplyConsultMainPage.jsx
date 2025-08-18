@@ -43,14 +43,7 @@ const ApplyConsultMainPage = ()=>{
     ]
 
     return(
-        // <UserLayout >
-        //     <div className="flex-1 flex-col ml-10">
-        //         {applyItems.map((item, idx)=>(
-        //             <ApplyConsultBox key={idx} info={item}/>
-        //         ))}
-        //     </div>
-        // </UserLayout>
-        <div className="bg-white min-h-screen border border-gray-300">  
+        <div className="bg-white min-h-screen border border-gray-300">
             <UserTopBar />
             <MainHeader />
 
@@ -67,17 +60,21 @@ const ApplyConsultMainPage = ()=>{
             </div>
 
             {/* 본문: 사이드바 + 콘텐츠 */}
-            <div className="flex px-12 py-10">
-                {/* 좌측 사이드바 */}
-                <UserSideBar navItems={navItems}/>
+            <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 ">
+                <div className="grid grid-cols-1 gap-9 lg:grid-cols-[260px,1fr]">
+                    <div className="flex-shrink-0">
+                        {/* 좌측 사이드바 */}
+                        <UserSideBar navItems={navItems}/>
+                    </div>
 
-                {/* 우측 본문 콘텐츠 */}
-                <div className="flex-1 flex-col ml-10">
-                    {applyItems.map((item, idx)=>(
-                        <ApplyConsultBox key={idx} info={item}/>
-                    ))}
+                    {/* 우측 본문 콘텐츠 */}
+                    <div className="flex-1">
+                        {applyItems.map((item, idx)=>(
+                            <ApplyConsultBox key={idx} info={item}/>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            </main>
         </div>
     );
 }

@@ -78,14 +78,14 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
             <table className="min-w-full border-collapse">
             <thead>
                 <tr className="bg-gray-200 text-gray-700">
-                <th className="border px-3 py-2">번호</th>
+                <th className="border px-3 py-2 text-sm">번호</th>
                 <th className="border px-3 py-2">상담일</th>
-                <th className="border px-3 py-2">상담시간</th>
+                <th className="border px-3 py-2">상담<br/>시간</th>
                 <th className="border px-3 py-2">상담자명</th>
                 <th className="border px-3 py-2">상담유형</th>
                 <th className="border px-3 py-2">상태</th>
-                <th className="border px-3 py-2">상세보기</th>
-                <th className="border px-3 py-2">예약취소</th>
+                <th className="border px-3 py-2">상세<br/>보기</th>
+                <th className="border px-3 py-2">예약<br/>취소</th>
                 <th className="border px-3 py-2">만족도 설문</th>
                 </tr>
             </thead>
@@ -113,16 +113,16 @@ const ConsultList = ({ searchFilters, current, onPageChange })=>{
                                 <td className="border px-3 py-2">{dscsnTypeName}</td>
                                 <td className="border px-3 py-2">{item.dscsnStatus}</td>
                                 <td className="border px-3 py-2">
-                                    <button onClick={() => openDetailModal(item)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">조회</button>
+                                    <button onClick={() => openDetailModal(item)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-2 py-1 rounded">조회</button>
                                 </td>
                                 <td className="border px-3 py-2">
-                                    <button onClick={()=> handleCancel(item.dscsnInfoId)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">취소</button>
+                                    <button onClick={()=> handleCancel(item.dscsnInfoId)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-2 py-1 rounded">취소</button>
                                 </td>
                                 <td className="border px-3 py-2">
                                     {item.dscsnStatus === "상담완료"? 
-                                        <button onClick={() => openSatisModal(item)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-3 py-1 rounded">참여하기</button>
+                                        <button onClick={() => openSatisModal(item)} className="bg-blue-700 hover:bg-blue-800 text-white font-medium px-2 py-1 rounded">참여하기</button>
                                         :
-                                        <button className="bg-gray-500 text-white font-medium px-3 py-1 rounded" disabled>참여하기</button>
+                                        <button className="bg-gray-500 text-white font-medium px-2 py-1 rounded" disabled>참여하기</button>
                                     }
                                 </td>
                             </tr>
