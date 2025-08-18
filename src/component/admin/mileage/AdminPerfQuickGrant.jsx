@@ -89,10 +89,10 @@ export default function AdminPerfQuickGrant() {
 
     setSaving(true);
     try {
+      // 점수 입력을 없앴으므로 항상 기본점수로 적립
       await createMileagePerf({
         studentNo: sNo,
         mileageItemId: Number(mileageItemId),
-        // accMlg 제거: 비우면 기본점수로 적립
       });
       alert("실적이 등록되었습니다.");
 
@@ -134,7 +134,7 @@ export default function AdminPerfQuickGrant() {
   const defaultMlg = selectedItem?.eduMlg ?? null;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 mt-6 md:mt-8">{/* 상단바와 여백 추가 */} 
       {/* 헤더 */}
       <div className="flex items-center justify-between">
         <div>
@@ -148,7 +148,7 @@ export default function AdminPerfQuickGrant() {
       {/* 입력 카드 */}
       <div className="bg-white rounded-xl shadow-sm ring-1 ring-gray-200/70">
         <div className="px-5 py-4 border-b">
-          <div className="font-semibold">입력</div>
+          <div className="font-semibold">실적 입력</div>
         </div>
         <div className="p-5 space-y-4">
           <div className="grid md:grid-cols-3 gap-4">
@@ -160,7 +160,7 @@ export default function AdminPerfQuickGrant() {
                   className="flex-1 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500/60"
                   value={studentNo}
                   onChange={(e) => setStudentNo(e.target.value)}
-                  placeholder="예) 20250001"
+                  placeholder="예) 2025108001"
                   onKeyDown={(e) => { if (e.key === "Enter") loadEligibleItems(); }}
                 />
                 <button
@@ -194,7 +194,7 @@ export default function AdminPerfQuickGrant() {
                 ))}
               </select>
               <p className="mt-1 text-xs text-gray-500">
-                기본점수:{" "}
+                점수:{" "}
                 <span className="inline-flex items-center px-2 py-0.5 rounded-full border text-xs">
                   {defaultMlg ?? "-"}점
                 </span>
@@ -202,7 +202,8 @@ export default function AdminPerfQuickGrant() {
             </div>
           </div>
 
-          {/* 버튼만 우측 정렬 */}
+          {/* 점수 입력 섹션 제거됨 */}
+
           <div className="flex items-center justify-end gap-2">
             <button
               type="button"
