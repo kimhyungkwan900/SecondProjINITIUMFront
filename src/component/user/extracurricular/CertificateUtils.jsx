@@ -43,9 +43,12 @@ export const generateCertificatePDF = async (userName, programName, studentNo, s
   // 발급일
   const today = new Date();
   const dateStr = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
-  doc.setFontSize(12);
-  doc.text(`발급일: ${dateStr}`, 180, 270, { align: "right" });
+  doc.setFontSize(20);
+  doc.text(`${dateStr}`, 105, 240, { align: "center" });
 
+  // 증명자 
+  doc.setFontSize(25);
+  doc.text("INITIUM 프로그램 운영팀 ", 105, 255, { align: "center" });
   // 로고 이미지 삽입
   const logoUrl = "/Logo/Logo.png";
   const logoBase64 = await loadImageAsDataURL(logoUrl);

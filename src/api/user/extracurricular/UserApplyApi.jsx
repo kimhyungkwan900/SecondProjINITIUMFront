@@ -1,6 +1,6 @@
 import axiosInstance from "../../axiosInstance";
 
-// 비교과 프로그램 등록
+// 비교과 프로그램 신청
 export const programApply = async (stdfntNo, eduMngId, eduAplyCn) => {
   try {
     const response = await axiosInstance.post(
