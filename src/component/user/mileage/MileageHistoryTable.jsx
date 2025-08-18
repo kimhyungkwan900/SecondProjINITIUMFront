@@ -10,7 +10,6 @@ const MileageHistoryTable = ({ history, startIndex = 0 }) => {
     return Number.isNaN(n) ? 0 : n;
   };
 
-  // 화면에 보여줄 텍스트: 이미 +/−가 붙어 있으면 그대로, 아니면 부호 붙여서
   const formatChange = (v) => {
     if (v == null) return '0';
     const s = String(v).trim();
@@ -28,7 +27,6 @@ const MileageHistoryTable = ({ history, startIndex = 0 }) => {
 
   const formatDate = (dt) => {
     if (!dt) return '';
-    // ISO 문자열이면 T 기준으로 자름, 아니면 Date 파싱 시도
     if (typeof dt === 'string' && dt.includes('T')) return dt.split('T')[0];
     const d = new Date(dt);
     return Number.isNaN(d.getTime()) ? String(dt) : d.toISOString().slice(0, 10);

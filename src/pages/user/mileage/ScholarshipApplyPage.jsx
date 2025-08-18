@@ -102,7 +102,7 @@ const ScholarshipApplyPage = () => {
         breadcrumb={[
           { label: "마이페이지(학생)", link: "/mypage" },
           { label: "마일리지 현황", link: "/mypage/mileage" },
-          { label: "장학금 신청", active: true },
+          { label: "마일리지 장학금 신청", active: true },
         ]}
       />
 
@@ -162,7 +162,7 @@ const ScholarshipApplyPage = () => {
                   onChange={(e) => setAccountNo(e.target.value)}
                 />
                 <p className="text-xs text-gray-500 mt-1">
-                  * 사용자 기본정보에 등록된 계좌가 있으면 자동으로 채워집니다.
+                  * 사용자 기본정보에 등록된 계좌가 있으면 자동으로 채워집니다. 수정 가능합니다.
                 </p>
               </div>
             </div>
@@ -185,6 +185,4 @@ const ScholarshipApplyPage = () => {
 };
 
 export default ScholarshipApplyPage;
-
-
 

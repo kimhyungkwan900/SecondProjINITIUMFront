@@ -21,7 +21,7 @@ export const studentMyPageMenus = [
         children: [
             { name: "나의 마일리지", link: "/mypage/mileage" },
             { name: "마일리지 장학금 신청", link: "/mypage/mileage/apply" },
-            { name: "장학금 현황", link: "/mypage/mileage/status" },
+            { name: "장학금 신청 현황", link: "/mypage/mileage/status" },
         ],
     },
     { name: "학생상담센터 상담", link: "/consult" },
