@@ -80,8 +80,8 @@ const AdminCoreCompetencyAssessment = () => {
             setSelectedAssessment(null);
             setAssessmentList((prev) => prev.filter((it) => it.id !== id));
         } catch {
-            setError("삭제에 실패했습니다.");
-            alert("삭제에 실패했습니다.");
+            setError("응답이 있는 진단은 삭제하실 수 없습니다.");
+            alert("응답이 있는 진단은 삭제하실 수 없습니다.");
         } finally {
             setIsLoading(false);
         }
