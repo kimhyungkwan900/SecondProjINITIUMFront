@@ -19,8 +19,7 @@ export default function EmployeeListTable({
     onSortChange(`${field},${nextDir}`);
   };
 
-  const COLS = "7fr 7fr 9fr 7fr 7fr 10fr"; // empNo, name, subjectCode, employeeStatus, gender, email
-
+  const COLS = "7fr 7fr 9fr 7fr 7fr 10fr";
   const Header = (
     <div
       className="grid bg-gray-100 border-b border-gray-200"
@@ -30,7 +29,7 @@ export default function EmployeeListTable({
         ["empNo", "사번"],
         ["name", "이름"],
         ["subjectCode", "학과"],
-        ["employeeStatus", "직원상태"],
+        ["employeeStatusCode", "직원상태"],
         ["gender", "성별"],
         ["email", "이메일"],
       ].map(([field, label]) => (

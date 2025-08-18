@@ -32,7 +32,7 @@ export default function EmployeeAdminUpdateForm({
     if (value?.email && !/^\S+@\S+\.\S+$/.test(value.email)) errors.push("올바른 이메일 형식이 아닙니다.");
     if (requiredTel && !value?.tel?.trim()) errors.push("전화번호는 필수입니다.");
     if (!value?.subjectCode) errors.push("소속(학과/부서)은 필수입니다.");
-    if (!value?.employeeStatus) errors.push("직원상태는 필수입니다.");
+    if (!value?.employeeStatusCode) errors.push("직원상태는 필수입니다.");
     return errors;
   };
 
@@ -40,7 +40,11 @@ export default function EmployeeAdminUpdateForm({
     if (e) e.preventDefault();
     if (disabled || submitting) return;
     const errs = validateForm();
-    if (errs.length > 0) return alert(errs[0]);
+    if (errs.length > 0) {
+      console.error("Validation errors:", errs);
+      return alert(errs[0]);
+    }
+    console.log("Submitting value:", value);
     if (typeof onSubmit === "function") onSubmit(value);
   }, [disabled, submitting, onSubmit, value]);
 
@@ -78,7 +82,7 @@ export default function EmployeeAdminUpdateForm({
               휴대전화 {requiredTel && <span className="text-red-500">*</span>}
               {!requiredTel && <span className="ml-2 text-xs text-gray-500">(선택)</span>}
             </span>
-            <TextInput value={value?.tel || ""} onChange={update("tel")} disabled={isRO("tel")} className={inputCls} />
+            <TextInput value={value?.tel || ""} onChange={update("tel")} disabled={isRO("tel")} className={inputCls} maxLength={11} />
           </label>
 
           {/* 성별 */}
@@ -107,9 +111,9 @@ export default function EmployeeAdminUpdateForm({
               직원상태 <span className="text-red-500">*</span>
             </span>
             <CodeSelect
-              value={value?.employeeStatus || ""}
-              onChange={update("employeeStatus")}
-              disabled={isRO("employeeStatus")}
+              value={value?.employeeStatusCode || ""}
+              onChange={update("employeeStatusCode")}
+              disabled={isRO("employeeStatusCode")}
               className={inputCls}
               category="EMPLOYEE_STATUS"
               required

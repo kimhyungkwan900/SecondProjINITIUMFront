@@ -4,7 +4,7 @@
 
 @layer components {
   /* 카드/툴바 */
-  .adm-card { @apply bg-white p-4; }
+  .adm-card { @apply p-4; }
   .adm-toolbar { @apply p-4 flex flex-wrap items-end gap-4; }
 
   /* 폼 */
@@ -34,8 +34,8 @@
 
   /* DataGrid (6열 예시) */
   .adm-grid-6 { @apply grid grid-cols-6 items-center; }
-  .adm-th { @apply px-4 py-3 text-sm font-semibold text-center border-b bg-[#E0E7E9] text-[#354649] border-[#E0E7E9]; }
-  .adm-td { @apply px-4 py-3 text-sm text-center border-b border-gray-200 text-gray-700; }
+  .adm-th { @apply px-4 py-3 text-sm font-semibold text-center border bg-[#E0E7E9] text-[#354649] border-[#E0E7E9]; }
+  .adm-td { @apply px-4 py-3 text-sm text-center border border-gray-50 text-gray-700; }
 
   /* 페이지네이션 버튼 */
   .adm-btn-page-base { @apply min-w-9 h-9 px-3 inline-flex items-center justify-center rounded border text-sm transition; }

@@ -32,13 +32,13 @@ const emptyDetail = {
 };
 
 export default function StudentManagePage() {
-  // 검색 조건
+  // 검색 조건 (입력 바인딩)
   const [filters, setFilters] = useState({
     studentNo: "",
     name: "",
     universityCode: "",
     subjectCode: "",
-    subjectCodeSe: "", // 중복 제거
+    subjectCodeSe: "",
     clubCode: "",
     studentStatusCode: "",
     studentStatusCodeSe: "",
@@ -46,6 +46,25 @@ export default function StudentManagePage() {
     genderCode: "",
     genderCodeSe: "",
     empNo: "", // advisorId → empNo로 변경
+    email: "",
+    admissionDateFrom: "",
+    admissionDateTo: "",
+  });
+
+  // ★ 실제 조회에 사용하는 확정 필터 (조회 버튼을 눌러야 갱신)
+  const [appliedFilters, setAppliedFilters] = useState({
+    studentNo: "",
+    name: "",
+    universityCode: "",
+    subjectCode: "",
+    subjectCodeSe: "",
+    clubCode: "",
+    studentStatusCode: "",
+    studentStatusCodeSe: "",
+    grade: "",
+    genderCode: "",
+    genderCodeSe: "",
+    empNo: "",
     email: "",
     admissionDateFrom: "",
     admissionDateTo: "",
@@ -106,17 +125,17 @@ export default function StudentManagePage() {
     }
   }, [page, size, sort, filters]);
 
-  // 초기 및 필터 변경 시 자동조회
+  // ★ 최초 1회만 자동 조회
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      fetchStudents(0, size, sort, filters);
-    }, 300);
-    return () => clearTimeout(timeoutId);
-  }, [filters, size, sort, fetchStudents]);
+    fetchStudents(0, size, sort, appliedFilters);
+    setPage(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // 마운트 1회
 
-  // 수동 조회
+  // 수동 조회 (조회 버튼)
   const handleSearch = () => {
-    fetchStudents(0, size, sort, filters);
+    setAppliedFilters(filters);                // ★ 확정
+    fetchStudents(0, size, sort, filters);    // 현재 filters로 조회
     setPage(0);
   };
 
@@ -141,6 +160,7 @@ export default function StudentManagePage() {
     };
     setFilters(reset);
     setValidationErrors({});
+    setAppliedFilters(reset);                 // ★ 확정 필터도 리셋
   };
 
   // 모드 전환: 생성(입학정보 입력)
@@ -154,19 +174,15 @@ export default function StudentManagePage() {
   const buildStudentPayload = (d) => ({
     name: (d.name ?? "").trim(),
     email: (d.email ?? "").trim(),
-    birthDate: formatDate(d.birthDate),         // "YYYY-MM-DD" 문자열
-    admissionDate: formatDate(d.admissionDate), // "YYYY-MM-DD" 문자열
-
+    birthDate: formatDate(d.birthDate),         // "YYYY-MM-DD"
+    admissionDate: formatDate(d.admissionDate), // "YYYY-MM-DD"
     gender: (d.gender ?? d.genderCode ?? "").trim(),
-
     grade: (d.grade ?? "").trim(),
     universityCode: (d.universityCode ?? "").trim(),
     subjectCode: (d.subjectCode ?? "").trim(),
     empNo: (d.empNo ?? "").trim(),
-
     bankAccountNo: (d.bankAccountNo ?? "").trim(),
     bankCode: (d.bankCode ?? "").trim(),
-
     studentStatusCode: (d.studentStatusCode ?? "").trim(),
   });
 
@@ -184,12 +200,12 @@ export default function StudentManagePage() {
         setSelectedNo(created?.studentNo || "");
         setDetail((prev) => ({ ...prev, studentNo: created?.studentNo || prev.studentNo }));
         setMode("edit"); // 생성 후 수정모드로
-        await fetchStudents(0, size, sort, filters);
+        await fetchStudents(0, size, sort, appliedFilters); // ★ 확정 필터로 재조회
         setPage(0);
         alert("등록되었습니다.");
       } else if (mode === "edit" && selectedNo) {
         await adminUpdateStudentInfo(selectedNo, payload);
-        await fetchStudents(page, size, sort, filters);
+        await fetchStudents(page, size, sort, appliedFilters); // ★ 확정 필터로 재조회
         alert("수정되었습니다.");
       } else {
         alert("저장할 모드가 없습니다.");
@@ -232,17 +248,17 @@ export default function StudentManagePage() {
   };
 
   const handlePageChange = (newPage) => {
-    fetchStudents(newPage - 1, size, sort, filters);
+    fetchStudents(newPage - 1, size, sort, appliedFilters); // ★ 확정 필터로만 이동
   };
 
   const handleSizeChange = (e) => {
     const newSize = parseInt(e.target.value, 10);
-    fetchStudents(0, newSize, sort, filters);
+    fetchStudents(0, newSize, sort, appliedFilters);       // ★ 확정 필터로만 변경
     setPage(0);
   };
 
   const handleSortChange = (newSort) => {
-    fetchStudents(0, size, newSort, filters);
+    fetchStudents(0, size, newSort, appliedFilters);       // ★ 확정 필터로만 정렬
     setPage(0);
   };
 
@@ -263,7 +279,7 @@ export default function StudentManagePage() {
         {/* 좌측: 검색 + 목록 */}
         <div className="col-span-8 space-y-3">
           {/* 검색 카드 */}
-          <div className="bg-white border border-gray-200 rounded-lg p-3">
+          <div>
             <StudentListSearchFilter
               filters={filters}
               setFilters={setFilters}

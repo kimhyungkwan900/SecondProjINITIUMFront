@@ -56,8 +56,8 @@ const DiagnosisAdminListPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <main className="max-w-7xl mx-auto px-6 py-8">
+    <div className="min-h-screen">
+      <main className="max-w-full mx-auto px-6 py-8">
         {/* 헤더 */}
         <AdminSectionHeader title="진단평가 목록" />
 
