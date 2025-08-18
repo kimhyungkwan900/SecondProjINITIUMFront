@@ -25,7 +25,7 @@ const AdminConsultKindManagePage = ()=>{
     const [appliedFilters, setAppliedFilters] = useState(filters);
     const [data, setData] = useState([]);
     const [total, setTotal] = useState(0);
-    // const [selected, setSelected] = useState(null);
+    const [selected, setSelected] = useState([]);
     const [mode, setMode] = useState('create');
     const [refreshKey, setRefreshKey] = useState(0);
     const [loading, setLoading] = useState(false);
@@ -41,8 +41,8 @@ const AdminConsultKindManagePage = ()=>{
                 };
                 const result = await findDscsnKind(params);
                 console.log(result);
-                setData(result.data.dscsnKinds?.content || []);
-                setTotal(result.data.dscsnKinds?.totalElements ?? 0);
+                setData(result.dscsnKinds?.content || []);
+                setTotal(result.dscsnKinds?.totalElements ?? 0);
                 // console.log(total)
             } catch (e) {
                 alert("항목 목록을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
@@ -52,6 +52,8 @@ const AdminConsultKindManagePage = ()=>{
             }
         })();
     }, [appliedFilters, current, refreshKey]);
+
+    // console.log(data);
 
     const handleSearch = () => {
         setAppliedFilters(filters);
@@ -111,19 +113,21 @@ const AdminConsultKindManagePage = ()=>{
         }
     }
 
-    const handleDelete = async(newKind)=>{
+    const handleDelete = async(selectedKind)=>{
         try{
-            await deleteDscsnKind(newKind.dscsnKindId);
+            await deleteDscsnKind(selectedKind);
+            alert("삭제 완료")
         } catch(e){
             alert("항목 삭제중 에러 발생");
             console.log(e);
+        } finally{
+            setRefreshKey((k) => k+1)
         }
-        setRefreshKey((k) => k+1)
     }
 
     const handleRowClick = async(kindInfo)=>{
         setMode('update');
-        // setSelected(kindInfo);
+        setSelected([kindInfo.dscsnKindId]);
         setNewKind(kindInfo);
     }
 
@@ -152,7 +156,7 @@ const AdminConsultKindManagePage = ()=>{
                             </button>
                             <button
                                 className="bg-red-500 text-white font-semibold px-4 py-2 rounded-md hover:bg-red-600 disabled:opacity-50"
-                                onClick={() => handleDelete(newKind)}
+                                onClick={() => handleDelete(selected)}
                             >삭제
                             </button>
                         </div>

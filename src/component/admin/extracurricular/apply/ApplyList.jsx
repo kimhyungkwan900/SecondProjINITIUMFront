@@ -79,7 +79,7 @@ const ApplyList = ({ applyList, selectedIds, onSelectionChange }) => {
           ) : (
             <>
               {currentItems.map((apply) => (
-                <tr className="adm-row">
+                <tr className="" key={`empty-${apply.eduAplyId}`}>
                   <td className="adm-td">
                     <input
                       type="checkbox"

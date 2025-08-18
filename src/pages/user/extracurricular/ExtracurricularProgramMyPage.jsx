@@ -116,14 +116,13 @@ const ExtracurricularProgramMyPage = () => {
         title="참여 비교과 프로그램"
         breadcrumb={[
           { label: "마이페이지(학생)", link: "/mypage" },
-          { label: "참여 비교과 프로그램 참여 현황", active: false },
+          { label: "비교과 프로그램 참여 현황", active: false },
           { label: "참여 비교과 프로그램", active: true }
         ]}
       />
 
       {/* 섹션 1: 검색 */}
       <section className="content-section">
-        <h3 className="text-lg font-semibold text-[#354649] mb-4">검색</h3>
         <Filter
           filter={filter}
           onFilterChange={handleFilterChange}
@@ -132,10 +131,10 @@ const ExtracurricularProgramMyPage = () => {
       </section>
 
       {/* 섹션 2: 결과 */}
-      <section className="content-section mt-6">
+      <section className="content-section mt-2">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-[#354649]">참여 내역</h3>
-          <Button selectedIds={selectedIds} onDelete={handleDeleteSelected} />
+          <Button selectedIds={selectedIds} onDelete={handleDeleteSelected}/>
         </div>
 
         {loading ? (

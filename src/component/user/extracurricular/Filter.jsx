@@ -3,7 +3,7 @@ import React from "react";
 
 const Filter = ({ filter, onFilterChange, onSearch }) => {
   return (
-    <div className="bg-white w-full mt-4 rounded p-4 flex items-center gap-6">
+    <div className="bg-white w-full rounded flex justify-between">
       <div>
         <label className="mr-2 font-semibold">수료 상태</label>
         <select
@@ -18,7 +18,7 @@ const Filter = ({ filter, onFilterChange, onSearch }) => {
       </div>
 
       <div>
-        <label className="mr-2 font-semibold">프로그램 이름</label>
+        <label className="ml-5 mr-2 font-semibold">프로그램 이름</label>
         <input
           type="text"
           className="rounded border border-gray-400 px-3 py-1"
