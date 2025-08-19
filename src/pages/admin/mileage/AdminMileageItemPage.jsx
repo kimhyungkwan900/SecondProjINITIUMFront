@@ -142,7 +142,7 @@ export default function AdminMileageItemPage() {
           <label className="block text-sm text-[#354649] mb-1">항목 코드</label>
           <input
             className="w-full border border-[#A3C6C4] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6C7A89]"
-            placeholder="예) MLG001"
+            placeholder=""
             value={itemCode}
             onChange={(e) => setItemCode(e.target.value)}
           />
@@ -267,7 +267,7 @@ export default function AdminMileageItemPage() {
                 onChange={(e) =>
                   setCreateForm((f) => ({ ...f, itemCode: e.target.value }))
                 }
-                placeholder="예) MLG001"
+                placeholder=""
               />
             </div>
             <div>
@@ -278,7 +278,7 @@ export default function AdminMileageItemPage() {
                 onChange={(e) =>
                   setCreateForm((f) => ({ ...f, eduMngId: e.target.value }))
                 }
-                placeholder="예) 123 (프로그램 검색 UI는 추후 추가)"
+                placeholder=""
               />
             </div>
             <div className="flex justify-end gap-2">
